@@ -1,0 +1,40 @@
+.modal-content{display:block!important;}
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.gjs-two-color {
+    color: black!important;
+}
+
+.gjs-one-bg {
+    background-color: #fff !important;
+}
+
+.main-comp {
+    border: solid 2px red
+}
+
+.gjs-editor-cont ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.gjs-editor-cont ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 1) !important;
+}
+
+.gjs-editor-cont ::-webkit-scrollbar {
+    width: 8px !important;
+    border-radius: 8px !important;
+}
+
+.gjs-pn-views-container::-webkit-scrollbar {
+    width: 8px !important;
+    border-radius: 8px !important;
+}
+

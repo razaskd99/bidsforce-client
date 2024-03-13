@@ -1,0 +1,8 @@
+.wrapper {
+        background: radial-gradient(circle, #402224, #bf9d73, #d9cdbf, #735b46, #000000, #a6907c);
+        background-size: 200% 200%; 
+        backdrop-filter: blur(100px); 
+        min-height: 100vh;
+        
+
+    }
