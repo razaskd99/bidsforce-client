@@ -180,7 +180,7 @@ export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) 
       return {
         statusCode: "400",
         returnData: [],
-        error: "Request failed due to Not OK",
+        error: response,
       };
     }
 
