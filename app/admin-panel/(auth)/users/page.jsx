@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { getToken } from "@/app/api/util/script";
 let isLogin = false;
 // end for login check
+const axios = require('axios');
 
 export default async function AdminPanelUsers() {
 
@@ -163,20 +164,16 @@ export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) 
   try {
     const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
+ 
+        const response = await axios.get(url, {
+            cache: "no-store",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${tokens}`,
+            },
+            timeout: 0, // Setting timeout to maximum value
+        });
 
     if (!response.ok) {
       return {

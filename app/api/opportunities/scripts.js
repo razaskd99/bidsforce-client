@@ -24,9 +24,6 @@ if (serverRuntimeConfig) {
 export const getAllOppotunitiesRecords = async (apiBackendURL, accessToken, tenantID) => {
     const url = `${apiBackendURL}opportunity/Opportunity/${tenantID}`;
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     try {
         const response = await axios.get(url, {
@@ -34,7 +31,7 @@ export const getAllOppotunitiesRecords = async (apiBackendURL, accessToken, tena
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${tokens}`,
+                'Authorization': `Bearer ${accessToken}`,
             },
             timeout: 0, // Setting timeout to maximum value
         });
