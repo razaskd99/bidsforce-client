@@ -162,40 +162,46 @@ isLogin =true
 
 
 export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) => {
-  try {
-    const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
 
- 
-        const response = await axios.get(url, {
-            cache: "no-store",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${tokens}`,
-            },
-            timeout: 0, // Setting timeout to maximum value
-        });
 
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: JSON.stringify(response),
-      };
-    }
+const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
 
-    const result = await response.json();
+try {
+  const response = await axios.get(url, {
+    cache: "no-store",
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${tokens}`,
+    },
+    timeout: 0, // Setting timeout to maximum value
+  });
 
+  // Check if the response status is in the range 200-299 (indicating success)
+  if (response.status >= 200 && response.status < 300) {
+    // Handle success
     return {
-      statusCode: 200,
-      returnData: result,
-      error:"No Error"
+      statusCode: response.status,
+      returnData: response.data,
+      error: "Success",
     };
-  } catch (error) {
+  } else {
+    // Handle error
     return {
-      statusCode: "400",
+      statusCode: response.status,
       returnData: [],
-      error: error,
+      error: JSON.stringify(response.data), // You can stringify the response data for error message
     };
   }
+} catch (error) {
+  // Handle network errors or Axios-specific errors
+  return {
+    statusCode: 400, // or whatever status code you prefer for network errors
+    returnData: [],
+    error: error.message, // You can stringify the error object for error message
+  };
+}
+
+
+
 };
