@@ -42,6 +42,7 @@ isLogin =true
   // call all tenant action
   let records = await getAllUserRecordsAction1(apiBackendURL, tokens, tenantID);
   let usersData = records.returnData;
+  let error = records.error;
 
   const breadcrumbItems = [
     { label: "Home", href: "/admin-panel" },
@@ -58,7 +59,7 @@ isLogin =true
 
   return (
     <div className=" w-full">
-    {tokens}
+    {error}
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
         <Link
@@ -188,6 +189,7 @@ export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) 
     return {
       statusCode: 200,
       returnData: result,
+      error:"No Error"
     };
   } catch (error) {
     return {
