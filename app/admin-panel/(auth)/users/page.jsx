@@ -39,7 +39,7 @@ isLogin =true
   let tokens = res?.tokenData?.access_token
 
   // call all tenant action
-  let records = await getAllUserRecordsAction(apiBackendURL, tokens, tenantID);
+  let records = await getAllUserRecordsAction1(apiBackendURL, tokens, tenantID);
   let usersData = records.returnData;
 
   const breadcrumbItems = [
@@ -157,3 +157,46 @@ isLogin =true
     </div>
   );
 }
+
+
+export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) => {
+  try {
+    const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
+
+    // get token
+    let res = await getToken(apiBackendURL, username, password)
+    let tokens = res?.tokenData?.access_token
+
+    const response = await fetch(url, {
+      cache: "no-store",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request failed for Company",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for Company",
+    };
+  }
+};
