@@ -180,7 +180,7 @@ export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) 
       return {
         statusCode: "400",
         returnData: [],
-        error: response.statusText || "Request failed for Company",
+        error: "Request failed due to Not OK",
       };
     }
 
@@ -195,7 +195,7 @@ export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) 
     return {
       statusCode: "400",
       returnData: [],
-      error: error.message || "Request failed for Company",
+      error: error,
     };
   }
 };
