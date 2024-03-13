@@ -27,6 +27,13 @@ export default async function AdminPanelUsers() {
     isLogin =true //serverRuntimeConfig.IS_LOGIN
   }
 
+
+apiBackendURL ="https://bidsforce-server-1.vercel.app/"
+username ="raza@raza.com"
+password ="12345"
+tenantID =1
+isLogin =true
+
   // get token
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
