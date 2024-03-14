@@ -3,31 +3,7 @@ import getConfig from 'next/config'
 import { getToken } from '../../util/script';
 
 
-// Function to fetch access token
-async function getToken(apiBackendURL, username, password) {
-  try {
-    const response = await axios.post(`${apiBackendURL}auth/auth/users/token`, {
-      username,
-      password
-    });
-    if (response.status === 200) {
-      return {
-        statusCode: 200,
-        tokenData: response.data
-      };
-    } else {
-      return {
-        statusCode: response.status,
-        error: response.statusText
-      };
-    }
-  } catch (error) {
-    return {
-      statusCode: 400,
-      error: error.message
-    };
-  }
-}
+
 
 // Main login action function
 export async function loginAction(username, password, apiBackendURL, tenantID) {
