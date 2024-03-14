@@ -21,19 +21,14 @@ export default async function AdminPanelUsers() {
   let password = ''
   let tenantID = 0
   if (serverRuntimeConfig) {
-    apiBackendURL ="https://bidsforce-server-1.vercel.app/" //serverRuntimeConfig.API_BACKEND_SERVER
-    username ="raza@raza.com" //serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-    password ="12345" //serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-    tenantID =1 //serverRuntimeConfig.TENANT_ID
-    isLogin =true //serverRuntimeConfig.IS_LOGIN
+    apiBackendURL =serverRuntimeConfig.API_BACKEND_SERVER
+    username =serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
+    password =serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
+    tenantID =serverRuntimeConfig.TENANT_ID
+    isLogin =serverRuntimeConfig.IS_LOGIN
   }
 
 
-apiBackendURL ="https://bidsforce-server-1.vercel.app/"
-username ="raza@raza.com"
-password ="12345"
-tenantID =1
-isLogin =true
 
   // get token
   let res = await getToken(apiBackendURL, username, password)
