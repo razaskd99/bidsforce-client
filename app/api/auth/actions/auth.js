@@ -30,51 +30,59 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
 
 
 
-try {
-  const loginUrl = `${apiBackendURL}auth/login`;
-  const email = encodeURIComponent(username);
-  const passwordEncoded = encodeURIComponent(password);
-  const urlWithParams = `${loginUrl}?tenant_id=${tenantID}&email=${email}&password=${passwordEncoded}`;
+  try {
+    const loginUrl = `${apiBackendURL}auth/login`;
+    const email = encodeURIComponent(username);
+    const passwordEncoded = encodeURIComponent(password);
+    // url
+    const urlWithParams = `${loginUrl}?tenant_id=${tenantID}&email=${email}&password=${passwordEncoded}`;
 
-  const response = await axios.post(urlWithParams, null, {
-    timeout: 0, // Setting timeout to maximum value
-    headers: {
-      'Accept': 'application/json',
-    },
-  });
 
-  if (response.status !== 200) {
-    return {
-      statusCode: response.status.toString(),
-      user: {},
-      access_token: '',
+    // get user record for authentication
+    const response = await fetch(urlWithParams, {
+      cache: 'no-store',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      res = {
+        statusCode: "400",
+        user: {}, // Create a copy of the 'user' object
+        access_token: '', // Extract access_token
+      };
+    }
+    // parse urser record 
+    const data = await response.json();
+    // get user record
+    let { ...user } = data;
+    // get server stored data 
+    if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
+      serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
+      serverRuntimeConfig.IS_LOGIN =true
+      serverRuntimeConfig.LOGIN_USER_DATA = { ...user } 
+    }
+    
+    // prepare response on success
+    res = {
+      statusCode: "200",
+      user: { ...user }, // Create a copy of the 'user' object
+      access_token: access_token, // Extract access_token
+    };
+  } catch (error) {
+
+    if (serverRuntimeConfig) {
+      serverRuntimeConfig.IS_LOGIN =false
+      
+    }
+    // prepare response on failure
+    res = {
+      statusCode: "400",
+      user: {}, // Create a copy of the 'user' object
+      access_token: '', // Extract access_token
     };
   }
-
-  const { access_token, ...user } = response.data;
-
-  if (serverRuntimeConfig) {
-    serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token;
-    serverRuntimeConfig.IS_LOGIN = true;
-    serverRuntimeConfig.LOGIN_USER_DATA = { ...user };
-  }
-
-  return {
-    statusCode: '200',
-    user: { ...user },
-    access_token,
-  };
-} catch (error) {
-  if (serverRuntimeConfig) {
-    serverRuntimeConfig.IS_LOGIN = false;
-  }
-
-  return {
-    statusCode: '400',
-    user: {},
-    access_token: '',
-  };
-}
 
   return res;
 }
