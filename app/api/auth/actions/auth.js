@@ -56,6 +56,11 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
 
     // Parse user record
     data = response.data;
+
+    serverRuntimeConfig.IS_LOGIN = true
+    serverRuntimeConfig.LOGIN_USER_DATA = { ...data }
+
+
   } catch (error) {
     // Handle network errors or Axios-specific errors
     return {
@@ -72,9 +77,9 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
 
       // get server stored data 
   if (serverRuntimeConfig) {
-    serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
-    serverRuntimeConfig.IS_LOGIN = true
-    serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
+    //serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
+    //serverRuntimeConfig?.IS_LOGIN = true
+    //serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
   }
 
   } else {
