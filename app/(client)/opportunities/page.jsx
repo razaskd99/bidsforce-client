@@ -15,7 +15,7 @@ let isLogin = false;
 const Opportunitues = async () => {
 
   // get env variables
-  const { serverRuntimeConfig } = getConfig() || {};
+  const { serverRuntimeConfig } = getConfig() ;
   let apiBackendURL = ''
   let username = ''
   let password = ''
@@ -26,6 +26,13 @@ const Opportunitues = async () => {
     password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
     tenantID = serverRuntimeConfig.TENANT_ID
     isLogin = serverRuntimeConfig.IS_LOGIN
+
+    if (isLogin == true) {
+    }
+    else {
+      redirect('/login')
+    }
+
   }
 
   // get token
@@ -42,11 +49,6 @@ const Opportunitues = async () => {
 
   ];
 
-  if (isLogin == true) {
-  }
-  else {
-    redirect('/login')
-  }
 
 
   return (
