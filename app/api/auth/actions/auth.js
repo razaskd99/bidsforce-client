@@ -3,80 +3,93 @@ import getConfig from 'next/config'
 import { getToken } from '../../util/script';
 
 
-// authenticate and get user and access token for future use
-export async function loginAction(username, password, apiBackendURL, tenantID) {
-  const { serverRuntimeConfig } = getConfig() || {};
-
-  let access_token = ''
-  let res = {}
-  if (serverRuntimeConfig) {
-    serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.user = username
-    serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.pass = password
-  }
-
+// Function to fetch access token
+async function getToken(apiBackendURL, username, password) {
   try {
+    const response = await axios.post(`${apiBackendURL}auth/auth/users/token`, {
+      username,
+      password
+    });
+    if (response.status === 200) {
+      return {
+        statusCode: 200,
+        tokenData: response.data
+      };
+    } else {
+      return {
+        statusCode: response.status,
+        error: response.statusText
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 400,
+      error: error.message
+    };
+  }
+}
+
+// Main login action function
+export async function loginAction(username, password, apiBackendURL, tenantID) {
+  try {
+    const { serverRuntimeConfig } = getConfig() || {};
+
+    // Attempt to obtain access token
+    const tokenResponse = await getToken(apiBackendURL, username, password);
+    let access_token = '';
+
+    if (tokenResponse.statusCode === 200) {
+      access_token = tokenResponse.tokenData.access_token;
+    } else {
+      throw new Error('Failed to obtain access token: ' + tokenResponse.error);
+    }
+
+    // Construct login URL
     const loginUrl = `${apiBackendURL}auth/login`;
     const email = encodeURIComponent(username);
     const passwordEncoded = encodeURIComponent(password);
-    // url
     const urlWithParams = `${loginUrl}?tenant_id=${tenantID}&email=${email}&password=${passwordEncoded}`;
 
-    // get access token for use
-    res = await getToken(apiBackendURL, username, password)
-    if (res.statusCode == 200) {
-      access_token = res.tokenData.access_token
-    }
-    else {
-      access_token = 'Invalid access Token ' + res.error
+    // Make API call to login
+    const response = await axios.post(urlWithParams, null, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.status !== 200) {
+      throw new Error('Login request failed: ' + response.statusText);
     }
 
-    // get user record for authentication
-    const response = await fetch(urlWithParams, {
-      cache: 'no-store',
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      res = {
-        statusCode: "400",
-        user: {}, // Create a copy of the 'user' object
-        access_token: '', // Extract access_token
-      };
+    const userData = response.data;
+
+    // Store user data and access token in server runtime config
+    if (serverRuntimeConfig) {
+      serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.user = username;
+      serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.pass = password;
+      serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token;
+      serverRuntimeConfig.IS_LOGIN = true;
+      serverRuntimeConfig.LOGIN_USER_DATA = { ...userData };
     }
-    // parse urser record 
-    const data = await response.json();
-    // get user record
-    let { ...user } = data;
-    // get server stored data 
-    if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
-      serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
-      serverRuntimeConfig.IS_LOGIN =true
-      serverRuntimeConfig.LOGIN_USER_DATA = { ...user } 
-    }
-    
-    // prepare response on success
-    res = {
-      statusCode: "200",
-      user: { ...user }, // Create a copy of the 'user' object
-      access_token: access_token, // Extract access_token
+
+    // Prepare and return success response
+    return {
+      statusCode: 200,
+      user: { ...userData },
+      access_token
     };
   } catch (error) {
-
+    // Handle errors
+    console.error('Login action failed:', error);
+    const { serverRuntimeConfig } = getConfig() || {};
     if (serverRuntimeConfig) {
-      serverRuntimeConfig.IS_LOGIN =false
-      
+      serverRuntimeConfig.IS_LOGIN = false;
     }
-    // prepare response on failure
-    res = {
-      statusCode: "400",
-      user: {}, // Create a copy of the 'user' object
-      access_token: '', // Extract access_token
+    return {
+      statusCode: 400,
+      error: error.message
     };
   }
-
-  return res;
 }
 
 
@@ -85,8 +98,8 @@ export const getServerUserDetails = async () => {
   const { serverRuntimeConfig } = getConfig() || {};
 
   let userDetailRec = {}
-  if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {    
-    userDetailRec = serverRuntimeConfig.LOGIN_USER_DATA 
+  if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
+    userDetailRec = serverRuntimeConfig.LOGIN_USER_DATA
   }
   return userDetailRec
 };
