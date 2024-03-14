@@ -69,6 +69,14 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
   let user = data !== null ? { ...data } : null;
 
   if (user !== null) {
+
+      // get server stored data 
+  if (serverRuntimeConfig) {
+    serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
+    serverRuntimeConfig.IS_LOGIN = true
+    serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
+  }
+
   } else {
 
     return {
@@ -78,12 +86,8 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
     }
   }
 
-  // get server stored data 
-  if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
-    serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
-    serverRuntimeConfig.IS_LOGIN = true
-    serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
-  }
+
+
 
   // prepare response on success
   resp = {
