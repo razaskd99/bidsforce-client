@@ -61,6 +61,7 @@ const Dashboard = () => {
 
     return (
         <div>
+        ooooo {serverRuntimeConfig.IS_LOGIN}
             <div className="flex items-center justify-between">
                 <div className="flex gap-1">
                     <div className='border border-[#DDDDDD] text-sm px-3 py-2 bg-white'>My Daily Dash</div>
