@@ -24,7 +24,7 @@ let isLogin = false
 // end for login check
 
 const Dashboard = () => {
-    const { serverRuntimeConfig } = getConfig() || {};
+    const { serverRuntimeConfig } = getConfig() ;
     let data = {}
 
     if (serverRuntimeConfig) {
