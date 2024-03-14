@@ -27,9 +27,8 @@ const Opportunitues = async () => {
     tenantID = serverRuntimeConfig.TENANT_ID
     isLogin = serverRuntimeConfig.IS_LOGIN
 
-    if (isLogin == true) {
-    }
-    else {
+    if (!isLogin) {
+
       redirect('/login')
     }
 
