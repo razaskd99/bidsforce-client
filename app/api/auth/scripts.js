@@ -67,7 +67,7 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
       const profilePic = res?.user?.user_profile_photo ?? '/images/users/profile.jpg';
       // Set the src attribute of the image
       document.getElementById('welcome-profile-pic').src = profilePic;
-
+window.location="/dashboard"
       if (res.user?.user_role === 'sales representative') {
         router.push('/dashboard');
         setActive('block');
