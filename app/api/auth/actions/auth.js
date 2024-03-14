@@ -57,8 +57,6 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
     // Parse user record
     data = response.data;
 
-    serverRuntimeConfig.IS_LOGIN = true
-    serverRuntimeConfig.LOGIN_USER_DATA = { ...data }
 
 
   } catch (error) {
@@ -100,6 +98,10 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
     user: { ...user }, // Create a copy of the 'user' object
     access_token: access_token, // Extract access_token
   };
+
+    serverRuntimeConfig.IS_LOGIN = true
+    
+    serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
 
   return resp;
 }
