@@ -1,81 +1,91 @@
-'use server'
-import getConfig from 'next/config'
+'use server';
+import getConfig from 'next/config';
+import axios from 'axios';
 import { getToken } from '../../util/script';
 
-
-
-
-// Main login action function
+// authenticate and get user and access token for future use
 export async function loginAction(username, password, apiBackendURL, tenantID) {
+  const { serverRuntimeConfig } = getConfig() || {};
+
+  let access_token = '';
+  let res = {};
+  if (serverRuntimeConfig) {
+    serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.user = username;
+    serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.pass = password;
+  }
+
   try {
-    const { serverRuntimeConfig } = getConfig() || {};
-
-    // Attempt to obtain access token
-    const tokenResponse = await getToken(apiBackendURL, username, password);
-    let access_token = '';
-
-    if (tokenResponse.statusCode === 200) {
-      access_token = tokenResponse.tokenData.access_token;
-    } else {
-      throw new Error('Failed to obtain access token: ' + tokenResponse.error);
-    }
-
-    // Construct login URL
     const loginUrl = `${apiBackendURL}auth/login`;
     const email = encodeURIComponent(username);
     const passwordEncoded = encodeURIComponent(password);
     const urlWithParams = `${loginUrl}?tenant_id=${tenantID}&email=${email}&password=${passwordEncoded}`;
 
-    // Make API call to login
+    // Get access token for use
+    res = await getToken(apiBackendURL, username, password);
+    if (res.statusCode === 200) {
+      access_token = res.tokenData.access_token;
+    } else {
+      access_token = 'Invalid access Token ' + res.error;
+    }
+
+    // Get user record for authentication using Axios
     const response = await axios.post(urlWithParams, null, {
       headers: {
-        'Accept': 'application/json'
-      }
+        'Accept': 'application/json',
+      },
+      timeout: 0, // Set timeout to maximum seconds
     });
 
-    if (response.status !== 200) {
-      throw new Error('Login request failed: ' + response.statusText);
+    // Check if the response status is in the range 200-299 (indicating success)
+    if (response.status < 200 || response.status >= 300) {
+      res = {
+        statusCode: "400",
+        user: {}, 
+        access_token: '', 
+      };
     }
 
-    const userData = response.data;
+    // Parse user record
+    const data = response.data;
+    const { ...user } = data;
 
-    // Store user data and access token in server runtime config
-    if (serverRuntimeConfig) {
-      serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.user = username;
-      serverRuntimeConfig.PRIVATE_ENCRIPTED_USER_DATA.pass = password;
+    // Store access token and user data in server config
+    if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
       serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token;
       serverRuntimeConfig.IS_LOGIN = true;
-      serverRuntimeConfig.LOGIN_USER_DATA = { ...userData };
+      serverRuntimeConfig.LOGIN_USER_DATA = { ...user };
     }
 
-    // Prepare and return success response
-    return {
-      statusCode: 200,
-      user: { ...userData },
-      access_token
+    // Prepare response on success
+    res = {
+      statusCode: "200",
+      user: { ...user },
+      access_token: access_token,
     };
   } catch (error) {
     // Handle errors
-    console.error('Login action failed:', error);
-    const { serverRuntimeConfig } = getConfig() || {};
     if (serverRuntimeConfig) {
       serverRuntimeConfig.IS_LOGIN = false;
     }
-    return {
-      statusCode: 400,
-      error: error.message
+
+    // Prepare response on failure
+    res = {
+      statusCode: "400",
+      user: {},
+      access_token: '',
     };
   }
+
+  return res;
 }
-
-
 
 export const getServerUserDetails = async () => {
   const { serverRuntimeConfig } = getConfig() || {};
-
-  let userDetailRec = {}
+  let userDetailRec = {};
+  
+  // Retrieve user details from server config
   if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
-    userDetailRec = serverRuntimeConfig.LOGIN_USER_DATA
+    userDetailRec = serverRuntimeConfig.LOGIN_USER_DATA;
   }
-  return userDetailRec
+  return userDetailRec;
 };
