@@ -137,9 +137,13 @@ let menu={}, animate;
     accordionTriggerEl.addEventListener('hide.bs.collapse', accordionActiveFunction);
   });
 
-  // Auto update layout based on screen size
-  window.Helpers.setAutoUpdate(true);
 
+  try {
+    // Auto update layout based on screen size
+    window.Helpers.setAutoUpdate(true);
+  } catch (err) { }
+
+  
   // Toggle Password Visibility
   window.Helpers.initPasswordToggle();
 
