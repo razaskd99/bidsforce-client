@@ -1,28 +1,30 @@
 import Breadcrumbs from "@/app/controlpanel/components/Breadcrumbs";
 import AdminPanelUserRegistrationForm from "../components/RegisterForm";
 
-// start for login check
-import getConfig from "next/config";
+// start login init
 import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-let isLogin = false;
-// end for login check
+// end login init 
+
 export default async function AdminPanelUserRegistration() {
 
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+  let userLoginData = await getCookieValue('userLoginData')
 
-  // get env variables
-  const { serverRuntimeConfig } = getConfig() || {};
-  let apiBackendURL = ''
-  let username = ''
-  let password = ''
-  let tenantID = 0
-  if (serverRuntimeConfig) {
-    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-    username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-    password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-    tenantID = serverRuntimeConfig.TENANT_ID
-    isLogin = serverRuntimeConfig.IS_LOGIN
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')    
+  if (!isLogin) { 
+      { redirect("/login") }
   }
+  
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
 
   // get token
   let res = await getToken(apiBackendURL, username, password)

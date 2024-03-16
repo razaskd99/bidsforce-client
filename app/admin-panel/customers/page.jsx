@@ -5,30 +5,38 @@ import CustomerListingButtons from "../components/CustomerListingButton";
 import AddNewButton from "../components/AddNewButton";
 import DeleteAllCustomerButton from "../rfx/components/DeleteAllCustomerButton";
 
-// start for login check
-import getConfig from "next/config";
+
+// start login init
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { getFullDomainName } from "@/app/api/util/loginHandle";
-let isLogin = false;
-// end for login check
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
+import { getToken } from "@/app/api/util/script";
+// end login init 
 
 export default async function AdminPanelCustomers() {
-  const { serverRuntimeConfig } = getConfig() || {};
 
-  // get server side global store data
-  if (serverRuntimeConfig) {
-    // start check login
-    let homeURL = getFullDomainName(headers);
-    isLogin = serverRuntimeConfig.IS_LOGIN;
-    if (!isLogin) {
-      redirect(homeURL + "login");
-    }
-    // end check login
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+  let userLoginData = await getCookieValue('userLoginData')
+
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')    
+  if (!isLogin) { 
+      { redirect("/login") }
   }
+  
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
 
+  // get token
+  let res = await getToken(apiBackendURL, username, password)
+  let tokens = res?.tokenData?.access_token
+    
   // call all tenant action
-  let records = await getAllCustomerRecordsAction();
+  let records = await getAllCustomerRecordsAction(apiBackendURL, tokens, tenantID);
   let allData = records.returnData;
 
   const breadcrumbItems = [
@@ -40,7 +48,13 @@ export default async function AdminPanelCustomers() {
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <AddNewButton buttonName={"customer"} buttonType={"new"} />
+        <AddNewButton 
+          buttonName={"customer"} 
+          buttonType={"new"} 
+          apiBackendURL={apiBackendURL} 
+          tokens={tokens} 
+          tenantID={tenantID}
+        />
       </div>
 
       <div class="card">
@@ -96,7 +110,12 @@ export default async function AdminPanelCustomers() {
                     <td>{item.phone}</td>
                     <td>{item.company_name}</td>
                     <td>
-                      <CustomerListingButtons propsData={item} />
+                      <CustomerListingButtons 
+                        propsData={item} 
+                        apiBackendURL={apiBackendURL} 
+                        tokens={tokens} 
+                        tenantID={tenantID}
+                      />
                     </td>
                   </tr>
                 ))}

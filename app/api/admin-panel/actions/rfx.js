@@ -22,7 +22,7 @@ if (serverRuntimeConfig) {
 
 
 // get all RFx Prerequisite records from db
-export const getAllRfxPrereqRecordsAction = async (table_name) => {
+export const getAllRfxPrereqRecordsAction = async (table_name, apiBackendURL, tokens, tenantID) => {
   try {
     let url = "";
     if (table_name === "rfx_type") {
@@ -38,8 +38,8 @@ export const getAllRfxPrereqRecordsAction = async (table_name) => {
     }
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -76,7 +76,7 @@ export const getAllRfxPrereqRecordsAction = async (table_name) => {
 };
 
 // Add new RFx Prerequisite record in db
-export const createRfxPrereqAction = async (formData, table_name) => {
+export const createRfxPrereqAction = async (formData, table_name, apiBackendURL, tokens, tenantID) => {
   let apiUrl = "";
   if (table_name === "rfx_type") {
     apiUrl = `${apiBackendURL}rfx_type/rfx_type`;
@@ -91,8 +91,8 @@ export const createRfxPrereqAction = async (formData, table_name) => {
   }
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -143,7 +143,7 @@ export const createRfxPrereqAction = async (formData, table_name) => {
 };
 
 // Update RFx Prerequisite record in db
-export const updateRfxPrereqAction = async (formData, table_name, id) => {
+export const updateRfxPrereqAction = async (formData, table_name, id, apiBackendURL, tokens, tenantID) => {
   let apiUrl = "";
   if (table_name === "rfx_type") {
     apiUrl = `${apiBackendURL}rfx_type/rfx_type/id/${id}`;
@@ -158,8 +158,8 @@ export const updateRfxPrereqAction = async (formData, table_name, id) => {
   }
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",

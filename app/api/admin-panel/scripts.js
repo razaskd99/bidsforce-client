@@ -44,6 +44,7 @@ import {
   updatePhaseStageRecordAction,
   deletePhaseStageRecordAction,
 } from "./actions/phaseStages";
+import { uploadSingleFile } from "../util/utility";
 
 // Client request to create User
 export const createUserRequest = async (
@@ -55,7 +56,8 @@ export const createUserRequest = async (
   desigination,
   team,
   activeUser,
-  selectedFilesMain
+  selectedFile,
+  folderName
 ) => {
   e.preventDefault();
 
@@ -83,15 +85,13 @@ export const createUserRequest = async (
     cpassword: document.getElementById("cpassword")
       ? document.getElementById("cpassword").value
       : "",
-    user_profile_photo: document.getElementById("user_profile_photo")
-      ? document.getElementById("user_profile_photo").value
-      : "",
+    user_profile_photo: selectedFile.name,
     egistration_date: "2024-01-25",
     last_login_at: "2024-01-25",
     created_at: "2024-01-25T14:04:20.334Z",
     updated_at: "2024-01-25T14:04:20.334Z",
   };
-  console.log(selectedFilesMain);
+  console.log(selectedFile.name + "scriptssssss");
 
   // const companyid = document.getElementById("company_id");
   // console.log(companyid);
@@ -154,6 +154,12 @@ export const createUserRequest = async (
   if (valid) {
     let res = await createUserAction(apiBackendURL, accessToken, formData);
     if (res.statusCode === 200) {
+      let resp = await uploadSingleFile(
+        selectedFile,
+        apiBackendURL,
+        tenantID,
+        folderName
+      );
       window.location = "/admin-panel/users";
     } else {
       valid = false;
@@ -169,7 +175,13 @@ export const createUserRequest = async (
 };
 
 // Client request to delete
-export const deleteUserRequest = async (e, user_id) => {
+export const deleteUserRequest = async (
+  e,
+  user_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const userConfirmed = window.confirm(
@@ -177,23 +189,36 @@ export const deleteUserRequest = async (e, user_id) => {
   );
 
   if (userConfirmed) {
-    let res = await deleteUserRecordAction(user_id);
+    let res = await deleteUserRecordAction(
+      user_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res) {
       window.location.reload();
     } else {
       // showError("Server Error:", res.returnData.error*/);
+      window.location.reload();
     }
   }
 };
 
 // Client request to update user
-export const updateUserRequest = async (e, user_id) => {
+export const updateUserRequest = async (
+  e,
+  user_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   let formData = {
     company_id: 0,
     designation_id: 0,
     team_id: 0,
+    is_active: true,
     first_name: document.getElementById("first_name")
       ? document.getElementById("first_name").value
       : "",
@@ -212,22 +237,29 @@ export const updateUserRequest = async (e, user_id) => {
   };
 
   const companyid = document.getElementById("company_id");
-  formData.company_id = companyid.options[companyid.selectedIndex].value;
+  formData.company_id = parseInt(
+    companyid.options[companyid.selectedIndex].value
+  );
 
   const designationid = document.getElementById("designation_id");
-  formData.designation_id =
-    designationid.options[designationid.selectedIndex].value;
+  formData.designation_id = parseInt(
+    designationid.options[designationid.selectedIndex].value
+  );
 
   const teamid = document.getElementById("team_id");
-  formData.team_id = teamid.options[teamid.selectedIndex].value;
+  formData.team_id = parseInt(teamid.options[teamid.selectedIndex].value);
+
+  const is_active = document.getElementById("team_id");
+  formData.is_active =
+    is_active.options[is_active.selectedIndex].value == "Active" ? true : false;
 
   let valid = true;
   if (
     !formData.company_id ||
-    formData.designation_id ||
-    formData.team_id ||
-    formData.first_name ||
-    formData.last_name
+    !formData.designation_id ||
+    !formData.team_id ||
+    !formData.first_name ||
+    !formData.last_name
   ) {
     showError("Validtaion Error", "Please fill the required field.");
     false;
@@ -243,7 +275,13 @@ export const updateUserRequest = async (e, user_id) => {
   }
 
   if (valid) {
-    let res = await updateUserRecordAction(formData, user_id);
+    let res = await updateUserRecordAction(
+      formData,
+      user_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       window.location.reload();
     } else {
@@ -276,12 +314,12 @@ export const getAllUserRequest = async (
 // Client request to get all designation
 export const getAllDesignationRequest = async (
   apiBackendURL,
-  accessToken,
+  tokens,
   tenantID
 ) => {
   let res = await getAllDesignationRecordsAction(
     apiBackendURL,
-    accessToken,
+    tokens,
     tenantID
   );
   if (res.statusCode === 200) {
@@ -292,15 +330,20 @@ export const getAllDesignationRequest = async (
 ///////////////////////// Company methods
 
 // Client request to get all company
-export const getAllCompanyRequest = async () => {
-  let res = await getAllCompanyRecordsAction();
+export const getAllCompanyRequest = async (apiBackendURL, tokens, tenantID) => {
+  let res = await getAllCompanyRecordsAction(apiBackendURL, tokens, tenantID);
   if (res.statusCode === 200) {
     return res;
   }
 };
 
 // Client request to create company
-export const createCompanyRequest = async (e) => {
+export const createCompanyRequest = async (
+  e,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -345,7 +388,12 @@ export const createCompanyRequest = async (e) => {
 
   let success = true;
   if (valid) {
-    let res = await createCompanyAction(formData);
+    let res = await createCompanyAction(
+      formData,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform1").reset();
       showModalSuccess("New details added successfully.");
@@ -362,7 +410,13 @@ export const createCompanyRequest = async (e) => {
 };
 
 // Client request to update company
-export const updateCompanyRequest = async (e, company_id) => {
+export const updateCompanyRequest = async (
+  e,
+  company_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -407,7 +461,13 @@ export const updateCompanyRequest = async (e, company_id) => {
 
   let success = true;
   if (valid) {
-    let res = await updateCompanyAction(formData, company_id);
+    let res = await updateCompanyAction(
+      formData,
+      company_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
 
     if (res.statusCode === 200) {
       document.getElementById("modalform1").reset();
@@ -425,7 +485,13 @@ export const updateCompanyRequest = async (e, company_id) => {
 };
 
 // Client request to delete company
-export const deleteCompanyRequest = async (e, company_id) => {
+export const deleteCompanyRequest = async (
+  e,
+  company_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const userConfirmed = window.confirm(
@@ -433,7 +499,12 @@ export const deleteCompanyRequest = async (e, company_id) => {
   );
 
   if (userConfirmed) {
-    let res = await deleteCompanyRecordAction(company_id);
+    let res = await deleteCompanyRecordAction(
+      company_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
 
     if (res) {
       window.location.reload();
@@ -447,7 +518,12 @@ export const deleteCompanyRequest = async (e, company_id) => {
 ///////////////////////// Designation methods
 
 // Client request to create designation
-export const createDesignationRequest = async (e) => {
+export const createDesignationRequest = async (
+  e,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -475,7 +551,12 @@ export const createDesignationRequest = async (e) => {
 
   let success = true;
   if (valid) {
-    let res = await createDesignationAction(formData);
+    let res = await createDesignationAction(
+      formData,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform2").reset();
       showModalSuccess("New details added successfully.");
@@ -492,7 +573,13 @@ export const createDesignationRequest = async (e) => {
 };
 
 // Client request to update designation
-export const updateDesignationRequest = async (e, designatin_id) => {
+export const updateDesignationRequest = async (
+  e,
+  designatin_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -520,7 +607,13 @@ export const updateDesignationRequest = async (e, designatin_id) => {
 
   let success = true;
   if (valid) {
-    let res = await updateDesignationAction(formData, designatin_id);
+    let res = await updateDesignationAction(
+      formData,
+      designatin_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform2").reset();
       showModalSuccess("Details updated successfully.");
@@ -537,7 +630,13 @@ export const updateDesignationRequest = async (e, designatin_id) => {
 };
 
 // Client request to delete
-export const deleteDesignationRequest = async (e, designatin_id) => {
+export const deleteDesignationRequest = async (
+  e,
+  designatin_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const userConfirmed = window.confirm(
@@ -545,7 +644,12 @@ export const deleteDesignationRequest = async (e, designatin_id) => {
   );
 
   if (userConfirmed) {
-    let res = await deleteDesignationRecordAction(designatin_id);
+    let res = await deleteDesignationRecordAction(
+      designatin_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res) {
       window.location.reload();
     } else {
@@ -558,15 +662,19 @@ export const deleteDesignationRequest = async (e, designatin_id) => {
 ///////////////////////// Team methods
 
 // Client request to get all teams
-export const getAllTeamRequest = async () => {
-  let res = await getAllTeamRecordsAction();
+export const getAllTeamRequest = async (
+  apiBackendURL,
+  accessToken,
+  tenantID
+) => {
+  let res = await getAllTeamRecordsAction(apiBackendURL, accessToken, tenantID);
   if (res.statusCode === 200) {
     return res;
   }
 };
 
 // Client request to create team
-export const createTeamRequest = async (e) => {
+export const createTeamRequest = async (e, apiBackendURL, tokens, tenantID) => {
   e.preventDefault();
 
   const formData = {
@@ -608,7 +716,7 @@ export const createTeamRequest = async (e) => {
 
   let success = true;
   if (valid) {
-    let res = await createTeamAction(formData);
+    let res = await createTeamAction(formData, apiBackendURL, tokens, tenantID);
     if (res.statusCode === 200) {
       document.getElementById("modalform3").reset();
       showModalSuccess("New details added successfully.");
@@ -624,8 +732,14 @@ export const createTeamRequest = async (e) => {
   }
 };
 
-// Client request to create team
-export const updateTeamRequest = async (e, team_id) => {
+// Client request to update team
+export const updateTeamRequest = async (
+  e,
+  team_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -635,11 +749,8 @@ export const updateTeamRequest = async (e, team_id) => {
     team_role: document.getElementById("m3_team_role")
       ? document.getElementById("m3_team_role").value
       : "",
-    role_level: document.getElementById("m3_role_level")
-      ? document.getElementById("m3_role_level").value
-      : "",
+    role_level: 0,
   };
-
   let valid = true;
   let message = "";
   const validationFields = ["team_title"];
@@ -650,13 +761,13 @@ export const updateTeamRequest = async (e, team_id) => {
       message = "Please fill the required fields.";
     }
   });
-
   const teamrole = document.getElementById("m3_team_role");
   formData.team_role = teamrole.options[teamrole.selectedIndex].value;
 
   const rolelevel = document.getElementById("m3_role_level");
-  formData.role_level = rolelevel.options[rolelevel.selectedIndex].value;
-
+  formData.role_level = parseInt(
+    rolelevel.options[rolelevel.selectedIndex].value
+  );
   if (
     valid &&
     (teamrole.selectedIndex === 0 || rolelevel.selectedIndex === 0)
@@ -667,7 +778,13 @@ export const updateTeamRequest = async (e, team_id) => {
 
   let success = true;
   if (valid) {
-    let res = await updateTeamAction(formData, team_id);
+    let res = await updateTeamAction(
+      formData,
+      team_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res) {
       document.getElementById("modalform3").reset();
       showModalSuccess("Details updated successfully.");
@@ -684,13 +801,24 @@ export const updateTeamRequest = async (e, team_id) => {
 };
 
 // Client request to delete
-export const deleteTeamRequest = async (e, team_id) => {
+export const deleteTeamRequest = async (
+  e,
+  team_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const userConfirmed = window.confirm("Are you sure want to delete Team?");
 
   if (userConfirmed) {
-    let res = await deleteTeamRecordAction(team_id);
+    let res = await deleteTeamRecordAction(
+      team_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res) {
       window.location.reload();
     } else {
@@ -703,7 +831,13 @@ export const deleteTeamRequest = async (e, team_id) => {
 ///////////////////////// Rfx Prerequisite methods
 
 // Client request to create new Rfx Prerequisite
-export const createRfxPrereqRequest = async (e, table_name) => {
+export const createRfxPrereqRequest = async (
+  e,
+  table_name,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -738,7 +872,13 @@ export const createRfxPrereqRequest = async (e, table_name) => {
 
   let success = true;
   if (valid) {
-    let res = await createRfxPrereqAction(formData, table_name);
+    let res = await createRfxPrereqAction(
+      formData,
+      table_name,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform4").reset();
       showModalSuccess("New details added successfully.");
@@ -755,7 +895,14 @@ export const createRfxPrereqRequest = async (e, table_name) => {
 };
 
 // Client request to update Rfx Prerequisite
-export const updateRfxPrereqRequest = async (e, table_name, id) => {
+export const updateRfxPrereqRequest = async (
+  e,
+  table_name,
+  id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -781,7 +928,7 @@ export const updateRfxPrereqRequest = async (e, table_name, id) => {
 
   const isactive = document.getElementById("m4_is_active");
   formData.is_active =
-    isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
+    isactive.options[isactive.selectedIndex].value == "Active" ? true : false;
 
   if (valid && formData.selectedIndex == 0) {
     valid = false;
@@ -790,7 +937,14 @@ export const updateRfxPrereqRequest = async (e, table_name, id) => {
 
   let success = true;
   if (valid) {
-    let res = await updateRfxPrereqAction(formData, table_name, id);
+    let res = await updateRfxPrereqAction(
+      formData,
+      table_name,
+      id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform4").reset();
       showModalSuccess("Updated details successfully.");
@@ -837,7 +991,12 @@ export const getAllCustomerRequest = async () => {
 };
 
 // Client request to create customer
-export const createCustomerRequest = async (e) => {
+export const createCustomerRequest = async (
+  e,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -887,7 +1046,12 @@ export const createCustomerRequest = async (e) => {
 
   let success = true;
   if (valid) {
-    let res = await createCustomerAction(formData);
+    let res = await createCustomerAction(
+      formData,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform5").reset();
       showModalSuccess("New details added successfully.");
@@ -904,7 +1068,13 @@ export const createCustomerRequest = async (e) => {
 };
 
 // Client request to delete
-export const deleteCustomerRequest = async (e, customer_id) => {
+export const deleteCustomerRequest = async (
+  e,
+  customer_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const userConfirmed = window.confirm(
@@ -912,7 +1082,12 @@ export const deleteCustomerRequest = async (e, customer_id) => {
   );
 
   if (userConfirmed) {
-    let res = await deleteCustomerRecordAction(customer_id);
+    let res = await deleteCustomerRecordAction(
+      customer_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res) {
       window.location.reload();
     } else {
@@ -923,7 +1098,13 @@ export const deleteCustomerRequest = async (e, customer_id) => {
 };
 
 // Client request to update customer
-export const updateCustomerRequest = async (e, customer_id) => {
+export const updateCustomerRequest = async (
+  e,
+  customer_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   let formData = {
@@ -942,7 +1123,7 @@ export const updateCustomerRequest = async (e, customer_id) => {
       ? document.getElementById("m5_address").value
       : "",
   };
-
+  console.log(formData + "dataaaaaa");
   const companyid = document.getElementById("m5_company_id");
   formData.company_id = companyid.options[companyid.selectedIndex].value;
 
@@ -972,7 +1153,13 @@ export const updateCustomerRequest = async (e, customer_id) => {
   }
   let success = true;
   if (valid) {
-    let res = await updateCustomerAction(formData, customer_id);
+    let res = await updateCustomerAction(
+      formData,
+      customer_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     console.log(customer_id);
     if (res.statusCode === 200) {
       message = "Details updated successfully.";
@@ -1000,7 +1187,14 @@ export const getAllOpportunityRequest = async () => {
 };
 
 // Client request to create customer
-export const createOpportunityRequest = async (e, customer, endUser) => {
+export const createOpportunityRequest = async (
+  e,
+  apiBackendURL,
+  tokens,
+  tenantID,
+  customer,
+  endUser
+) => {
   e.preventDefault();
 
   const formData = {
@@ -1096,7 +1290,12 @@ export const createOpportunityRequest = async (e, customer, endUser) => {
   console.log(formData);
   let success = true;
   if (valid) {
-    let res = await createOpportunityAction(formData);
+    let res = await createOpportunityAction(
+      formData,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform6").reset();
       showModalSuccess("New details added successfully.");
@@ -1136,7 +1335,10 @@ export const updateOpportunityRequest = async (
   e,
   opportunity_id,
   customer,
-  endUser
+  endUser,
+  apiBackendURL,
+  tokens,
+  tenantID
 ) => {
   e.preventDefault();
 
@@ -1234,7 +1436,13 @@ export const updateOpportunityRequest = async (
 
   let success = true;
   if (valid) {
-    let res = await updateOpportunityRecordAction(formData, opportunity_id);
+    let res = await updateOpportunityRecordAction(
+      formData,
+      opportunity_id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       showModalSuccess("Details updated successfully");
       window.location.reload();
@@ -1253,7 +1461,13 @@ export const updateOpportunityRequest = async (
 ///////////////////////// Phase Stage methods
 
 // Client request to create Phase Stage
-export const createPhaseStageRequest = async (e, typeName) => {
+export const createPhaseStageRequest = async (
+  e,
+  typeName,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -1291,7 +1505,12 @@ export const createPhaseStageRequest = async (e, typeName) => {
 
   let success = true;
   if (valid) {
-    let res = await createPhaseStageAction(formData);
+    let res = await createPhaseStageAction(
+      formData,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       document.getElementById("modalform1").reset();
       showModalSuccess("New details added successfully.");
@@ -1308,7 +1527,14 @@ export const createPhaseStageRequest = async (e, typeName) => {
 };
 
 // Client request to create Phase Stage
-export const updatePhaseStageRequest = async (e, typeName, id) => {
+export const updatePhaseStageRequest = async (
+  e,
+  typeName,
+  id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const formData = {
@@ -1344,7 +1570,13 @@ export const updatePhaseStageRequest = async (e, typeName, id) => {
 
   let success = true;
   if (valid) {
-    let res = await updatePhaseStageRecordAction(formData, id);
+    let res = await updatePhaseStageRecordAction(
+      formData,
+      id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
       showModalSuccess("Details updated successfully.");
       window.location.reload();
@@ -1360,13 +1592,24 @@ export const updatePhaseStageRequest = async (e, typeName, id) => {
 };
 
 // Client request to delete
-export const deletePhaseStageRequest = async (e, id) => {
+export const deletePhaseStageRequest = async (
+  e,
+  id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   e.preventDefault();
 
   const userConfirmed = window.confirm("Are you sure want to Rfx Stage?");
 
   if (userConfirmed) {
-    let res = await deletePhaseStageRecordAction(id);
+    let res = await deletePhaseStageRecordAction(
+      id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res) {
       window.location.reload();
     } else {

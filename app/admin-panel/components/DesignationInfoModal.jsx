@@ -102,12 +102,12 @@ export default function DesignationInfoModal(props) {
                   { props.buttonType && props.buttonType === "new" 
                     ?
                     <button 
-                    onClick={createDesignationRequest}
+                    onClick={(e)=>createDesignationRequest(e, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Add Info</button>
                     :
                     <button 
-                    onClick={(e)=>updateDesignationRequest(e, props.modalData.designation_id)}
+                    onClick={(e)=>updateDesignationRequest(e, props.modalData.designation_id, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Update Info</button>}
                 </div>

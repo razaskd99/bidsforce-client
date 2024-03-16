@@ -39,7 +39,7 @@ export default function DesignationListingButtons(props) {
       <div class="dropdown">
         <button
           onClick={(e) =>
-            deleteDesignationRequest(e, props.propsData.designation_id)
+            deleteDesignationRequest(e, props.propsData.designation_id, props.apiBackendURL, props.tokens, props.tenantID)
           }
           type="button"
           class="btn btn-xs btn-primary waves-effect mr-2 "
@@ -61,6 +61,9 @@ export default function DesignationListingButtons(props) {
           setOpenDesignationModal={setOpenDesignationModal}
           modalData={props.propsData ? props.propsData : {}}
           modalType="update"
+          apiBackendURL={props.apiBackendURL} 
+          tokens={props.tokens} 
+          tenantID={props.tenantID}
         />
       )}
     </>

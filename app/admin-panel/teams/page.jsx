@@ -4,28 +4,30 @@ import AddNewButton from "../components/AddNewButton";
 import TeamListingButtons from "../components/TeamListingButtons";
 import DeleteAllTeamsButton from "../components/DeleteAllTeamsButton";
 
-// start for login check
-import getConfig from "next/config";
+// start login init
 import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-let isLogin = false;
-// end for login check
+// end login init 
 
 export default async function AdminPanelTeam() {
-  // get env variables
-  const { serverRuntimeConfig } = getConfig() || {};
-  let apiBackendURL = ''
-  let username = ''
-  let password = ''
-  let tenantID = 0
-  if (serverRuntimeConfig) {
-    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-    username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-    password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-    tenantID = serverRuntimeConfig.TENANT_ID
-    isLogin = serverRuntimeConfig.IS_LOGIN
-  }
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+  let userLoginData = await getCookieValue('userLoginData')
 
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')    
+  if (!isLogin) { 
+      { redirect("/login") }
+  }
+  
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
+  
   // get token
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
@@ -50,7 +52,7 @@ export default async function AdminPanelTeam() {
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <AddNewButton buttonName={"team"} buttonType={"new"} />
+        <AddNewButton buttonName={"team"} buttonType={"new"} apiBackendURL={apiBackendURL} tokens={tokens} tenantID={tenantID} />
       </div>
 
       <div class="card">
@@ -97,7 +99,7 @@ export default async function AdminPanelTeam() {
                     <td>{item.team_role}</td>
                     <td>Team Level is ({item.role_level})</td>
                     <td>
-                      <TeamListingButtons propsData={item} />
+                      <TeamListingButtons propsData={item} apiBackendURL={apiBackendURL} tokens={tokens} tenantID={tenantID} />
                     </td>
                   </tr>
                 ))}

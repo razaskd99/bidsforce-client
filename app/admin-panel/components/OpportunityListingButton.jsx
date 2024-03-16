@@ -61,6 +61,9 @@ export default function OpportunityListingButtons(props) {
           setOpenOpportunityModal={setOpenOpportunityModal}
           modalData={props.propsData ? props.propsData : {}}
           modalType="update"
+          apiBackendURL={props.apiBackendURL} 
+          tokens={props.tokens} 
+          tenantID={props.tenantID}
         />
       )}
     </>

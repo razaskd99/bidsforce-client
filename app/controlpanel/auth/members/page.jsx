@@ -1,20 +1,42 @@
 import { getAllTenantRecordsAction } from "@/app/api/controlpanel/actions/controlpanel";
-import getConfig from "next/config";
 import Breadcrumbs from "@/components/controlpanel/Breadcrumbs";
 import TenantListingButtons from "@/components/controlpanel/TenantListingButtons";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from 'next/navigation'
+import { getToken } from "@/app/api/util/script";
+
+
+// start for login check
+import getConfig from "next/config";
+import { redirect } from "next/navigation";
+let isLogin = false;
+// end for login check
 
 export default async function ControlPanelHome() {
+  
+  // get env variables
   const { serverRuntimeConfig } = getConfig() || {};
-
-  let isLogin=false
-  // get server side global store data
+  let apiBackendURL = ''
+  let username = ''
+  let password = ''
+  let tenantID = 0
   if (serverRuntimeConfig) {
-      isLogin = serverRuntimeConfig.IS_LOGIN;
+    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
+    username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
+    password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
+    tenantID = serverRuntimeConfig.TENANT_ID
+    isLogin = serverRuntimeConfig.IS_LOGIN
   }
+  
+  // get token
+  let res = await getToken(apiBackendURL, username, password)
+  let tokens = res?.tokenData?.access_token
 
+  if (isLogin == true) {
+  }
+  else {
+    redirect('/login')
+  }
 
   const actionData = [
     { value: "Active", selected: false },
@@ -22,20 +44,9 @@ export default async function ControlPanelHome() {
     { value: "Delete", selected: false },
   ];
 
-  let accessToken = "";
-  let apiBackendURL = "";
-  let tenantID = 0;
-  // get server side global store data
-  if (serverRuntimeConfig) {
-    // get api backend url
-    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER;
-    // get access token
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER;
-    tenantID = serverRuntimeConfig.TENANT_ID;
-  }
-
+ 
   // call all tenant action
-  let records = await getAllTenantRecordsAction(apiBackendURL, accessToken);
+  let records = await getAllTenantRecordsAction(apiBackendURL, tokens);
   let tenantData = records.tenantData;
 
   const breadcrumbItems = [
@@ -43,6 +54,8 @@ export default async function ControlPanelHome() {
     { label: "Home", href: "/controlpanel/auth/members" },
   ];
 
+
+  
   return (
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
@@ -110,7 +123,7 @@ export default async function ControlPanelHome() {
                     <td class="px-6 py-4">
                       <TenantListingButtons
                         tenantData={item}
-                        accessToken={accessToken}
+                        accessToken={tokens}
                         apiBackendURL={apiBackendURL}
                         tenant_id={item.tenant_id}
                       />

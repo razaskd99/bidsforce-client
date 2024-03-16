@@ -1,33 +1,14 @@
 'use server'
 
-import getConfig from 'next/config'
-import { getToken } from '../../util/script';
 
-
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const getAllSubmissionAction = async (rfxID) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_submissions/bid_submission/rfx_id/${rfxID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token  
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -66,13 +47,10 @@ export const getAllSubmissionAction = async (rfxID) => {
 
 
 export const getSubmissionByIdAction = async (bid_submission_id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_submissions/bid_submission/id/${bid_submission_id}`;
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-  
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
@@ -110,11 +88,8 @@ export const getSubmissionByIdAction = async (bid_submission_id) => {
 
 
 export const createSubmissionAction = async (bidData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_submissions/bid_submission/`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
     
     const now = new Date();
     const formattedTimestamp = now.toISOString()
@@ -175,13 +150,10 @@ export const createSubmissionAction = async (bidData) => {
   
 
   export const getSubmissionPostsBySubIdAction = async (bid_submission_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_submission_posts/bid_submission_posts/bid_submission/${bid_submission_id}`;
 
-      // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
-    
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
@@ -219,12 +191,9 @@ export const createSubmissionAction = async (bidData) => {
   
 
   export const createSubmissionPostAction = async (postData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_submission_posts/bid_submission_posts/`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-    
+   
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]

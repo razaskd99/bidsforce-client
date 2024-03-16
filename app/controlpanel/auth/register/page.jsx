@@ -2,26 +2,40 @@ import Breadcrumbs from "@/components/controlpanel/Breadcrumbs";
 import Image from "next/image";
 import Link from "next/link";
 import RegisterTenantForm from "@/components/controlpanel/RegisterForm";
-import getConfig from 'next/config'
-import { redirect } from 'next/navigation'
+import { getToken } from "@/app/api/util/script";
+
+
+// start for login check
+import getConfig from "next/config";
+import { redirect } from "next/navigation";
+let isLogin = false;
+// end for login check
 
 export default async function NewTenant()  {
 
+  // get env variables
   const { serverRuntimeConfig } = getConfig() || {};
-  let accessToken = ''
   let apiBackendURL = ''
+  let username = ''
+  let password = ''
   let tenantID = 0
-  let isLogin=false
-  // get server side global store data
   if (serverRuntimeConfig) {
-    // get api backend url
     apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-    // get access token
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
+    username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
+    password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
     tenantID = serverRuntimeConfig.TENANT_ID
     isLogin = serverRuntimeConfig.IS_LOGIN
   }
 
+  // get token
+  let res = await getToken(apiBackendURL, username, password)
+  let tokens = res?.tokenData?.access_token
+
+  if (isLogin == true) {
+  }
+  else {
+    redirect('/login')
+  }
 
 
   const breadcrumbItems = [
@@ -36,7 +50,7 @@ export default async function NewTenant()  {
         <div className="flex w-full">
           <Breadcrumbs items={breadcrumbItems}/>        
         </div>   
-        <RegisterTenantForm apiBackendURL={apiBackendURL} accessToken={accessToken} />       
+        <RegisterTenantForm apiBackendURL={apiBackendURL} accessToken={tokens} />       
       </div>
   );
 };

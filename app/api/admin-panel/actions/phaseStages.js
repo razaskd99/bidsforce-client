@@ -23,13 +23,15 @@ if (serverRuntimeConfig) {
 // Add new Phase Stage record in db
 export const createPhaseStageAction = async (  
   formData,
-  id
+  apiBackendURL, 
+  tokens, 
+  tenantID
 ) => {
   const apiUrl = `${apiBackendURL}phase_stage/phase_stages`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -84,12 +86,12 @@ export const createPhaseStageAction = async (
 };
 
 // Update Phase Stage record in db
-export const updatePhaseStageRecordAction = async (formData, id) => {
+export const updatePhaseStageRecordAction = async (formData, id, apiBackendURL, tokens, tenantID) => {
   const apiUrl = `${apiBackendURL}phase_stage/phase_stages/id/${id}`;
   
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -144,13 +146,13 @@ export const updatePhaseStageRecordAction = async (formData, id) => {
 };
 
 // delete a Phase Stage record from db
-export const deletePhaseStageRecordAction = async (id) => {
+export const deletePhaseStageRecordAction = async (id, apiBackendURL, tokens, tenantID) => {
   try {
     const url = `${apiBackendURL}phase_stage/phase_stages/id/${id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -224,13 +226,13 @@ export const getAllPhaseStageRecordsAction = async () => {
 
 
 // get all Phase Stage records by type from db
-export const getAllPhaseStageRecordsByTypeAction = async (typeName) => {
+export const getAllPhaseStageRecordsByTypeAction = async (typeName , apiBackendURL, tokens, tenantID) => {
     try {
       const url = `${apiBackendURL}phase_stage/phase_stages/tenant/${tenantID}/type/${typeName}`;
       
       // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
+      //let res = await getToken(apiBackendURL, username, password)
+      //let tokens = res?.tokenData?.access_token
 
       const response = await fetch(url, {
         cache: "no-store",

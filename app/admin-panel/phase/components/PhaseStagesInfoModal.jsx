@@ -17,7 +17,7 @@ export default function PhaseStagesInfoModal(props) {
         m1_display_order: props.modalData && props.modalData.display_order ? props.modalData.display_order : 1,       
         m1_score: props.modalData && props.modalData.score ? props.modalData.score : 0, 
         m1_status: "" ,     
-        m1_required: props.modalData && props.modalData.required == true ? true : true,        
+        m1_required: props.modalData && props.modalData.required == true ? true : false,        
     });
   
   
@@ -55,7 +55,7 @@ export default function PhaseStagesInfoModal(props) {
     props.setOpenPhaseStageModal(false)
   }
 
-  
+  console.log(props)
   return (    
     <>
         <div class="modal fade show" id="modalCenter" tabindex="-1" aria-modal="true" role="dialog" style={{display: "block", opacity:1, background:'rgba(151,149,158,50%)'}}>
@@ -105,7 +105,7 @@ export default function PhaseStagesInfoModal(props) {
                           <input type="checkbox" onChange={handleChangeCheckbox} class="sr-only peer" id="m1_required" name="m1_required" checked={formData.m1_required} />
                           <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#529af1]"></div>
                           <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Enable/Disable</span>
-                        </label>
+                        </label>{formData.m1_required}
                       </div>
                       {/*<div class="col mb-4 mt-2">
                         <div class="form-floating form-floating-outline">
@@ -139,12 +139,12 @@ export default function PhaseStagesInfoModal(props) {
                   { props.buttonType && props.buttonType === "new" 
                     ?
                     <button 
-                    onClick={(e)=>createPhaseStageRequest(e, props.typeName)}
+                    onClick={(e)=>createPhaseStageRequest(e, props.typeName, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Add Info</button>
                     :
                     <button 
-                    onClick={(e)=>updatePhaseStageRequest(e, props.typeName, props.id)}
+                    onClick={(e)=>updatePhaseStageRequest(e, props.typeName, props.id, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Update Info</button>}
                 </div>

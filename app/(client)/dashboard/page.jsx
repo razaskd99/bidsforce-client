@@ -16,29 +16,21 @@ import Highlights from '@/components/dashboard/Highlights';
 import Activity from '@/components/dashboard/Activity';
 
 // start for login check
-import getConfig from 'next/config'
-import { redirect } from 'next/navigation'
 import { headers } from "next/headers";
 import { getFullDomainName } from '@/app/api/util/loginHandle';
-let isLogin = false
-// end for login check
 
-const Dashboard = () => {
-    const { serverRuntimeConfig } = getConfig() ;
-    let data = {}
+// start login init
+import getConfig from "next/config";
+import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from '../../setup';
+// end login init 
 
-    if (serverRuntimeConfig) {
-        if (Object.entries(serverRuntimeConfig.TEMP_DATA).length > 0) {
-            data = { ...serverRuntimeConfig.TEMP_DATA }
-        }
-
-        // start check login
-        let homeURL = getFullDomainName(headers)
-        isLogin = serverRuntimeConfig.IS_LOGIN
-        if (!isLogin) { redirect(homeURL + "login") }
-        // end check login
-    }
-
+const Dashboard = async() => {
+    let userEncrptedData = await getCookieValue('userPrivateData')
+    let tenant_ID = await getCookieValue('TENANT_ID')
+    
+   
 
     const pieActiveBidData = [91, 9];
     const pieValueBidData = [16, 12, 49, 23];
@@ -59,9 +51,17 @@ const Dashboard = () => {
         { user: 'Rose Peter', message: 'requested approval', time: '3h ago', imageUrl: '/rose.jpg' }
     ];
 
+
+    // check user is login
+    let isLogin = await getCookieValue('loginStatus')
+    if (isLogin == true || isLogin == 'true') {
+    }
+    else {
+        { redirect("/login") }
+    }
+    
     return (
         <div>
-        ooooo {serverRuntimeConfig.IS_LOGIN}
             <div className="flex items-center justify-between">
                 <div className="flex gap-1">
                     <div className='border border-[#DDDDDD] text-sm px-3 py-2 bg-white'>My Daily Dash</div>

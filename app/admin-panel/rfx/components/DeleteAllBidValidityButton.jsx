@@ -7,7 +7,7 @@ import {
 const DeleteAllBidValidityButton = ({ onDelete }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const handleClickDeleteBidValidity = async () => {
+  const handleClickDeleteBidValidity = async (props) => {
     const confirmDelete = window.confirm(
       "Are you sure want to delete Bid Validity? This will delete Bid Validity's all data."
     );

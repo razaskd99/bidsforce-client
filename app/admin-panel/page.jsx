@@ -1,29 +1,18 @@
+import { getCookieValue } from "@/lib/scripts";
 import AdminPanelHome from "./components/AdminPanelHome";
 
 // start for login check
-import getConfig from 'next/config'
-import { redirect } from 'next/navigation'
-import { headers } from "next/headers";
-import { getFullDomainName } from '@/app/api/util/loginHandle';
-let isLogin = false
+import { redirect } from "next/navigation";
 // end for login check
 
-function AdminPanel() {
-  const { serverRuntimeConfig } = getConfig() || {};
+const AdminPanel = async()=> {
 
-
-  if (serverRuntimeConfig) {
-    // start check login
-    let homeURL = getFullDomainName(headers)
-    isLogin = serverRuntimeConfig.IS_LOGIN
-    if (!isLogin) { redirect(homeURL + "login") }
-    // end check login
-  }
-
-  if (isLogin == true) {
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')
+  if (isLogin == true || isLogin == 'true') {
   }
   else {
-    redirect('/login')
+    { redirect("/login") }
   }
 
   return (

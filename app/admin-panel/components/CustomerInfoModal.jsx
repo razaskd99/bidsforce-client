@@ -40,10 +40,18 @@ export default function CustomerInfoModal(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let res = await getAllCompanyRecordsAction();
+        let res = await getAllCompanyRecordsAction(
+          props.apiBackendURL,
+          props.tokens,
+          props.tenantID
+        );
         setCompanyList(res.returnData);
 
-        let res2 = await getAllDesignationRecordsAction();
+        let res2 = await getAllDesignationRecordsAction(
+          props.apiBackendURL,
+          props.tokens,
+          props.tenantID
+        );
         setDesignationList(res2.returnData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -61,6 +69,7 @@ export default function CustomerInfoModal(props) {
   const handleChangeValues = (e) => {
     let data = { ...formData, [e.target.name]: e.target.value };
     setFormDate({ ...data });
+    console.log(data);
   };
 
   const handleCancel = (e) => {
@@ -109,7 +118,7 @@ export default function CustomerInfoModal(props) {
                       {companyList &&
                         companyList.map((item, i) => (
                           <option
-                          key={i}
+                            key={i}
                             value={item.company_id}
                             selected={
                               item.company_id == formData.company_id
@@ -131,6 +140,7 @@ export default function CustomerInfoModal(props) {
                       class="form-select"
                       id="m5_designation_id"
                       name="m5_designation_id"
+                      onChange={handleChangeValues}
                     >
                       <option value={""}>Designation Name</option>
                       {designationList &&
@@ -248,7 +258,14 @@ export default function CustomerInfoModal(props) {
 
               {props.buttonType && props.buttonType === "new" ? (
                 <button
-                  onClick={createCustomerRequest}
+                  onClick={(e) =>
+                    createCustomerRequest(
+                      e,
+                      props.apiBackendURL,
+                      props.tokens,
+                      props.tenantID
+                    )
+                  }
                   type="button"
                   class="btn btn-primary waves-effect waves-light"
                 >
@@ -257,7 +274,13 @@ export default function CustomerInfoModal(props) {
               ) : (
                 <button
                   onClick={(e) =>
-                    updateCustomerRequest(e, props.modalData.customer_id)
+                    updateCustomerRequest(
+                      e,
+                      props.modalData.customer_id,
+                      props.apiBackendURL,
+                      props.tokens,
+                      props.tenantID
+                    )
                   }
                   type="button"
                   class="btn btn-primary waves-effect waves-light"

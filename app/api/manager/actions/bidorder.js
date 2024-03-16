@@ -1,34 +1,13 @@
 'use server'
 
-import getConfig from 'next/config'
-import { formatDatetime } from '../../util/utility';
-import { getToken } from '../../util/script';
-
-
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const getAllBidOrderAction = async (rfxID) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_order/bid-orders/rfx-id/${rfxID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -67,12 +46,9 @@ export const getAllBidOrderAction = async (rfxID) => {
 
 
 export const getBidOrderByIdAction = async (bid_order_id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_order/bid-orders/id/${bid_order_id}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -110,13 +86,10 @@ export const getBidOrderByIdAction = async (bid_order_id) => {
 
 
 export const getBidOrderByRfxIdAction = async (rfxID) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_order/bid-orders/rfx-id/${rfxID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
+   
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
@@ -154,11 +127,8 @@ export const getBidOrderByRfxIdAction = async (rfxID) => {
 
 
 export const createBidOrderAction = async (orderData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_order/bid-orders/`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
   
     const now = new Date();
     const formattedTimestamp = now.toISOString()
@@ -225,13 +195,10 @@ export const createBidOrderAction = async (orderData) => {
 
 
   export const getBidOrderPostsByBidOrderIdAction = async (bid_order_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_order_post/bid-order-posts/bid-order-id/${bid_order_id}`;
-
-      // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
-  
+ 
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
@@ -270,12 +237,9 @@ export const createBidOrderAction = async (orderData) => {
 
 
   export const createBidOrderPostAction = async (orderData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_order_post/bid-order-posts/`;
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-  
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]
@@ -331,13 +295,10 @@ export const createBidOrderAction = async (orderData) => {
 
 
 
-    export const updateBidOrderAckByOrderIDAction = async (ackData, bid_order_id) => {
+export const updateBidOrderAckByOrderIDAction = async (ackData, bid_order_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_order/bid-orders/acknowledgement/${bid_order_id}`;
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-  
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]

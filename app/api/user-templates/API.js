@@ -126,11 +126,16 @@ export const newWidget = async (widgetData) => {
   return actionResponse;
 };
 
-export const getPages = async (tenantID) => {
+export const getPages = async (tenantID, tokens) => {
   let pagesData = [];
 
   try {
-    const response = await axios(server_url + `templates/templates?tenant_id=${tenantID}`);
+    const response = await axios(server_url + `templates/templates?tenant_id=${tenantID}`,
+    {headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tokens}`,
+    }});
     pagesData = response.data;
     if (!pagesData || pagesData == "") pagesData = [];
   } catch (err) { }
@@ -208,7 +213,7 @@ export const getHomePageProducts = async (attr, limit) => {
   return products;
 };
 
-export const DelPage = async (e, pageName, setAllPages,tenantID) => {
+export const DelPage = async (e, pageName, setAllPages,tenantID, tokens) => {
 
   let actionResponse = "";
 
@@ -219,6 +224,11 @@ export const DelPage = async (e, pageName, setAllPages,tenantID) => {
     showModal();
     let resDel = await axios.delete(server_url + `templates/templates/${pageName}/content/delete?tenant_id=${tenantID}`, {
       name: pageName,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      }
     });
 
 

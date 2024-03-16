@@ -44,7 +44,14 @@ export default function RfxPrereqAddNewButton(props) {
         </button>}
 
         
-        {openRfxPrereqModal && <RfxPrereqInfoModal setOpenRfxPrereqModal={setOpenRfxPrereqModal} buttonType={props.buttonType} tablename={props.buttonName}/>}
+        {openRfxPrereqModal && <RfxPrereqInfoModal 
+                                setOpenRfxPrereqModal={setOpenRfxPrereqModal} 
+                                buttonType={props.buttonType} 
+                                tablename={props.buttonName}
+                                apiBackendURL={props.apiBackendURL}
+                                tenantID={props.tenantID}
+                                tokens={props.tokens}
+                            />}
 
         
       </>   

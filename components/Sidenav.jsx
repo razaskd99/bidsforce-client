@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getDesignationRecordByIDAction } from "@/app/api/admin-panel/actions/user";
+import { getCookieValue } from "@/lib/scripts";
+
 
 const data1 = [
   { icon: "/ico.svg", text: "Dashboard", link: "/dashboard", },
@@ -45,16 +47,21 @@ const Sidenav = (props) => {
   const [designation, setDesignation] = useState('')
 
   let data = {}
-  let userRec = props.userRec
-
+    
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       let userRec = await getCookieValue('userLoginData');
+  //       const designationRecord = await getDesignationRecordByIDAction(userRec.designation_id);
+  //       setDesignation(designationRecord.returnData.title);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
   
-  useEffect(() => {
-    getDesignationRecordByIDAction(userRec.designation_id)
-        .then((res) => {
-          setDesignation(res.title)
-        })
-        .catch((err) => console.log(err));
-}, []);
+  //   fetchData();
+  // }, []);
+  
 
 
   if (designation == 'Bid Manager') {
@@ -99,7 +106,7 @@ const Sidenav = (props) => {
       <Link href="/" className="text-white px-6 py-4 block text-sm font-light border-l-4 border-[#FE4D97]" >Southern Pipelines..</Link>
       <Link href="/" className="text-white px-6 py-4 block text-sm font-light border-l-4 border-[#6DD230]" > Sixth Terminal ...</Link> */}
       </div> : 
-      <div className={`flex-[15%] bg-[#252631] h-auto min-h-screen`}>
+      <div className={`flex-[15%] bg-[#252631] h-auto min-h-screen min-w-[60px]`}>
       <Link
         href="/" ><img
           src="/Logo-Collapse.png"

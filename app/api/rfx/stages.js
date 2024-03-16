@@ -1,48 +1,22 @@
 'use server'
 
-import getConfig from 'next/config'
-
-const { serverRuntimeConfig } = getConfig() || {};
-
-let tenantID=0
-let apiBackendURL=''
-let accessToken = ''
-
-if (serverRuntimeConfig) {
-    tenantID=serverRuntimeConfig.TENANT_ID 
-    apiBackendURL=serverRuntimeConfig.API_BACKEND_SERVER
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
-}
-export const loadPostData = async (postData) => {
-
-    const { serverRuntimeConfig } = getConfig() || {};
-    if (serverRuntimeConfig) {
-        serverRuntimeConfig.TEMP_DATA={}
-        serverRuntimeConfig.TEMP_DATA=postData
-    }
-
-}
-
-//////////////////////////////////////////////////////
-///////////////// Configuration settings/////////////
-/////////////////////////////////////////////////////
-
-
-
+// required to access cookies
+import { getApiPrereqVars } from "../util/action/apiCallPrereq";
 
 
 // get all stages detail for Rfx
 export const getRfxStagesDetailByRfxIdAction = async (rfxID, typeName='rfx stage') => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/rfx/${rfxID}/type/${typeName}`;
-  console.log(url)
+ 
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${tokens}`,
         },
         redirect: "follow",
       });
@@ -73,6 +47,7 @@ export const getRfxStagesDetailByRfxIdAction = async (rfxID, typeName='rfx stage
   
 // get stages detail by ID
 export const getRfxStageDetailByIdAction = async (stage_detail_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/id/${stage_detail_id}`;
   
@@ -82,7 +57,7 @@ export const getRfxStageDetailByIdAction = async (stage_detail_id) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${tokens}`,
         },
         redirect: "follow",
       });
@@ -114,7 +89,7 @@ export const getRfxStageDetailByIdAction = async (stage_detail_id) => {
 
 // update stage detail by ID
 export const updateStageDetailAction = async (stage_detail_id, stage_status, stage_score, completed=true) => {
-
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}phase_stages_detail/phase_stages_detail/id/${stage_detail_id}`;
 
     const now = new Date();
@@ -124,7 +99,7 @@ export const updateStageDetailAction = async (stage_detail_id, stage_status, sta
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     

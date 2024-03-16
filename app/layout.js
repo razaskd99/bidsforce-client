@@ -25,7 +25,12 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className={`${rubik.className} `} >{children}</body>
+      <body className={`${rubik.className} `} >
+        {children}
+        <div class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50 justify-center items-center h-screen">
+            <div class="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
+        </div>
+      </body>
     </html>
 
   )

@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import MessageAlerts from '@/components/MessageAlerts'
 import { SidebarProvider } from '@/context/SidebarContext/SidebarProvider'
 import { getServerUserDetails } from '../api/auth/actions/auth'
+import { getCookieValue } from '@/lib/scripts'
 
 
 const rubik = Rubik({
@@ -20,12 +21,11 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
    
-    let userRec = await getServerUserDetails()
-
+       
     return (
         <div className='flex'>
             <SidebarProvider>
-                <Sidenav userRec={userRec}/> 
+                <Sidenav /> 
                 <div className="flex-[85%]">
                     <div className='w-full h-full '>
                         <Navbar />
@@ -55,6 +55,8 @@ export default async function RootLayout({ children }) {
                     </div>
                 </div>
             </SidebarProvider>
+
+            
         </div>
     )
 }

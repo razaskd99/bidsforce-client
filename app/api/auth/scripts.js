@@ -8,7 +8,7 @@ const users = [
 ]
 
 
-export const loginSubmit = async (e, active, setActive, hide, setHide, router, tenantID) => {
+export const loginSubmit = async (e, active, setActive, hide, setHide, router, tenantID,homeurl) => {
   e.preventDefault();
   const emailInput = document.getElementById('username');
   const passwordInput = document.getElementById('password');
@@ -41,7 +41,7 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
 
   } else {
 
-    let res = await loginAction(username, password, process.env.API_BACKEND_CLIENT, tenantID);
+    let res = await loginAction(username, password, tenantID,homeurl);
 
     setUserData(res.user, res.access_token);
 
@@ -67,7 +67,6 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
       const profilePic = res?.user?.user_profile_photo ?? '/images/users/profile.jpg';
       // Set the src attribute of the image
       document.getElementById('welcome-profile-pic').src = profilePic;
-window.location="/dashboard"
       if (res.user?.user_role === 'sales representative') {
         router.push('/dashboard');
         setActive('block');

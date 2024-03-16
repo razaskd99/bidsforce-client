@@ -4,31 +4,15 @@ import { getToken } from '../../util/script';
 import getConfig from 'next/config'
 
 
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
-
+// start login init
+import { getApiPrereqVars } from '../../util/action/apiCallPrereq';
+// end login init 
 
 export const getAllUsers = async () => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
         const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
 
-        // get token
-        let res = await getToken(apiBackendURL, username, password)
-        let tokens = res?.tokenData?.access_token
-    
         const response = await fetch(url, {
           cache: 'no-store',
           method: 'GET',
@@ -67,12 +51,9 @@ export const getAllUsers = async () => {
 
   
   export const getUserById = async (userID) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
         const url = `${apiBackendURL}auth/auth/users/id/${userID}`;
-
-        // get token
-        let res = await getToken(apiBackendURL, username, password)
-        let tokens = res?.tokenData?.access_token
       
         const response = await fetch(url, {
           cache: 'no-store',

@@ -7,41 +7,32 @@ import RfxDetail from "@/components/RfxDetail"
 import { getAllSubmissionAction } from "@/app/api/manager/actions/bidsubmission";
 import { getAllBidClarificationRecordsBy_RfxID_Action } from "@/app/api/manager/actions/bidclarifications";
 import { getAllBidOrderAction } from "@/app/api/manager/actions/bidorder";
-import { getToken } from "@/app/api/util/script";
-
-
-// start for login check
 import getConfig from "next/config";
-import { redirect } from "next/navigation";
-let isLogin = false;
-// end for login check
 
+// start login init
+import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
+import { getToken } from "@/app/api/util/script";
+// end login init 
 
 const Detail = async ({ params }) => {
     const { id } = params
 
+    let userEncrptedData = await getCookieValue('userPrivateData')
+    let tenant_ID = await getCookieValue('TENANT_ID')
+    let userLoginData = await getCookieValue('userLoginData')
+    
     // get env variables
-    const { serverRuntimeConfig } = getConfig() || {};
-    let apiBackendURL = ''
-    let username = ''
-    let password = ''
-    let tenantID = 0
-    let loginUserRec = {}
-
-    if (serverRuntimeConfig) {
-        apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-        username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-        password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-        tenantID = serverRuntimeConfig?.TENANT_ID
-        isLogin = serverRuntimeConfig?.IS_LOGIN
-        loginUserRec = serverRuntimeConfig.LOGIN_USER_DATA
-    }
+    let apiBackendURL = API_BACKEND_SERVER
+    let username = userEncrptedData.user
+    let password = userEncrptedData.pass
+    let tenantID = tenant_ID
 
     // get token
     let res = await getToken(apiBackendURL, username, password)
     let tokens = res?.tokenData?.access_token
-
-    
+ 
     // call all  opportunity
     let records = await getOpportunityByID(apiBackendURL, tokens, tenantID, id)
     let opportunirtRec = records.rfxData;
@@ -95,9 +86,17 @@ const Detail = async ({ params }) => {
     records = await getAllBidOrderAction(rfxRec.rfx_id)
     let bidOrderRec = records.returnData
 
+    // check user is login
+    let isLogin = await getCookieValue('loginStatus')
+    if (isLogin == true || isLogin == 'true') {
+    }
+    else {
+        { redirect("/login") }
+    }
+    
     return (
         <div>
-            <RfxDetail login_user_id={loginUserRec.user_id} data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} clarificationRec={clarificationRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec}/>
+            <RfxDetail login_user_id={userLoginData.user_id} data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} clarificationRec={clarificationRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec}/>
         </div>
     )
 }

@@ -1,36 +1,22 @@
 "use server";
 
 import getConfig from "next/config";
-import { getToken } from "../../util/script";
 
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
-
+// start login init
+import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
+import { getToken } from "@/app/api/util/script";
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
+// end login init
 
 // Add new User record in db
-export const createUserAction = async (
-  apiBackendURL,
-  accessToken,
-  formData
-) => {
+export const createUserAction = async (apiBackendURL, tokens, formData) => {
   const apiUrl = `${apiBackendURL}auth/signup`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -42,6 +28,8 @@ export const createUserAction = async (
   const now = new Date();
   const formattedTimestamp = now.toISOString();
   const formatedDate = now.toISOString().split("T")[0];
+
+  let tenantID = await getCookieValue("TENANT_ID");
 
   const requestOptions = {
     method: "POST",
@@ -66,7 +54,7 @@ export const createUserAction = async (
       active: formData.tenant_is_active === "Active" ? true : false,
       verified: formData.tenant_is_active === "Active" ? true : false,
       password_salt: "",
-      user_profile_photo: "",
+      user_profile_photo: formData.user_profile_photo,
     }),
   };
 
@@ -97,12 +85,18 @@ export const createUserAction = async (
 };
 
 // Update User record in db
-export const updateUserRecordAction = async (formData, user_id) => {
+export const updateUserRecordAction = async (
+  formData,
+  user_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}auth/auth/users/id/${user_id}`;
-  
+
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -119,32 +113,30 @@ export const updateUserRecordAction = async (formData, user_id) => {
     method: "PUT",
     headers: headers,
     body: JSON.stringify({
-      tenant_id: 1,
+      tenant_id: tenantID,
       team_id: formData.team_id,
       designation_id: formData.designation_id,
       company_id: formData.company_id,
-      user_name: "UNAME",
+      user_name: "string",
       email: "user@example.com",
       password: formData.password,
       first_name: formData.first_name,
-      middle_name: "",
+      middle_name: "string",
       last_name: formData.last_name,
-      user_role: "",
-      role_level: "",
-      registration_date: formatedDate,
-      last_login_at: formattedTimestamp,
-      created_at: formattedTimestamp,
-      updated_at: formattedTimestamp,
-      active: false,
+      user_role: "string",
+      role_level: "string",
+      registration_date: "2024-03-16",
+      last_login_at: "2024-03-16T16:36:51.061Z",
+      created_at: "2024-03-16T16:36:51.061Z",
+      updated_at: "2024-03-16T16:36:51.061Z",
+      active: formData.is_active,
       verified: false,
-      password_salt: "",
+      password_salt: "string",
       user_profile_photo: "",
     }),
   };
-
   try {
     const response = await fetch(apiUrl, requestOptions);
-
     if (!response.ok) {
       return {
         statusCode: "400",
@@ -168,15 +160,19 @@ export const updateUserRecordAction = async (formData, user_id) => {
   }
 };
 
-
 // delete a User record from db
-export const deleteUserRecordAction = async (user_id) => {
+export const deleteUserRecordAction = async (
+  user_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}auth/auth/users/id/${user_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -204,15 +200,15 @@ export const deleteUserRecordAction = async (user_id) => {
   }
 };
 
-
-// delete  All Users from db
+// delete  All Users from dbs
 export const deleteAllUsersAction = async () => {
   try {
+    let tenantID = await getCookieValue("TENANT_ID");
     const url = `${apiBackendURL}auth/auth/users/all/tenant/${tenantID}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    let res = await getToken(apiBackendURL, username, password);
+    let tokens = res?.tokenData?.access_token;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -241,13 +237,17 @@ export const deleteAllUsersAction = async () => {
 };
 
 // get all Users records from db
-export const getAllUserRecordsAction = async (apiBackendURL, tokens, tenantID) => {
+export const getAllUserRecordsAction = async (
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -284,13 +284,17 @@ export const getAllUserRecordsAction = async (apiBackendURL, tokens, tenantID) =
 };
 
 // get all Company records from db
-export const getAllCompanyRecordsAction = async (apiBackendURL, tokens, tenantID) => {
+export const getAllCompanyRecordsAction = async (
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}company/companies/tenant/${tenantID}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -327,13 +331,17 @@ export const getAllCompanyRecordsAction = async (apiBackendURL, tokens, tenantID
 };
 
 // get all Designation records from db
-export const getAllTeamRecordsAction = async (apiBackendURL, tokens, tenantID) => {
+export const getAllTeamRecordsAction = async (
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}team/teams/tenant/${tenantID}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -369,17 +377,20 @@ export const getAllTeamRecordsAction = async (apiBackendURL, tokens, tenantID) =
   }
 };
 
-
-
 ///////////////////////// Company methods
 
 // Add new company record in db
-export const createCompanyAction = async (formData) => {
+export const createCompanyAction = async (
+  formData,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}company/companies`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -436,12 +447,18 @@ export const createCompanyAction = async (formData) => {
 };
 
 // Update company record in db
-export const updateCompanyAction = async (formData, company_id) => {
+export const updateCompanyAction = async (
+  formData,
+  company_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}company/companies/id/${company_id}`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -498,13 +515,18 @@ export const updateCompanyAction = async (formData, company_id) => {
 };
 
 // delete a Company record from db
-export const deleteCompanyRecordAction = async (company_id) => {
+export const deleteCompanyRecordAction = async (
+  company_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}company/companies/id/${company_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -538,8 +560,8 @@ export const deleteAllCompanyRecordAction = async (company_id) => {
     const url = `${apiBackendURL}company/companies/delete-all/id/${company_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    let res = await getToken(apiBackendURL, username, password);
+    let tokens = res?.tokenData?.access_token;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -570,13 +592,17 @@ export const deleteAllCompanyRecordAction = async (company_id) => {
 ///////////////////////// Designation methods
 
 // get all Designation records from db
-export const getAllDesignationRecordsAction = async () => {
+export const getAllDesignationRecordsAction = async (
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}designation/designations/tenant/${tenantID}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -612,14 +638,14 @@ export const getAllDesignationRecordsAction = async () => {
   }
 };
 
-
 export const getDesignationRecordByIDAction = async (designatin_id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
     const url = `${apiBackendURL}designation/designations/id/${designatin_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -655,15 +681,18 @@ export const getDesignationRecordByIDAction = async (designatin_id) => {
   }
 };
 
-
-
 // Add new designation record in db
-export const createDesignationAction = async (formData) => {
+export const createDesignationAction = async (
+  formData,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}designation/designations`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -714,12 +743,18 @@ export const createDesignationAction = async (formData) => {
 };
 
 // Update designation record in db
-export const updateDesignationAction = async (formData, designatin_id) => {
+export const updateDesignationAction = async (
+  formData,
+  designatin_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}designation/designations/id/${designatin_id}`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -770,13 +805,18 @@ export const updateDesignationAction = async (formData, designatin_id) => {
 };
 
 // delete a designation record from db
-export const deleteDesignationRecordAction = async (designation_id) => {
+export const deleteDesignationRecordAction = async (
+  designation_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}designation/designations/id/${designation_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -805,13 +845,18 @@ export const deleteDesignationRecordAction = async (designation_id) => {
 };
 
 // delete all designation record from db
-export const deleteAllDesignationRecordAction = async (designation_id) => {
+export const deleteAllDesignationRecordAction = async (
+  designation_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}designation/designations/all-designation/id/${designation_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -842,12 +887,17 @@ export const deleteAllDesignationRecordAction = async (designation_id) => {
 ///////////////////////// Team methods
 
 // Add new team record in db
-export const createTeamAction = async (formData) => {
+export const createTeamAction = async (
+  formData,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}team/teams`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -898,12 +948,18 @@ export const createTeamAction = async (formData) => {
 };
 
 // Add new team record in db
-export const updateTeamAction = async (formData, team_id) => {
+export const updateTeamAction = async (
+  formData,
+  team_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}team/teams/id/${team_id}`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -926,7 +982,6 @@ export const updateTeamAction = async (formData, team_id) => {
       role_level: formData.role_level,
     }),
   };
-
   try {
     const response = await fetch(apiUrl, requestOptions);
 
@@ -954,13 +1009,18 @@ export const updateTeamAction = async (formData, team_id) => {
 };
 
 // delete a team record from db
-export const deleteTeamRecordAction = async (team_id) => {
+export const deleteTeamRecordAction = async (
+  team_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}team/teams/id/${team_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -989,13 +1049,18 @@ export const deleteTeamRecordAction = async (team_id) => {
 };
 
 // delete  All Team from db
-export const deleteAllTeamRecordAction = async (team_id) => {
+export const deleteAllTeamRecordAction = async (
+  team_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}team/teams/all-team/id/${team_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -1026,12 +1091,17 @@ export const deleteAllTeamRecordAction = async (team_id) => {
 ///////////////////////// Customers methods
 
 // Add new Customer record in db
-export const createCustomerAction = async (formData) => {
+export const createCustomerAction = async (
+  formData,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}customer/customers`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -1088,13 +1158,18 @@ export const createCustomerAction = async (formData) => {
 };
 
 // delete a customer record from db
-export const deleteCustomerRecordAction = async (customer_id) => {
+export const deleteCustomerRecordAction = async (
+  customer_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}customer/customers/id/${customer_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -1123,13 +1198,18 @@ export const deleteCustomerRecordAction = async (customer_id) => {
 };
 
 // delete all customer record from db
-export const deleteAllCustomerRecordAction = async (customer_id) => {
+export const deleteAllCustomerRecordAction = async (
+  customer_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}customer/customers/all-customer/id/${customer_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -1158,12 +1238,18 @@ export const deleteAllCustomerRecordAction = async (customer_id) => {
 };
 
 // Update customer record in db
-export const updateCustomerAction = async (formData, customer_id) => {
+export const updateCustomerAction = async (
+  formData,
+  customer_id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}customer/customers/id/${customer_id}`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  //let res = await getToken(apiBackendURL, username, password)
+  //let tokens = res?.tokenData?.access_token
 
   const headers = new Headers({
     cache: "no-store",
@@ -1192,7 +1278,7 @@ export const updateCustomerAction = async (formData, customer_id) => {
       updated_date: formatedDate,
     }),
   };
-
+  console.log(requestOptions + "lllllll");
   try {
     const response = await fetch(apiUrl, requestOptions);
 
@@ -1220,13 +1306,17 @@ export const updateCustomerAction = async (formData, customer_id) => {
 };
 
 // get all Company records from db
-export const getAllCustomerRecordsAction = async () => {
+export const getAllCustomerRecordsAction = async (
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   try {
     const url = `${apiBackendURL}customer/customers/tenant/${tenantID}`;
-    
+
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",

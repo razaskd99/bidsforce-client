@@ -17,7 +17,7 @@ import SearchTable from "@/components/SearchTable";
 const RfxList = (props) => {
     
     const [showNewRfxInput, setShowNewRfxInput] = useState(false);
-    const breadcrumbItems = [{ label: 'Dashboard', href: '/' }, { label: 'RFx List', href: '/rfx' }];
+    const breadcrumbItems = [{ label: 'Dashboard', href: '/' }, { label: 'Bid List', href: '/rfx' }];
     const [viewMode, setViewMode] = useState('list');
     const handleNewRfxClick = () => {
         setShowNewRfxInput(true);
@@ -55,7 +55,7 @@ const RfxList = (props) => {
                          </div>
                      </div>
                  </div>
-                 <DataTable viewMode={viewMode} data={props.rfxRec} />
+                 <DataTable viewMode={viewMode} data={props.rfxRec} viewType={'bids'} />
              </div>
          </div>
   )

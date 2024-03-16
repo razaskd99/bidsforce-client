@@ -13,39 +13,37 @@ import { getAllDeliverablesAction } from "@/app/api/manager/actions/deliverables
 import { getRfxContactsByKey } from "@/app/api/rfx/actions/rfx";
 import { getAllSubmissionAction } from "@/app/api/manager/actions/bidsubmission";
 import { getAllBidClarificationRecordsBy_RfxID_Action } from "@/app/api/manager/actions/bidclarifications";
-import { redirect } from 'next/navigation'
 import { getAllBidOrderAction } from "@/app/api/manager/actions/bidorder";
 
 
+// start login init
+import { redirect } from "next/navigation";
+//import { API_BACKEND_SERVER } from '../../setup';
+import { getToken } from "@/app/api/util/script";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
+// end login init 
+
 const BDetail = async ({ params }) => {
     const { id } = params
-      
-    const { serverRuntimeConfig } = getConfig() || {};
-    let accessToken = ''
-    let apiBackendURL = ''
-    let tenantID = 0
-    let loginUserRec = {}
-    let rfxID = '';
-    let isLogin=false
-    // get server side global store data
-    if (serverRuntimeConfig) {
-        // get api backend url
-        apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-        // get access token
-        accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
-        tenantID = serverRuntimeConfig.TENANT_ID
-        // get login user obj
-        loginUserRec = serverRuntimeConfig.LOGIN_USER_DATA
-        if(!serverRuntimeConfig.RFX_ID) serverRuntimeConfig.RFX_ID = id
-        rfxID = serverRuntimeConfig.RFX_ID 
-        isLogin = serverRuntimeConfig.IS_LOGIN;
-    }
-    rfxID=id;
+    let rfxID = id
 
-    if(!isLogin) redirect("/login")
+    let userEncrptedData = await getCookieValue('userPrivateData')
+    let tenant_ID = await getCookieValue('TENANT_ID')
+    let userLoginData = await getCookieValue('userLoginData')
+    
+    // get env variables
+    let apiBackendURL = API_BACKEND_SERVER
+    let username = userEncrptedData.user
+    let password = userEncrptedData.pass
+    let tenantID = tenant_ID
+
+    // get token
+    let res = await getToken(apiBackendURL, username, password)
+    let tokens = res?.tokenData?.access_token
 
     // call all  opportunity
-    let records = await getOpportunityByID(apiBackendURL, accessToken, tenantID, rfxID)
+    let records = await getOpportunityByID(apiBackendURL, tokens, tenantID, rfxID)
     let opportunirtRec = records.rfxData;
     
     // call current Rfx
@@ -118,9 +116,17 @@ const BDetail = async ({ params }) => {
     records = await getAllBidOrderAction(rfxRec.rfx_id)
     let bidOrderRec = records.returnData
 
+    // check user is login
+    let isLogin = await getCookieValue('loginStatus')
+    if (isLogin == true || isLogin == 'true') {
+    }
+    else {
+        { redirect("/login") }
+    }
+    
     return (
         <div>
-            <BidDetail data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} docvaltRec={docvalt} login_user_id={loginUserRec.user_id} prelimReviewRec={prelimReviewRec} detailedReviewRec={detailedReviewRec} clarificationRec={clarificationRec} finalReviewRec={finalReviewRec} koffRec={koffRec} deliverablesRec={deliverablesRec} bidteamRec={bidteamRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec} />
+            <BidDetail data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} docvaltRec={docvalt} login_user_id={userLoginData.user_id} prelimReviewRec={prelimReviewRec} detailedReviewRec={detailedReviewRec} clarificationRec={clarificationRec} finalReviewRec={finalReviewRec} koffRec={koffRec} deliverablesRec={deliverablesRec} bidteamRec={bidteamRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec} />
         </div>
     )
 }

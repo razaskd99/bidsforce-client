@@ -1,36 +1,12 @@
 'use server'
 
-import getConfig from 'next/config'
 
-const { serverRuntimeConfig } = getConfig() || {};
-
-let tenantID=0
-let apiBackendURL=''
-let accessToken = ''
-
-if (serverRuntimeConfig) {
-    tenantID=serverRuntimeConfig.TENANT_ID 
-    apiBackendURL=serverRuntimeConfig.API_BACKEND_SERVER
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
-}
-export const loadPostData = async (postData) => {
-
-    const { serverRuntimeConfig } = getConfig() || {};
-    if (serverRuntimeConfig) {
-        serverRuntimeConfig.TEMP_DATA={}
-        serverRuntimeConfig.TEMP_DATA=postData
-    }
-
-}
-
-//////////////////////////////////////////////////////
-///////////////// Configuration settings/////////////
-/////////////////////////////////////////////////////
-
-
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const getBidSubmissionAckBySubIdAction = async (bid_submission_id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_submission_acknowledgement/bid_submission_acknowledgement/bid_submission/${bid_submission_id}`;
 
@@ -40,7 +16,7 @@ export const getBidSubmissionAckBySubIdAction = async (bid_submission_id) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${tokens}`,
       },
       redirect: "follow",
     });
@@ -71,6 +47,7 @@ export const getBidSubmissionAckBySubIdAction = async (bid_submission_id) => {
 
 
 export const createBidSubmissionAckAction = async (ackData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_submission_acknowledgement/bid_submission_acknowledgement/`;
   
     const now = new Date();
@@ -80,7 +57,7 @@ export const createBidSubmissionAckAction = async (ackData) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     
@@ -128,6 +105,7 @@ export const createBidSubmissionAckAction = async (ackData) => {
 
 
   export const updateBidSubmissionAckBySubIDAction = async (ackData, bid_submission_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_submission_acknowledgement/bid_submission_acknowledgement/bid_submission/${bid_submission_id}`;
   
     const now = new Date();
@@ -137,7 +115,7 @@ export const createBidSubmissionAckAction = async (ackData) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     

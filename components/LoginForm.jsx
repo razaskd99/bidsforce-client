@@ -5,12 +5,14 @@ import { loginSubmit } from '@/app/api/auth/scripts';
 
 import Image from 'next/image'
 
+
 const LoginForm = (props) => {
 
     const [active, setActive] = useState('hidden');
     const [hide, setHide] = useState('block');
     const [validTenant, setValidTenant] = useState(false);
     const router = useRouter()
+
     return (
         <div className="flex items-center justify-center wrapper h-[100vh] ">
             <div className='max-w-[550px] w-full login'>
@@ -20,7 +22,7 @@ const LoginForm = (props) => {
                     </div>
                 </div>
                 <div className={`pt-16 bg-white ${hide}`}>
-                    <form className='flex flex-col justify-center items-center' onSubmit={loginSubmit}>
+                    <form className='flex flex-col justify-center items-center' >
                         <div className="flex flex-col items-end gap-6 w-72">
                             <div className="relative w-full min-w-[200px] h-10">
                                 <input
@@ -55,7 +57,7 @@ const LoginForm = (props) => {
                             <a href='/forget' className='text-[#26BADA] text-[14px] font-[400]'>Recover password</a>
                         </div>
                         <div className='w-[300px] pb-12'>
-                            <button onClick={(e) => { loginSubmit(e, active, setActive, hide, setHide, router, props.tenantID) }} className='bg-[#26BADA] w-full py-2 text-white' type='button' >sign in</button>
+                            <button onClick={(e) => { loginSubmit(e, active, setActive, hide, setHide, router, props.tenantID,props.homeURL ) }} className='bg-[#26BADA] w-full py-2 text-white' type='button' >sign in</button>
                         </div>
 
                         <div id="login-alert" className="hidden p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
@@ -78,3 +80,5 @@ const LoginForm = (props) => {
 }
 
 export default LoginForm
+
+

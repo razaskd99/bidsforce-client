@@ -4,33 +4,39 @@ import Link from "next/link";
 import AddNewButton from "../components/AddNewButton";
 import DesignationListingButtons from "../components/DesignationListingButtons";
 import DeleteAllDesignationButton from "../components/DeleteAllDesignationButton";
-
-// start for login check
-import getConfig from "next/config";
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { getFullDomainName } from "@/app/api/util/loginHandle";
-let isLogin = false;
-// end for login check
+
+// start login init
+import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
+import { getToken } from "@/app/api/util/script";
+// end login init 
 
 export default async function AdminPanelDesignation() {
-  const { serverRuntimeConfig } = getConfig() || {};
+  
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+  let userLoginData = await getCookieValue('userLoginData')
 
-  // get server side global store data
-  if (serverRuntimeConfig) {
-    isLogin = serverRuntimeConfig.IS_LOGIN;
-
-    // start check login
-    let homeURL = getFullDomainName(headers);
-    isLogin = serverRuntimeConfig.IS_LOGIN;
-    if (!isLogin) {
-      redirect(homeURL + "login");
-    }
-    // end check login
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')    
+  if (!isLogin) { 
+      { redirect("/login") }
   }
+  
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
+
+  // get token
+  let res = await getToken(apiBackendURL, username, password)
+  let tokens = res?.tokenData?.access_token
 
   // call all tenant action
-  let records = await getAllDesignationRecordsAction();
+  let records = await getAllDesignationRecordsAction(apiBackendURL, tokens, tenantID);
   let allRecords = records.returnData;
 
   const breadcrumbItems = [
@@ -42,7 +48,13 @@ export default async function AdminPanelDesignation() {
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <AddNewButton buttonName={"designation"} buttonType={"new"} />
+        <AddNewButton 
+          buttonName={"designation"} 
+          buttonType={"new"} 
+          apiBackendURL={apiBackendURL} 
+          tokens={tokens} 
+          tenantID={tenantID}
+        />
       </div>
 
       <div class="card">
@@ -94,7 +106,12 @@ export default async function AdminPanelDesignation() {
                       ) ? (
                         ""
                       ) : (
-                        <DesignationListingButtons propsData={item} />
+                        <DesignationListingButtons 
+                          propsData={item} 
+                          apiBackendURL={apiBackendURL} 
+                          tokens={tokens} 
+                          tenantID={tenantID}
+                        />
                       )}
                     </td>
                   </tr>

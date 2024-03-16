@@ -5,28 +5,32 @@ import { getToken } from "../../util/script";
 
 // start - get env variables
 const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
+let apiBackendURL = "";
+let username = "";
+let password = "";
+let tenantID = 0;
 
 if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
+  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER;
+  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user;
+  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass;
+  tenantID = serverRuntimeConfig?.TENANT_ID;
   //isLogin = serverRuntimeConfig?.IS_LOGIN
 }
 // end - get env variables
 
-
 // Add new Opportunity record in db
-export const createOpportunityAction = async (formData) => {
+export const createOpportunityAction = async (
+  formData,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
   const apiUrl = `${apiBackendURL}opportunity/Opportunity/`;
 
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  // let res = await getToken(apiBackendURL, username, password);
+  //let tokens = res?.tokenData?.access_token;
 
   const headers = new Headers({
     cache: "no-store",
@@ -101,13 +105,16 @@ export const createOpportunityAction = async (formData) => {
 // Update Opportunity record in db
 export const updateOpportunityRecordAction = async (
   formData,
-  opportunity_id
+  opportunity_id,
+  apiBackendURL,
+  tokens,
+  tenantID
 ) => {
   const apiUrl = `${apiBackendURL}opportunity/Opportunity/${tenantID}/id/${opportunity_id}`;
-  
+
   // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
+  // let res = await getToken(apiBackendURL, username, password);
+  // let tokens = res?.tokenData?.access_token;
 
   const headers = new Headers({
     cache: "no-store",
@@ -185,8 +192,8 @@ export const deleteOpportunityRecordAction = async (opportunity_id) => {
     const url = `${apiBackendURL}opportunity/Opportunity/id/${opportunity_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    let res = await getToken(apiBackendURL, username, password);
+    let tokens = res?.tokenData?.access_token;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -220,8 +227,8 @@ export const deleteAllOpportunityRecordAction = async (opportunity_id) => {
     const url = `${apiBackendURL}opportunity/Opportunity/id/${opportunity_id}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    let res = await getToken(apiBackendURL, username, password);
+    let tokens = res?.tokenData?.access_token;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -250,13 +257,17 @@ export const deleteAllOpportunityRecordAction = async (opportunity_id) => {
 };
 
 // get all Opportunity records from db
-export const getAllOpportunityRecordsAction = async () => {
+export const getAllOpportunityRecordsAction = async (
+  apiBackendURL,
+  tenantID,
+  tokens
+) => {
   try {
     const url = `${apiBackendURL}opportunity/Opportunity/${tenantID}`;
 
     // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    //let res = await getToken(apiBackendURL, username, password)
+    //let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",

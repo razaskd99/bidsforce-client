@@ -535,7 +535,7 @@ const RfxDetail = ({ data, rfxRecord, stagesList, apiBackendURL, login_user_id, 
             const contrec = r3.rfxData
             setBidOrderSelectedContacts(contrec)
             // get bid order acknowledgement_by
-            let r4 = await getUserById(r0.returnData.acknowledged_by)
+            let r4 = await getUserById(r0?.returnData?.acknowledged_by)
             setBidOrderAcknowledgedBy(r4.data)
             
         }

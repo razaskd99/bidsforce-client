@@ -6,28 +6,30 @@ import AddNewButton from "../components/AddNewButton";
 import Image from "next/image";
 import DeleteAllCompaniesButton from "../components/DeleteAllCompaniesButton";
 
-// start for login check
-import getConfig from "next/config";
+// start login init
 import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-let isLogin = false;
-// end for login check
+// end login init 
 
 export default async function AdminPanelCompanies() {
 
-    // get env variables
-    const { serverRuntimeConfig } = getConfig() || {};
-    let apiBackendURL = ''
-    let username = ''
-    let password = ''
-    let tenantID = 0
-    if (serverRuntimeConfig) {
-      apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-      username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-      password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-      tenantID = serverRuntimeConfig.TENANT_ID
-      isLogin = serverRuntimeConfig.IS_LOGIN
+    let userEncrptedData = await getCookieValue('userPrivateData')
+    let tenant_ID = await getCookieValue('TENANT_ID')
+    let userLoginData = await getCookieValue('userLoginData')
+
+    // check user is login
+    let isLogin = await getCookieValue('loginStatus')    
+    if (!isLogin) { 
+        { redirect("/login") }
     }
+    
+    // get env variables
+    let apiBackendURL = API_BACKEND_SERVER
+    let username = userEncrptedData.user
+    let password = userEncrptedData.pass
+    let tenantID = tenant_ID
   
     // get token
     let res = await getToken(apiBackendURL, username, password)
@@ -53,7 +55,7 @@ export default async function AdminPanelCompanies() {
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <AddNewButton buttonName={"company"} buttonType={"new"} />
+        <AddNewButton buttonName={"company"} buttonType={"new"} tokens={tokens} apiBackendURL={apiBackendURL} tenantID={tenantID} />
       </div>
 
       <div class="card">
@@ -120,7 +122,12 @@ export default async function AdminPanelCompanies() {
                     <td>{item.phone}</td>
                     <td>{item.industry}</td>
                     <td>
-                      <CompanyListingButtons propsData={item} />
+                      <CompanyListingButtons 
+                        propsData={item} 
+                        apiBackendURL={apiBackendURL} 
+                        tokens={tokens} 
+                        tenantID={tenantID}
+                      />
                     </td>
                   </tr>
                 ))}

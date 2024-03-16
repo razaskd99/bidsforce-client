@@ -17,7 +17,7 @@ import {
 import { getToken } from '../util/script';
 
 // get all rfx records from db
-export const getAllRfxRecords = async (apiBackendURL, accessToken, tenantID) => {
+export const getAllRfxRecords = async (apiBackendURL, tokens, tenantID) => {
 
 
   let username = ''
@@ -27,11 +27,7 @@ export const getAllRfxRecords = async (apiBackendURL, accessToken, tenantID) => 
     password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
   }
 
-  let tokens = ''
-  let tokenRes = await getToken(apiBackendURL, username, password)
-  tokens = tokenRes?.tokenData?.access_token
-
-
+  
   try {
     const url = `${apiBackendURL}rfx/rfx/${tenantID}`;
 

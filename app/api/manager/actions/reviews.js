@@ -1,45 +1,22 @@
 'use server'
 
-import getConfig from 'next/config'
 
-const { serverRuntimeConfig } = getConfig() || {};
-
-let tenantID=0
-let apiBackendURL=''
-let accessToken = ''
-
-if (serverRuntimeConfig) {
-    tenantID=serverRuntimeConfig.TENANT_ID 
-    apiBackendURL=serverRuntimeConfig.API_BACKEND_SERVER
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
-}
-export const loadPostData = async (postData) => {
-
-    const { serverRuntimeConfig } = getConfig() || {};
-    if (serverRuntimeConfig) {
-        serverRuntimeConfig.TEMP_DATA={}
-        serverRuntimeConfig.TEMP_DATA=postData
-    }
-
-}
-
-//////////////////////////////////////////////////////
-///////////////// Configuration settings/////////////
-/////////////////////////////////////////////////////
-
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const getAllReviewsRecordsBy_Rfx_Key_Action = async (rfxID, review_key) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_review/bid_review/rfx/${rfxID}/key/${review_key}`;
-
+  
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${tokens}`,
       },
       redirect: "follow",
     });
@@ -70,6 +47,7 @@ export const getAllReviewsRecordsBy_Rfx_Key_Action = async (rfxID, review_key) =
 
 
 export const getReviewRecordByIdAction = async (bid_review_id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_review/bid_review/id/${bid_review_id}`;
 
@@ -79,7 +57,7 @@ export const getReviewRecordByIdAction = async (bid_review_id) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${tokens}`,
       },
       redirect: "follow",
     });
@@ -109,6 +87,7 @@ export const getReviewRecordByIdAction = async (bid_review_id) => {
 
 
 export const getAllReviewContactsBy_BidReviewID_Action = async (bid_review_id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_review_contacts/bid_review_contacts/bid_review/${bid_review_id}`;
 
@@ -118,7 +97,7 @@ export const getAllReviewContactsBy_BidReviewID_Action = async (bid_review_id) =
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${tokens}`,
       },
       redirect: "follow",
     });
@@ -149,8 +128,9 @@ export const getAllReviewContactsBy_BidReviewID_Action = async (bid_review_id) =
 
 
 export const createReviewEntryAction = async (reviewData, selectedContact) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_review/bid_review`;
-  
+
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]
@@ -158,7 +138,7 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     
@@ -223,9 +203,9 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
 
 
   export const updateReviewEntryAction = async (bid_review_id) => {
-
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_review/bid_review/id/${bid_review_id}`;
-  
+
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]
@@ -233,7 +213,7 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     
@@ -295,6 +275,7 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
 
 
   export const createReviewContactsAction = async (bid_review_id, user_id, role, has_approved, approved_notes) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_review_contacts/bid_review_contacts`;
   
     const now = new Date();
@@ -304,7 +285,7 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     console.log({
@@ -356,16 +337,17 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
 
 
   export const getAllBidReviewPostRecordsById = async (bid_review_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_review_post/bid_review_posts/bid_review/${bid_review_id}`;
-  
+
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${tokens}`,
         },
         redirect: "follow",
       });
@@ -396,8 +378,9 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
 
 
   export const createBidReviewPostAction = async (reviewData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_review_post/bid_review_posts/`;
-  
+
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]
@@ -405,7 +388,7 @@ export const createReviewEntryAction = async (reviewData, selectedContact) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
         

@@ -633,11 +633,11 @@ export default function ControlledAccordions({
                                 <div className="flex flex-col bg-white shadow-md p-4">
                                 <span className='flex items-center gap-1 cursor-pointer' onClick={handleBackToListMeeting}><FaCaretDown className='transform rotate-[90deg] inline-block'/> Back to List</span>
                                     <div className="border-b border-gray-300 p-5 text-[#98A9BC]">Meeting  details</div>
-                                    <div className="p-5 flex flex-col gap-1 text-sm">
+                                    <div className="p-1 flex flex-col gap-1 text-sm">
                                         <span className='text-[#98A9BC] text-[10px]]'>Meeting Title</span>
                                         <input type='text' onChange={(e)=>setKoffTitle(e.target.value)} className='border border-gray-400 p-2 outline-0' />
                                     </div>
-                                    <div className=" p-5 flex flex-col gap-1 text-sm">
+                                    <div className=" p-1 flex flex-col gap-1 text-sm">
                                         <span className='text-[#98A9BC] text-[10px]]'>Location</span>
                                         <input type='text' onChange={(e)=>setKoffLocation(e.target.value)} className='border border-gray-400 p-2 outline-0' />
                                     </div>

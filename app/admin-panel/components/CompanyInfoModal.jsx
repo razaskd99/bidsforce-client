@@ -50,6 +50,7 @@ export default function CompanyInfoModal(props) {
     props.setOpenCompanyModal(false)
   }
 
+
   
   return (    
     <>
@@ -134,12 +135,12 @@ export default function CompanyInfoModal(props) {
                   { props.buttonType && props.buttonType === "new"
                     ?
                     <button 
-                    onClick={createCompanyRequest}
+                    onClick={(e)=>createCompanyRequest(e, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Add Info</button>
                     :
                     <button 
-                    onClick={(e)=>updateCompanyRequest(e, props.modalData.company_id)}
+                    onClick={(e)=>updateCompanyRequest(e, props.modalData.company_id, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Update Info</button>}
                 </div>

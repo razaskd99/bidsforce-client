@@ -55,7 +55,7 @@ const RfxList = (props) => {
                          </div>
                      </div>
                  </div>
-                 <DataTable viewMode={viewMode} data={props.rfxRec} />
+                 <DataTable viewMode={viewMode} data={props.rfxRec} viewType={'rfx'} />
              </div>
          </div>
   )

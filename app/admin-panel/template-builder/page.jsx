@@ -1,50 +1,39 @@
 import EditorInner from './EditorInner'
 
-// start for login check
-import getConfig from 'next/config'
-import { redirect } from 'next/navigation'
-import { headers } from "next/headers";
-import { getFullDomainName } from '@/app/api/util/loginHandle';
-let isLogin = false
-// end for login check
+// start login init
+import { redirect } from "next/navigation";
+import { API_BACKEND_SERVER } from '../../setup';
+import { getToken } from '@/app/api/util/script';
+import { getCookieValue } from '@/lib/scripts';
+// end login init 
 
+export default async function page() {
 
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+    
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
 
+  // get token
+  let res = await getToken(apiBackendURL, username, password)
+  let tokens = res?.tokenData?.access_token
 
-export default function page() {
-
-  const { serverRuntimeConfig } = getConfig() || {};
-
-  let accessToken = ''
-  let apiBackendURL = ''
-  let tenantID = 0
-
-
-  if (serverRuntimeConfig) {
-    // get api backend url
-    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-    // get access token
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
-    tenantID = serverRuntimeConfig.TENANT_ID
-
-    // start check login
-    let homeURL = getFullDomainName(headers)
-    isLogin = serverRuntimeConfig.IS_LOGIN
-    if (!isLogin) { redirect(homeURL + "login") }
-    // end check login
-  }
-
-  if (isLogin == true) {
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')
+  if (isLogin == true || isLogin == 'true') {
   }
   else {
-    redirect('/login')
+    { redirect("/login") }
   }
-
 
 
   return (
     <div>
-      <EditorInner tId={tenantID}  />
+      <EditorInner tId={tenantID} tokens={tokens} />
       {/* <EditorInner tId={tenantID}  /> */}
     </div>
   )

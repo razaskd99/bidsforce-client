@@ -7,15 +7,14 @@ import InvalidTenant from "@/components/InvalidTenant";
 import getConfig from 'next/config'
 import { redirect } from 'next/navigation'
 
+import { API_BACKEND_SERVER } from '../../setup';
+import { getCookieValue } from "@/lib/scripts";
+
+
 const Login = async () => {
-  let apiBackendURL = "";
-  let isLogin = false
 
   const { serverRuntimeConfig, publicRuntimeConfig, env } = getConfig() || {};
-  if (serverRuntimeConfig) {
-    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER;
-    isLogin = serverRuntimeConfig.IS_LOGIN
-  }
+
 
 
   const headersList = headers();
@@ -23,10 +22,10 @@ const Login = async () => {
   let currentURL = domain;
 
   let homeURL = getFullDomainName(domain)
-
+  let tID = 0
 
   let tenantDomain = getTenantUrl(currentURL);
-  const res = await checkValidTenant(apiBackendURL, tenantDomain);
+  const res = await checkValidTenant(API_BACKEND_SERVER, tenantDomain);
   let tenantStatus = false;
   let tenantStatusMsg = "";
   if (res.statusCode == 200) {
@@ -46,23 +45,10 @@ const Login = async () => {
       tenantStatusMsg = "Tenant Email is Suspended ";
     }
 
-    if (serverRuntimeConfig) {
-      if (tenantStatus == true) {
-        serverRuntimeConfig.TENANT_ID = tenant.tenant_id;
-        serverRuntimeConfig.HOME_URL = homeURL
-      }
-      else { serverRuntimeConfig.TENANT_ID = 0 };
-    }
 
-    if (publicRuntimeConfig) {
-      publicRuntimeConfig.TENANT_ID = tenant.tenant_id
-      publicRuntimeConfig.HOME_URL = homeURL
-    }
 
-    if (env) {
-      env.TENANT_ID = tenant.tenant_id
-      env.HOME_URL = homeURL
-    }
+    tID = tenant.tenant_id
+
 
   } else {
     tenantStatus = false;
@@ -70,11 +56,17 @@ const Login = async () => {
   }
 
 
-  if (isLogin) redirect(homeURL + "dashboard")
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')
+  if (isLogin == true || isLogin == 'true') {
+    { redirect("/dashboard") }
+  }
+  else {
+  }
 
 
   return tenantStatus ? (
-    <LoginForm tenantID={serverRuntimeConfig.TENANT_ID} />
+    <LoginForm tenantID={tID} homeURL={homeURL} />
   ) : (
     <InvalidTenant msg={tenantStatusMsg} />
   );
@@ -103,3 +95,5 @@ function getFullDomainName(domain) {
 
 
 export default Login;
+
+

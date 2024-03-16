@@ -116,12 +116,12 @@ export default function TeamInfoModal(props) {
                   { props.buttonType && props.buttonType === "new"  
                     ?
                     <button 
-                    onClick={createTeamRequest}
+                    onClick={(e)=>createTeamRequest(e, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Add Info</button>
                     :
                     <button 
-                    onClick={(e)=>updateTeamRequest(e, props.modalData.team_id)}
+                    onClick={(e)=>updateTeamRequest(e, props.modalData.team_id, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
                     class="btn btn-primary waves-effect waves-light">Update Info</button>}
                 </div>

@@ -9,7 +9,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import DragDrop from "@/app/admin-panel/components/SingleFileInput";
 
 import {
   getAllCompanyRequest,
@@ -17,29 +16,21 @@ import {
   getAllTeamRequest,
   createUserRequest,
 } from "@/app/api/admin-panel/scripts";
-//import CompanyInfoModal from "./CompanyInfoModal";
-//import DesignationInfoModal from "./DesignationInfoModal";
-//import TeamInfoModal from "./TeamInfoModal";
 
 export default function AdminPanelUserRegistrationForm(props) {
   const [companyList, setCompanyList] = useState([]);
   const [designationList, setDesignationList] = useState([]);
   const [teamList, setTeamList] = useState([]);
-  const [openCompanyModal, setOpenCompanyModal] = useState(false);
-  const [openDesignationModal, setOpenDesignationModal] = useState(false);
-  const [openTeamModal, setOpenTeamModal] = useState(false);
-
-  const [selectedFilesMain, setSelectedFilesMain] = useState({});
-  // console.log(selectedFilesMain);
+  const [selectedFile, setSelectedFile] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const [companyName, setCompanyName] = useState("");
-
   const handleCompanyNameChange = (event) => {
     setCompanyName(event.target.value);
     console.log(companyName);
   };
-  const [desigination, setDesigination] = useState("");
 
+  const [desigination, setDesigination] = useState("");
   const handleDesiginationChange = (event) => {
     setDesigination(event.target.value);
   };
@@ -91,6 +82,20 @@ export default function AdminPanelUserRegistrationForm(props) {
     };
   }, [props.apiBackendURL, props.accessToken, props.tenantID]); // Include relevant dependencies
 
+  const handleChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(URL.createObjectURL(file)); // Set selected image preview
+
+    // Create a new FormData object and append the single file
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const extractedFile = formData.get("file");
+
+    // Update the selectedFiles array with the single file
+    setSelectedFile(extractedFile);
+    console.log(selectedFile);
+  };
   return (
     <>
       <form id="userRegistrationForm">
@@ -234,8 +239,8 @@ export default function AdminPanelUserRegistrationForm(props) {
                         onChange={handleActiveUserChange}
                       >
                         <MenuItem value={""}>User Status</MenuItem>
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
+                        <MenuItem value="Active">Active</MenuItem>
+                        <MenuItem value="Inactive">Inactive</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
@@ -320,11 +325,38 @@ export default function AdminPanelUserRegistrationForm(props) {
                     <label class="input-group-text" for="user_profile_photo">
                       Upload Picture
                     </label>} */}
-                    <DragDrop
-                      setSelectedFilesMain={setSelectedFilesMain}
-                      apiBackendURL={props.apiBackendURL}
-                      tenantID={props.tenantID}
-                    />
+
+                    {selectedImage ? (
+                      <div>
+                        <img
+                          src={selectedImage}
+                          alt="Profile"
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "50%",
+                          }}
+                        />
+                        <button onClick={() => setSelectedImage(null)}>
+                          Remove
+                        </button>
+                      </div>
+                    ) : (
+                      <div class="mb-3 w-full">
+                        <label
+                          for="formFileLg"
+                          class="mb-2 inline-block text-neutral-500 dark:text-neutral-400"
+                        >
+                          Upload Profile Picture
+                        </label>
+                        <input
+                          class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
+                          id="formFileLg"
+                          type="file"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -346,7 +378,8 @@ export default function AdminPanelUserRegistrationForm(props) {
                         desigination,
                         team,
                         activeUser,
-                        selectedFilesMain
+                        selectedFile,
+                        "user-profile"
                       )
                     }
                     type="button"

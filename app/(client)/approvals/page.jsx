@@ -9,12 +9,12 @@ import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 // end login init 
 
-const BidPage = async () => {
+const Approvals = async () => {
   
   let userEncrptedData = await getCookieValue('userPrivateData')
   let tenant_ID = await getCookieValue('TENANT_ID')
   let userLoginData = await getCookieValue('userLoginData')
-  
+    
   // get env variables
   let apiBackendURL = API_BACKEND_SERVER
   let username = userEncrptedData.user
@@ -26,13 +26,6 @@ const BidPage = async () => {
   let tokens = res?.tokenData?.access_token
 
 
-  // call all rfx request
-  let records = await getAllRfxRecords(apiBackendURL, tokens, tenantID)
-
-  // get all rfx 
-  let rfxRecords = records.rfxData;
-  
-
   // check user is login
   let isLogin = await getCookieValue('loginStatus')
   if (isLogin == true || isLogin == 'true') {
@@ -42,16 +35,12 @@ const BidPage = async () => {
   }
   
   return (
-    rfxRecords.length > 0
-    ?
-    <BidsList rfxRec={rfxRecords} dataType="bids"/>
-    :
-    <div class="p-4 text-center text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">
-      Bid records are not found.
+    <div class="p-4 text-center text-[18px] text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">
+      <h2>Approvals coming</h2>
     </div>
   )
 }
-export default BidPage
+export default Approvals
 
 // const rows = [
 //     {id: 1,checkbox: 'dddd.png',description: 'Urea Plant Expansion',rfxid: 'RFX-101132',customer: 'Farmer Fertilizers',type: 'Firm',duedate: '8 Jul 2021',contacts: 'Sara Andrew',status: 'RFx Issued',

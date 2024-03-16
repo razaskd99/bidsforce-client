@@ -28,6 +28,9 @@ export default function OpportunityAddNewButton(props) {
         <OpportunityInfoModal
           setOpenOpportunityModal={setOpenOpportunityModal}
           buttonType={props.buttonType}
+          apiBackendURL={props.apiBackendURL} 
+          tokens={props.tokens} 
+          tenantID={props.tenantID}
         />
       )}
     </>

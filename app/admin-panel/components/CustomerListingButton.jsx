@@ -38,7 +38,7 @@ export default function CompanyListingButtons(props) {
     <>
       <div class="dropdown">
         <button
-          onClick={(e) => deleteCustomerRequest(e, props.propsData.customer_id)}
+          onClick={(e) => deleteCustomerRequest(e, props.propsData.customer_id, props.apiBackendURL, props.tokens, props.tenantID)}
           type="button"
           class="btn btn-xs btn-primary waves-effect mr-2 "
         >
@@ -59,6 +59,9 @@ export default function CompanyListingButtons(props) {
           setOpenCustomerModal={setOpenCustomerModal}
           modalData={props.propsData ? props.propsData : {}}
           modalType="update"
+          apiBackendURL={props.apiBackendURL} 
+          tokens={props.tokens} 
+          tenantID={props.tenantID}
         />
       )}
     </>

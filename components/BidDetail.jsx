@@ -54,6 +54,7 @@ import { getBidSubmissionAckBySubIdAction } from '@/app/api/manager/actions/bids
 import OrderAcknowledgement from './OrderAcknowledgement';
 import FilterDropdown from './FilterDropdown';
 import Prepration from './Prepration';
+import { getApiPrereqVars } from '@/app/api/util/action/apiCallPrereq';
 
 
 
@@ -1253,8 +1254,9 @@ const BidDetail = ({
             .catch((err) => console.log(err));
     }, []);
 
-    useEffect(() => {
-        getAllRfxPrereqRecordsAction('rfx_stage')
+    useEffect(async() => {
+        const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
+        getAllRfxPrereqRecordsAction('rfx_stage', apiBackendURL, tokens, tenantID)
             .then((res) => {
                 setRfxPrereqStageList(res.returnData)
                 // console.log(res)
@@ -2035,7 +2037,7 @@ const BidDetail = ({
                 {active === 'Bid Setup' && <div className='p-5 bg-white shadow-sm h-full min-h-screen'>
                     <div className="max-w-[80%]">
                         <div className="flex justify-end items-center">
-                            <button className={`upprecase my-5 uppercase rounded-md p-2  bg-[#00AAEC] text-white cursor-pointer flex items-center gap-1`} onClick={handleChangeStatus} disabled={false} >Proceed <FaArrowRight /> </button>
+                            <button className={`upprecase my-1 uppercase rounded-md p-2  bg-[#00AAEC] text-white cursor-pointer flex items-center gap-1`} onClick={handleChangeStatus} disabled={false} >Proceed <FaArrowRight /> </button>
                         </div>
                         <ControlledAccordions tenantID={tenantID} rfxRecord={rfxRecord} allUsersRec={allUsersRec} koffRec={koffRec} deliverablesRec={deliverablesRec} login_user_id={login_user_id} bidteamRec={bidteamRec} />
                     </div>
@@ -3024,7 +3026,7 @@ const BidDetail = ({
 
 
 
-                {active === 'Prepration' &&  <Prepration />}
+                {active === 'Prepration' &&  <Prepration handleChangeStatus={handleChangeStatus} />}
 
                 {active === 'Submission' && <div className='p-5 bg-white shadow-sm h-full min-h-screen'>
                     {showSubmissionTable && (
@@ -4067,12 +4069,14 @@ const BidDetail = ({
                             </div>
 
                         </div>
+                        
 
                     </div>}
                     {showOrderDone && <SearchTable rows={[]} NoRowsOverlay={NoRowsOverlayOrderHandover} />
                     }                </div>}
             </div>
 
+            
         </div >
     )
 }

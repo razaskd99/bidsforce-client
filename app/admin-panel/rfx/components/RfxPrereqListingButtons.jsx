@@ -61,7 +61,16 @@ export default function RfxPrereqListingButtons(props) {
             </button><br></br>
         </div>
 
-        {openRfxPrereqModal && <RfxPrereqInfoModal setOpenRfxPrereqModal={setOpenRfxPrereqModal} modalData={props.propsData ? props.propsData : {}} modalType="update" tablename={props.tablename} id={props.id}/>}
+        {openRfxPrereqModal && <RfxPrereqInfoModal 
+                                  setOpenRfxPrereqModal={setOpenRfxPrereqModal} 
+                                  modalData={props.propsData ? props.propsData : {}} 
+                                  modalType="update" 
+                                  tablename={props.tablename} 
+                                  id={props.id}
+                                  apiBackendURL={props.apiBackendURL}
+                                  tenantID={props.tenantID}
+                                  tokens={props.tokens}
+                                />}
         
       </>   
   );

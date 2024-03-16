@@ -1,25 +1,9 @@
 'use server'
 import getConfig from 'next/config'
 import { formatFileSize } from '../../util/utility';
-import { getToken } from '../../util/script';
-const axios = require('axios');
 
-
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const loadPostData = async (postData) => {
@@ -27,19 +11,16 @@ export const loadPostData = async (postData) => {
   const { serverRuntimeConfig } = getConfig() || {};
   if (serverRuntimeConfig) {
     serverRuntimeConfig.TEMP_DATA = {}
-    serverRuntimeConfig.TEMP_DATA = postData
+    serverRuntimeConfig.TEMP_DATA = postData    
   }
 
 }
 
 // get all Company records from db
 export const getAllCompanyRecordsAction = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}company/companies/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -78,13 +59,10 @@ export const getAllCompanyRecordsAction = async () => {
 
 // get all Rfx stages records by type from db
 export const getAllRfxStagesAction = async (typeName) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}phase_stage/phase_stages/tenant/${tenantID}/type/${typeName}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
+   
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
@@ -122,13 +100,10 @@ export const getAllRfxStagesAction = async (typeName) => {
 
 // get all Rfx stages records by type & Rfx ID from db
 export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/rfx/${rfx_id}/type/${typeName}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
+    
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
@@ -165,13 +140,10 @@ export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
 
 
 export const getRfxById = async (id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}rfx/rfx/id/${id}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
+  
     const response = await fetch(url, {
       cache: 'no-store',
       method: 'GET',
@@ -213,14 +185,10 @@ export const getRfxById = async (id) => {
 
 
 export const getRfxTypes = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}rfx_type/rfx_type/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-    
-    console.log(username, password,tokens)
+        
     const response = await fetch(url, {
       cache: 'no-store',
       method: 'GET',
@@ -259,13 +227,10 @@ export const getRfxTypes = async () => {
 
 
 export const getRfxStages = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}rfx_stage/rfx_stage/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
+    
     const response = await fetch(url, {
       cache: 'no-store',
       method: 'GET',
@@ -306,12 +271,9 @@ export const getRfxStages = async () => {
 
 
 export const getBidVality = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}bid_validity/bid_validity/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: 'no-store',
@@ -352,12 +314,9 @@ export const getBidVality = async () => {
 
 
 export const getSubmissionMode = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}rfx_submission_mode/rfx_submission_mode/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: 'no-store',
@@ -397,12 +356,9 @@ export const getSubmissionMode = async () => {
 
 
 export const getContentSubmission = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}rfx_content_submission/rfx_content_submission/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: 'no-store',
@@ -442,12 +398,9 @@ export const getContentSubmission = async () => {
 
 
 export const getUsers = async () => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: 'no-store',
@@ -489,12 +442,9 @@ export const getUsers = async () => {
 
 
 export const getRfxContacts = async (id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}contacts/contacts/tenant/${tenantID}/rfx_id/${id}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(url, {
       cache: 'no-store',
@@ -535,13 +485,10 @@ export const getRfxContacts = async (id) => {
 
 
 export const getRfxContactsByKey = async (rfxID, contact_key) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}contacts/contacts/tenant/${tenantID}/rfx_id/${rfxID}/key/${contact_key}`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-
+   
     const response = await fetch(url, {
       cache: 'no-store',
       method: 'GET',
@@ -582,12 +529,9 @@ export const getRfxContactsByKey = async (rfxID, contact_key) => {
 
 
 export const createNewRfxAction = async (rfxData) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
       const apiUrl = `${apiBackendURL}rfx/rfx`;
-
-      // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
 
       const now = new Date();
       const formattedTimestamp = now.toISOString();
@@ -721,13 +665,9 @@ const fetchAndProcessStages = async (stageType, rfx_id) => {
 
 
 export const updateRfxAction = async (rfxData, rfx_id) => {
-
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}rfx/rfx/id/${rfx_id}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
-
+  
   const now = new Date();
   const formattedTimestamp = now.toISOString()
   const formatedDate = now.toISOString().split('T')[0]
@@ -821,11 +761,8 @@ export const updateRfxAction = async (rfxData, rfx_id) => {
 
 
 export const updateRfxNumberAction = async (rfx_id, rfx_number) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}rfx/rfx/rfx-number/id/${rfx_id}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -876,11 +813,8 @@ export const updateRfxNumberAction = async (rfx_id, rfx_number) => {
 
 
 export const updateBidNumberAction = async (rfx_id, bid_number) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}rfx/rfx/bid-number/id/${rfx_id}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
   
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -931,11 +865,8 @@ export const updateBidNumberAction = async (rfx_id, bid_number) => {
 
 
 export const updateBidAssignToAction = async (rfx_id, rfx_bid_assignto) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}rfx/rfx/rfx-bid-assignto/id/${rfx_id}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -987,11 +918,8 @@ export const updateBidAssignToAction = async (rfx_id, rfx_bid_assignto) => {
 
 
 export const GetRfxDocumentsAction = async (rfx_id) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}docvalt/docvalt/tenant/${tenantID}/rfx_id/${rfx_id}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -1038,11 +966,8 @@ export const GetRfxDocumentsAction = async (rfx_id) => {
 
 
 export const GetRfxDocumentsBy_RfxID_Key_Action = async (rfx_id, docvalt_key) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}docvalt/docvalt/rfx/${rfx_id}/key/${docvalt_key}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -1089,11 +1014,8 @@ export const GetRfxDocumentsBy_RfxID_Key_Action = async (rfx_id, docvalt_key) =>
 
 
 export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_key = 'rfx') => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}docvalt/docvalt`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -1156,11 +1078,8 @@ export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_ke
 
 
 export const createStagesDetailAction = async (bidding_phases_id, rfx_id, stage_status, stage_score) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}phase_stages_detail/phase_stages_detail`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -1217,11 +1136,8 @@ export const createStagesDetailAction = async (bidding_phases_id, rfx_id, stage_
 
 
 export const createContactsAction = async (rfx_id, user_id, contact_key) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}contacts/contacts`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()
@@ -1278,11 +1194,8 @@ export const createContactsAction = async (rfx_id, user_id, contact_key) => {
 
 
 export const updateAcknowledgementAction = async (rfxID, acknowledgementNotes, acknowledgementDate) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}rfx/rfx/acknowledgement/rfx-id/${rfxID}`;
-
-  // get token
-  let res = await getToken(apiBackendURL, username, password)
-  let tokens = res?.tokenData?.access_token
 
   const now = new Date();
   const formattedTimestamp = now.toISOString()

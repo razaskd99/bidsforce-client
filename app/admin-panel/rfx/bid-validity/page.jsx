@@ -5,32 +5,36 @@ import RfxPrereqAddNewButton from "../components/RfxPrereqAddNewButton";
 import RfxPrereqListingButtons from "../components/RfxPrereqListingButtons";
 import DeleteAllBidValidityButton from "../components/DeleteAllBidValidityButton";
 
-// start for login check
-import getConfig from "next/config";
+// start login init
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { getFullDomainName } from "@/app/api/util/loginHandle";
-let isLogin = false;
-// end for login check
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
+import { getToken } from "@/app/api/util/script";
+// end login init 
 
 export default async function AdminPanelDesignation() {
-  const { serverRuntimeConfig } = getConfig() || {};
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+  let userLoginData = await getCookieValue('userLoginData')
 
-  // get server side global store data
-  if (serverRuntimeConfig) {
-    isLogin = serverRuntimeConfig.IS_LOGIN;
-
-    // start check login
-    let homeURL = getFullDomainName(headers);
-    isLogin = serverRuntimeConfig.IS_LOGIN;
-    if (!isLogin) {
-      redirect(homeURL + "login");
-    }
-    // end check login
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')    
+  if (!isLogin) { 
+      { redirect("/login") }
   }
+  
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
+  
+  // get token
+  let res = await getToken(apiBackendURL, username, password)
+  let tokens = res?.tokenData?.access_token
 
   // call all tenant action
-  let records = await getAllRfxPrereqRecordsAction("bid_validity");
+  let records = await getAllRfxPrereqRecordsAction("bid_validity", apiBackendURL, tokens, tenantID);
   let allRecords = records.returnData;
 
   const breadcrumbItems = [
@@ -42,7 +46,13 @@ export default async function AdminPanelDesignation() {
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <RfxPrereqAddNewButton buttonName={"bid_validity"} buttonType={"new"} />
+        <RfxPrereqAddNewButton 
+          buttonName={"bid_validity"} 
+          buttonType={"new"} 
+          apiBackendURL={apiBackendURL}
+          tenantID={tenantID}
+          tokens={tokens}
+        />
       </div>
 
       <div class="card">
@@ -91,6 +101,9 @@ export default async function AdminPanelDesignation() {
                         propsData={item}
                         tablename={"bid_validity"}
                         id={item.bid_validity_id}
+                        apiBackendURL={apiBackendURL}
+                        tenantID={tenantID}
+                        tokens={tokens}
                       />
                     </td>
                   </tr>

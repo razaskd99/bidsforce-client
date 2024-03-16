@@ -110,10 +110,18 @@ export default function OpportunityInfoModal(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let res = await getAllCompanyRecordsAction();
+        let res = await getAllCompanyRecordsAction(
+          props.apiBackendURL,
+          props.tokens,
+          props.tenantID
+        );
         setCompanyList(res.returnData);
 
-        let res2 = await getAllCustomerRecordsAction();
+        let res2 = await getAllCustomerRecordsAction(
+          props.apiBackendURL,
+          props.tokens,
+          props.tenantID
+        );
         setCustomerList(res2.returnData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -588,6 +596,9 @@ export default function OpportunityInfoModal(props) {
                   onClick={(e) =>
                     createOpportunityRequest(
                       e,
+                      props.apiBackendURL,
+                      props.tokens,
+                      props.tenantID,
                       formData.m6_customer_name,
                       formData.m6_end_user_name
                     )
@@ -604,7 +615,10 @@ export default function OpportunityInfoModal(props) {
                       e,
                       props.modalData.opportunity_id,
                       formData.m6_customer_name,
-                      formData.m6_end_user_name
+                      formData.m6_end_user_name,
+                      props.apiBackendURL,
+                      props.tokens,
+                      props.tenantID
                     )
                   }
                   type="button"

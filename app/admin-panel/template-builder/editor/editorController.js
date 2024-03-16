@@ -23,7 +23,8 @@ export const InitEditor = (
   currentPage,
   custPlugins,
   alert,
-  tenantID
+  tenantID,
+  tokens
 
 ) => {
   let editor = {}
@@ -61,7 +62,11 @@ export const InitEditor = (
       storeHtml: true,
       storeCss: true,
 
-      headers: {},
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
       id: "mycustom-",
       urlStore:
         saveRequestURL,

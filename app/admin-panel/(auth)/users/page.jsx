@@ -4,40 +4,38 @@ import UserListingButtons from "../../components/UserListingButtons";
 import Link from "next/link";
 import DeleteAllUsersButton from "./components/DeleteAllUsersButton";
 
-// start for login check
-import getConfig from "next/config";
+// start login init
 import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-let isLogin = false;
-// end for login check
-const axios = require('axios');
+// end login init 
 
 export default async function AdminPanelUsers() {
 
-  // get env variables
-  const { serverRuntimeConfig } = getConfig() || {};
-  let apiBackendURL = ''
-  let username = ''
-  let password = ''
-  let tenantID = 0
-  if (serverRuntimeConfig) {
-    apiBackendURL =serverRuntimeConfig.API_BACKEND_SERVER
-    username =serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-    password =serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-    tenantID =serverRuntimeConfig.TENANT_ID
-    isLogin =serverRuntimeConfig.IS_LOGIN
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
+  let userLoginData = await getCookieValue('userLoginData')
+
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')    
+  if (!isLogin) { 
+      { redirect("/login") }
   }
-
-
+  
+  // get env variables
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
 
   // get token
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
 
   // call all tenant action
-  let records = await getAllUserRecordsAction1(apiBackendURL, tokens, tenantID);
+  let records = await getAllUserRecordsAction(apiBackendURL, tokens, tenantID);
   let usersData = records.returnData;
-  let error = records.error;
 
   const breadcrumbItems = [
     { label: "Home", href: "/admin-panel" },
@@ -54,7 +52,6 @@ export default async function AdminPanelUsers() {
 
   return (
     <div className=" w-full">
-    {error}
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
         <Link
@@ -154,49 +151,3 @@ export default async function AdminPanelUsers() {
     </div>
   );
 }
-
-
-export const getAllUserRecordsAction1 = async (apiBackendURL, tokens, tenantID) => {
-
-
-const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
-
-try {
-  const response = await axios.get(url, {
-    cache: "no-store",
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${tokens}`,
-    },
-    timeout: 0, // Setting timeout to maximum value
-  });
-
-  // Check if the response status is in the range 200-299 (indicating success)
-  if (response.status >= 200 && response.status < 300) {
-    // Handle success
-    return {
-      statusCode: response.status,
-      returnData: response.data,
-      error: "Success",
-    };
-  } else {
-    // Handle error
-    return {
-      statusCode: response.status,
-      returnData: [],
-      error: JSON.stringify(response.data), // You can stringify the response data for error message
-    };
-  }
-} catch (error) {
-  // Handle network errors or Axios-specific errors
-  return {
-    statusCode: 400, // or whatever status code you prefer for network errors
-    returnData: [],
-    error: error.message, // You can stringify the error object for error message
-  };
-}
-
-
-
-};

@@ -2,37 +2,25 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import SearchTable from "@/components/SearchTable";
 import { IoIosSearch } from "react-icons/io";
 import { getAllOppotunitiesRecords } from "@/app/api/opportunities/scripts";
-import { getToken } from "@/app/api/util/script";
 const axios = require('axios');
-
-// start for login check
 import getConfig from "next/config";
-import { redirect } from "next/navigation";
-let isLogin = false;
-// end for login check
 
+// start login init
+import { redirect } from "next/navigation";
+import { getCookieValue } from "@/lib/scripts";
+import { API_BACKEND_SERVER } from '../../setup';
+import { getToken } from "@/app/api/util/script";
+// end login init 
 
 const Opportunitues = async () => {
+  let userEncrptedData = await getCookieValue('userPrivateData')
+  let tenant_ID = await getCookieValue('TENANT_ID')
 
   // get env variables
-  const { serverRuntimeConfig } = getConfig() ;
-  let apiBackendURL = ''
-  let username = ''
-  let password = ''
-  let tenantID = 0
-  if (serverRuntimeConfig) {
-    apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-    username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-    password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-    tenantID = serverRuntimeConfig.TENANT_ID
-    isLogin = serverRuntimeConfig.IS_LOGIN
-
-    if (!isLogin) {
-
-      redirect('/login')
-    }
-
-  }
+  let apiBackendURL = API_BACKEND_SERVER
+  let username = userEncrptedData.user
+  let password = userEncrptedData.pass
+  let tenantID = tenant_ID
 
   // get token
   let res = await getToken(apiBackendURL, username, password)
@@ -48,7 +36,13 @@ const Opportunitues = async () => {
 
   ];
 
-
+  // check user is login
+  let isLogin = await getCookieValue('loginStatus')
+  if (isLogin == true || isLogin == 'true') {
+  }
+  else {
+    { redirect("/login") }
+  }
 
   return (
 

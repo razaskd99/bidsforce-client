@@ -1,18 +1,21 @@
-'use client'
-import { useRouter } from 'next/navigation'; // Fix import statement
-import { useState, useEffect } from 'react';
+import { getCookieValue } from "@/lib/scripts";
+import { redirect } from "next/navigation";
 
-const Home = () => {
-  const router = useRouter();
-  const [isAuthenticated, setUIsAuthenticated] = useState(false);
+const Home = async() => {
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
+
+    // check user is login
+    let isLogin = await getCookieValue('loginStatus')
+    if (isLogin == true || isLogin == 'true') {
+      { redirect("/dashboard") }
+
     }
-  }, [isAuthenticated, router]);
+    else {
+      { redirect("/login") }
+    }
+  
+
+
 
   return null; // You need to return some JSX, even if it's null
 };

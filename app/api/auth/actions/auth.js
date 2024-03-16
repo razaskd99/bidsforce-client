@@ -2,17 +2,27 @@
 import getConfig from 'next/config'
 import { getToken } from '../../util/script';
 const axios = require('axios');
+import { cookies } from 'next/headers'
 
+import {API_BACKEND_SERVER} from '../../../setup'
 
 // authenticate and get user and access token for future use
-export async function loginAction(username, password, apiBackendURL, tenantID) {
+export async function loginAction(username, password,  tenantID,homeurl) {
   const { serverRuntimeConfig } = getConfig() || {};
+  cookies().set('loginStatus', false)
+  cookies().set('userLoginData', JSON.stringify({}))
+  cookies().set('userPrivateData', JSON.stringify({}))
+
+  cookies().set('TENANT_ID', tenantID)
+  cookies().set('HOME_URL', homeurl)
+
+
 
   let access_token = ''
   let res = {}
 
   // get access token for use
-  res = await getToken(apiBackendURL, username, password)
+  res = await getToken(API_BACKEND_SERVER, username, password)
   if (res.statusCode == 200) {
     access_token = res.tokenData.access_token
   }
@@ -27,10 +37,13 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
   }
 
 
+  cookies().set('userPrivateData', JSON.stringify({user:username,pass:password}))
+
+
   let resp = {}
   let data = {}
   try {
-    const loginUrl = `${apiBackendURL}auth/login`;
+    const loginUrl = `${API_BACKEND_SERVER}auth/login`;
     const email = encodeURIComponent(username);
     const passwordEncoded = encodeURIComponent(password);
     // URL with parameters
@@ -56,9 +69,6 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
 
     // Parse user record
     data = response.data;
-
-
-
   } catch (error) {
     // Handle network errors or Axios-specific errors
     return {
@@ -72,12 +82,11 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
   let user = data !== null ? { ...data } : null;
 
   if (user !== null) {
-
       // get server stored data 
   if (serverRuntimeConfig) {
-    //serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
-    //serverRuntimeConfig?.IS_LOGIN = true
-    //serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
+    serverRuntimeConfig.API_ACCESS_TOKEN_SERVER = access_token
+    serverRuntimeConfig.IS_LOGIN = true
+    serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
   }
 
   } else {
@@ -90,8 +99,6 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
   }
 
 
-
-
   // prepare response on success
   resp = {
     statusCode: "200",
@@ -99,9 +106,9 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
     access_token: access_token, // Extract access_token
   };
 
-    serverRuntimeConfig.IS_LOGIN = true
-    
-    serverRuntimeConfig.LOGIN_USER_DATA = { ...user }
+  cookies().set('loginStatus', true)
+  cookies().set('userLoginData', JSON.stringify(user))
+
 
   return resp;
 }
@@ -109,11 +116,5 @@ export async function loginAction(username, password, apiBackendURL, tenantID) {
 
 
 export const getServerUserDetails = async () => {
-  const { serverRuntimeConfig } = getConfig() || {};
-
-  let userDetailRec = {}
-  if (serverRuntimeConfig?.API_ACCESS_TOKEN_SERVER) {
-    userDetailRec = serverRuntimeConfig.LOGIN_USER_DATA
-  }
-  return userDetailRec
+  return {}
 };

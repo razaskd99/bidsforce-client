@@ -74,6 +74,9 @@ export default function AddNewButton(props) {
         <CompanyInfoModal
           setOpenCompanyModal={setOpenCompanyModal}
           buttonType={props.buttonType}
+          apiBackendURL={props.apiBackendURL}
+          tokens={props.tokens}
+          tenantID={props.tenantID}
         />
       )}
 
@@ -81,6 +84,9 @@ export default function AddNewButton(props) {
         <DesignationInfoModal
           setOpenDesignationModal={setOpenDesignationModal}
           buttonType={props.buttonType}
+          apiBackendURL={props.apiBackendURL}
+          tokens={props.tokens}
+          tenantID={props.tenantID}
         />
       )}
 
@@ -88,6 +94,9 @@ export default function AddNewButton(props) {
         <TeamInfoModal
           setOpenTeamModal={setOpenTeamModal}
           buttonType={props.buttonType}
+          apiBackendURL={props.apiBackendURL}
+          tokens={props.tokens}
+          tenantID={props.tenantID}
         />
       )}
 
@@ -95,6 +104,9 @@ export default function AddNewButton(props) {
         <CustomerInfoModal
           setOpenCustomerModal={setOpenCustomerModal}
           buttonType={props.buttonType}
+          apiBackendURL={props.apiBackendURL}
+          tokens={props.tokens}
+          tenantID={props.tenantID}
         />
       )}
     </>

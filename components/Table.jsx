@@ -19,8 +19,8 @@ const renderOptionCell = (params) => (
 
 // Define columns for the DataGrid
 const columns = [
-  { field: 'checkbox', headerName: <input type='checkbox' />, width: 220, renderCell: (params) => <Image src={`/${params.value}`} width={40} height={40} /> },
-  { field: 'description', headerName: 'Description', width: 220 },
+  { field: 'checkbox', headerName: <input type='checkbox' />, width: 160, renderCell: (params) => <Image src={`/${params.value}`} width={40} height={40} /> },
+  { field: 'description', headerName: 'Description', width: 200 },
   { field: 'rfxid', headerName: 'RFX ID', width: 160 },
   { field: 'customer', headerName: 'Customer', width: 160 },
   { field: 'type', headerName: 'Type', width: 160 },
@@ -34,7 +34,7 @@ const columns = [
 
 
 // Define the DataTable component
-export default function DataTable({ viewMode, data }) {
+export default function DataTable({ viewMode, data, viewType }) {
 
   let adjustedRows = []
   // Adjusted rows with unique ids
@@ -103,10 +103,11 @@ export default function DataTable({ viewMode, data }) {
 
   // Handle row click
   const handleRowClick = (params) => {
+    
     const rowId = params.row.id;
-    if (isManager) {
+    if (viewType == 'bids') {
       router.push(`/manager/rfx/detail/${rowId}`);
-    } else {
+    } else if (viewType == 'rfx') {
       router.push(`/rfx/detail/${rowId}`);
     }
   };
@@ -115,7 +116,7 @@ export default function DataTable({ viewMode, data }) {
   return (
     <div>
       {viewMode === 'list' ? (
-        <div style={{ height: '100%', maxHeight: '600px', width: '100%',maxWidth:'100%', userSelect: 'none' }} className='data-table'>
+        <div style={{ height: '100%', maxHeight: '600px', width: '100%',maxWidth:'86vw', userSelect: 'none' }} className='data-table'>
           <DataGrid
             className='select-none mb-5'
             rows={adjustedRows} // Use adjustedRows instead of data

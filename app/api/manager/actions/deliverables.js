@@ -1,35 +1,12 @@
 'use server'
 
-import getConfig from 'next/config'
 
-const { serverRuntimeConfig } = getConfig() || {};
-
-let tenantID=0
-let apiBackendURL=''
-let accessToken = ''
-
-if (serverRuntimeConfig) {
-    tenantID=serverRuntimeConfig.TENANT_ID 
-    apiBackendURL=serverRuntimeConfig.API_BACKEND_SERVER
-    accessToken = serverRuntimeConfig.API_ACCESS_TOKEN_SERVER
-}
-export const loadPostData = async (postData) => {
-
-    const { serverRuntimeConfig } = getConfig() || {};
-    if (serverRuntimeConfig) {
-        serverRuntimeConfig.TEMP_DATA={}
-        serverRuntimeConfig.TEMP_DATA=postData
-    }
-
-}
-
-//////////////////////////////////////////////////////
-///////////////// Configuration settings/////////////
-/////////////////////////////////////////////////////
-
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const getAllDeliverablesAction = async (rfxID) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_deliverables/bid_deliverables/rfx/${rfxID}`;
   
@@ -39,7 +16,7 @@ export const getAllDeliverablesAction = async (rfxID) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${tokens}`,
         },
         redirect: "follow",
       });
@@ -70,6 +47,7 @@ export const getAllDeliverablesAction = async (rfxID) => {
 
 
   export const getDeliverablesByIDAction = async (delivID) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_deliverables/bid_deliverables/id/${delivID}`;
   
@@ -79,7 +57,7 @@ export const getAllDeliverablesAction = async (rfxID) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${tokens}`,
         },
         redirect: "follow",
       });
@@ -110,6 +88,7 @@ export const getAllDeliverablesAction = async (rfxID) => {
 
 
   export const createDeliverablesAction = async (delivData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_deliverables/bid_deliverables/`;
   
     const now = new Date();
@@ -119,7 +98,7 @@ export const getAllDeliverablesAction = async (rfxID) => {
     const headers = new Headers({
       cache: 'no-store',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${tokens}`,
       'Content-Type': 'application/json'
     }); 
     

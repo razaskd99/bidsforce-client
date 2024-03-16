@@ -23,7 +23,7 @@ export const createTenenatRequest= async(e,apiBackendURL,accessToken)=>{
     const location_state = document.getElementById('location_state');
     const location_zip = document.getElementById('location_zip');
     const tenant_status = document.getElementById('tenant_status');
-
+console.log(tenant_name);
     const tenantData = {
       tenant_name: tenant_name.value,
       domain_url: domain_url.value,

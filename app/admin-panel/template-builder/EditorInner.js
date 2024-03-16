@@ -75,6 +75,8 @@ export default function EditorInner(props) {
 
   let tenantID = 0
   tenantID = props.tId
+  let tokens = ''
+  tokens = props.tokens
 
 
 
@@ -107,9 +109,8 @@ export default function EditorInner(props) {
   const [isWidget, setIsWidget] = useState("no");
 
 
-
   useEffect(() => {
-    getPages(tenantID)
+    getPages(tenantID, tokens)
       .then((list) => {
         setAllPages(list);
       })
@@ -167,7 +168,8 @@ export default function EditorInner(props) {
       currentPage,
       pluginsList,
       alert,
-      tenantID
+      tenantID,
+      tokens
     );
     saveCurrentPage(editor, currentPage);
     pageManager(editor);
@@ -459,7 +461,8 @@ export default function EditorInner(props) {
         selectPage,
         setAllPages,
         setIsWidget,
-        tenantID
+        tenantID,
+        tokens
       )}
 
     </div>
@@ -524,7 +527,9 @@ const ManagePages = (
   allPages,
   selectPage,
   setAllPages,
-  setIsWidget, tenantID
+  setIsWidget, 
+  tenantID,
+  tokens
 ) => {
 
   let appURL = ""
@@ -661,7 +666,9 @@ const ManagePages = (
                                       DelPage(
                                         e,
                                         pageOrgName,
-                                        setAllPages, tenantID
+                                        setAllPages, 
+                                        tenantID,
+                                        tokens
                                       ).then((data) => {
                                         response = data;
                                         document

@@ -1,34 +1,14 @@
 'use server'
 
-import getConfig from 'next/config'
-import { getToken } from '../../util/script';
-
-
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
+// required to access cookies
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 export const getAllBidClarificationRecordsBy_RfxID_Action = async (rfxID) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_clarification/bid-clarifications/rfx-id/${rfxID}`;
-
-      // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
-  
+     
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
@@ -65,13 +45,10 @@ export const getAllBidClarificationRecordsBy_RfxID_Action = async (rfxID) => {
 
 
   export const getBidClarificationRecordsByIdAction = async (bid_clarification_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_clarification/bid-clarifications/id/${bid_clarification_id}`;
-
-      // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
-  
+   
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
@@ -108,13 +85,10 @@ export const getAllBidClarificationRecordsBy_RfxID_Action = async (rfxID) => {
 
   
   export const getAllBidClarificationPostRecordsBy_ClarifId_Action = async (clarif_id) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}bid_clarification_post/bid_clarification_posts/clarification/${clarif_id}`;
 
-      // get token
-      let res = await getToken(apiBackendURL, username, password)
-      let tokens = res?.tokenData?.access_token
-  
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",
@@ -152,12 +126,9 @@ export const getAllBidClarificationRecordsBy_RfxID_Action = async (rfxID) => {
 
 
   export const createBidClarificationAction = async (rfxData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_clarification/bid-clarifications/`;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-  
+ 
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]
@@ -218,12 +189,9 @@ export const getAllBidClarificationRecordsBy_RfxID_Action = async (rfxID) => {
 
 
   export const createBidClarificationCommentAction = async (rfxData) => {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     const apiUrl = `${apiBackendURL}bid_clarification_post/bid-clarification-posts/`;
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
-  
     const now = new Date();
     const formattedTimestamp = now.toISOString()
     const formatedDate = now.toISOString().split('T')[0]
