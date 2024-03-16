@@ -8,7 +8,7 @@ import DatePickerInput from "@/components/DatePickerInput";
 import { useRouter } from 'next/navigation'
 import { loadPostData } from "@/app/api/rfx/actions/rfx";
 import { redirect } from 'next/navigation'
-import { formatDatetime } from "@/app/api/util/utility";
+import { formatDatetime, hideMainLoader102, showMainLoader102 } from "@/app/api/util/utility";
 
 
 
@@ -68,7 +68,8 @@ const CreateRfx =  ({ data }) => {
 
   const postValues = (e) => {
     e.preventDefault()
-
+    
+    showMainLoader102()
 //alert()
     let rfxTempData = {
       rfx_id: document.getElementById("rfx_id").value,
@@ -104,6 +105,7 @@ const CreateRfx =  ({ data }) => {
 
   loadPostData(rfxTempData)
   router.push('/rfx/newfx')
+  
   }
 
   return (

@@ -223,7 +223,7 @@ export default function UserListingButtons(props) {
                             </option>
                             <option
                               value="Inactive"
-                              elected={!currentUser.active ? true : false}
+                              selected={!currentUser.active ? true : false}
                             >
                               Inactive
                             </option>

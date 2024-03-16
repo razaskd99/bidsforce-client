@@ -23,6 +23,7 @@ export default function AdminPanelUserRegistrationForm(props) {
   const [teamList, setTeamList] = useState([]);
   const [selectedFile, setSelectedFile] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
+  const [keyChange, setKeyChange] = useState("");
 
   const [companyName, setCompanyName] = useState("");
   const handleCompanyNameChange = (event) => {
@@ -94,7 +95,11 @@ export default function AdminPanelUserRegistrationForm(props) {
 
     // Update the selectedFiles array with the single file
     setSelectedFile(extractedFile);
-    console.log(selectedFile);
+  };
+
+  const keyUp = (e) => {
+    const key = e.target.value;
+    setKeyChange(key);
   };
   return (
     <>
@@ -278,20 +283,25 @@ export default function AdminPanelUserRegistrationForm(props) {
                 <div class="form-floating form-floating-outline col-md-6 mb-4">
                   <TextField
                     variant="outlined"
-                    id="user_name"
-                    name="user_name"
-                    label="User Name"
-                    className="w-full bg-white"
-                  />
-                </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
-                  <TextField
-                    variant="outlined"
                     id="email"
                     name="email"
                     label="Email"
                     type="email"
                     className="w-full bg-white"
+                    onChange={keyUp}
+                  />
+                </div>
+                <div class="form-floating form-floating-outline col-md-6 mb-4">
+                  <TextField
+                    variant="outlined"
+                    id="user_name"
+                    name="user_name"
+                    label="User Name"
+                    className="w-full bg-white"
+                    value={keyChange}
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
                 </div>
                 <div class="form-floating form-floating-outline col-md-6 mb-4">

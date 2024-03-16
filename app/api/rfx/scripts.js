@@ -12,7 +12,9 @@ import {
   showErrorMessageAlertMain,
   successMessageAlertMain,
   isValidDate,
-  uploadFiles
+  uploadFiles,
+  showMainLoader102,
+  hideMainLoader102
 } from "../util/utility";
 import { getToken } from '../util/script';
 
@@ -88,7 +90,7 @@ export const createUpdateRfxRequest = async (rfxData, isRevision, rfx_id, tenant
     showErrorMessageAlertMain("Select option from provided dropdown.")
     return;
   }
-console.log(rfxData)
+
   if (!isValidDate(rfxData.due_date) ||
     !isValidDate(rfxData.tech_clarification_deadline) ||
     !isValidDate(rfxData.com_clarification_deadline)) {
@@ -101,29 +103,32 @@ console.log(rfxData)
   });
   rfxData.key_contacts = uniqueContacts
 
+  showMainLoader102();
   let response = {}
   if (isRevision === 'yes') {
     response = await updateRfxAction(rfxData, rfx_id)
-    /*if (response.statusCode == 200 && selectedFilesMain.length > 0) {
+    if (response.statusCode == 200 && selectedFilesMain.length > 0) {
       uploadFiles(selectedFilesMain, apiBackendURL, tenantID, rfx_id, 'rfx')
-    }*/
+    }
     successMessageAlertMain("Rfx information updated successfully.")
     window.location = '/rfx';
   } else {
     response = await createNewRfxAction(rfxData)
     console.log("rrrrr sajjad", response)
-    /*if (response.statusCode == 200 && selectedFilesMain.length > 0) {
+    if (response.statusCode == 200 && selectedFilesMain.length > 0) {
       uploadFiles(selectedFilesMain, apiBackendURL, tenantID, response.returnData.rfx_id, 'rfx')      
-    }*/
+    }
     if (response.statusCode == 200) {
       // successMessageAlertMain("Rfx information added successfully.")
       // window.location = '/rfx';
     } else {
       // showErrorMessageAlertMain(response.error)
     }
+    hideMainLoader102()
     router.push("/rfx")
 
   }
+  
 };
 
 

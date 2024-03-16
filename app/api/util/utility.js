@@ -100,6 +100,18 @@ export const successMessageAlertMain = (message, title = "Success!") => {
   }, 2000);
 };
 
+export const showMainLoader102 = () => {
+  try{
+    document.getElementById("mainLoader102").classList.remove("hidden")
+  }catch{}
+}
+
+export const hideMainLoader102 = () => {
+  try{
+    document.getElementById("mainLoader102").classList.add("hidden")
+  } catch{}
+}
+
 export const uploadFiles = async (
   selectedFilesMain,
   apiBackendURL,

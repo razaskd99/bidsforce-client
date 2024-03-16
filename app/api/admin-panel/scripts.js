@@ -73,11 +73,11 @@ export const createUserRequest = async (
     last_name: document.getElementById("last_name")
       ? document.getElementById("last_name").value
       : "",
-    user_name: document.getElementById("user_name")
-      ? document.getElementById("user_name").value
-      : "",
     email: document.getElementById("email")
       ? document.getElementById("email").value
+      : "",
+    user_name: document.getElementById("user_name")
+      ? document.getElementById("user_name").value
       : "",
     password: document.getElementById("password")
       ? document.getElementById("password").value
@@ -85,13 +85,12 @@ export const createUserRequest = async (
     cpassword: document.getElementById("cpassword")
       ? document.getElementById("cpassword").value
       : "",
-    user_profile_photo: selectedFile.name,
+    user_profile_photo: selectedFile.name ? selectedFile.name : "",
     egistration_date: "2024-01-25",
     last_login_at: "2024-01-25",
     created_at: "2024-01-25T14:04:20.334Z",
     updated_at: "2024-01-25T14:04:20.334Z",
   };
-  console.log(selectedFile.name + "scriptssssss");
 
   // const companyid = document.getElementById("company_id");
   // console.log(companyid);
@@ -249,7 +248,7 @@ export const updateUserRequest = async (
   const teamid = document.getElementById("team_id");
   formData.team_id = parseInt(teamid.options[teamid.selectedIndex].value);
 
-  const is_active = document.getElementById("team_id");
+  const is_active = document.getElementById("is_active");
   formData.is_active =
     is_active.options[is_active.selectedIndex].value == "Active" ? true : false;
 

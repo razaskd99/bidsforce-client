@@ -23,7 +23,7 @@ import Link from "next/link";
 import CheckboxDropdown from "@/components/CheckboxDropdown";
 import { getRfxById, getRfxContacts, getUsers, GetRfxDocumentsAction } from "@/app/api/rfx/actions/rfx";
 import { getRfxTypes, createUpdateRfxRequest } from "@/app/api/rfx/scripts";
-import { formatDate, fileDownload } from "@/app/api/util/utility";
+import { formatDate, fileDownload, hideMainLoader102 } from "@/app/api/util/utility";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -48,7 +48,7 @@ const CreateNewRfx = ({
 }) => {
 
   const router = useRouter()
-
+  hideMainLoader102()
 
   const currentDate = new Date();
   // Format the date as "MM/DD/YYYY"

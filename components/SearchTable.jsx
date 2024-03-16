@@ -6,6 +6,7 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
+
 const renderOptionCell = (params) => (
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <LuMessagesSquare style={{ marginRight: 4, fontSize: 18, color: "#98A9BC" }} />
@@ -15,8 +16,7 @@ const renderOptionCell = (params) => (
 );
 
 export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
-
-
+  
   let dataWithId = ''
   let columns = ''
   if (rows && rows.length > 0 && !rows.includes(null)) {
@@ -49,6 +49,7 @@ export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
 
   };
 
+  
   return (
     <div style={{ minHeight: '600px', width: '100%', maxWidth: '80vw', overflowX: 'auto' }} className='search-table'>
       {rows.length > 0 && !rows.includes(null) ? <DataGrid
