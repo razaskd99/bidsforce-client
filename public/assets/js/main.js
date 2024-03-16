@@ -138,31 +138,45 @@ let menu={}, animate;
   });
 
 
-  try {
-    // Auto update layout based on screen size
-    window.Helpers.setAutoUpdate(true);
-  } catch (err) { }
+  try{
+  // Auto update layout based on screen size
+  window.Helpers.setAutoUpdate(true);
+} catch (err) { }
 
-  
+
+try{
   // Toggle Password Visibility
   window.Helpers.initPasswordToggle();
+} catch (err) { }
 
+
+try{
   // Speech To Text
   window.Helpers.initSpeechToText();
+} catch (err) { }
 
+
+try{
   // Nav tabs animation
   window.Helpers.navTabsAnimation();
+} catch (err) { }
 
   // Manage menu expanded/collapsed with templateCustomizer & local storage
   //------------------------------------------------------------------
 
+  try{
   // If current layout is horizontal OR current window screen is small (overlay menu) than return from here
   if (window.Helpers.isSmallScreen()) {
     return;
   }
+} catch (err) { }
 
   // If current layout is vertical and current window screen is > small
 
+  try{
   // Auto update menu collapsed/expanded based on the themeConfig
   window.Helpers.setCollapsed(true, false);
+} catch (err) { }
+
+
 })();
