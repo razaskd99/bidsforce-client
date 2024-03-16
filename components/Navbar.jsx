@@ -25,14 +25,14 @@ const Navbar = () => {
       </div>
       <div className=" flex items-center gap-6">
         <Link href='/rfx/new'><Image src="/Add.svg" width={18} height={19} alt='add' className='w-auto h-auto' /></Link>
-        <Link href='javascript:void(0)' className='relative'><Image src="/msg-icon.svg" width={22} height={25}  className='w-auto h-auto' alt='message' />
+        <Link href='#' className='relative'><Image src="/msg-icon.svg" width={22} height={25}  className='w-auto h-auto' alt='message' />
           <span className='bg-[#6DD230] w-2 h-2 block absolute rounded-full top-0 right-[-5px] border border-white'></span>
         </Link>
-        <Link href='javascript:void(0)' className='relative'>
+        <Link href='#' className='relative'>
           <Image src="/bell ico.svg" width={18} height={21} alt='notifications' className='w-auto h-auto' />
           <span className='bg-[#FE4D97] w-2 h-2 block absolute rounded-full top-0 right-0 border border-white'></span>
         </Link>
-        <Link href='javascript:void(0)'>
+        <Link href='#'>
           <Image src="/man.jpeg" width={36} height={36} alt='profile' className='rounded-full object-cover' />
         </Link>
         <Link href='#' onClick={async () => {
