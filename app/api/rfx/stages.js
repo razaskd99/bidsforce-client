@@ -5,7 +5,7 @@ import { getApiPrereqVars } from "../util/action/apiCallPrereq";
 
 
 // get all stages detail for Rfx
-export const getRfxStagesDetailByRfxIdAction = async (rfxID, typeName='rfx stage') => {
+export const getRfxStagesDetailByRfxIdAction = async (rfxID, typeName='rfxstage') => {
     const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
     try {
       const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/rfx/${rfxID}/type/${typeName}`;
@@ -151,7 +151,7 @@ export const movetoNextStageAction = async (rfxID) => {
   try{
         let resp = {}
         // api call for stages
-        resp = await getRfxStagesDetailByRfxIdAction(rfxID, 'rfx stage')
+        resp = await getRfxStagesDetailByRfxIdAction(rfxID, 'rfxstage')
         let stagesData = resp.returnData
 
         // update current element
@@ -175,7 +175,7 @@ export const movetoNextBidStageAction = async (rfxID) => {
   try{
         let resp = {}
         // api call for stages
-        resp = await getRfxStagesDetailByRfxIdAction(rfxID, 'bid stage')
+        resp = await getRfxStagesDetailByRfxIdAction(rfxID, 'bidstage')
         let stagesData = resp.returnData
 
         // update current element
