@@ -1,6 +1,7 @@
 'use server'
 import getConfig from 'next/config'
 import { formatFileSize } from '../../util/utility';
+const axios = require('axios');
 
 // required to access cookies
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
@@ -100,22 +101,20 @@ export const getAllRfxStagesAction = async (typeName) => {
 
 // get all Rfx stages records by type & Rfx ID from db
 export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
-  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
     const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/rfx/${rfx_id}/type/${typeName}`;
     
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
+    const response = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${tokens}`,
       },
-      redirect: "follow",
+      timeout: 0,
     });
 
-    if (!response.ok) {
+    if (!response.status === 200) {
       return {
         statusCode: "400",
         returnData: [],
@@ -123,11 +122,9 @@ export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
       };
     }
 
-    const result = await response.json();
-
     return {
       statusCode: 200,
-      returnData: result,
+      returnData: response.data,
     };
   } catch (error) {
     return {
