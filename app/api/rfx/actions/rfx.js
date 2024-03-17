@@ -6,6 +6,11 @@ import { formatFileSize } from '../../util/utility';
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 import { getToken } from '../../util/script';
 
+// start cookie init
+import { getCookieValue } from '@/lib/scripts';
+import { API_BACKEND_SERVER } from '@/app/setup';
+// end cookie init 
+
 
 export const loadPostData = async (postData) => {
 
@@ -653,6 +658,14 @@ export const createNewRfxAction = async (rfxData) => {
 
 const fetchAndProcessStages = async (stageType, rfx_id) => {
   try {
+      let userEncrptedData = await getCookieValue('userPrivateData')
+      let tenantID = await getCookieValue('TENANT_ID')
+      
+      // get env variables
+      let apiBackendURL = API_BACKEND_SERVER
+      let username = userEncrptedData.user
+      let password = userEncrptedData.pass
+      
       // get token
       let res = await getToken(apiBackendURL, username, password)
       let tokens = res?.tokenData?.access_token
@@ -661,7 +674,7 @@ const fetchAndProcessStages = async (stageType, rfx_id) => {
       const stagesList = response.returnData || [];
       await Promise.all(stagesList.map(item => {
           const status = (item.display_order == 1 ? 'done' : (item.display_order == 2 ? 'current' : 'pending'));
-          return createStagesDetailAction(item.bidding_phases_id, rfx_id, status, item.score, tokens);
+          return createStagesDetailAction(item.bidding_phases_id, rfx_id, status, item.score, apiBackendURL, tokens, tenantID);
       }));
   } catch (error) {
       console.error('Error fetching and processing stages:', error);
@@ -1082,7 +1095,7 @@ export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_ke
 
 
 
-export const createStagesDetailAction = async (bidding_phases_id, rfx_id, stage_status, stage_score, tokens) => { 
+export const createStagesDetailAction = async (bidding_phases_id, rfx_id, stage_status, stage_score, apiBackendURL, tokens, tenantID) => { 
   const apiUrl = `${apiBackendURL}phase_stages_detail/phase_stages_detail`;
 
   const now = new Date();
