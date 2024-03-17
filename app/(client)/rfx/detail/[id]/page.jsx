@@ -41,7 +41,7 @@ const Detail = async ({ params }) => {
     records = await getRfxById(id)
     let rfxRec = records.rfxData;
     
-    records = await getAllRfxStagesByRfxIdAction(id, 'rfx stage')
+    records = await getAllRfxStagesByRfxIdAction(id, 'rfxstage')
     let stagesRec = records.returnData;
     
     records = await getRfxContacts(id);

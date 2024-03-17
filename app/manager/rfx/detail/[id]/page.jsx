@@ -50,7 +50,7 @@ const BDetail = async ({ params }) => {
     records = await getRfxById(rfxID)
     let rfxRec = records.rfxData;
     
-    records = await getAllRfxStagesByRfxIdAction(rfxID, 'bid stage')
+    records = await getAllRfxStagesByRfxIdAction(rfxID, 'bidstage')
     let stagesRec = records.returnData;
     
     records = await getRfxContacts(rfxID);

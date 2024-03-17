@@ -16,8 +16,6 @@ let server_url = ""
 
 
 
-
-
 server_url = API_BACKEND_SERVER
 
 

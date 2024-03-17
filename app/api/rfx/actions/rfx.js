@@ -625,13 +625,13 @@ export const createNewRfxAction = async (rfxData) => {
       }
 
       try {
-          await fetchAndProcessStages('rfx stage', result.rfx_id);
+          await fetchAndProcessStages('rfxstage', result.rfx_id);
       } catch (rfxStagesError) {
           console.error('Error fetching and processing RFX stages:', rfxStagesError);
       }
 
       try {
-          await fetchAndProcessStages('bid stage', result.rfx_id);
+          await fetchAndProcessStages('bidstage', result.rfx_id);
       } catch (bidStagesError) {
           console.error('Error fetching and processing bid stages:', bidStagesError);
       }
