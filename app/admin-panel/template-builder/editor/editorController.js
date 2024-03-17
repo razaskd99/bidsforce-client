@@ -7,12 +7,16 @@ import {
   newPage,
   uploadImages,
 } from "../../../api/user-templates/API";
+
+import { API_BACKEND_SERVER } from "../../../setup";
+
 import { allCategories } from "../resources/categories";
 
 let server_url = ""
 
 
-server_url = process.env.API_BACKEND_CLIENT
+
+server_url = API_BACKEND_SERVER
 
 
 
