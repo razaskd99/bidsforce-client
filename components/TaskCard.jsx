@@ -26,8 +26,8 @@ const TaskCard = ({ task }) => {
 
 
       </div>
-      <div class=" h-[6px] w-full bg-neutral-200 dark:bg-neutral-600  absolute bottom-0 right-0 left-0">
-        <div class="h-[6px] bg-pink-600" style={{ width: `${(task.tasksCompleted / task.totalTasks) * 100}%` }}></div>
+      <div className=" h-[6px] w-full bg-neutral-200 dark:bg-neutral-600  absolute bottom-0 right-0 left-0">
+        <div className="h-[6px] bg-pink-600" style={{ width: `${(task.tasksCompleted / task.totalTasks) * 100}%` }}></div>
       </div>
       <div className="progress-bar" ></div>
     </div>

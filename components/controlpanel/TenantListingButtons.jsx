@@ -83,11 +83,11 @@ export default function TenantListingButtons(props) {
 
   return (
     <>
-      <div class="">
-        <div class=" col-md-12 mb-4 justify-content-center d-flex">
+      <div className="">
+        <div className=" col-md-12 mb-4 justify-content-center d-flex">
           <button
             onClick={() => setOpenModal(true)}
-            class="btn btn-outline-primary w-[120px] mr-3 waves-effect "
+            className="btn btn-outline-primary w-[120px] mr-3 waves-effect "
             type="button"
           >
             Edit
@@ -102,7 +102,7 @@ export default function TenantListingButtons(props) {
               )
             }
             type="button"
-            class="btn btn-primary w-[120px] waves-effect "
+            className="btn btn-primary w-[120px] waves-effect "
           >
             Delete
           </button>
@@ -113,22 +113,22 @@ export default function TenantListingButtons(props) {
         <>
           <div
             id="authentication-modal"
-            class="show overflow-y-auto overflow-x-hidden fixed top-0 right-0 m-auto z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+            className="show overflow-y-auto overflow-x-hidden fixed top-0 right-0 m-auto z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
           >
-            <div class="relative p-4 w-1/2 max-h-full">
-              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <div className="relative p-4 w-1/2 max-h-full">
+              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     Edit Tenant & Contact Details
                   </h3>
                   <button
                     onClick={() => setOpenModal(false)}
                     type="button"
-                    class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     data-modal-hide="authentication-modal"
                   >
                     <svg
-                      class="w-3 h-3"
+                      className="w-3 h-3"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -142,12 +142,12 @@ export default function TenantListingButtons(props) {
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                       />
                     </svg>
-                    <span class="sr-only">Close modal</span>
+                    <span className="sr-only">Close modal</span>
                   </button>
                 </div>
 
-                <div class="p-4 md:p-5">
-                  <form class="space-y-4 pb-3" action="#">
+                <div className="p-4 md:p-5">
+                  <form className="space-y-4 pb-3" action="#">
                     <div className="grid grid-cols-2 gap-10 ">
                       <div className="mt-0" key={0}>
                         <span className=" block text-[#778CA2]">
@@ -328,7 +328,7 @@ export default function TenantListingButtons(props) {
                         </select>
                       </div>
                     </div>
-                    <div class="flex justify-center">
+                    <div className="flex justify-center">
                       <button
                         type="button"
                         onClick={handleCancel}

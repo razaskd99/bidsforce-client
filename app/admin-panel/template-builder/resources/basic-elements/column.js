@@ -4,14 +4,14 @@ export const colDiv = (blockManager, basicElementsCat) => {
     id: "col-div",
     label: `
     
-<i class="bi bi-app fs-4 p-2" title="<column> Element"></i>
-    <div class="gjs-block-label">Column
+<i className="bi bi-app fs-4 p-2" title="<column> Element"></i>
+    <div className="gjs-block-label">Column
     </div>
      
     `,
     category: basicElementsCat,
     content: `
-      <div data-gjs-droppable="true" class="col inner-comp border" style="min-height:50px;">
+      <div data-gjs-droppable="true" className="col inner-comp border" style="min-height:50px;">
       </div>
       `,
   };

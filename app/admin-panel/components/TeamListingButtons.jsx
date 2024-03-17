@@ -36,7 +36,7 @@ export default function TeamListingButtons(props) {
 
   return (
     <>
-      <div class="dropdown">
+      <div className="dropdown">
         <button
           onClick={(e) =>
             deleteTeamRequest(
@@ -48,16 +48,16 @@ export default function TeamListingButtons(props) {
             )
           }
           type="button"
-          class="btn btn-xs btn-primary waves-effect mr-2 "
+          className="btn btn-xs btn-primary waves-effect mr-2 "
         >
-          <span class="tf-icons mdi mdi-delete me-1 b"></span> Delete
+          <span className="tf-icons mdi mdi-delete me-1 b"></span> Delete
         </button>
         <button
           onClick={() => setOpenTeamModal(true)}
           type="button"
-          class="btn btn-xs btn-outline-primary waves-effect "
+          className="btn btn-xs btn-outline-primary waves-effect "
         >
-          <span class="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
+          <span className="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
         </button>
         <br></br>
       </div>

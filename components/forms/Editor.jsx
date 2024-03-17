@@ -54,12 +54,12 @@ const Editor = () => {
             {
               id: 'my-first-page',
               styles: '.my-page1-el { color: red }',
-              component: '<div class="my-page1-el">Page 1</div>',
+              component: '<div className="my-page1-el">Page 1</div>',
             },
             {
               id: 'my-second-page',
               styles: '.my-page2-el { color: blue }',
-              component: '<div class="my-page2-el">Page 2</div>',
+              component: '<div className="my-page2-el">Page 2</div>',
             },
          ]
         },
@@ -147,12 +147,12 @@ try{
 const newPage = pages.add({
   id: 'new-page-id',
   styles: '.my-class { color: red }',
-  component: `<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+  component: `<div className="card" style="width: 18rem;">
+  <img src="..." className="card-img-top" alt="...">
+  <div className="card-body">
+    <h5 className="card-title">Card title</h5>
+    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" className="btn btn-primary">Go somewhere</a>
   </div>
 </div>`,
 });

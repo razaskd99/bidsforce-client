@@ -4,8 +4,8 @@ export default function button1(editor) {
   editor.BlockManager.add("button-1", {
     label: `               
     
-    <i class="bi bi-menu-button fs-4 p-2" title="Button Element"></i>
-    <div class="gjs-block-label ">Button </div>
+    <i className="bi bi-menu-button fs-4 p-2" title="Button Element"></i>
+    <div className="gjs-block-label ">Button </div>
 
 `,
     category: formElements,
@@ -29,7 +29,7 @@ export default function button1(editor) {
     }
 
 </style>
-      <button name='' id='' type="submit" class="btn dataButton ">Submit</button>
+      <button name='' id='' type="submit" className="btn dataButton ">Submit</button>
 
 
 `,

@@ -3,8 +3,8 @@ import { htmlElements } from "../../../components/custom/categories";
 export default function bulletListhalfwidth(editor) {
   editor.BlockManager.add("bullet-list-half-width", {
     label: `              
-        <i class="bi bi-list-ul fs-4  p-2" title="Use Row before it"></i>
-    <div class="gjs-block-label " title="Use Row before it">Bullet List Half </div>
+        <i className="bi bi-list-ul fs-4  p-2" title="Use Row before it"></i>
+    <div className="gjs-block-label " title="Use Row before it">Bullet List Half </div>
 
 
 `,
@@ -14,16 +14,16 @@ export default function bulletListhalfwidth(editor) {
 
     content: `         
     
-<ul data-gjs-name="Half Width Bullet Lists" class="bulletList-half   col-lg-6 col-md-6 col-sm-12">
-<li class="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
-<li class="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
+<ul data-gjs-name="Half Width Bullet Lists" className="bulletList-half   col-lg-6 col-md-6 col-sm-12">
+<li className="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
+<li className="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
 
-<li class="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
+<li className="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
 
-<li class="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
+<li className="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
 
-<li class="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
-<li class="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
+<li className="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
+<li className="bulletList-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text. Lorem Ipsum is simply dummy text</li>
 
 </ul>
 <style>

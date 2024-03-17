@@ -17,30 +17,30 @@ export default function RfxPrereqAddNewButton(props) {
   return (    
       <>  
         {props.buttonName === "rfx_type" &&
-        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" class="btn btn-sm btn-secondary waves-effect justify-between">
-            <span class="tf-icons mdi mdi-plus me-1"></span>New Rfx Type
+        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" className="btn btn-sm btn-secondary waves-effect justify-between">
+            <span className="tf-icons mdi mdi-plus me-1"></span>New Rfx Type
         </button>}
 
         {props.buttonName === "rfx_content_submission" &&
-        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" class="btn btn-sm btn-secondary waves-effect justify-between">
-            <span class="tf-icons mdi mdi-plus me-1"></span>New Rfx Content Submission
+        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" className="btn btn-sm btn-secondary waves-effect justify-between">
+            <span className="tf-icons mdi mdi-plus me-1"></span>New Rfx Content Submission
         </button>}
 
         {props.buttonName === "rfx_submission_mode" &&
-        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" class="btn btn-sm btn-secondary waves-effect justify-between">
-            <span class="tf-icons mdi mdi-plus me-1"></span>New Rfx Submission Mode
+        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" className="btn btn-sm btn-secondary waves-effect justify-between">
+            <span className="tf-icons mdi mdi-plus me-1"></span>New Rfx Submission Mode
         </button>}
 
         {props.buttonName === "bid_validity" &&
-        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" class="btn btn-sm btn-secondary waves-effect justify-between">
-            <span class="tf-icons mdi mdi-plus me-1"></span>New Bid Validity
+        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" className="btn btn-sm btn-secondary waves-effect justify-between">
+            <span className="tf-icons mdi mdi-plus me-1"></span>New Bid Validity
         </button>}
 
         
 
         {props.buttonName === "rfx_stage" &&
-        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" class="btn btn-sm btn-secondary waves-effect justify-between">
-            <span class="tf-icons mdi mdi-plus me-1"></span>New Rfx Stage
+        <button onClick={()=>setOpenRfxPrereqModal(true)} type="button" className="btn btn-sm btn-secondary waves-effect justify-between">
+            <span className="tf-icons mdi mdi-plus me-1"></span>New Rfx Stage
         </button>}
 
         

@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       <body className={`${rubik.className} `} >
 <h3 className='z-50'>
       <div id="mainLoader102" className="z-50 hidden fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50 justify-center items-center h-screen">
-            <div class="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
+            <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
         </div>
         </h3>
         {children}

@@ -3,8 +3,8 @@ import { htmlElements } from "../categories";
 export default function linkElement(editor) {
   editor.BlockManager.add("linkElement", {
     label: `               
-    <i class="fa fa-link fs-4  p-2" title="Link"></i>
-    <div class="gjs-block-label ">Link</div>
+    <i className="fa fa-link fs-4  p-2" title="Link"></i>
+    <div className="gjs-block-label ">Link</div>
 
 `,
     category: htmlElements,
@@ -12,7 +12,7 @@ export default function linkElement(editor) {
     open: false,
     content: `         
 
-    <a href="" class="text-decoration-none " >Link Text </a>
+    <a href="" className="text-decoration-none " >Link Text </a>
 
 `,
   });

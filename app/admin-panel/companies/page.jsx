@@ -58,18 +58,18 @@ export default async function AdminPanelCompanies() {
         <AddNewButton buttonName={"company"} buttonType={"new"} tokens={tokens} apiBackendURL={apiBackendURL} tenantID={tenantID} />
       </div>
 
-      <div class="card">
+      <div className= "card">
         <div className="flex justify-between ">
           <div className=" ">
-            <h5 class="card-header">Companies List</h5>
+            <h5 className="card-header">Companies List</h5>
           </div>
           <div className="mt-3 mr-2 ">
             <DeleteAllCompaniesButton />
           </div>
         </div>
-        <div class="table-responsive text-nowrap">
-          <table class="table">
-            <thead class="table-light">
+        <div className="table-responsive text-nowrap">
+          <table className="table">
+            <thead className="table-light">
               <tr>
                 <th>Company</th>
                 <th>Email</th>
@@ -78,15 +78,15 @@ export default async function AdminPanelCompanies() {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody class="table-border-bottom-0">
+            <tbody className="table-border-bottom-0">
               {usersData &&
                 usersData.map((item, index) => (
                   <tr key={index}>
                     <td>
-                      <div class="flex items-center">
-                        <div class="form-check ">
+                      <div className="flex items-center">
+                        <div className="form-check ">
                           <input
-                            class="form-check-input"
+                            className="form-check-input"
                             type="checkbox"
                             value=""
                             id="defaultCheck3"
@@ -94,7 +94,7 @@ export default async function AdminPanelCompanies() {
                           />
                         </div>
                         <div className="flex justify-between items-center">
-                          <div class="text-base text-black ">
+                          <div className="text-base text-black ">
                             {
                               <Image
                                 src="/assets/img/icons/brands/asana.png"
@@ -105,7 +105,7 @@ export default async function AdminPanelCompanies() {
                               />
                             }
                           </div>
-                          <div class="font-normal text-secondary">
+                          <div className="font-normal text-secondary">
                             {item.company_name}
                           </div>
                         </div>

@@ -1,7 +1,6 @@
 'use server'
 import getConfig from 'next/config'
 import { formatFileSize } from '../../util/utility';
-const axios = require('axios');
 
 // required to access cookies
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
@@ -101,20 +100,22 @@ export const getAllRfxStagesAction = async (typeName) => {
 
 // get all Rfx stages records by type & Rfx ID from db
 export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   try {
     const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/rfx/${rfx_id}/type/${typeName}`;
     
-    const response = await axios.get(url, {
+    const response = await fetch(url, {
+      cache: "no-store",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${tokens}`,
       },
-      timeout: 0,
+      redirect: "follow",
     });
 
-    if (!response.status === 200) {
+    if (!response.ok) {
       return {
         statusCode: "400",
         returnData: [],
@@ -122,9 +123,11 @@ export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
       };
     }
 
+    const result = await response.json();
+
     return {
       statusCode: 200,
-      returnData: response.data,
+      returnData: result,
     };
   } catch (error) {
     return {
@@ -649,11 +652,12 @@ export const createNewRfxAction = async (rfxData) => {
 
 const fetchAndProcessStages = async (stageType, rfx_id) => {
   try {
+    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
       const response = await getAllRfxStagesAction(stageType);
       const stagesList = response.returnData || [];
       await Promise.all(stagesList.map(item => {
           const status = (item.display_order == 1 ? 'done' : (item.display_order == 2 ? 'current' : 'pending'));
-          return createStagesDetailAction(item.bidding_phases_id, rfx_id, status, item.score);
+          return createStagesDetailAction(item.bidding_phases_id, rfx_id, status, item.score, tokens);
       }));
   } catch (error) {
       console.error('Error fetching and processing stages:', error);
@@ -1074,8 +1078,7 @@ export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_ke
 
 
 
-export const createStagesDetailAction = async (bidding_phases_id, rfx_id, stage_status, stage_score) => {
-  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
+export const createStagesDetailAction = async (bidding_phases_id, rfx_id, stage_status, stage_score, tokens) => { 
   const apiUrl = `${apiBackendURL}phase_stages_detail/phase_stages_detail`;
 
   const now = new Date();

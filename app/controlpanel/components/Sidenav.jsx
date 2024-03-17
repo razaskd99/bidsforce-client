@@ -36,11 +36,11 @@ export default async function SideNav() {
 
     <aside
       id="layout-menu"
-      class="layout-menu menu-vertical menu bg-zinc-200 shadow-lg"
+      className="layout-menu menu-vertical menu bg-zinc-200 shadow-lg"
     >
-      <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link d-block">
-          <span class="app-brand-logo demo me-1">
+      <div className="app-brand demo">
+        <a href="index.html" className="app-brand-link d-block">
+          <span className="app-brand-logo demo me-1">
             <span style={{ color: "var(--bs-primary)" }} className="bg-dark">
               <Image
                 src="/Logo.png"
@@ -55,44 +55,44 @@ export default async function SideNav() {
 
         <a
           href="javascript:void(0);"
-          class="layout-menu-toggle menu-link text-large ms-auto"
+          className="layout-menu-toggle menu-link text-large ms-auto"
         >
-          <i class="mdi menu-toggle-icon d-xl-block align-middle mdi-20px"></i>
+          <i className="mdi menu-toggle-icon d-xl-block align-middle mdi-20px"></i>
         </a>
       </div>
 
-      <div class="menu-inner-shadow"></div>
+      <div className="menu-inner-shadow"></div>
 
-      <ul class="menu-inner py-1">
-        <li class="menu-item active open ">
-          <a href="javascript:void(0);" class="menu-link ">
+      <ul className="menu-inner py-1">
+        <li className="menu-item active open ">
+          <a href="javascript:void(0);" className="menu-link ">
             <div data-i18n="Dashboards" className="text-xl text-[#26bada] mt-3">
               Control Panel
             </div>
           </a>
         </li>
 
-        <li class="menu-item">
+        <li className="menu-item">
           <Link
             href="javascript:void(0);"
-            class="menu-link menu-toggle text-black font-extrabold hover:bg-gray-300 "
+            className="menu-link menu-toggle text-black font-extrabold hover:bg-gray-300 "
           >
             <div data-i18n="Layouts">TENANTS</div>
           </Link>
 
-          <ul class="menu-sub">
-            <li class="menu-item">
+          <ul className="menu-sub">
+            <li className="menu-item">
               <Link
                 href="/controlpanel/auth/register"
-                class="menu-link text-black hover:bg-gray-300"
+                className="menu-link text-black hover:bg-gray-300"
               >
                 <div data-i18n="Without navbar">Create a Tenant</div>
               </Link>
             </li>
-            <li class="menu-item">
+            <li className="menu-item">
               <Link
                 href="/controlpanel/auth/members"
-                class="menu-link text-black hover:bg-gray-300"
+                className="menu-link text-black hover:bg-gray-300"
               >
                 <div data-i18n="Without menu">Tenants</div>
               </Link>
@@ -100,19 +100,19 @@ export default async function SideNav() {
           </ul>
         </li>
 
-        <li class="menu-item">
+        <li className="menu-item">
           <Link
             href="javascript:void(0);"
-            class="menu-link menu-toggle text-black font-extrabold hover:bg-gray-300 "
+            className="menu-link menu-toggle text-black font-extrabold hover:bg-gray-300 "
           >
             <div data-i18n="Layouts">SETTINGS</div>
           </Link>
 
-          <ul class="menu-sub">
-            <li class="menu-item">
+          <ul className="menu-sub">
+            <li className="menu-item">
               <Link
                 href="/controlpanel/auth/password"
-                class="menu-link text-black hover:bg-gray-300"
+                className="menu-link text-black hover:bg-gray-300"
               >
                 <div data-i18n="Without navbar">Change Password</div>
               </Link>

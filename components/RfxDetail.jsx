@@ -2236,28 +2236,28 @@ const RfxDetail = ({ data, rfxRecord, stagesList, apiBackendURL, login_user_id, 
                                 <FaChevronLeft />
                                 <span>  Back to List</span>
                             </div>
-                            <div class="grid grid-cols-2 gap-4 mt-4">
-                                <div class="col-span-1 p-4">
+                            <div className="grid grid-cols-2 gap-4 mt-4">
+                                <div className="col-span-1 p-4">
                                     <p className='text-[#778CA2]'>Order Number</p>
                                     <p>{bidOrderSelectedRow?.bid_order_num ? bidOrderSelectedRow?.bid_order_num : 'Not Assigned'}</p>
                                 </div>
-                                <div class="col-span-1  p-4">
+                                <div className="col-span-1  p-4">
                                     <p className='text-[#778CA2]'>Order Currency</p>
                                     <p>{bidOrderSelectedRow?.currency ? bidOrderSelectedRow?.currency : 'Not Assigned'}</p>
                                 </div>
-                                <div class="col-span-1  p-4">
+                                <div className="col-span-1  p-4">
                                     <p className='text-[#778CA2]'>Order Title</p>
                                     <p>{bidOrderSelectedRow?.title}</p>
                                 </div>
-                                <div class="col-span-1  p-4">
+                                <div className="col-span-1  p-4">
                                     <p className='text-[#778CA2]'>Order Value</p>
                                     <p>$ {bidOrderSelectedRow?.order_value}</p>
                                 </div>
-                                <div class="col-span-2  p-4">
+                                <div className="col-span-2  p-4">
                                     <p className='text-[#778CA2]'>Description</p>
                                     <p>{bidOrderSelectedRow?.description}</p>
                                 </div>
-                                <div class="col-span-2  p-4">
+                                <div className="col-span-2  p-4">
                                     <p className='text-[#778CA2]'>Attached Documents</p>
                                     {bidOrderSelectedDocuments.map((doc, index) => (
                                         <div className="bg-[#E8ECEF] shadow-sm flex items-center w-full p-2 justify-between mb-3 border-b border-[#babec2]" key={index} >
@@ -2318,7 +2318,7 @@ const RfxDetail = ({ data, rfxRecord, stagesList, apiBackendURL, login_user_id, 
                                     <Image src={orderAssignedTo.image ? orderAssignedTo.image : '/avatar.jpg'} alt={orderAssignedTo.first_name} width={38} height={38} className="rounded-[100%] object-cover w-[38px] h-[38px]" />
                                     <div>
                                         <span className="text-sm leading-4">{orderAssignedTo.name}</span>
-                                        <span class="text-sm leading-4 text-[#778CA2] block">{orderAssignedTo.designation}</span>
+                                        <span className="text-sm leading-4 text-[#778CA2] block">{orderAssignedTo.designation}</span>
                                     </div>
                                 </div>
                                 {orderAssignedTo.role && <div className="bg-[#26BADA] h-max rounded-md text-xs text-white p-1 min-w-[80px] text-center">{orderAssignedTo.role}</div>}
@@ -2352,7 +2352,7 @@ const RfxDetail = ({ data, rfxRecord, stagesList, apiBackendURL, login_user_id, 
                                             <Image src={bidOrderAcknowledgedBy.user_profile_photo ? bidOrderAcknowledgedBy.user_profile_photo : '/avatar.jpg'} alt={orderAssignedTo.first_name} width={38} height={38} className="rounded-[100%] object-cover w-[38px] h-[38px]" />
                                             <div>
                                                 <span className="text-sm leading-4">{bidOrderAcknowledgedBy.first_name} {bidOrderAcknowledgedBy.last_name}</span>
-                                                <span class="text-sm leading-4 text-[#778CA2] block">{bidOrderAcknowledgedBy.designation_title}</span>
+                                                <span className="text-sm leading-4 text-[#778CA2] block">{bidOrderAcknowledgedBy.designation_title}</span>
                                             </div>
                                         </div>
                                     }

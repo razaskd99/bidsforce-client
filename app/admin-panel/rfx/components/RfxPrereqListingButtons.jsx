@@ -46,18 +46,18 @@ export default function RfxPrereqListingButtons(props) {
  
   return (    
       <>  
-        <div class="dropdown">                          
+        <div className="dropdown">                          
             <button 
                 onClick={(e)=>deleteRfxPrereqRequest(e, props.tablename, props.id)}
                 type="button" 
-                class="btn btn-xs btn-primary waves-effect mr-2 ">
-                <span class="tf-icons mdi mdi-delete me-1 b"></span> Delete
+                className="btn btn-xs btn-primary waves-effect mr-2 ">
+                <span className="tf-icons mdi mdi-delete me-1 b"></span> Delete
             </button>                         
             <button 
                 onClick={() => setOpenRfxPrereqModal(true)} 
                 type="button" 
-                class="btn btn-xs btn-outline-primary waves-effect ">
-                <span class="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
+                className="btn btn-xs btn-outline-primary waves-effect ">
+                <span className="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
             </button><br></br>
         </div>
 

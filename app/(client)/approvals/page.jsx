@@ -35,7 +35,7 @@ const Approvals = async () => {
   }
   
   return (
-    <div class="p-4 text-center text-[18px] text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">
+    <div className="p-4 text-center text-[18px] text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">
       <h2>Approvals coming</h2>
     </div>
   )

@@ -3,8 +3,8 @@ import { formElements } from "../categories";
 export default function form1(editor) {
   editor.BlockManager.add("form-1", {
     label: `          
-<i class="bi bi-border-width fs-4 p-2" title="Form Element"></i>
-    <div class="gjs-block-label ">Form </div>
+<i className="bi bi-border-width fs-4 p-2" title="Form Element"></i>
+    <div className="gjs-block-label ">Form </div>
 
 `,
     category: formElements,
@@ -12,7 +12,7 @@ export default function form1(editor) {
     open: false,
 
     content: `                      
-<form data-gjs-name"Form" class="builderForm main-comp">
+<form data-gjs-name"Form" className="builderForm main-comp">
 </form>
   <style>
 .builderForm{min-height:100px;}

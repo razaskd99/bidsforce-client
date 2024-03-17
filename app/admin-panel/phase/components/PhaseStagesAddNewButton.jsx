@@ -13,34 +13,34 @@ export default function PhaseStagesAddNewButton(props) {
 
   return (
     <div className="flex">
-      <div class="flex items-center mr-5">
+      <div className="flex items-center mr-5">
         <input
           id="radioCustom"
           type="radio"
           name="radioCustom"
           value="Standard"
-          class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+          className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
           checked
         />
         <label
           for="radioCustom"
-          class="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300"
+          className="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300"
         >
           Standard
         </label>
       </div>
-      <div class="flex items-center mr-5">
+      <div className="flex items-center mr-5">
         <input
           id="radioCustom"
           type="radio"
           name="radioCustom"
           disabled={props.customLayout}
           value="Custom"
-          class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+          className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
         />
         <label
           for="radioCustom"
-          class="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
         >
           Custom
         </label>
@@ -53,9 +53,9 @@ export default function PhaseStagesAddNewButton(props) {
               alert("This is a premium functionality.")
           }
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Rfx Stage
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Rfx Stage
         </button>
       )}
 
@@ -68,9 +68,9 @@ export default function PhaseStagesAddNewButton(props) {
               ) :*/ () => alert("This is a premium functionality.")
           }
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Bid Stage
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Bid Stage
         </button>
       )}
 

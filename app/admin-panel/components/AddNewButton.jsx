@@ -24,9 +24,9 @@ export default function AddNewButton(props) {
         <button
           onClick={() => setOpenCompanyModal(true)}
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Company
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Company
         </button>
       )}
 
@@ -34,9 +34,9 @@ export default function AddNewButton(props) {
         <button
           onClick={() => setOpenDesignationModal(true)}
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Designation
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Designation
         </button>
       )}
 
@@ -44,9 +44,9 @@ export default function AddNewButton(props) {
         <button
           onClick={() => setOpenTeamModal(true)}
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Team
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Team
         </button>
       )}
 
@@ -54,9 +54,9 @@ export default function AddNewButton(props) {
         <button
           onClick={() => setOpenCustomerModal(true)}
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Customer
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Customer
         </button>
       )}
 
@@ -64,9 +64,9 @@ export default function AddNewButton(props) {
         <button
           onClick={() => setOpenCustomerModal(true)}
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Bid Stage
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Bid Stage
         </button>
       )}
 

@@ -3,8 +3,8 @@ import { formElements } from "../categories";
 export default function checkBox(editor) {
   editor.BlockManager.add("check-box", {
     label: `               
-     <i class="bi bi-ui-checks fs-4 p-2" title="Check Box"></i>
-    <div class="gjs-block-label ">Check Box</div>
+     <i className="bi bi-ui-checks fs-4 p-2" title="Check Box"></i>
+    <div className="gjs-block-label ">Check Box</div>
 
 `,
     category: formElements,
@@ -12,9 +12,9 @@ export default function checkBox(editor) {
     open: false,
 
     content: `                      
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="">
-  <label class="form-check-label" for="defaultCheck1">
+<div className="form-check">
+  <input className="form-check-input" type="checkbox" value="" id="">
+  <label className="form-check-label" for="defaultCheck1">
     Default checkbox
   </label>
 </div>

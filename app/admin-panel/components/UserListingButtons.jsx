@@ -68,7 +68,7 @@ export default function UserListingButtons(props) {
 
   return (
     <>
-      <div class="dropdown">
+      <div className="dropdown">
         <button
           onClick={(e) =>
             deleteUserRequest(
@@ -80,16 +80,16 @@ export default function UserListingButtons(props) {
             )
           }
           type="button"
-          class="btn btn-xs btn-primary waves-effect mr-2 "
+          className="btn btn-xs btn-primary waves-effect mr-2 "
         >
-          <span class="tf-icons mdi mdi-delete me-1 b"></span> Delete
+          <span className="tf-icons mdi mdi-delete me-1 b"></span> Delete
         </button>
         <button
           onClick={() => setOpenModal(true)}
           type="button"
-          class="btn btn-xs btn-outline-primary waves-effect "
+          className="btn btn-xs btn-outline-primary waves-effect "
         >
-          <span class="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
+          <span className="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
         </button>
         <br></br>
       </div>
@@ -97,7 +97,7 @@ export default function UserListingButtons(props) {
       {openModal && (
         <>
           <div
-            class="modal fade show"
+            className="modal fade show"
             id="modalCenter"
             tabindex="-1"
             aria-modal="true"
@@ -109,31 +109,31 @@ export default function UserListingButtons(props) {
             }}
           >
             <div
-              class="modal-dialog modal-dialog-centered"
+              className="modal-dialog modal-dialog-centered"
               role="document"
               style={{ minWidth: "950px" }}
             >
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="modalCenterTitle">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h4 className="modal-title" id="modalCenterTitle">
                     Update User
                   </h4>
                   <button
                     onClick={handleCancel}
                     type="button"
-                    class="btn-close"
+                    className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   ></button>
                 </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <h5 class="card-header">Business Details </h5>
-                      <div class="card-body demo-vertical-spacing demo-only-element row">
-                        <div class="form-floating form-floating-outline col-md-6 mb-4">
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-12">
+                      <h5 className="card-header">Business Details </h5>
+                      <div className="card-body demo-vertical-spacing demo-only-element row">
+                        <div className="form-floating form-floating-outline col-md-6 mb-4">
                           <select
-                            class="form-select"
+                            className="form-select"
                             onChange={handleChangeValues}
                             id="company_id"
                             name="company_id"
@@ -156,9 +156,9 @@ export default function UserListingButtons(props) {
                           </select>
                           <label for="company_id">Select Company</label>
                         </div>
-                        <div class="form-floating form-floating-outline col-md-6 mt-0">
+                        <div className="form-floating form-floating-outline col-md-6 mt-0">
                           <select
-                            class="form-select"
+                            className="form-select"
                             onChange={handleChangeValues}
                             id="designation_id"
                             name="designation_id"
@@ -182,9 +182,9 @@ export default function UserListingButtons(props) {
                           </select>
                           <label for="designation_id">Select Designation</label>
                         </div>
-                        <div class="form-floating form-floating-outline col-md-6 mb-4">
+                        <div className="form-floating form-floating-outline col-md-6 mb-4">
                           <select
-                            class="form-select"
+                            className="form-select"
                             onChange={handleChangeValues}
                             id="team_id"
                             name="team_id"
@@ -207,9 +207,9 @@ export default function UserListingButtons(props) {
                           </select>
                           <label for="team_id">Select Team</label>
                         </div>
-                        <div class="form-floating form-floating-outline col-md-6 mb-4">
+                        <div className="form-floating form-floating-outline col-md-6 mb-4">
                           <select
-                            class="form-select"
+                            className="form-select"
                             onChange={handleChangeValues}
                             id="is_active"
                             name="is_active"
@@ -229,7 +229,7 @@ export default function UserListingButtons(props) {
                             </option>
                           </select>
                           <label for="is_active">Select User Status</label>
-                          <div id="defaultFormControlHelp" class="form-text">
+                          <div id="defaultFormControlHelp" className="form-text">
                             This enables to Active or Deactive User account.
                           </div>
                         </div>
@@ -237,64 +237,64 @@ export default function UserListingButtons(props) {
 
                       <hr className="m-0"></hr>
 
-                      <h5 class="card-header">User Details</h5>
-                      <div class="card-body demo-vertical-spacing demo-only-element row">
-                        <div class="form-floating form-floating-outline col-md-6 mb-4">
+                      <h5 className="card-header">User Details</h5>
+                      <div className="card-body demo-vertical-spacing demo-only-element row">
+                        <div className="form-floating form-floating-outline col-md-6 mb-4">
                           <input
                             type="text"
                             onChange={handleChangeValues}
                             value={currentUser.first_name}
-                            class="form-control"
+                            className="form-control"
                             id="first_name"
                             name="first_name"
                             placeholder="First Name"
                           />
                           <label for="first_name">First Name</label>
                         </div>
-                        <div class="form-floating form-floating-outline col-md-6 mt-0">
+                        <div className="form-floating form-floating-outline col-md-6 mt-0">
                           <input
                             type="text"
                             onChange={handleChangeValues}
                             value={currentUser.last_name}
-                            class="form-control"
+                            className="form-control"
                             id="last_name"
                             name="last_name"
                             placeholder="Last Name"
                           />
                           <label for="last_name">Last Name</label>
                         </div>
-                        <div class="form-floating form-floating-outline col-md-6 mb-4">
+                        <div className="form-floating form-floating-outline col-md-6 mb-4">
                           <input
                             type="password"
                             onChange={handleChangeValues}
-                            class="form-control"
+                            className="form-control"
                             id="password"
                             name="password"
                             placeholder="Password"
                           />
                           <label for="password">Password</label>
                         </div>
-                        <div class="form-floating form-floating-outline col-md-6 mb-4">
+                        <div className="form-floating form-floating-outline col-md-6 mb-4">
                           <input
                             type="password"
                             onChange={handleChangeValues}
-                            class="form-control"
+                            className="form-control"
                             id="cpassword"
                             name="cpassword"
                             placeholder="Confirm Password"
                           />
                           <label for="cpassword">Confirm Password</label>
                         </div>
-                        <div class=" col-md-6 mb-4">
-                          <div class="input-group">
+                        <div className=" col-md-6 mb-4">
+                          <div className="input-group">
                             <input
                               type="file"
-                              class="form-control"
+                              className="form-control"
                               id="user_profile_photo"
                               name="user_profile_photo"
                             />
                             <label
-                              class="input-group-text"
+                              className="input-group-text"
                               for="user_profile_photo"
                             >
                               Upload Picture
@@ -305,11 +305,11 @@ export default function UserListingButtons(props) {
                     </div>
                   </div>
                 </div>
-                <div class="modal-footer">
-                  <div class=" col-md-12 mb-4 justify-content-center d-flex">
+                <div className="modal-footer">
+                  <div className=" col-md-12 mb-4 justify-content-center d-flex">
                     <button
                       onClick={handleCancel}
-                      class="btn btn-outline-primary w-[206px] mr-3 waves-effect "
+                      className="btn btn-outline-primary w-[206px] mr-3 waves-effect "
                       type="button"
                     >
                       Cancel
@@ -325,7 +325,7 @@ export default function UserListingButtons(props) {
                         )
                       }
                       type="button"
-                      class="btn btn-primary w-[206px] waves-effect "
+                      className="btn btn-primary w-[206px] waves-effect "
                     >
                       Update
                     </button>

@@ -57,18 +57,18 @@ export default async function AdminPanelCustomers() {
         />
       </div>
 
-      <div class="card">
+      <div className="card">
         <div className="flex justify-between ">
           <div className=" ">
-            <h5 class="card-header">Customers List</h5>
+            <h5 className="card-header">Customers List</h5>
           </div>
           <div className="mt-3 mr-2 ">
             <DeleteAllCustomerButton />
           </div>
         </div>
-        <div class="table-responsive text-nowrap">
-          <table class="table">
-            <thead class="table-light">
+        <div className="table-responsive text-nowrap">
+          <table className="table">
+            <thead className="table-light">
               <tr>
                 <th>Customer</th>
                 <th>Email</th>
@@ -77,15 +77,15 @@ export default async function AdminPanelCustomers() {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody class="table-border-bottom-0">
+            <tbody className="table-border-bottom-0">
               {allData &&
                 allData.map((item, index) => (
                   <tr key={index}>
                     <td>
-                      <div class="flex items-center">
-                        <div class="form-check ">
+                      <div className="flex items-center">
+                        <div className="form-check ">
                           <input
-                            class="form-check-input"
+                            className="form-check-input"
                             type="checkbox"
                             value=""
                             id="defaultCheck3"
@@ -93,7 +93,7 @@ export default async function AdminPanelCustomers() {
                           />
                         </div>
                         <div className="flex justify-between items-center">
-                          <div class="font-normal text-secondary">
+                          <div className="font-normal text-secondary">
                             {item.customer_name}
                           </div>
                         </div>

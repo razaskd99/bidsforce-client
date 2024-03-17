@@ -29,21 +29,21 @@ export default function RootLayout({ children }) {
       <link
         rel="stylesheet"
         href="/assets/vendor/css/core.css"
-        class="template-customizer-core-css"
+        className="template-customizer-core-css"
       />
       <link
         rel="stylesheet"
         href="/assets/vendor/css/theme-default.css"
-        class="template-customizer-theme-css"
+        className="template-customizer-theme-css"
       />
       <link
         rel="stylesheet"
         href="/assets/css/customize.css"
-        class="template-customizer-theme-custom-css"
+        className="template-customizer-theme-custom-css"
       />
 
       <div className="flex layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+        <div className="layout-container">
           <SidebarProvider>
             <Sidenav />
             <div className="w-full layout-page">
@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
               <div className="p-7 bg-[#F2F4F6] min-h-[100vh]">{children}</div>
 
               <div
-                class="alert alert-danger alert-dismissible position-fixed bottom-3 w-50 mx-4"
+                className="alert alert-danger alert-dismissible position-fixed bottom-3 w-50 mx-4"
                 style={{ display: "none" }}
                 role="alert"
                 id="errorMessageAlert"
@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
                 <div className="body">Error in operaton.</div>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="alert"
                   aria-label="Close"
                 ></button>

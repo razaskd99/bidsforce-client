@@ -3,8 +3,8 @@ import { formElements } from "../../../components/custom/categories";
 export default function linkButton(editor) {
   editor.BlockManager.add("link-button", {
     label: `             
-     <i class="bi bi-link-45deg fs-4 p-2" title="Link Button"></i>
-    <div class="gjs-block-label ">Link Button</div>
+     <i className="bi bi-link-45deg fs-4 p-2" title="Link Button"></i>
+    <div className="gjs-block-label ">Link Button</div>
 
 `,
     category: formElements,
@@ -29,7 +29,7 @@ export default function linkButton(editor) {
     }
 
 </style>
-<a class="linkButton" href="##">Button</a>
+<a className="linkButton" href="##">Button</a>
 
 `,
   });

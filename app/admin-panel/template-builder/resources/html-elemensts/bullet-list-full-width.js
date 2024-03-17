@@ -3,8 +3,8 @@ import { htmlElements } from "../../../components/custom/categories";
 export default function bulletListfullwidth(editor) {
   editor.BlockManager.add("bullet-list-full-width", {
     label: `               
-    <i class="bi bi-list-ul fs-4  p-2" title="Bullet List Full Width"></i>
-    <div class="gjs-block-label ">Bullet List Wide</div>
+    <i className="bi bi-list-ul fs-4  p-2" title="Bullet List Full Width"></i>
+    <div className="gjs-block-label ">Bullet List Wide</div>
 
 `,
     category: htmlElements,
@@ -13,24 +13,24 @@ export default function bulletListfullwidth(editor) {
 
     content: `         
     
-<ul data-gjs-name="Full Width Bullet Lists" class="bulletList-full w-100 main-comp">
-    <li class="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+<ul data-gjs-name="Full Width Bullet Lists" className="bulletList-full w-100 main-comp">
+    <li className="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         Ipsum is simply dummy text. Lorem
         Ipsum is simply dummy text
     </li>
-    <li class="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+    <li className="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         Ipsum is simply dummy text. Lorem
         Ipsum is simply dummy text
     </li>
-    <li class="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+    <li className="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         Ipsum is simply dummy text. Lorem
         Ipsum is simply dummy text
     </li>
-    <li class="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+    <li className="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         Ipsum is simply dummy text. Lorem
         Ipsum is simply dummy text
     </li>
-    <li class="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+    <li className="bulletList-full-li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         Ipsum is simply dummy text. Lorem
         Ipsum is simply dummy text
     </li>

@@ -435,7 +435,7 @@ export default function EditorInner(props) {
         ePage = currentPage.substring(0, 55);
       } catch (err) {}
 
-      panelOptions.innerHTML += `<div id="p2" class="cpage">Current Page: <strong>${
+      panelOptions.innerHTML += `<div id="p2" className="cpage">Current Page: <strong>${
         ePage && ePage.length > 0
           ? ePage
           : "Please select a Page from Page Manager"
@@ -477,21 +477,21 @@ const EditPage = (e, name, setCurrentPage, widgetValue, setIsWidget) => {
 const ModalHTML = () => {
   return (
     <div
-      class="modal fade "
+      className="modal fade "
       id="builderModal"
       tabIndex="-1"
       aria-labelledby="builderModalLabel"
       aria-hidden="true"
     >
-      <div id="mDialog" class="modal-dialog modal-fullscreen  ">
-        <div id="mContent" class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="builderModalLabel">
+      <div id="mDialog" className="modal-dialog modal-fullscreen  ">
+        <div id="mContent" className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="builderModalLabel">
               Modal title
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
               onClick={() => {
@@ -501,15 +501,15 @@ const ModalHTML = () => {
           </div>
           <div
             id="mBody"
-            class="modal-body d-flex justify-content-center "
+            className="modal-body d-flex justify-content-center "
             style={{ top: 30 + "%" }}
           >
             <div
-              class="spinner-border"
+              className="spinner-border"
               style={{ width: 10 + "rem", height: 10 + "rem" }}
               role="status"
             >
-              <span class="visually-hidden">Loading...</span>
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         </div>
@@ -535,7 +535,7 @@ const ManagePages = (
   let appURL = ""
   return (
     <div
-      class="modal fade "
+      className="modal fade "
       id="pagesModal"
       tabindex="-1"
       aria-labelledby="pagesModalLabel"
@@ -543,34 +543,34 @@ const ManagePages = (
     >
       <div
         id="pagesDialog"
-        class="modal-dialog modal-fullscreen modal-dialog-centered w-50 mx-auto"
+        className="modal-dialog modal-fullscreen modal-dialog-centered w-50 mx-auto"
       >
-        <div id="pagesContent" class="modal-content">
-          <div class="modal-header py-1">
-            <h5 class="modal-title py-1" id="psgesModalLabel">
+        <div id="pagesContent" className="modal-content">
+          <div className="modal-header py-1">
+            <h5 className="modal-title py-1" id="psgesModalLabel">
               Template Manager
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body py-1">
-            <div class="form-container d-flex justify-content-center align-items-center pt-4">
-              <label for="recipient-name" class="col-form-label me-0">
+          <div className="modal-body py-1">
+            <div className="form-container d-flex justify-content-center align-items-center pt-4">
+              <label for="recipient-name" className="col-form-label me-0">
                 Template Name:
               </label>
 
               <input
                 type="text"
-                class="form-control w-50 ms-1 me-5"
+                className="form-control w-50 ms-1 me-5"
                 id="pageName"
               />
               <button
                 type="button"
-                class="btn bg-newbg text-dark ms-5 me-1"
+                className="btn bg-newbg text-dark ms-5 me-1"
                 data-bs-dismiss="modal"
                 onClick={() => {
                   clearCreatePage();
@@ -583,23 +583,23 @@ const ManagePages = (
                   PageHandle(setAllPages, tenantID);
                 }}
                 type="button"
-                class="btn bg-newbg text-dark"
+                className="btn bg-newbg text-dark"
               >
                 Save
               </button>
             </div>
             <span id="actionMsg" className="text-success p-2"></span>
           </div>
-          <section id="topNavChoose" class="border border-2">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-12 col-md-12 col-12 mb-sm-3">
+          <section id="topNavChoose" className="border border-2">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-lg-12 col-md-12 col-12 mb-sm-3">
                   <p className=" mb-0 px-2 py-1 text-center h4 text-dark shadow-md">
                     Templates List
                   </p>
-                  <table class="table table-striped pages-container">
+                  <table className="table table-striped pages-container">
                     <thead>
-                      <tr class="bg-newbg">
+                      <tr className="bg-newbg">
                         <th scope="col">#</th>
                         <th scope="col">Template Name</th>
 
@@ -651,13 +651,13 @@ const ManagePages = (
                                     );
                                   }}
                                 >
-                                  <i class="fa fa-edit pr-2"></i>
+                                  <i className="fa fa-edit pr-2"></i>
                                 </a>
                               </td>
                               <td>
                                 {pname.toLocaleLowerCase() == "home" ? (
                                   <span className="text-secondary disabled">
-                                    <i class="fa fa-trash"></i>
+                                    <i className="fa fa-trash"></i>
                                   </span>
                                 ) : (
                                   <a
@@ -690,7 +690,7 @@ const ManagePages = (
                                       });
                                     }}
                                   >
-                                    <i class="fa fa-trash pr-2"></i>
+                                    <i className="fa fa-trash pr-2"></i>
                                   </a>
                                 )}
                               </td>
@@ -724,7 +724,7 @@ const ManageWidgets = (
 ) => {
   return (
     <div
-      class="modal fade "
+      className="modal fade "
       id="widgetsModal"
       tabindex="-1"
       aria-labelledby="widgetsModalLabel"
@@ -732,34 +732,34 @@ const ManageWidgets = (
     >
       <div
         id="widgetsDialog"
-        class="modal-dialog modal-fullscreen modal-dialog-centered w-75 mx-auto"
+        className="modal-dialog modal-fullscreen modal-dialog-centered w-75 mx-auto"
       >
-        <div id="pagesContent" class="modal-content widgetPopUp">
-          <div class="modal-header py-1">
-            <h5 class="modal-title py-1" id="widgetsModalLabel">
+        <div id="pagesContent" className="modal-content widgetPopUp">
+          <div className="modal-header py-1">
+            <h5 className="modal-title py-1" id="widgetsModalLabel">
               Widget Manager
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body py-1">
-            <div class="form-container d-flex justify-content-center align-items-center pt-4">
-              <label for="recipient-name" class="col-form-label me-0">
+          <div className="modal-body py-1">
+            <div className="form-container d-flex justify-content-center align-items-center pt-4">
+              <label for="recipient-name" className="col-form-label me-0">
                 Widget Name:
               </label>
 
               <input
                 type="text"
-                class="form-control w-50 ms-1 me-5"
+                className="form-control w-50 ms-1 me-5"
                 id="widgetName"
               />
               <button
                 type="button"
-                class="btn bg-newbg text-dark ms-5 me-1"
+                className="btn bg-newbg text-dark ms-5 me-1"
                 data-bs-dismiss="modal"
                 onClick={() => {
                   clearCreatePage();
@@ -772,7 +772,7 @@ const ManageWidgets = (
                   WidgetHandle(setAllWidgets);
                 }}
                 type="button"
-                class="btn bg-newbg text-dark"
+                className="btn bg-newbg text-dark"
               >
                 Save
               </button>
@@ -780,22 +780,22 @@ const ManageWidgets = (
             <span id="actionMsg2" className="text-success p-2"></span>
           </div>
 
-          <span class="bg-light d-block p-3">
+          <span className="bg-light d-block p-3">
             You Can display any Widget on any page calling below hooks
             <br />
             <strong>getWidget(widget Slung)</strong>
           </span>
 
-          <section id="topNavChoose" class="border-2">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-12 col-md-12 col-12 mb-sm-3">
+          <section id="topNavChoose" className="border-2">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-lg-12 col-md-12 col-12 mb-sm-3">
                   <p className=" mb-0 px-2 py-1 text-center h4 text-dark shadow-md">
                     Widgets List
                   </p>
                   <section id="widgetTiles">
-                    <div class="container">
-                      <div class="row">
+                    <div className="container">
+                      <div className="row">
                         {allWidgets && allWidgets.length > 0
                           ? allWidgets.map((widget, index) => {
                             let wname = "";
@@ -819,18 +819,18 @@ const ManageWidgets = (
                             let response = "";
 
                             return (
-                              <div class="col-lg-4 col-md-4 col-sm-6 col-6" key={index}>
-                                <div class="card">
-                                  <div class="card-image">
-                                    <div class="wrap"></div>
+                              <div className="col-lg-4 col-md-4 col-sm-6 col-6" key={index}>
+                                <div className="card">
+                                  <div className="card-image">
+                                    <div className="wrap"></div>
                                   </div>
                                   <div
                                     data-tooltip={wname}
-                                    class="card-content bg-light text-dark"
+                                    className="card-content bg-light text-dark"
                                   >
                                     <span
                                       data-tooltip={wname}
-                                      class="card-title"
+                                      className="card-title"
                                     >
                                       {wname}
                                     </span>
@@ -838,20 +838,20 @@ const ManageWidgets = (
                                       type="button"
                                       id="show"
                                       data-target={`show${index}`}
-                                      class="show btn btn-custom float-right"
+                                      className="show btn btn-custom float-right"
                                       aria-label="Left Align"
                                     >
-                                      <i class="fa fa-ellipsis-v"></i>
+                                      <i className="fa fa-ellipsis-v"></i>
                                     </button>
                                   </div>
-                                  <span class="p-2 d-flex widgeturl">
+                                  <span className="p-2 d-flex widgeturl">
                                     {widgetSlung}
                                   </span>
-                                  <div class={`card-reveal show${index}`}>
-                                    <span class="card-title">Close</span>
+                                  <div className={`card-reveal show${index}`}>
+                                    <span className="card-title">Close</span>
                                     <button
                                       type="button"
-                                      class="close"
+                                      className="close"
                                       data-dismiss="modal"
                                       aria-label="Close"
                                     >
@@ -860,7 +860,7 @@ const ManageWidgets = (
                                     <p>
                                       <a
                                         href="##"
-                                        class="d-block"
+                                        className="d-block"
                                         data-bs-dismiss="modal"
                                         aria-label="Close"
                                         type="button"
@@ -874,11 +874,11 @@ const ManageWidgets = (
                                           );
                                         }}
                                       >
-                                        <i class="fa fa-edit"></i>Edit
+                                        <i className="fa fa-edit"></i>Edit
                                       </a>
                                       <a
                                         href="##"
-                                        class="d-block"
+                                        className="d-block"
                                         onClick={(e) => {
                                           DelWidget(
                                             e,
@@ -905,10 +905,10 @@ const ManageWidgets = (
                                           });
                                         }}
                                       >
-                                        <i class="fa fa-trash"></i>Delete
+                                        <i className="fa fa-trash"></i>Delete
                                       </a>
                                       <a
-                                        class="d-block"
+                                        className="d-block"
                                         href={
                                           appURL +
                                           "widget/index.html?info=" +
@@ -916,7 +916,7 @@ const ManageWidgets = (
                                         }
                                         target="_blank"
                                       >
-                                        <i class="fa fa-eye"></i>View
+                                        <i className="fa fa-eye"></i>View
                                       </a>
                                     </p>
                                   </div>

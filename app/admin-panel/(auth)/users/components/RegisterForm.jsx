@@ -104,12 +104,12 @@ export default function AdminPanelUserRegistrationForm(props) {
   return (
     <>
       <form id="userRegistrationForm">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card mb-4">
-              <h5 class="card-header">Business Details</h5>
-              <div class="card-body demo-vertical-spacing demo-only-element row">
-                <div class="form-floating form-floating-outline col-md-6 mb-4 d-flex ">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="card mb-4">
+              <h5 className="card-header">Business Details</h5>
+              <div className="card-body demo-vertical-spacing demo-only-element row">
+                <div className="form-floating form-floating-outline col-md-6 mb-4 d-flex ">
                   {
                     <Box sx={{ minWidth: 120 }} className="w-full outline-none">
                       <FormControl fullWidth>
@@ -138,7 +138,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     </Box>
                   }
 
-                  {/* <select class="form-select" id="company_id" name="company_id">
+                  {/* <select className="form-select" id="company_id" name="company_id">
                     <option value={""}>Company Name</option>
                     {companyList &&
                       companyList.map((item, i) => (
@@ -147,11 +147,11 @@ export default function AdminPanelUserRegistrationForm(props) {
                         </option>
                       ))}
                   </select> */}
-                  {/*<button onClick={()=>setOpenCompanyModal(true)} type="button" class="btn btn-sm btn-primary waves-effect ml-2">
-                    <span class="tf-icons mdi mdi-plus me-1"></span>Add
+                  {/*<button onClick={()=>setOpenCompanyModal(true)} type="button" className="btn btn-sm btn-primary waves-effect ml-2">
+                    <span className="tf-icons mdi mdi-plus me-1"></span>Add
                     </button>*/}
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mt-0 d-flex">
+                <div className="form-floating form-floating-outline col-md-6 mt-0 d-flex">
                   <Box sx={{ minWidth: 120 }} className="w-full outline-none">
                     <FormControl fullWidth>
                       <InputLabel id="designation_id-label">
@@ -177,7 +177,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     </FormControl>
                   </Box>
                   {/* <select
-                    class="form-select"
+                    className="form-select"
                     id="designation_id"
                     name="designation_id"
                   >
@@ -189,11 +189,11 @@ export default function AdminPanelUserRegistrationForm(props) {
                         </option>
                       ))}
                   </select> */}
-                  {/*<button onClick={()=>setOpenDesignationModal(true)} type="button" class="btn btn-sm btn-primary waves-effect ml-2">
-                    <span class="tf-icons mdi mdi-plus me-1"></span>Add
+                  {/*<button onClick={()=>setOpenDesignationModal(true)} type="button" className="btn btn-sm btn-primary waves-effect ml-2">
+                    <span className="tf-icons mdi mdi-plus me-1"></span>Add
                     </button>*/}
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4 d-flex">
+                <div className="form-floating form-floating-outline col-md-6 mb-4 d-flex">
                   <Box sx={{ minWidth: 120 }} className="w-full outline-none">
                     <FormControl fullWidth>
                       <InputLabel id="team_id-label">Team Name</InputLabel>
@@ -216,7 +216,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     </FormControl>
                   </Box>
 
-                  {/* <select class="form-select" id="team_id" name="team_id">
+                  {/* <select className="form-select" id="team_id" name="team_id">
                     <option value={""}>Team Name</option>
                     {teamList &&
                       teamList.map((item, i) => (
@@ -225,11 +225,11 @@ export default function AdminPanelUserRegistrationForm(props) {
                         </option>
                       ))}
                   </select> */}
-                  {/*<button onClick={()=>setOpenTeamModal(true)} type="button" class="btn btn-sm btn-primary waves-effect ml-2">
-                    <span class="tf-icons mdi mdi-plus me-1"></span>Add
+                  {/*<button onClick={()=>setOpenTeamModal(true)} type="button" className="btn btn-sm btn-primary waves-effect ml-2">
+                    <span className="tf-icons mdi mdi-plus me-1"></span>Add
                     </button>*/}
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
+                <div className="form-floating form-floating-outline col-md-6 mb-4">
                   <Box sx={{ minWidth: 120 }} className="w-full outline-none">
                     <FormControl fullWidth>
                       <InputLabel id="is_active-label">
@@ -249,7 +249,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                       </Select>
                     </FormControl>
                   </Box>
-                  {/* <select class="form-select" id="is_active" name="is_active">
+                  {/* <select className="form-select" id="is_active" name="is_active">
                     <option>User Status</option>
                     <option value="Active">Active</option>
                     <option value="Inactive">Two</option>
@@ -260,9 +260,9 @@ export default function AdminPanelUserRegistrationForm(props) {
 
               <hr className="m-0"></hr>
 
-              <h5 class="card-header">User Details</h5>
-              <div class="card-body demo-vertical-spacing demo-only-element row">
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
+              <h5 className="card-header">User Details</h5>
+              <div className="card-body demo-vertical-spacing demo-only-element row">
+                <div className="form-floating form-floating-outline col-md-6 mb-4">
                   <TextField
                     variant="outlined"
                     id="first_name"
@@ -271,7 +271,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     className="w-full bg-white"
                   />
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mt-0">
+                <div className="form-floating form-floating-outline col-md-6 mt-0">
                   <TextField
                     variant="outlined"
                     id="last_name"
@@ -280,7 +280,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     className="w-full bg-white"
                   />
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
+                <div className="form-floating form-floating-outline col-md-6 mb-4">
                   <TextField
                     variant="outlined"
                     id="email"
@@ -291,7 +291,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     onChange={keyUp}
                   />
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
+                <div className="form-floating form-floating-outline col-md-6 mb-4">
                   <TextField
                     variant="outlined"
                     id="user_name"
@@ -304,7 +304,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     }}
                   />
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
+                <div className="form-floating form-floating-outline col-md-6 mb-4">
                   <TextField
                     variant="outlined"
                     id="password"
@@ -314,7 +314,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                     className="w-full bg-white"
                   />
                 </div>
-                <div class="form-floating form-floating-outline col-md-6 mb-4">
+                <div className="form-floating form-floating-outline col-md-6 mb-4">
                   <TextField
                     variant="outlined"
                     id="cpassword"
@@ -324,15 +324,15 @@ export default function AdminPanelUserRegistrationForm(props) {
                     className="w-full bg-white"
                   />
                 </div>
-                <div class=" col-md-6 mb-4">
-                  <div class="input-group">
+                <div className=" col-md-6 mb-4">
+                  <div className="input-group">
                     {/* {<input
                       type="file"
-                      class="form-control p-3"
+                      className="form-control p-3"
                       id="user_profile_photo"
                       name="user_profile_photo"
                     />
-                    <label class="input-group-text" for="user_profile_photo">
+                    <label className="input-group-text" for="user_profile_photo">
                       Upload Picture
                     </label>} */}
 
@@ -352,15 +352,15 @@ export default function AdminPanelUserRegistrationForm(props) {
                         </button>
                       </div>
                     ) : (
-                      <div class="mb-3 w-full">
+                      <div className="mb-3 w-full">
                         <label
                           for="formFileLg"
-                          class="mb-2 inline-block text-neutral-500 dark:text-neutral-400"
+                          className="mb-2 inline-block text-neutral-500 dark:text-neutral-400"
                         >
                           Upload Profile Picture
                         </label>
                         <input
-                          class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
+                          className="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
                           id="formFileLg"
                           type="file"
                           onChange={handleChange}
@@ -370,10 +370,10 @@ export default function AdminPanelUserRegistrationForm(props) {
                   </div>
                 </div>
 
-                <div class=" col-md-12 mb-4 justify-content-center my-3 d-flex">
+                <div className=" col-md-12 mb-4 justify-content-center my-3 d-flex">
                   <Link
                     href="/admin-panel/users"
-                    class="btn btn-outline-primary w-[206px] mr-3 waves-effect "
+                    className="btn btn-outline-primary w-[206px] mr-3 waves-effect "
                   >
                     Cancel
                   </Link>
@@ -393,7 +393,7 @@ export default function AdminPanelUserRegistrationForm(props) {
                       )
                     }
                     type="button"
-                    class="btn btn-primary w-[206px] waves-effect "
+                    className="btn btn-primary w-[206px] waves-effect "
                   >
                     Add Record
                   </button>

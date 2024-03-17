@@ -48,7 +48,7 @@ export default function RfxPrereqInfoModal(props) {
   return (
     <>
       <div
-        class="modal fade show"
+        className="modal fade show"
         id="modalCenter"
         tabindex="-1"
         aria-modal="true"
@@ -59,46 +59,46 @@ export default function RfxPrereqInfoModal(props) {
           background: "rgba(151,149,158,50%)",
         }}
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content" id="modalFormComponent1">
-            <div class="modal-header">
-              <h4 class="modal-title text-capitalize" id="modalCenterTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content" id="modalFormComponent1">
+            <div className="modal-header">
+              <h4 className="modal-title text-capitalize" id="modalCenterTitle">
                 {props.tablename.replace("_", " ").replace("_", " ")} Details
               </h4>
               <button
                 onClick={handleCancel}
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body" id="modalFormComponentBody1">
+            <div className="modal-body" id="modalFormComponentBody1">
               <form id="modalform4">
-                <div class="row">
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                <div className="row">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         id="m4_title"
                         name="m4_title"
                         value={formData.m4_title}
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Title"
                       />
                       <label for="m4_title">Title *</label>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                <div className="row">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <select
                         onChange={handleChangeValues}
                         id="m4_is_active"
                         name="m4_is_active"
-                        class="form-select"
+                        className="form-select"
                       >
                         <option>Select Status... *</option>
                         <option
@@ -117,16 +117,16 @@ export default function RfxPrereqInfoModal(props) {
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                <div className="row">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         id="m4_alias"
                         name="m4_alias"
                         value={formData.m4_alias}
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Title"
                       />
                       <label for="m4_alias">Alias</label>
@@ -137,7 +137,7 @@ export default function RfxPrereqInfoModal(props) {
                   <div className="col-12">
                     <div
                       id="modalErrorMessageAlert"
-                      class="alert alert-danger mt-4"
+                      className="alert alert-danger mt-4"
                       style={{ display: "none" }}
                       role="alert"
                     >
@@ -145,7 +145,7 @@ export default function RfxPrereqInfoModal(props) {
                     </div>
                     <div
                       id="modalSuccessMessageAlert"
-                      class="alert alert-success mt-4"
+                      className="alert alert-success mt-4"
                       style={{ display: "none" }}
                       role="alert"
                     >
@@ -155,11 +155,11 @@ export default function RfxPrereqInfoModal(props) {
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 onClick={handleCancel}
                 type="button"
-                class="btn btn-outline-primary waves-effect"
+                className="btn btn-outline-primary waves-effect"
                 data-bs-dismiss="modal"
               >
                 Cancel
@@ -177,7 +177,7 @@ export default function RfxPrereqInfoModal(props) {
                     )
                   }
                   type="button"
-                  class="btn btn-primary waves-effect waves-light"
+                  className="btn btn-primary waves-effect waves-light"
                 >
                   Add Info
                 </button>
@@ -194,7 +194,7 @@ export default function RfxPrereqInfoModal(props) {
                     )
                   }
                   type="button"
-                  class="btn btn-primary waves-effect waves-light"
+                  className="btn btn-primary waves-effect waves-light"
                 >
                   Update Info
                 </button>

@@ -3,8 +3,8 @@ import { htmlElements } from "../categories";
 export default function heading1(editor) {
   editor.BlockManager.add("heading-1", {
     label: `              
-   <i class="bi bi-list-nested fs-4  p-2" title="Heading 1"></i>
-    <div class="gjs-block-label ">H1</div>
+   <i className="bi bi-list-nested fs-4  p-2" title="Heading 1"></i>
+    <div className="gjs-block-label ">H1</div>
 
 `,
     category: htmlElements,
@@ -13,7 +13,7 @@ export default function heading1(editor) {
 
     content: `         
     
-<h1 class="p-2 main-comp">This is Heading One</h1>
+<h1 className="p-2 main-comp">This is Heading One</h1>
 
 `,
   });

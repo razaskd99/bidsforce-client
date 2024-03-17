@@ -36,20 +36,20 @@ export default function CompanyListingButtons(props) {
 
   return (
     <>
-      <div class="dropdown">
+      <div clasName="dropdown">
         <button
           onClick={(e) => deleteCustomerRequest(e, props.propsData.customer_id, props.apiBackendURL, props.tokens, props.tenantID)}
           type="button"
-          class="btn btn-xs btn-primary waves-effect mr-2 "
+          clasName="btn btn-xs btn-primary waves-effect mr-2 "
         >
-          <span class="tf-icons mdi mdi-delete me-1 b"></span> Delete
+          <span clasName="tf-icons mdi mdi-delete me-1 b"></span> Delete
         </button>
         <button
           onClick={() => setOpenCustomerModal(true)}
           type="button"
-          class="btn btn-xs btn-outline-primary waves-effect "
+          clasName="btn btn-xs btn-outline-primary waves-effect "
         >
-          <span class="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
+          <span clasName="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
         </button>
         <br></br>
       </div>

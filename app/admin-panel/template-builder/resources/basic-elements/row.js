@@ -4,14 +4,14 @@ export const rowDiv = (blockManager, basicElementsCat) => {
     id: "row-div",
     label: `
     
-<i class="bi bi-square fs-4 p-2" title="<row> Element"></i>
-    <div class="gjs-block-label">Row 
+<i className="bi bi-square fs-4 p-2" title="<row> Element"></i>
+    <div className="gjs-block-label">Row 
     </div>
      
     `,
     category: basicElementsCat,
     content: `
-      <div data-gjs-droppable="true" class="row py-3 main-comp border" style="min-height:50px;">
+      <div data-gjs-droppable="true" className="row py-3 main-comp border" style="min-height:50px;">
       </div>
       `,
   };

@@ -3369,7 +3369,7 @@ const BidDetail = ({
                                         className="w-full max-w-[360px]"
                                     />
                                 </div>
-                                <div class="col-span-2 max-w-[80%]">
+                                <div className="col-span-2 max-w-[80%]">
                                     <p className='text-[#778CA2] mb-1'>Description</p>
                                     <textarea className='w-full border border-[#E8ECEF] outline-none p-2 rounded-md' placeholder='Description' value="Hi Chand, Transferring this order for DRP refinery Automation Project. I am enclosing all the necessar documents. If you have any questions, please do let us know." rows={4} ></textarea>
 

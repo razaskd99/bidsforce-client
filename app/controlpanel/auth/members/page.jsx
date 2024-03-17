@@ -62,11 +62,11 @@ export default async function ControlPanelHome() {
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      <div class="card">
-        <h5 class="card-header">Users List</h5>
-        <div class="table-responsive text-nowrap">
-          <table class="table">
-            <thead class="table-light">
+      <div className="card">
+        <h5 className="card-header">Users List</h5>
+        <div className="table-responsive text-nowrap">
+          <table className="table">
+            <thead className="table-light">
               <tr>
                 <th>Tenant</th>
                 <th>Created on</th>
@@ -76,15 +76,15 @@ export default async function ControlPanelHome() {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody class="table-border-bottom-0">
+            <tbody className="table-border-bottom-0">
               {tenantData &&
                 tenantData.map((item, index) => (
                   <tr key={index}>
                     <td>
-                      <div class="flex">
-                        <div class="form-check ">
+                      <div className="flex">
+                        <div className="form-check ">
                           <input
-                            class="form-check-input"
+                            className="form-check-input"
                             type="checkbox"
                             value=""
                             id="defaultCheck3"
@@ -92,13 +92,13 @@ export default async function ControlPanelHome() {
                           />
                         </div>
                         <div>
-                          <div class=" ">
-                            <div class="text-black font-semibold ">
+                          <div className=" ">
+                            <div className="text-black font-semibold ">
                               <Link href={"/controlpanel/new-tenant"}>
                                 {item.tenant_title}
                               </Link>
                             </div>
-                            <div class="font-normal text-gray-500">
+                            <div className="font-normal text-gray-500">
                               {item.domain_url}
                             </div>
                           </div>
@@ -108,19 +108,19 @@ export default async function ControlPanelHome() {
                     <td>{item.created_on}</td>
                     <td>{item.contact_email}</td>
                     <td>{item.contact_phone}</td>
-                    <td class="px-6 py-4">
-                      <div class="flex items-center">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center">
                         {item.tenant_is_active === true ? (
-                          <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
+                          <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
                         ) : item.tenant_status === "Inactive" ? (
-                          <div class="h-2.5 w-2.5 rounded-full bg-gray-400 me-2"></div>
+                          <div className="h-2.5 w-2.5 rounded-full bg-gray-400 me-2"></div>
                         ) : (
-                          <div class="h-2.5 w-2.5 rounded-full bg-orange-500 me-2"></div>
+                          <div className="h-2.5 w-2.5 rounded-full bg-orange-500 me-2"></div>
                         )}
                         {item.tenant_status}
                       </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td className="px-6 py-4">
                       <TenantListingButtons
                         tenantData={item}
                         accessToken={tokens}

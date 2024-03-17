@@ -61,14 +61,14 @@ const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts }
             <Dialog open={isModalOpen} onClose={handleModalClose} >
                 <div className="p-4 w-[600px]">
                     <DialogTitle className="text-center font-medium text-[26px] mb-4">
-                        <div class="fkex jutify-center mb-6 md:grid-cols-2">
-                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Key</label>
+                        <div className="fkex jutify-center mb-6 md:grid-cols-2">
+                            <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Key</label>
                             <input 
                                 type="text" 
                                 name="contact_key" 
                                 onChange={(e)=>setContactKey(e.target.value)}
                                 style={{ border: !contactKey ? '1px solid red' : '1px solid #ccc' }} 
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                 placeholder="RFx Contact Key" 
                                 required 
                             />

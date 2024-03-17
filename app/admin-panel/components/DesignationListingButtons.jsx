@@ -36,22 +36,22 @@ export default function DesignationListingButtons(props) {
 
   return (
     <>
-      <div class="dropdown">
+      <div className="dropdown">
         <button
           onClick={(e) =>
             deleteDesignationRequest(e, props.propsData.designation_id, props.apiBackendURL, props.tokens, props.tenantID)
           }
           type="button"
-          class="btn btn-xs btn-primary waves-effect mr-2 "
+          className="btn btn-xs btn-primary waves-effect mr-2 "
         >
-          <span class="tf-icons mdi mdi-delete me-1 b"></span> Delete
+          <span className="tf-icons mdi mdi-delete me-1 b"></span> Delete
         </button>
         <button
           onClick={() => setOpenDesignationModal(true)}
           type="button"
-          class="btn btn-xs btn-outline-primary waves-effect "
+          className="btn btn-xs btn-outline-primary waves-effect "
         >
-          <span class="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
+          <span className="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
         </button>
         <br></br>
       </div>

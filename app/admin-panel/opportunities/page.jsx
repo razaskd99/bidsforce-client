@@ -62,18 +62,18 @@ export default async function AdminPanelOpportunities() {
         />
       </div>
 
-      <div class="card">
+      <div className="card">
         <div className="flex justify-between ">
           <div className=" ">
-            <h5 class="card-header">Opportunities List</h5>
+            <h5 className="card-header">Opportunities List</h5>
           </div>
           <div className="mt-3 mr-2 ">
             <DeleteAllOpportunityButton />
           </div>
         </div>
-        <div class="table-responsive text-nowrap">
-          <table class="table">
-            <thead class="table-light">
+        <div className="table-responsive text-nowrap">
+          <table className="table">
+            <thead className="table-light">
               <tr>
                 <th>Title</th>
                 <th>Type</th>
@@ -86,15 +86,15 @@ export default async function AdminPanelOpportunities() {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody class="table-border-bottom-0">
+            <tbody className="table-border-bottom-0">
               {allData &&
                 allData.map((item, index) => (
                   <tr key={index}>
                     <td>
-                      <div class="flex items-center">
-                        <div class="form-check ">
+                      <div className="flex items-center">
+                        <div className="form-check ">
                           <input
-                            class="form-check-input"
+                            className="form-check-input"
                             type="checkbox"
                             value=""
                             id="defaultCheck3"
@@ -102,7 +102,7 @@ export default async function AdminPanelOpportunities() {
                           />
                         </div>
                         <div className="flex justify-between items-center">
-                          <div class="font-normal text-secondary">
+                          <div className="font-normal text-secondary">
                             {item.title}
                           </div>
                         </div>

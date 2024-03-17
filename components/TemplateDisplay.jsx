@@ -85,7 +85,7 @@ export const TemplateDisplay = (props) => {
   return (
     <>
 
-      <div class="container  mt-4">
+      <div className="container  mt-4">
         <div>
           <div>
             <select id="templateSelect"  className="form-select" aria-label="Default select example" style={{ width: '400px', padding: '20px', borderRadius: 0 }} >

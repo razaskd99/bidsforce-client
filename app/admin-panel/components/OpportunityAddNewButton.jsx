@@ -18,9 +18,9 @@ export default function OpportunityAddNewButton(props) {
         <button
           onClick={() => setOpenOpportunityModal(true)}
           type="button"
-          class="btn btn-sm btn-secondary waves-effect justify-between"
+          className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span class="tf-icons mdi mdi-plus me-1"></span>New Opportunity
+          <span className="tf-icons mdi mdi-plus me-1"></span>New Opportunity
         </button>
       )}
 

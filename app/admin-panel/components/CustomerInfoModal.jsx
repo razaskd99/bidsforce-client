@@ -80,7 +80,7 @@ export default function CustomerInfoModal(props) {
   return (
     <>
       <div
-        class="modal fade show"
+        className="modal fade show"
         id="modalCenter"
         tabindex="-1"
         aria-modal="true"
@@ -91,26 +91,26 @@ export default function CustomerInfoModal(props) {
           background: "rgba(151,149,158,50%)",
         }}
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content" id="modalFormComponent1">
-            <div class="modal-header">
-              <h4 class="modal-title" id="modalCenterTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content" id="modalFormComponent1">
+            <div className="modal-header">
+              <h4 className="modal-title" id="modalCenterTitle">
                 Customer Details
               </h4>
               <button
                 onClick={handleCancel}
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body" id="modalFormComponentBody1">
+            <div className="modal-body" id="modalFormComponentBody1">
               <form id="modalform5">
-                <div class="row">
-                  <div class="form-floating form-floating-outline col-md-12 mb-4 d-flex">
+                <div className="row">
+                  <div className="form-floating form-floating-outline col-md-12 mb-4 d-flex">
                     <select
-                      class="form-select"
+                      className="form-select"
                       id="m5_company_id"
                       name="m5_company_id"
                     >
@@ -130,14 +130,14 @@ export default function CustomerInfoModal(props) {
                           </option>
                         ))}
                     </select>
-                    {/*<button onClick={()=>setOpenCompanyModal(true)} type="button" class="btn btn-sm btn-primary waves-effect ml-2">
-                    <span class="tf-icons mdi mdi-plus me-1"></span>Add
+                    {/*<button onClick={()=>setOpenCompanyModal(true)} type="button" className="btn btn-sm btn-primary waves-effect ml-2">
+                    <span className="tf-icons mdi mdi-plus me-1"></span>Add
                     </button>*/}
                   </div>
 
-                  <div class="form-floating form-floating-outline col-md-12 mb-4 d-flex">
+                  <div className="form-floating form-floating-outline col-md-12 mb-4 d-flex">
                     <select
-                      class="form-select"
+                      className="form-select"
                       id="m5_designation_id"
                       name="m5_designation_id"
                       onChange={handleChangeValues}
@@ -158,65 +158,65 @@ export default function CustomerInfoModal(props) {
                           </option>
                         ))}
                     </select>
-                    {/*<button onClick={()=>setOpenDesignationModal(true)} type="button" class="btn btn-sm btn-primary waves-effect ml-2">
-                    <span class="tf-icons mdi mdi-plus me-1"></span>Add
+                    {/*<button onClick={()=>setOpenDesignationModal(true)} type="button" className="btn btn-sm btn-primary waves-effect ml-2">
+                    <span className="tf-icons mdi mdi-plus me-1"></span>Add
                     </button>*/}
                   </div>
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m5_customer_name}
                         id="m5_customer_name"
                         name="m5_customer_name"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Customer Name"
                       />
                       <label for="customer_name">Customer Name *</label>
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="email"
                         onChange={handleChangeValues}
                         value={formData.m5_email}
                         id="m5_email"
                         name="m5_email"
-                        class="form-control"
+                        className="form-control"
                         placeholder="example@domain.com"
                       />
                       <label for="email">Email *</label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m5_phone}
                         id="m5_phone"
                         name="m5_phone"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Phone Number"
                       />
                       <label for="phone">Phone </label>
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m5_address}
                         id="m5_address"
                         name="m5_address"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Address"
                       />
                       <label for="address">Address </label>
@@ -228,7 +228,7 @@ export default function CustomerInfoModal(props) {
                   <div className="col-12">
                     <div
                       id="modalErrorMessageAlert"
-                      class="alert alert-danger mt-4"
+                      className="alert alert-danger mt-4"
                       style={{ display: "none" }}
                       role="alert"
                     >
@@ -236,7 +236,7 @@ export default function CustomerInfoModal(props) {
                     </div>
                     <div
                       id="modalSuccessMessageAlert"
-                      class="alert alert-success mt-4"
+                      className="alert alert-success mt-4"
                       style={{ display: "none" }}
                       role="alert"
                     >
@@ -246,11 +246,11 @@ export default function CustomerInfoModal(props) {
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 onClick={handleCancel}
                 type="button"
-                class="btn btn-outline-primary waves-effect"
+                className="btn btn-outline-primary waves-effect"
                 data-bs-dismiss="modal"
               >
                 Cancel
@@ -267,7 +267,7 @@ export default function CustomerInfoModal(props) {
                     )
                   }
                   type="button"
-                  class="btn btn-primary waves-effect waves-light"
+                  className="btn btn-primary waves-effect waves-light"
                 >
                   Add Info
                 </button>
@@ -283,7 +283,7 @@ export default function CustomerInfoModal(props) {
                     )
                   }
                   type="button"
-                  class="btn btn-primary waves-effect waves-light"
+                  className="btn btn-primary waves-effect waves-light"
                 >
                   Update Info
                 </button>

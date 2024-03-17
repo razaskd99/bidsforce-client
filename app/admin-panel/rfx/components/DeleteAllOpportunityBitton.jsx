@@ -30,9 +30,9 @@ const DeleteAllOpportunityButton = ({ onDelete }) => {
     <button
       onClick={handleClickDeleteOpportunity}
       type="button"
-      class="btn btn-sm btn-outline-secondary waves-effect justify-between"
+      className="btn btn-sm btn-outline-secondary waves-effect justify-between"
     >
-      <span class="tf-icons mdi mdi-trash-can-outline me-1"></span>
+      <span className="tf-icons mdi mdi-trash-can-outline me-1"></span>
       Delete All Opportunity
     </button>
   );

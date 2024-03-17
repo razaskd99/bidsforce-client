@@ -4,8 +4,8 @@ export default function PlaceHolderTemplate(editor) {
   editor.BlockManager.add("PlaceHolderTemplate", {
     label: `               
     
-    <i class="bi bi-menu-button fs-4 p-2" title="Place Holder"></i>
-    <div class="gjs-block-label ">Place Holder </div>
+    <i className="bi bi-menu-button fs-4 p-2" title="Place Holder"></i>
+    <div className="gjs-block-label ">Place Holder </div>
 
 `,
     category: allTemplates,
@@ -49,15 +49,15 @@ export default function PlaceHolderTemplate(editor) {
 
               
         <!-- table content -->
-        <div class="container custom-container mt-2">
-            <div class="d-flex justify-content-between align-items-start">
+        <div className="container custom-container mt-2">
+            <div className="d-flex justify-content-between align-items-start">
                 <div>
                     <span style="font-size: 16px; font-weight: 500;">
                         Place Holder Text.
                     </span>
                 </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                <div className="form-check form-switch">
+                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
                 </div>
             </div>
         </div>

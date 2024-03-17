@@ -162,7 +162,7 @@ export default function OpportunityInfoModal(props) {
   return (
     <>
       <div
-        class="modal fade show "
+        className="modal fade show "
         id="modalCenter"
         tabindex="-1"
         aria-modal="true"
@@ -173,27 +173,27 @@ export default function OpportunityInfoModal(props) {
           background: "rgba(151,149,158,50%)",
         }}
       >
-        <div class="modal-dialog modal-dialog-centered min-w-[1000px] sm:w-full md:w-full lg:max-w-5xl xl:max-w-5xl">
-          <div class="modal-content" id="modalFormComponent1">
-            <div class="modal-header">
-              <h4 class="modal-title" id="modalCenterTitle">
+        <div className="modal-dialog modal-dialog-centered min-w-[1000px] sm:w-full md:w-full lg:max-w-5xl xl:max-w-5xl">
+          <div className="modal-content" id="modalFormComponent1">
+            <div className="modal-header">
+              <h4 className="modal-title" id="modalCenterTitle">
                 Opportunity Details
               </h4>
               <button
                 onClick={handleCancel}
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body" id="modalFormComponentBody1">
+            <div className="modal-body" id="modalFormComponentBody1">
               <form id="modalform6">
-                <div class="row">
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                <div className="row">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <select
-                        class="form-select"
+                        className="form-select"
                         id="m6_company_id"
                         name="m6_company_id"
                         onChange={handleChangeCompany}
@@ -217,10 +217,10 @@ export default function OpportunityInfoModal(props) {
                       </select>
                     </div>
                   </div>
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <select
-                        class="form-select"
+                        className="form-select"
                         id="m6_customer_id"
                         name="m6_customer_id"
                         onChange={handleChangeCustomer}
@@ -248,25 +248,25 @@ export default function OpportunityInfoModal(props) {
                   </div>
                 </div>
 
-                <div class="row g-2">
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_title}
                         id="m6_title"
                         name="m6_title"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Title"
                       />
                       <label for="m6_title">Title *</label>
                     </div>
                   </div>
-                  <div class="col mb-4 mt-2">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4 mt-2">
+                    <div className="form-floating form-floating-outline">
                       <select
-                        class="form-select"
+                        className="form-select"
                         id="m6_forcasted"
                         name="m6_forcasted"
                       >
@@ -287,59 +287,59 @@ export default function OpportunityInfoModal(props) {
                       </select>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_type}
                         id="m6_type"
                         name="m6_type"
-                        class="form-control"
+                        className="form-control"
                         placeholder="EnterType"
                       />
                       <label for="type">Type </label>
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_probability}
                         id="m6_probability"
                         name="m6_probability"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Probability"
                       />
                       <label for="probability">Probability </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_total_value}
                         id="m6_total_value"
                         name="m6_total_value"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Total Value"
                       />
                       <label for="total_value">Total Value </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_crm_id}
                         id="m6_crm_id"
                         name="m6_crm_id"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter CRM ID"
                       />
                       <label for="crm_id">CRM ID </label>
@@ -347,44 +347,44 @@ export default function OpportunityInfoModal(props) {
                   </div>
                 </div>
 
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_region}
                         id="m6_region"
                         name="m6_region"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Region"
                       />
                       <label for="region">Region </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_industry_code}
                         id="m6_industry_code"
                         name="m6_industry_code"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Industry Code"
                       />
                       <label for="industry_code">Industry Code </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_business_unit}
                         id="m6_business_unit"
                         name="m6_business_unit"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Business Unit"
                       />
                       <label for="business_unit">Business Unit </label>
@@ -392,74 +392,74 @@ export default function OpportunityInfoModal(props) {
                   </div>
                 </div>
 
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_project_type}
                         id="m6_project_type"
                         name="m6_project_type"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Project Type"
                       />
                       <label for="project_type">Project Type </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_delivery_duration}
                         id="m6_delivery_duration"
                         name="m6_delivery_duration"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Delivery Duration"
                       />
                       <label for="delivery_duration">Delivery Duration </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_stage}
                         id="m6_stage"
                         name="m6_stage"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Stage"
                       />
                       <label for="stage">Stage </label>
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_status}
                         id="m6_status"
                         name="m6_status"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Status"
                       />
                       <label for="status">Status </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="date"
                         onChange={handleChangeValues}
                         value={formData.m6_expected_award_date}
                         id="m6_expected_award_date"
                         name="m6_expected_award_date"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Expected Award Date"
                       />
                       <label for="expected_award_date">
@@ -467,59 +467,59 @@ export default function OpportunityInfoModal(props) {
                       </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="date"
                         onChange={handleChangeValues}
                         value={formData.m6_expected_rfx_date}
                         id="m6_expected_rfx_date"
                         name="m6_expected_rfx_date"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Expected RFx Date"
                       />
                       <label for="expected_rfx_date">Expected RFx Date </label>
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="date"
                         onChange={handleChangeValues}
                         value={formData.m6_close_date}
                         id="m6_close_date"
                         name="m6_close_date"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Close Date"
                       />
                       <label for="close_date">Close Date </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_competition}
                         id="m6_competition"
                         name="m6_competition"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Competition"
                       />
                       <label for="competition">Competition </label>
                     </div>
                   </div>
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_gross_profit_percent}
                         id="m6_gross_profit_percent"
                         name="m6_gross_profit_percent"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Gross Profit Percent"
                       />
                       <label for="gross_profit_percent">
@@ -528,28 +528,28 @@ export default function OpportunityInfoModal(props) {
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-4">
-                    <div class="form-floating form-floating-outline">
+                <div className="row g-2">
+                  <div className="col mb-4">
+                    <div className="form-floating form-floating-outline">
                       <input
                         type="text"
                         onChange={handleChangeValues}
                         value={formData.m6_gross_profit_value}
                         id="m6_gross_profit_value"
                         name="m6_gross_profit_value"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Enter Gross Profit Value"
                       />
                       <label for="gross_profit_value">Gross Profit Value</label>
                     </div>
                   </div>
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-2">
-                    <div class="input-group">
+                <div className="row g-2">
+                  <div className="col mb-2">
+                    <div className="input-group">
                       <textarea
                         onChange={handleChangeValues}
-                        class="form-control"
+                        className="form-control"
                         id="m6_description"
                         name="m6_description"
                         placeholder="Enter Description"
@@ -559,11 +559,11 @@ export default function OpportunityInfoModal(props) {
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-12">
+                <div classNameName="row">
+                  <div classNameName="col-12">
                     <div
                       id="modalErrorMessageAlert"
-                      class="alert alert-danger mt-4"
+                      className="alert alert-danger mt-4"
                       style={{ display: "none" }}
                       role="alert"
                     >
@@ -571,7 +571,7 @@ export default function OpportunityInfoModal(props) {
                     </div>
                     <div
                       id="modalSuccessMessageAlert"
-                      class="alert alert-success mt-4"
+                      className="alert alert-success mt-4"
                       style={{ display: "none" }}
                       role="alert"
                     >
@@ -581,11 +581,11 @@ export default function OpportunityInfoModal(props) {
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 onClick={handleCancel}
                 type="button"
-                class="btn btn-outline-primary waves-effect"
+                className="btn btn-outline-primary waves-effect"
                 data-bs-dismiss="modal"
               >
                 Cancel
@@ -604,7 +604,7 @@ export default function OpportunityInfoModal(props) {
                     )
                   }
                   type="button"
-                  class="btn btn-primary waves-effect waves-light"
+                  className="btn btn-primary waves-effect waves-light"
                 >
                   Add Info
                 </button>
@@ -622,7 +622,7 @@ export default function OpportunityInfoModal(props) {
                     )
                   }
                   type="button"
-                  class="btn btn-primary waves-effect waves-light"
+                  className="btn btn-primary waves-effect waves-light"
                 >
                   Update Info
                 </button>
