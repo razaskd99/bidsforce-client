@@ -25,10 +25,6 @@ const Login = async () => {
   let tID = 0
 
   let tenantDomain = getTenantUrl(currentURL);
-
-  console.log("tdddddd",tenantDomain)
-
-  
   const res = await checkValidTenant(API_BACKEND_SERVER, tenantDomain);
   let tenantStatus = false;
   let tenantStatusMsg = "";

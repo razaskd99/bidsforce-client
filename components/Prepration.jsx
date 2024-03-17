@@ -13,10 +13,10 @@ const Prepration = ({handleChangeStatus}) => {
     const StatusFilterOptions = ["Project A", "Project B", "Project C"]
     const AssignFilterOptions = ["Project A", "Project B", "Project C"]
     const tasks = [
-        { id: 1, title: 'Organization Chart  ', company: 'DRP Refinery Automation ', assignedTo: 'John Doe', tasksCompleted: 3, totalTasks: 5, stage: 'To Do' },
-        { id: 2, title: 'Technical Support from Factory', company: 'DRP Refinery Automation ', assignedTo: 'Jane Smith', tasksCompleted: 2, totalTasks: 5, stage: 'Progress' },
-        { id: 3, title: 'Power & Heat Load Calculation  ', company: 'DRP Refinery Automation ', assignedTo: 'Alex Johnson', tasksCompleted: 5, totalTasks: 5, stage: 'Review' },
-        { id: 4, title: 'Project Executon Plan  ', company: 'DRP Refinery Automation ', assignedTo: 'Michael Brown', tasksCompleted: 5, totalTasks: 5, stage: 'Completed' }
+        { id: 1, title: 'Organization Chart  ', company: 'DRP Refinery Automation ', assignedTo: 'John Doe', tasksCompleted: 3,image: '/man.jpeg' , dueDate: '03 Dec, 2023', template : 'Technial Deliverables',   totalTasks: 5, stage: 'To Do' },
+        { id: 2, title: 'Technical Support from Factory', company: 'DRP Refinery Automation ', assignedTo: 'Jane Smith', tasksCompleted: 2,image: '/man.jpeg' , dueDate: '03 Dec, 2023', template : 'Technial Deliverables',   totalTasks: 5, stage: 'Progress' },
+        { id: 3, title: 'Power & Heat Load Calculation  ', company: 'DRP Refinery Automation ', assignedTo: 'Alex Johnson', tasksCompleted: 5,image: '/man.jpeg' , dueDate: '03 Dec, 2023', template : 'Technial Deliverables',   totalTasks: 5, stage: 'Review' },
+        { id: 4, title: 'Project Executon Plan  ', company: 'DRP Refinery Automation ', assignedTo: 'Michael Brown', tasksCompleted: 5,image: '/man.jpeg' , dueDate: '03 Dec, 2023', template : 'Technial Deliverables',   totalTasks: 5, stage: 'Completed' }
     ];
     const groupedTasks = {
         todo: tasks.filter(task => task.stage === 'To Do'),
@@ -56,7 +56,7 @@ const Prepration = ({handleChangeStatus}) => {
                 <span className='text-[#778CA2] border border-[#F8FAFB] bg-[#F8FAFB] px-2 py-1 rounded-sm flex items-center gap-1'>Activity <RxCross1 className='text-sm cursor-pointer' /> </span>
             </div>
             <div className="kanban-board flex gap-2">
-                <div className="column p-1 w-[25%] bg-[#EFF3F5]">
+                <div className="column p-2 w-[25%] bg-[#EFF3F5]">
                     <span className='bg-[#26BADA] w-full  px-2 py-3 rounded-t-lg text-[#fff] flex justify-between'>
                         <p>To Do  {groupedTasks.todo.length}</p>
                         <div className="flex gap-2">
@@ -68,7 +68,7 @@ const Prepration = ({handleChangeStatus}) => {
                         <TaskCard key={task.id} task={task} />
                     ))}
                 </div>
-                <div className="column p-1 w-[25%] bg-[#EFF3F5]">
+                <div className="column p-2 w-[25%] bg-[#EFF3F5]">
                     <span className='bg-[#26BADA] w-full  px-2 py-3 rounded-t-lg text-[#fff] flex justify-between'>
                         <p>In Progress  {groupedTasks.progress.length}</p>
                         <div className="flex gap-2">
@@ -80,7 +80,7 @@ const Prepration = ({handleChangeStatus}) => {
                         <TaskCard key={task.id} task={task} />
                     ))}
                 </div>
-                <div className="column p-1 w-[25%] bg-[#EFF3F5]">
+                <div className="column p-2 w-[25%] bg-[#EFF3F5]">
                     <span className='bg-[#26BADA] w-full  px-2 py-3 rounded-t-lg text-[#fff] flex justify-between'>
                         <p>Review  {groupedTasks.review.length}</p>
                         <div className="flex gap-2">
@@ -92,7 +92,7 @@ const Prepration = ({handleChangeStatus}) => {
                         <TaskCard key={task.id} task={task} />
                     ))}
                 </div>
-                <div className="column p-1 w-[25%] bg-[#EFF3F5]">
+                <div className="column p-2 w-[25%] bg-[#EFF3F5]">
                     <span className='bg-[#26BADA] w-full  px-2 py-3 rounded-t-lg text-[#fff] flex justify-between'>
                         <p>Completed  {groupedTasks.completed.length}</p>
                         <div className="flex gap-2">

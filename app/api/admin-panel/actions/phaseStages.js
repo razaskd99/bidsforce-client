@@ -1,24 +1,5 @@
 "use server";
 
-import getConfig from "next/config";
-import { getToken } from "../../util/script";
-
-// start - get env variables
-const { serverRuntimeConfig } = getConfig() || {};
-let apiBackendURL = ''
-let username = ''
-let password = ''
-let tenantID = 0
-
-if (serverRuntimeConfig) {
-  apiBackendURL = serverRuntimeConfig.API_BACKEND_SERVER
-  username = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.user
-  password = serverRuntimeConfig?.PRIVATE_ENCRIPTED_USER_DATA?.pass
-  tenantID = serverRuntimeConfig?.TENANT_ID
-  //isLogin = serverRuntimeConfig?.IS_LOGIN
-}
-// end - get env variables
-
 
 // Add new Phase Stage record in db
 export const createPhaseStageAction = async (  
@@ -228,7 +209,8 @@ export const getAllPhaseStageRecordsAction = async () => {
 // get all Phase Stage records by type from db
 export const getAllPhaseStageRecordsByTypeAction = async (typeName , apiBackendURL, tokens, tenantID) => {
     try {
-      const url = `${apiBackendURL}phase_stage/phase_stages/tenant/${tenantID}/type/${typeName}`;
+      const typeNameEncoded = encodeURIComponent(typeName);
+      const url = `${apiBackendURL}phase_stage/phase_stages/tenant/${tenantID}/type/${typeNameEncoded}`;
       
       // get token
       //let res = await getToken(apiBackendURL, username, password)
