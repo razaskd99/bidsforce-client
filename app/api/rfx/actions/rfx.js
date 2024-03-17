@@ -4,6 +4,7 @@ import { formatFileSize } from '../../util/utility';
 
 // required to access cookies
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
+import { getToken } from '../../util/script';
 
 
 export const loadPostData = async (postData) => {
@@ -652,7 +653,10 @@ export const createNewRfxAction = async (rfxData) => {
 
 const fetchAndProcessStages = async (stageType, rfx_id) => {
   try {
-    const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
+      // get token
+      let res = await getToken(apiBackendURL, username, password)
+      let tokens = res?.tokenData?.access_token
+    
       const response = await getAllRfxStagesAction(stageType);
       const stagesList = response.returnData || [];
       await Promise.all(stagesList.map(item => {
