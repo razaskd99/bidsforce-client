@@ -37,7 +37,7 @@ export default async function AdminPanelDesignation() {
   let tokens = res?.tokenData?.access_token
 
   // call all stages by type action
-  let records = await getAllPhaseStageRecordsByTypeAction("rfx stage", apiBackendURL, tokens, tenantID);
+  let records = await getAllPhaseStageRecordsByTypeAction("rfxstage", apiBackendURL, tokens, tenantID);
   let allRecords = records.returnData;
 
   const breadcrumbItems = [

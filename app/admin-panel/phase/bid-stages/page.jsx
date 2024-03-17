@@ -38,7 +38,7 @@ export default async function AdminPanelDesignation() {
 
 
   // call all stages by type action
-  let records = await getAllPhaseStageRecordsByTypeAction("bid stage", apiBackendURL, tokens, tenantID);
+  let records = await getAllPhaseStageRecordsByTypeAction("bidstage", apiBackendURL, tokens, tenantID);
   let allRecords = records.returnData;
 
   const breadcrumbItems = [
