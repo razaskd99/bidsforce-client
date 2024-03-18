@@ -1,10 +1,11 @@
 import EditorInner from './EditorInner'
-
+getCookieValue
 // start login init
 import { redirect } from "next/navigation";
 import { API_BACKEND_SERVER } from '../../setup';
 import { getToken } from '@/app/api/util/script';
 import { getCookieValue } from '@/lib/scripts';
+//import { getCookieValue } from '@/lib/scripts';
 // end login init 
 
 export default async function page() {

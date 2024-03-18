@@ -580,7 +580,7 @@ const ManagePages = (
               </button>
               <button
                 onClick={() => {
-                  PageHandle(setAllPages, tenantID);
+                  PageHandle(setAllPages, tenantID, tokens);
                 }}
                 type="button"
                 className="btn bg-newbg text-dark"
@@ -720,7 +720,8 @@ const ManageWidgets = (
   allWidgets,
   selectPage,
   setAllWidgets,
-  setIsWidget
+  setIsWidget,
+  tokens
 ) => {
   return (
     <div

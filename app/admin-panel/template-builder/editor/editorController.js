@@ -11,6 +11,7 @@ import {
 import { API_BACKEND_SERVER } from "../../../setup";
 
 import { allCategories } from "../resources/categories";
+import { TenMpTwoTone } from "@mui/icons-material";
 
 let server_url = ""
 
@@ -65,15 +66,14 @@ export const InitEditor = (
       storeStyles: true,
       storeHtml: true,
       storeCss: true,
-
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
       id: "mycustom-",
       urlStore:
         saveRequestURL,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        },
       urlLoad:
         loadRequestURL,
 
@@ -226,8 +226,7 @@ export const logOut = (editor) => {
 
 export const savePage = (editor, currentPage) => { };
 
-export const PageHandle = (setAllPages, tenantID) => {
-
+export const PageHandle = (setAllPages, tenantID, tokens) => {
 
   let pageData = {
     name: "",
@@ -253,7 +252,7 @@ export const PageHandle = (setAllPages, tenantID) => {
   pageData.name = pageName;
 
   let response = "";
-  newPage(pageData, tenantID
+  newPage(pageData, tenantID, tokens
   )
     .then((data) => {
       response = data;
@@ -300,7 +299,7 @@ export const WidgetHandle = (setAllWidgets) => {
 
   widgetData.slung = widgetData.slung.toLowerCase();
   let response = "";
-  newWidget(widgetData)
+  newWidget(widgetData, tokens)
     .then((data) => {
       response = data;
       document.getElementById("actionMsg2").classList.remove("d-block");
@@ -313,7 +312,7 @@ export const WidgetHandle = (setAllWidgets) => {
       }, 2000);
       setTimeout(() => {
         document.getElementById("widgetName").value = "";
-        getWidgets()
+        getWidgets(toekns)
           .then((list) => {
             setAllWidgets(list);
           })

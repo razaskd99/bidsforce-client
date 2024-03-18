@@ -51,7 +51,7 @@ export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
 
   
   return (
-    <div style={{ minHeight: '600px', width: '100%', maxWidth: '80vw', overflowX: 'auto' }} className='search-table'>
+    <div style={{ minHeight: '600px', width: '100%', maxWidth: '80vw', overflowX: 'auto', margin:'auto' }} className='search-table'>
       {rows.length > 0 && !rows.includes(null) ? <DataGrid
         rows={dataWithId}
         columns={columns}

@@ -73,7 +73,7 @@ export default function SearchTableNew(props) {
   };
 
   return (
-    <div style={{ minHeight: '600px', width: '100%', maxWidth: '77vw', overflowX: 'auto' }} className='search-table m-auto'>
+    <div style={{ minHeight: '600px', width: '100%', maxWidth: '77vw', overflowX: 'auto', margin:'auto' }} className='search-table m-auto'>
       {props.rows.length > 0 && !props.rows.includes(null) ? <DataGrid
         rows={dataWithId}
         columns={columns}
