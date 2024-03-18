@@ -75,12 +75,12 @@ export const formatFileSize = (sizeInBytes) => {
 };
 
 export const showErrorMessageAlertMain = (message, title = "Error!") => {
+  /*document.getElementById(
+    "errorMessageAlertMainContent"
+  ).children[0].innerHTML = title;*/
   document.getElementById(
     "errorMessageAlertMainContent"
-  ).children[0].innerHTML = title;
-  document.getElementById(
-    "errorMessageAlertMainContent"
-  ).children[1].innerHTML = message;
+  ).innerHTML = message;
   document.getElementById("errorMessageAlertMain").style.display = "flex";
   setTimeout(() => {
     document.getElementById("errorMessageAlertMain").style.display = "none";
@@ -88,12 +88,12 @@ export const showErrorMessageAlertMain = (message, title = "Error!") => {
 };
 
 export const successMessageAlertMain = (message, title = "Success!") => {
+  /*document.getElementById(
+    "successMessageAlertMainContent"
+  ).children[0].innerHTML = title;*/
   document.getElementById(
     "successMessageAlertMainContent"
-  ).children[0].innerHTML = title;
-  document.getElementById(
-    "successMessageAlertMainContent"
-  ).children[1].innerHTML = message;
+  ).innerHTML = message;
   document.getElementById("successMessageAlertMain").style.display = "flex";
   setTimeout(() => {
     document.getElementById("successMessageAlertMain").style.display = "none";

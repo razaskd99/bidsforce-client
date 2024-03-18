@@ -30,29 +30,60 @@ export default async function RootLayout({ children }) {
                     <div className='w-full h-full '>
                         <Navbar />
                         <div className='p-7 bg-[#F2F4F6] h-full max-h-[90%] overflow-y-auto scrollbar'>
-                            {children}
-                            <div id="errorMessageAlertMain" className="fixed bottom-[4rem] position-absolute items-center p-4 mb-5 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" style={{ display: 'none' }} role="alert">
-                                <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                </svg>
-                                <span className="sr-only">Info</span>
-                                <div id="errorMessageAlertMainContent">
-                                    <span className="font-medium">Error!</span> <span>Operation failed.</span>
-                                </div>
-                            </div>
+                            {children}                            
                         </div>
-
-                        <div id="successMessageAlertMain" className="flex fixed bottom-[4rem] position-absolute items-center p-4 mb-5 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" style={{ display: 'none' }} role="alert">
-                            <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                            </svg>
-                            <span className="sr-only">Info</span>
-                            <div id="successMessageAlertMainContent">
-                                <span className="font-medium">Success!</span> <span>Operation completed successfully.</span>
-                            </div>
-                        </div>
-
                         
+                        <div id="successMessageAlertMain" class="fixed bottom-[4rem] position-absolute ml-[1.7rem] bg-white flex min-w-[35%] min-h-[60px] text-green-600 border border-green-500 rounded" style={{ display: 'none' }} role="alert">
+                            <div class="bg-green-500 w-16 shrink-0 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 fill-white" viewBox="0 0 512 512">
+                                <ellipse cx="256" cy="256" data-original="#fff" rx="256" ry="255.832" />
+                                <path class="fill-green-600" d="m235.472 392.08-121.04-94.296 34.416-44.168 74.328 57.904 122.672-177.016 46.032 31.888z"
+                                data-original="#ffffff" />
+                            </svg>
+                            </div>
+                            <div class="px-4 py-1">
+                            <p class="font-bold text-base mr-4 mb-0.5">Success!</p>
+                            <span id="successMessageAlertMainContent" class="block sm:inline text-sm">
+                            Operation successful.    
+                            </span>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer fill-green-500 absolute right-4 top-3"
+                            viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                data-original="#000000" />
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                data-original="#000000" />
+                            </svg>
+                        </div>
+
+
+                        <div id="errorMessageAlertMain" class="fixed bottom-[4rem] position-absolute ml-[1.7rem] bg-white flex min-w-[35%] min-h-[60px] text-red-600 border border-red-500 rounded" style={{ display: 'none' }} role="alert">
+                            <div class="bg-red-500 w-16 shrink-0 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 fill-white" viewBox="0 0 32 32">
+                                <path
+                                d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm6.36 20L21 22.36l-5-4.95-4.95 4.95L9.64 21l4.95-5-4.95-4.95 1.41-1.41L16 14.59l5-4.95 1.41 1.41-5 4.95z"
+                                data-original="#ea2d3f" />
+                            </svg>
+                            </div>
+                            <div class="px-4 py-1">
+                            <p class="font-bold text-lg mr-4 mb-0.5">Error!</p>
+                            <span id="errorMessageAlertMainContent" class="block sm:inline text-lg">
+                                Operation failed.    
+                            </span>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer fill-red-500 absolute right-4 top-3"
+                            viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                data-original="#000000" />
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                data-original="#000000" />
+                            </svg>
+                        </div>
+
                         <Footer />
                     </div>
                 </div>

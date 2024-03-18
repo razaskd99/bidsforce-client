@@ -997,7 +997,7 @@ const BidDetail = ({
             rfx_id: rfxRecord.rfx_id,
             bid_review_templates_id: 1,
             template_data: templateHTMLPrelim,
-            review_Key: 'Pre-lim Review',
+            review_Key: 'Pre-lim-Review',
             score_value: 0,
             score_name: 'Bid',
             score_description: '',
@@ -1027,7 +1027,7 @@ const BidDetail = ({
                 r2 = await createReviewContactsAction(result.bid_review_id, item.id, item.role, false, '')
             ))
             // get reviews list
-            r2 = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxRecord.rfx_id, 'pre-lim review');
+            r2 = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxRecord.rfx_id, 'pre-lim-review');
             if (r2.statusCode == 200) {
                 let reviewRec = r2.returnData
                 const mappedData = reviewRec.map((review, index) => ({
@@ -1053,7 +1053,7 @@ const BidDetail = ({
             rfx_id: rfxRecord.rfx_id,
             bid_review_templates_id: 1,
             template_data: templateHTMLDetailed,
-            review_Key: 'Detailed Review',
+            review_Key: 'Detailed-Review',
             score_value: 0,
             score_name: 'Bid',
             score_description: '',
@@ -1082,7 +1082,7 @@ const BidDetail = ({
                 r2 = await createReviewContactsAction(result.bid_review_id, item.id, item.role, false, '')
             ))
             // get reviews list
-            r2 = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxRecord.rfx_id, 'Detailed Review');
+            r2 = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxRecord.rfx_id, 'Detailed-Review');
             if (r2.statusCode == 200) {
                 let reviewRec = r2.returnData
                 const mappedData = reviewRec.map((review, index) => ({
@@ -1169,7 +1169,7 @@ const BidDetail = ({
             rfx_id: rfxRecord.rfx_id,
             bid_review_templates_id: 1,
             template_data: templateHTMLFinal,
-            review_Key: 'Final Review',
+            review_Key: 'Final-Review',
             score_value: 0,
             score_name: 'Bid',
             score_description: '',
@@ -1198,7 +1198,7 @@ const BidDetail = ({
                 r2 = await createReviewContactsAction(result.bid_review_id, item.id, item.role, false, '')
             ))
             // get reviews list
-            r2 = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxRecord.rfx_id, 'Final Review');
+            r2 = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxRecord.rfx_id, 'Final-Review');
             if (r2.statusCode == 200) {
                 let reviewRec = r2.returnData
                 const mappedData = reviewRec.map((review, index) => ({

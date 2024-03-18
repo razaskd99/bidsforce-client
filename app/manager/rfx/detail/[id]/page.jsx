@@ -83,13 +83,13 @@ const BDetail = async ({ params }) => {
     records = await getAllUsers();
     let allUsersRec = records.data
 
-    records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'pre-lim review');
+    records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'pre-lim-review');
     let prelimReviewRec = records.returnData 
     
-    records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'Detailed Review');
+    records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'Detailed-Review');
     let detailedReviewRec = records.returnData 
 
-    records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'Final Review');
+    records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'Final-Review');
     let finalReviewRec = records.returnData 
 
     records = await getAllRfxClarificationRecordsBy_RfxID_Action(rfxID);
