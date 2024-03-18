@@ -76,6 +76,11 @@ export const InitEditor = (
         },
       urlLoad:
         loadRequestURL,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        },
 
       params: {},
       fromElement: true,

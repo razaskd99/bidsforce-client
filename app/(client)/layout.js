@@ -51,6 +51,8 @@ export default async function RootLayout({ children }) {
                                 <span className="font-medium">Success!</span> <span>Operation completed successfully.</span>
                             </div>
                         </div>
+
+                        
                         <Footer />
                     </div>
                 </div>
