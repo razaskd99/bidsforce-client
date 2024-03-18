@@ -1,7 +1,11 @@
 "use client"
 import axios from "axios";
+
+// start init
+import { API_BACKEND_SERVER } from "@/app/setup";
+
 let server_url = ""
-server_url = process.env.API_BACKEND_CLIENT
+server_url = API_BACKEND_SERVER
 
 export const getpage = async (page,tenantID) => {
   let pageContent = {};
@@ -50,10 +54,10 @@ export const uploadImages = async (formData) => {
   return responseData;
 };
 
-export const newPage = async (pageData,tenantID
+export const newPage = async (pageData,tenantID, tokens
 ) => {
 
-
+console.log(tenantID, tokens)
   let actionResponse = "";
   let payload = pageData;
 
@@ -61,7 +65,12 @@ export const newPage = async (pageData,tenantID
   try {
     const response = await axios.post(
       server_url + `templates/templates?tenant_id=${tenantID}`,
-      payload
+      {...payload,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        }}
     );
     actionResponse = response.data;
 
@@ -91,14 +100,21 @@ export const newPage = async (pageData,tenantID
   return actionResponse;
 };
 
-export const newWidget = async (widgetData) => {
+export const newWidget = async (widgetData, tokens) => {
   let actionResponse = "";
   let payload = widgetData;
 
   try {
     const response = await axios.post(
       server_url + `/api/widgets/createWidget`,
-      payload
+      {
+        payload,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        }
+      }
     );
     actionResponse = response.data;
 
@@ -142,11 +158,16 @@ export const getPages = async (tenantID, tokens) => {
   return pagesData;
 };
 
-export const getWidgets = async () => {
+export const getWidgets = async (tokens) => {
   let widgetsData = [];
 
   try {
-    const response = await axios(server_url + `/api/widgets/getAllWidgets`);
+    const response = await axios(server_url + `/api/widgets/getAllWidgets`,
+    {headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${tokens}`,
+    }});
     widgetsData = response.data;
     if (!widgetsData || widgetsData == "") widgetsData = [];
   } catch (err) { }
