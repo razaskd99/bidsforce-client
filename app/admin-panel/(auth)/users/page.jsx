@@ -104,11 +104,12 @@ export default async function AdminPanelUsers() {
                               href={"/admin-panel/users"}
                               className="text-secondary"
                             >
+                              <img src={item.user_profile_photo} width={60} height={60} />
                               {item.first_name + " " + item.last_name}
                             </Link>
                           </div>
                           <div className="font-normal text-secondary">
-                            Designation
+                          {item.designation_title}
                           </div>
                         </div>
                       </div>

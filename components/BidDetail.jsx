@@ -27,7 +27,7 @@ import ContactDialog from '@/components/ContactPopup';
 import SkipDialog from '@/components/SkipDialog';
 import ControlledAccordions from '@/components/BidSetupAccordion';
 import SelectReviewerDialog from '@/components/selectReviewer';
-import { formatDateString, formatDatetime } from '@/app/api/util/utility';
+import { formatDateString, formatDatetime, hideMainLoader102 } from '@/app/api/util/utility';
 import { createContactsAction, getRfxContacts, getRfxContactsByKey } from '@/app/api/rfx/actions/rfx';
 import { createReviewEntryAction, createReviewContactsAction, getAllReviewContactsBy_BidReviewID_Action, getAllReviewsRecordsBy_Rfx_Key_Action } from '@/app/api/manager/actions/reviews';
 import SearchTableNew from './SearchTableNew';
@@ -1597,6 +1597,9 @@ const BidDetail = ({
 
     // console.log("clar:", clarificationRec)
 
+    // hide loader on page load
+    hideMainLoader102()
+
     return (
         <div>
             <Breadcrumbs items={breadcrumbItems} />
@@ -1887,7 +1890,7 @@ const BidDetail = ({
                     )}
                     {(showTemplateSelect && !loadTemplate) && (
                         <div className='flex flex-col gap-4 mt-5'>
-                            <div className="flex items-center gap-1text-[#26BADA] cursor-pointer mb-1" onClick={() => { setshowTemplateSelect(prelimReviewRec.length ? false : true); setloadTemplate(false) }}>
+                            <div className="flex items-center gap-1text-[#26BADA] cursor-pointer mb-1" onClick={() => { setshowTemplateSelect(false); setloadTemplate(true) }}>
                                 <FaChevronLeft />
                                 <span >Back to list</span>
                             </div>
@@ -2062,7 +2065,7 @@ const BidDetail = ({
                     )}
                     {(showDetailTempSelect && !detailTemplate) && (
                         <div className='flex flex-col gap-4 mt-5'>
-                            <div className="flex items-center gap-1 cursor-pointer text-[#26BADA] mb-1" onClick={() => { setshowDetailTempSelect(detailRevRow.length ? false : true); setloadTemplate(false) }}>
+                            <div className="flex items-center gap-1 cursor-pointer text-[#26BADA] mb-1" onClick={() => { setshowDetailTempSelect(false); setloadTemplate(false); setDetailTemplate(false)}}>
                                 <FaChevronLeft />
                                 <span>Back to list</span>
                             </div>
@@ -2093,9 +2096,9 @@ const BidDetail = ({
                     )}
                     {detailTemplate && (
                         <div className="flex gap-4">
-                            <div className="flex-[2]">
+                            <div className="flex-[2]">                                                                        
                                 <div>
-                                    <div className="flex items-center gap-1 cursor-pointer text-[#26BADA] mb-1" onClick={() => { setshowDetailTempSelect(detailRevRow.length ? false : true); setloadTemplate(false) }}>
+                                    <div className="flex items-center gap-1 cursor-pointer text-[#26BADA] mb-1" onClick={() => { setshowDetailTempSelect(false); setloadTemplate(false) }}>
                                         <FaChevronLeft />
                                         <span>Back to list</span>
                                     </div>
@@ -2229,7 +2232,7 @@ const BidDetail = ({
 
                     {clarificationDetail &&
                         <div className="flex gap-6">
-                            <div className="flex flex-[3] flex-col">
+                            <div className="flex flex-[3] flex-col">                                                                            
                                 <div className=" flex items-center gap-1 text-[#00AAEC] cursor-pointer" onClick={() => setClarificationDetail(false)}>
                                     <FaChevronLeft />
                                     <span>  Back to List</span>
@@ -3031,13 +3034,22 @@ const BidDetail = ({
                 {active === 'Submission' && <div className='p-5 bg-white shadow-sm h-full min-h-screen'>
                     {showSubmissionTable && (
                         <>
-                            <div className="flex justify-end">
-                                {/* <div className="flex items-center gap-1" onClick={() => { setshowSubmissionTempSelect(true); setSubmissionTemplate(false); setSubmissionDetail(false); setShowSubmissionTable(false); setInSubmissionTemp(false) }} >
+
+                            <div className="flex justify-between uppercase text-[#00AAEC] text-sm mb-4 cursor-pointer ">
+                                <div className="flex items-center gap-1"  onClick={() => { setshowSubmissionTempSelect(true); setSubmissionTemplate(false); setSubmissionDetail(false); setShowSubmissionTable(false); setInSubmissionTemp(false) }} >
                                     <span>New Submission</span>
                                     <IoMdAddCircleOutline />
-                                </div> */}
+                                </div>
                                 <button className={`upprecase uppercase max-w-[200px] rounded-md p-2 flex items-center gap-1 mb-4 mr-3  ${submissionrows ? 'bg-[#00AAEC] text-white' : 'bg-[#EFF3F5] text-[#98A9BC]'}`} onClick={handleChangeStatus} disabled={!submissionrows} >Proceed <FaArrowRight /> </button>
                             </div>
+
+                            {/*<div className="flex justify-end">
+                                <div className="flex items-center gap-1" onClick={() => { setshowSubmissionTempSelect(true); setSubmissionTemplate(false); setSubmissionDetail(false); setShowSubmissionTable(false); setInSubmissionTemp(false) }} >
+                                    <span>New Submission</span>
+                                    <IoMdAddCircleOutline />
+                                </div>
+                                <button className={`upprecase uppercase max-w-[200px] rounded-md p-2 flex items-center gap-1 mb-4 mr-3  ${submissionrows ? 'bg-[#00AAEC] text-white' : 'bg-[#EFF3F5] text-[#98A9BC]'}`} onClick={handleChangeStatus} disabled={!submissionrows} >Proceed <FaArrowRight /> </button>
+                            </div>*/}
                             <SearchTableNew rows={submissionrows} handleRowClick={handleRowClick} NoRowsOverlay={NoRowsSubmission} />
                         </>
                     )}
@@ -3708,17 +3720,18 @@ const BidDetail = ({
                 {active === 'Order' && <div className='p-5'>
                     {showOrderTable &&
                         <>
-                            <div className="flex justify-between uppercase text-[#00AAEC] text-sm mb-4 px-3">
+                            <div className="flex justify-between uppercase max-h-[98px] text-[#00AAEC] text-sm mb-4 px-3">
                                 {/*<div className="flex items-center gap-1 cursor-pointer" onClick={() => { setShowNewOrderForm(true); setShowOrderTable(false) }} >
                                     <span>New Order</span>
                                     <IoMdAddCircleOutline />
                                 </div>*/}
+                                <div className="w-[260px] flex items-center justify-between rounded-3xl my-4 bg-white py-[6px] border  px-5">
+                                    <input type="text" placeholder='Search within results' className='w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm' />
+                                    <button><IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" /></button>
+                                </div>
                                 <button className={`upprecase uppercase max-w-[200px] rounded-md p-2 flex items-center gap-1  ${submissionrows ? 'bg-[#00AAEC] text-white' : 'bg-[#EFF3F5] text-[#98A9BC]'}`} onClick={handleChangeStatus} disabled={!submissionrows} >Proceed <FaArrowRight /> </button>
                             </div>
-                            <div className="w-[260px] flex items-center justify-between rounded-3xl my-4 bg-white py-[6px] border  px-5">
-                                <input type="text" placeholder='Search within results' className='w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm' />
-                                <button><IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" /></button>
-                            </div>
+                            
                             <SearchTableNew rows={bidOrderRows} handleRowClick={handleRowClick} NoRowsOverlay={NoRowsOverlayOrder} />
                         </>
                     }

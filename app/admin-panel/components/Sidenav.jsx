@@ -92,6 +92,26 @@ export default async function SideNavAdminPanel(props) {
         <li className="menu-item">
           <Link
             href="javascript:void(0);"
+            className="menu-link no-underline menu-toggle text-white hover:bg-gray-300 font-normal "
+          >
+            <div data-i18n="Layouts">PERSONA</div>
+          </Link>
+
+          <ul className="menu-sub">
+            <li className="menu-item">
+              <Link
+                href="/admin-panel/persona"
+                className="menu-link no-underline text-white hover:bg-gray-300"
+              >
+                <div data-i18n="Without navbar">Persona List</div>
+              </Link>
+            </li>            
+          </ul>
+        </li>
+
+        <li className="menu-item">
+          <Link
+            href="javascript:void(0);"
             className="menu-link no-underline menu-toggle text-white font-extrabold hover:bg-gray-300 font-normal "
           >
             <div data-i18n="Layouts">RFX PRE-REQUISITES</div>

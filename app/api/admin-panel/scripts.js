@@ -45,6 +45,9 @@ import {
   deletePhaseStageRecordAction,
 } from "./actions/phaseStages";
 import { uploadSingleFile } from "../util/utility";
+import { createPersonaAction } from "./actions/persona";
+import { createDocUploadAction } from "../rfx/actions/rfx";
+import { uploadImagesOnBlob } from "../util/vercelFileHandler";
 
 // Client request to create User
 export const createUserRequest = async (
@@ -57,7 +60,8 @@ export const createUserRequest = async (
   team,
   activeUser,
   selectedFile,
-  folderName
+  folderName,
+  fileData
 ) => {
   e.preventDefault();
 
@@ -151,14 +155,23 @@ export const createUserRequest = async (
 
   let success = true;
   if (valid) {
+    // upload file
+    if(selectedFile && selectedFile.name) {
+      if (process.env.IS_LOCAL === "local") {
+        // upload file on local or AWS
+        let resp = await uploadSingleFile(selectedFile, apiBackendURL, tenantID, folderName);
+        formData.user_profile_photo = "tenant-" + tenantID + "/" + folderName + selectedFile.name
+        console.log("Running on localhost");
+      } else {
+        // upload file on blob
+        const uploaded= await uploadImagesOnBlob(fileData);
+        formData.user_profile_photo = uploaded[0].url
+        console.log("Running on Vercel or different environment");
+      }    
+    }
+    // create user
     let res = await createUserAction(apiBackendURL, accessToken, formData);
-    if (res.statusCode === 200) {
-      let resp = await uploadSingleFile(
-        selectedFile,
-        apiBackendURL,
-        tenantID,
-        folderName
-      );
+    if (res.statusCode === 200) {      
       window.location = "/admin-panel/users";
     } else {
       valid = false;
@@ -209,7 +222,9 @@ export const updateUserRequest = async (
   user_id,
   apiBackendURL,
   tokens,
-  tenantID
+  tenantID,
+  selectedFile,
+  fileData
 ) => {
   e.preventDefault();
 
@@ -274,6 +289,21 @@ export const updateUserRequest = async (
   }
 
   if (valid) {
+    // upload file
+    if(selectedFile && selectedFile.name) {
+      if (process.env.IS_LOCAL === "local") {
+        // upload file on local or AWS
+        let resp = await uploadSingleFile(selectedFile, apiBackendURL, tenantID, folderName);
+        formData.user_profile_photo = "tenant-" + tenantID + "/" + folderName + selectedFile.name
+        console.log("Running on localhost");
+      } else {
+        // upload file on blob
+        const uploaded= await uploadImagesOnBlob(fileData);
+        formData.user_profile_photo = uploaded[0].url
+        console.log("Running on Vercel or different environment");
+      }
+    }
+    // update user info
     let res = await updateUserRecordAction(
       formData,
       user_id,
@@ -1296,8 +1326,7 @@ export const createOpportunityRequest = async (
       tenantID
     );
     if (res.statusCode === 200) {
-      document.getElementById("modalform6").reset();
-      showModalSuccess("New details added successfully.");
+      showModalSuccess("New opportunity details added successfully.");
       window.location.reload();
     } else {
       valid = false;
@@ -1615,5 +1644,71 @@ export const deletePhaseStageRequest = async (
       //showError("Server Error:", res.returnData.error)
       window.location.reload();
     }
+  }
+};
+
+
+
+///////////////////////// Persona methods
+
+// Client request to create new Persona
+export const createPersonaRequest = async (
+  e,
+   apiBackendURL,
+  tokens,
+  tenantID
+) => {
+  e.preventDefault();
+
+  const formData = {
+    is_active: document.getElementById("m7_persona_role")
+      ? document.getElementById("m7_persona_role").value
+      : "",
+    is_active: true,
+    description: document.getElementById("m7_description")
+      ? document.getElementById("m7_description").value
+      : "",
+  };
+
+  let valid = true;
+  let message = "";
+  const validationFields = ["c", "is_active"];
+
+  validationFields.forEach((element) => {
+    if (!formData[element]) {
+      valid = false;
+      message = "Please fill the required fields.";
+    }
+  });
+
+  const isactive = document.getElementById("m7_is_active");
+  formData.is_active =
+    isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
+
+  if (valid && formData.selectedIndex == 0) {
+    valid = false;
+    message = "Please select the status.";
+  }
+
+  let success = true;
+  if (valid) {
+    let res = await createPersonaAction(
+      formData,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
+    if (res.statusCode === 200) {
+      document.getElementById("modalform4").reset();
+      showModalSuccess("New details added successfully.");
+      window.location.reload();
+    } else {
+      valid = false;
+      message = res.error;
+    }
+  }
+
+  if (!valid || !success) {
+    showModalError(message);
   }
 };

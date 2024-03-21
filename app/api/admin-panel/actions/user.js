@@ -132,7 +132,7 @@ export const updateUserRecordAction = async (
       active: formData.is_active,
       verified: false,
       password_salt: "string",
-      user_profile_photo: "",
+      user_profile_photo: formData.user_profile_photo,
     }),
   };
   try {
@@ -642,11 +642,7 @@ export const getDesignationRecordByIDAction = async (designatin_id) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
     const url = `${apiBackendURL}designation/designations/id/${designatin_id}`;
-
-    // get token
-    //let res = await getToken(apiBackendURL, username, password)
-    //let tokens = res?.tokenData?.access_token
-
+    
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",

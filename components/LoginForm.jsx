@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { loginSubmit } from '@/app/api/auth/scripts';
 
 import Image from 'next/image'
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
+import { TextField, Tooltip } from '@mui/material';
 
 
 const LoginForm = (props) => {
@@ -24,29 +26,30 @@ const LoginForm = (props) => {
                 <div className={`pt-16 bg-white ${hide}`}>
                     <form className='flex flex-col justify-center items-center' >
                         <div className="flex flex-col items-end gap-6 w-72">
-                            <div className="relative w-full min-w-[200px] h-10">
-                                <input
-                                    className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2  focus:border-t-transparent text-sm px-3 py-2.5 rounded-[4px] border-blue-gray-200 focus:border-gray-900"
-                                    placeholder=" "
-                                    name='username'
-                                    id='username'
+                            <div className="relative w-full">
+                                <Tooltip title="Enter Email here" className='absolute right-0.5 top-0.5 w-4 opacity-0  z-20 bg-[#98A9BC] cursor-pointer ' placement="top-end">.</Tooltip>
+                                <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
+                                <TextField
+                                    id="username"
+                                    name="username"
+                                    label="Enter your email"
+                                    variant="outlined"
+                                    className="bg-white w-full"
+                                    autoComplete='off'
+                                />
+                            </div>
+                            <div className="relative w-full">
+                                <Tooltip title="Enter Password here" className='absolute right-0.5 top-0.5 w-4 opacity-0  z-20 bg-[#98A9BC] cursor-pointer ' placement="top-end">.</Tooltip>
+                                <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC] cursor-pointer" />
+                                <TextField
+                                    id="password"
+                                    label="Enter your password"
+                                    type='password'
+                                    variant="outlined"
+                                    className="bg-white w-full"
+                                    autoComplete="new-password"
 
                                 />
-                                <label
-                                    className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-[#98A9BC] peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
-                                    Enter your email
-                                </label>
-                                <Image src="/question-icon.png" alt="question" width={14} height={14} className='absolute top-[4px] right-[4px] cursor-pointer' />
-                            </div>
-                            <div className="relative w-full min-w-[200px] h-11">
-                                <input
-                                    className="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-[4px] peer text-blue-gray-700 outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2  focus:border-t-transparent border-blue-gray-200 focus:border-gray-900"
-                                    placeholder=" " name='password' id='password' type='password' />
-                                <label
-                                    className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[4.1] text-[#98A9BC] peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">Enter your password
-                                </label>
-                                <Image src="/question-icon.png" alt='question' width={14} height={14} className='absolute top-[4px] right-[4px] cursor-pointer' />
-
                             </div>
                         </div>
                         <div className='flex gap-12 my-[30px]'>
@@ -57,7 +60,7 @@ const LoginForm = (props) => {
                             <a href='/forget' className='text-[#26BADA] text-[14px] font-[400]'>Recover password</a>
                         </div>
                         <div className='w-[300px] pb-12'>
-                            <button onClick={(e) => { loginSubmit(e, active, setActive, hide, setHide, router, props.tenantID,props.homeURL ) }} className='bg-[#26BADA] w-full py-2 text-white' type='button' >sign in</button>
+                            <button onClick={(e) => { loginSubmit(e, active, setActive, hide, setHide, router, props.tenantID, props.homeURL) }} className='bg-[#26BADA] w-full py-2 text-white' type='button' >sign in</button>
                         </div>
 
                         <div id="login-alert" className="hidden p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">

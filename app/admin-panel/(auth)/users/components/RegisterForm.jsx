@@ -16,6 +16,7 @@ import {
   getAllTeamRequest,
   createUserRequest,
 } from "@/app/api/admin-panel/scripts";
+import { uploadImagesOnBlob } from "@/app/api/util/vercelFileHandler";
 
 export default function AdminPanelUserRegistrationForm(props) {
   const [companyList, setCompanyList] = useState([]);
@@ -24,6 +25,7 @@ export default function AdminPanelUserRegistrationForm(props) {
   const [selectedFile, setSelectedFile] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [keyChange, setKeyChange] = useState("");
+  const [fileData, setFileData] = useState(null);
 
   const [companyName, setCompanyName] = useState("");
   const handleCompanyNameChange = (event) => {
@@ -83,24 +85,28 @@ export default function AdminPanelUserRegistrationForm(props) {
     };
   }, [props.apiBackendURL, props.accessToken, props.tenantID]); // Include relevant dependencies
 
-  const handleChange = (event) => {
+  const handleChange = async(event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file)); // Set selected image preview
 
     // Create a new FormData object and append the single file
     const formData = new FormData();
     formData.append("file", file);
+    setFileData(formData)
 
     const extractedFile = formData.get("file");
-
     // Update the selectedFiles array with the single file
-    setSelectedFile(extractedFile);
+    setSelectedFile(extractedFile); 
+    
   };
 
   const keyUp = (e) => {
     const key = e.target.value;
     setKeyChange(key);
   };
+
+ 
+
   return (
     <>
       <form id="userRegistrationForm">
@@ -389,7 +395,8 @@ export default function AdminPanelUserRegistrationForm(props) {
                         team,
                         activeUser,
                         selectedFile,
-                        "user-profile"
+                        "user-profile",
+                        fileData
                       )
                     }
                     type="button"

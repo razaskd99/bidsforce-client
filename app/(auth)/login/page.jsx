@@ -25,7 +25,7 @@ const Login = async () => {
   let tID = 0
 
   let tenantDomain = getTenantUrl(currentURL);
-  const res = await checkValidTenant(API_BACKEND_SERVER, tenantDomain);
+  const res = await checkValidTenant(API_BACKEND_SERVER, tenantDomain);  
   let tenantStatus = false;
   let tenantStatusMsg = "";
   if (res.statusCode == 200) {

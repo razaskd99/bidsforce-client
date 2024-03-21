@@ -71,14 +71,14 @@
     }
 
     return (
-      <div>
-        {isSidebarVisible ? <div className={`flex-[15%] bg-[#252631] min-w-[270px] h-auto min-h-screen transition-opacity	   duration-1000 ease-in-out`}>
+      <div className="m-0 p-0">
+        <div className={`flex-[15%] bg-[#252631]  h-full min-h-screen transition-all duration-500 ease-in-out w-full ${isSidebarVisible ? 'w-[250px] ' : 'w-[65px]'}`}>
           <Link
             href="/" ><img
-              src="/Logo.png"
-              className="py-2 max-w-full"
-              width={350}
-              height={90}
+              src={isSidebarVisible ? "/Logo.png" :  "/Logo-Collapse.png"}
+              className="py-2 max-w-full transition-all duration-500"
+              width={isSidebarVisible ? 350 : 50 }
+              height={isSidebarVisible ? 90 : 50 }
               alt="Bid Force Logo"
             />
           </Link>
@@ -86,14 +86,14 @@
             {data.map((item) => (
               <Link
                 href={item.link}
-                className={`flex gap-6 py-4 hover:bg-[#363741] pl-[28px]  hover:border-l-4 hover:border-[#26BADA] ${isLinkActive(item.link)
+                className={`flex gap-6 py-4 hover:bg-[#363741] pl-[20px]  hover:border-l-4 hover:border-[#26BADA] ${isLinkActive(item.link)
                   ? "bg-[#363741] border-l-4 border-[#26BADA]"
                   : "border-l-4 border-transparent"
                   }`}
                 key={item.text}
               >
                 <Image src={item.icon} alt={item.text} width={22} height={25}  />
-                <span className="text-white uppercase text-sm">{item.text}</span>
+                {isSidebarVisible  && <span className="text-white uppercase text-sm transition-all duration-500">{item.text}</span>}
               </Link>
               
             ))}
@@ -106,7 +106,7 @@
                 key="settings"
               >
                 <Image src="/contacts.png" alt="settings" width={22} height={25}  />
-                <span className="text-white uppercase text-sm">Settings</span>
+                {isSidebarVisible  &&<span className="text-white uppercase text-sm">Settings</span>}
               </a>
           </div>
           {/* Recents */}
@@ -117,8 +117,8 @@
         <Link href="/" className="text-white px-6 py-4 block text-sm font-light border-l-4 border-[#00AAEC]" >DRX Refinery ..</Link>
         <Link href="/" className="text-white px-6 py-4 block text-sm font-light border-l-4 border-[#FE4D97]" >Southern Pipelines..</Link>
         <Link href="/" className="text-white px-6 py-4 block text-sm font-light border-l-4 border-[#6DD230]" > Sixth Terminal ...</Link> */}
-        </div> : 
-        <div className={`flex-[15%] bg-[#252631] h-auto min-h-screen min-w-[60px] transition-opacity	   duration-1000 ease-in-out`}>
+        </div> 
+        {/* <div className={`flex-[15%] bg-[#252631] min-h-screen min-w-[60px] transition-all h-full duration-500 ease-in-out ${!isSidebarVisible ? "opacity-100 min-w-[60px] w-full" : "opacity-0 min-w-0 w-0 invisible"}`}>
         <Link
           href="/" ><img
             src="/Logo-Collapse.png"
@@ -139,7 +139,7 @@
               key={item.text}
             >
               <Image src={item.icon} alt={item.text} width={22} height={25}  />
-              {/* <span className="text-white uppercase text-sm">{item.text}</span> */}
+              { <span className="text-white uppercase text-sm">{item.text}</span> }
             </Link>
           ))}
           <a
@@ -151,11 +151,10 @@
               key="Settings"
             >
               <Image src="/contacts.png" alt="Settings" width={22} height={25}  />
-              {/* <span className="text-white uppercase text-sm">{item.text}</span> */}
+              { <span className="text-white uppercase text-sm">{item.text}</span>}
             </a>
         </div>
-        </div>
-        }
+        </div> */}
       </div>
     );
   };

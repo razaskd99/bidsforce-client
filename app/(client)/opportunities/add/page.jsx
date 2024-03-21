@@ -1,4 +1,5 @@
-'use client'
+"use client";
+import { showMainLoader102 } from "@/app/api/util/utility";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,37 +8,41 @@ import { LuRefreshCcw } from "react-icons/lu";
 
 const DrpAutomation = () => {
   const [opportunityData, setOpportunityData] = useState([
-    { name: 'RFx ID', value: 'Not Assigned' },
-    { name: 'BID ID', value: 'Not Assigned' },
+    { name: "RFx ID", value: "Not Assigned" },
+    { name: "BID ID", value: "Not Assigned" },
 
-    { name: 'CRM ID', value: '75121' },
-    { name: 'Opportunity Title', value: 'DRP Refinery Automation' },
+    { name: "CRM ID", value: "75121" },
+    { name: "Opportunity Title", value: "DRP Refinery Automation" },
 
-    { name: 'Customer', value: 'Galaxy Petroleum Company' },
-    { name: 'Stage', value: 'Budgetary' },
+    { name: "Customer", value: "Galaxy Petroleum Company" },
+    { name: "Stage", value: "Budgetary" },
 
-    { name: 'End User', value: 'Galaxy Petroleum Company' },
-    { name: 'Opportunity Type', value: 'System' },
+    { name: "End User", value: "Galaxy Petroleum Company" },
+    { name: "Opportunity Type", value: "System" },
 
-    { name: 'Region', value: 'Angola' },
-    { name: 'Industry Code', value: 'O&G - Downstream' },
+    { name: "Region", value: "Angola" },
+    { name: "Industry Code", value: "O&G - Downstream" },
 
-    { name: 'Business Unit', value: 'Energy Systems' },
-    { name: 'Project Type', value: 'Upgrade' },
+    { name: "Business Unit", value: "Energy Systems" },
+    { name: "Project Type", value: "Upgrade" },
 
-    { name: 'Competition', value: 'Sigma Systems, AWB Automation' },
-    { name: 'Total Opportunity Value ($)', value: '$1,200,000' },
-    { name: 'Gross Profit (%)', value: '8.7%' },
-    { name: 'Opportunity Probability', value: 'A - 80%' },
+    { name: "Competition", value: "Sigma Systems, AWB Automation" },
+    { name: "Total Opportunity Value ($)", value: "$1,200,000" },
+    { name: "Gross Profit (%)", value: "8.7%" },
+    { name: "Opportunity Probability", value: "A - 80%" },
 
-    { name: 'Delivery Duration', value: 'Technical, Commercial, Commercial (Un-priced)' },
-    { name: 'Gross Profit Value', value: '$105,000' },
-    { name: 'Opportunity Forecasted', value: 'Yes' },
     {
-      name: 'Description',
-      value: 'Please address the technical and commercial (unpriced) bid to Sara Andrews. And can you please address the commercial bid to John Smith.',
+      name: "Delivery Duration",
+      value: "Technical, Commercial, Commercial (Un-priced)",
     },
-  ])
+    { name: "Gross Profit Value", value: "$105,000" },
+    { name: "Opportunity Forecasted", value: "Yes" },
+    {
+      name: "Description",
+      value:
+        "Please address the technical and commercial (unpriced) bid to Sara Andrews. And can you please address the commercial bid to John Smith.",
+    },
+  ]);
   const handleValueChange = (index, newValue) => {
     const updatedData = [...opportunityData];
     updatedData[index].value = newValue;
@@ -57,9 +62,14 @@ const DrpAutomation = () => {
         <div className="flex w-full">
           <form className="grid grid-cols-2 gap-4  p-4 flex-[2]">
             {opportunityData.map((item, index) => (
-              <div className={`mt-3 ${item.name === 'Description' ? 'col-span-2' : ''}`} key={index}>
+              <div
+                className={`mt-3 ${
+                  item.name === "Description" ? "col-span-2" : ""
+                }`}
+                key={index}
+              >
                 <span className=" block text-[#778CA2]">{item.name}</span>
-                {item.name === 'Description' ? (
+                {item.name === "Description" ? (
                   <textarea
                     className="border border-gray-200 p-2 outline-1 outline-gray-300 w-full"
                     value={item.value}
@@ -88,6 +98,7 @@ const DrpAutomation = () => {
             <Link
               href="/rfx/newfx"
               className="text-white text-center bg-[#26BADA] py-3 mt-[10px] mb-[18px]] rounded-md"
+              onClick={showMainLoader102}
             >
               LOG FX
             </Link>

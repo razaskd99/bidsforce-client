@@ -1,42 +1,57 @@
 // Import necessary libraries and components
-import { DataGrid } from '@mui/x-data-grid';
-import { LuMessagesSquare } from 'react-icons/lu';
-import { IoIosNotificationsOutline } from 'react-icons/io';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
-import CustomPagination from './CustomPagination';
+import { DataGrid } from "@mui/x-data-grid";
+import { LuMessagesSquare } from "react-icons/lu";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import CustomPagination from "./CustomPagination";
+import { showMainLoader102 } from "@/app/api/util/utility";
 
 // Define a function for rendering option cell
 const renderOptionCell = (params) => (
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <LuMessagesSquare style={{ marginRight: 4, fontSize: 18, color: '#98A9BC' }} />
-    <IoIosNotificationsOutline style={{ marginRight: 4, fontSize: 18, color: '#98A9BC' }} />
-    <HiOutlineDotsHorizontal style={{ marginRight: 4, fontSize: 18, color: '#98A9BC' }} />
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <LuMessagesSquare
+      style={{ marginRight: 4, fontSize: 18, color: "#98A9BC" }}
+    />
+    <IoIosNotificationsOutline
+      style={{ marginRight: 4, fontSize: 18, color: "#98A9BC" }}
+    />
+    <HiOutlineDotsHorizontal
+      style={{ marginRight: 4, fontSize: 18, color: "#98A9BC" }}
+    />
   </div>
 );
 
 // Define columns for the DataGrid
 const columns = [
-  { field: 'checkbox', headerName: <input type='checkbox' />, width: 160, renderCell: (params) => <Image src={`/${params.value}`} width={40} height={40} /> },
-  { field: 'description', headerName: 'Description', width: 200 },
-  { field: 'rfxid', headerName: 'RFX ID', width: 160 },
-  { field: 'customer', headerName: 'Customer', width: 160 },
-  { field: 'type', headerName: 'Type', width: 160 },
-  { field: 'duedate', headerName: 'Due Date', width: 160 },
-  { field: 'contacts', headerName: 'Contacts', width: 160 },
-  { field: 'status', headerName: 'Status', width: 160 },
-  { field: 'options', headerName: '...', width: 120, renderCell: renderOptionCell },
+  {
+    field: "checkbox",
+    headerName: <input type="checkbox" />,
+    width: 160,
+    renderCell: (params) => (
+      <Image src={`/${params.value}`} width={40} height={40} />
+    ),
+  },
+  { field: "description", headerName: "Description", width: 200 },
+  { field: "rfxid", headerName: "RFX ID", width: 160 },
+  { field: "customer", headerName: "Customer", width: 160 },
+  { field: "type", headerName: "Type", width: 160 },
+  { field: "duedate", headerName: "Due Date", width: 160 },
+  { field: "contacts", headerName: "Contacts", width: 160 },
+  { field: "status", headerName: "Status", width: 160 },
+  {
+    field: "options",
+    headerName: "...",
+    width: 120,
+    renderCell: renderOptionCell,
+  },
 ];
-
-
-
 
 // Define the DataTable component
 export default function DataTable({ viewMode, data, viewType }) {
-
-  let adjustedRows = []
+  let adjustedRows = [];
   // Adjusted rows with unique ids
   try {
     adjustedRows = data.map((rowData, index) => ({
@@ -45,7 +60,7 @@ export default function DataTable({ viewMode, data, viewType }) {
       opportunity_id: rowData.opportunity_id,
       initiator_id: rowData.initiator_id,
       rfx_bid_assignto: rowData.rfx_bid_assignto,
-      checkbox: 'Galaxy Petroleum.png', // Replace with the actual checkbox value
+      checkbox: "Galaxy Petroleum.png", // Replace with the actual checkbox value
       description: rowData.rfx_title,
       rfxid: rowData.rfx_number,
       customer: rowData.company_name,
@@ -81,8 +96,7 @@ export default function DataTable({ viewMode, data, viewType }) {
       enduser_type: rowData.enduser_type,
       rfx_id: rowData.rfx_id,
     }));
-  } catch (err) { }
-
+  } catch (err) {}
 
   // Setup necessary variables and state
   const pathname = usePathname();
@@ -99,15 +113,15 @@ export default function DataTable({ viewMode, data, viewType }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedRows = adjustedRows.slice(startIndex, endIndex);
-  const isManager = pathname.includes('/manager/');
+  const isManager = pathname.includes("/manager/");
 
   // Handle row click
   const handleRowClick = (params) => {
-    
+    showMainLoader102();
     const rowId = params.row.id;
-    if (viewType == 'bids') {
+    if (viewType == "bids") {
       router.push(`/manager/rfx/detail/${rowId}`);
-    } else if (viewType == 'rfx') {
+    } else if (viewType == "rfx") {
       router.push(`/rfx/detail/${rowId}`);
     }
   };
@@ -115,34 +129,72 @@ export default function DataTable({ viewMode, data, viewType }) {
   // Render the DataTable component
   return (
     <div>
-      {viewMode === 'list' ? (
-        <div style={{ height: '100%', maxHeight: '600px', width: '100%',maxWidth:'86vw', userSelect: 'none' }} className='data-table'>
+      {viewMode === "list" ? (
+        <div
+          style={{
+            height: "100%",
+            maxHeight: "600px",
+            width: "100%",
+            maxWidth: "86vw",
+            userSelect: "none",
+          }}
+          className="data-table"
+        >
           <DataGrid
-            className='select-none mb-5'
+            className="select-none mb-5"
             rows={adjustedRows} // Use adjustedRows instead of data
             columns={columns}
             onRowClick={handleRowClick}
             pageSize={itemsPerPage}
             pagination
             getRowClassName={(params) => "cursor-pointer"}
-
           />
         </div>
       ) : (
         <>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {paginatedRows.map((row) => (
-              <div key={row.id} className='bg-white p-8 py-16 border rounded-md text-center'>
-                <Image src={`/${row.checkbox}`} width={80} height={80} className='m-auto mb-1' />
-                <div className='mt-2 text-[#778CA2] mb-1'>{row.description}</div>
-                <div className='text-xl mb-1'>{row.customer}</div>
-                <div className='mt-2 text-lg mb-1'>{row.duedate}</div>
-                <div className='mt-2 text-sm text-[#98A9BC] mb-2'>Due Date</div>
-                <div className='flex justify-center relative w-[30%] m-auto mt-3'>
-                  <Image src='/man.jpeg' alt='man' width={36} height={36} className=' rounded-full w-auto absolute top-0 left-[0px]' />
-                  <Image src='/man.jpeg' alt='man' width={36} height={36} className=' rounded-full w-auto absolute top-0 left-[20px]' />
-                  <Image src='/man.jpeg' alt='man' width={36} height={36} className=' rounded-full w-auto absolute top-0 left-[40px]' />
-                  <div className='bg-[#F8FAFB] p-3 text-[#98A9BC] rounded-full w-auto absolute top-0 left-[60px]'>+5</div>
+              <div
+                key={row.id}
+                className="bg-white p-8 py-16 border rounded-md text-center"
+              >
+                <Image
+                  src={`/${row.checkbox}`}
+                  width={80}
+                  height={80}
+                  className="m-auto mb-1"
+                />
+                <div className="mt-2 text-[#778CA2] mb-1">
+                  {row.description}
+                </div>
+                <div className="text-xl mb-1">{row.customer}</div>
+                <div className="mt-2 text-lg mb-1">{row.duedate}</div>
+                <div className="mt-2 text-sm text-[#98A9BC] mb-2">Due Date</div>
+                <div className="flex justify-center relative w-[30%] m-auto mt-3">
+                  <Image
+                    src="/man.jpeg"
+                    alt="man"
+                    width={36}
+                    height={36}
+                    className=" rounded-full w-auto absolute top-0 left-[0px]"
+                  />
+                  <Image
+                    src="/man.jpeg"
+                    alt="man"
+                    width={36}
+                    height={36}
+                    className=" rounded-full w-auto absolute top-0 left-[20px]"
+                  />
+                  <Image
+                    src="/man.jpeg"
+                    alt="man"
+                    width={36}
+                    height={36}
+                    className=" rounded-full w-auto absolute top-0 left-[40px]"
+                  />
+                  <div className="bg-[#F8FAFB] p-3 text-[#98A9BC] rounded-full w-auto absolute top-0 left-[60px]">
+                    +5
+                  </div>
                 </div>
               </div>
             ))}

@@ -5,12 +5,26 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LuLogOut } from "react-icons/lu";
 
 const Navbar = () => {
-
   const { toggleSidebar } = useSidebar();
+  const [profilePic, setProfilePic] = useState('/avatar.png')
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          let userRec = await getCookieValue('userLoginData');
+          if(userRec.user_profile_photo && userRec.user_profile_photo != "") {
+            setProfilePic(userRec.user_profile_photo)
+          }
+        } catch (error) {
+        }
+      };
+    
+      fetchData();
+    }, []);
 
 
   return (
@@ -33,7 +47,7 @@ const Navbar = () => {
           <span className='bg-[#FE4D97] w-2 h-2 block absolute rounded-full top-0 right-0 border border-white'></span>
         </Link>
         <Link href='#'>
-          <Image src="/man.jpeg" width={36} height={36} alt='profile' className='rounded-full object-cover' />
+          <Image src={profilePic} width={36} height={36} alt='profile' className='rounded-full object-cover' />
         </Link>
         <Link href='#' onClick={async () => {
           const updatedLikes = await logoutUser();

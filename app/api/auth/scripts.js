@@ -1,5 +1,8 @@
 "use client"
 
+import { getDesignationRecordByIDAction } from "../admin-panel/actions/user";
+import { getToken } from "../util/script";
+import { hideMainLoader102, showMainLoader102 } from "../util/utility";
 import { loginAction } from "./actions/auth";
 
 const users = [
@@ -23,20 +26,20 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
   const user = users.find((u) => u.username === username && u.password === password);
 
   if (user) {
-
+    
     if (user.role === 'sales') {
-      router.push('/dashboard');
+      router.push('/rfx');
       setActive('block');
 
       setHide('hidden');
 
     } else if (user?.role === 'admin') {
-      router.push('manager/dashboard');
+      router.push('/bids');
       setActive('block');
       setHide('hidden');
     }
     else {
-
+      router.push('/dashboard');
     }
 
   } else {
@@ -44,7 +47,6 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
     let res = await loginAction(username, password, tenantID,homeurl);
 
     setUserData(res.user, res.access_token);
-
 
     const alertElement = document.getElementById('login-alert');
 
@@ -59,32 +61,37 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
       alertElement.classList.add('hidden');
       alertElement.innerText = '';
 
-      const welcomeMsg = document.getElementById('welcome-msg');
-      welcomeMsg.textContent = `Welcome ${res.user?.first_name}   ${res.user?.last_name} !`;
+      try{
+        const welcomeMsg = document.getElementById('welcome-msg');
+        welcomeMsg.textContent = `Welcome ${res.user?.first_name}   ${res.user?.last_name} !`;
+      } catch {}
 
+      // get user designation
+      let designation = ''
+      try {
+        const r1= await getDesignationRecordByIDAction(res?.user?.designation_id);
+        designation = r1.returnData.title;
+      } catch {  }
 
       // Use optional chaining and nullish coalescing
       const profilePic = res?.user?.user_profile_photo ?? '/images/users/profile.jpg';
       // Set the src attribute of the image
       document.getElementById('welcome-profile-pic').src = profilePic;
-      if (res.user?.user_role === 'sales representative') {
-        router.push('/dashboard');
+      if (designation === 'sales representative') {
+        router.push('/rfx');
         setActive('block');
         setHide('hidden');
 
-      } else if (res.user?.user_role === 'bid manager') {
-        router.push('manager/dashboard');
+      } else if (designation === 'bid manager') {
+        router.push('/bids');
         setActive('block');
         setHide('hidden');
       }
       else {
-
         router.push('/dashboard');
         setActive('block');
         setHide('hidden');
-
-      }
-
+      }      
     }
   }
 };

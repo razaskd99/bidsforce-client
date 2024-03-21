@@ -31,7 +31,7 @@ const RfxList = (props) => {
              <div className="bg-[#F2F4F6] px-6 h-full relative w-full">
                  <Breadcrumbs items={breadcrumbItems} />
                  <div className=" flex items-center justify-between mt-12 mb-4">
-                     <Link href="/rfx/new" className="text-xs text-[#26BADA] flex items-center gap-2 cursor-pointer" >
+                     <Link href="/rfx/newfx" className="text-md text-[#26BADA] flex items-center gap-2 cursor-pointer" >
                          New RFx
                          <Image src="add-blue.svg" width={18} height={21} alt="add" />
                      </Link>

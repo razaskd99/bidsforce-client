@@ -1,9 +1,11 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import SearchTable from "@/components/SearchTable";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoMdAddCircleOutline } from "react-icons/io";
 import { getAllOppotunitiesRecords } from "@/app/api/opportunities/scripts";
 const axios = require('axios');
 import getConfig from "next/config";
+import Image from "next/image"
+import Link from "next/link";
 
 // start login init
 import { redirect } from "next/navigation";
@@ -48,16 +50,23 @@ const Opportunitues = async () => {
 
     <div>
       <Breadcrumbs items={breadcrumbItems} />
-      <div className="w-[260px] flex items-center justify-between rounded-2xl bg-white py-[6px] px-5 my-4 ml-auto">
-        <input
-          type="text"
-          placeholder="Search within results"
-          className="w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm"
-        />
-        <button>
-          <IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" />
-        </button>
+      <div className="flex">
+        <Link href="/admin-panel/opportunities" className="text-md text-[#26BADA] flex items-center gap-2 cursor-pointer" >
+            New Opportunity
+            <Image src="add-blue.svg" width={18} height={21} alt="add" />
+        </Link>
+        <div className="w-[260px] flex items-center justify-between rounded-2xl bg-white py-[6px] px-5 my-4 ml-auto">
+          <input
+            type="text"
+            placeholder="Search within results"
+            className="w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm"
+          />
+          <button>
+            <IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" />
+          </button>
       </div>
+    </div>
+
       {
         opportunitiesRecords.length > 0
           ?

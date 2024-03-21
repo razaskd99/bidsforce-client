@@ -1,7 +1,7 @@
 export const checkValidTenant = async (apiBackendURL, tenantDomain) => {
   try {
     const url = `${apiBackendURL}admin/control-panel/check_valid_tenant/${tenantDomain}`;
-
+    
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -55,7 +55,7 @@ export async function getToken(apiBackendURL, username, password) {
       },
       body: formData,
     });
-
+    
     if (!response.ok) {
       return {
         statusCode: 400,

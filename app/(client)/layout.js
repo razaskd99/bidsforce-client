@@ -26,7 +26,7 @@ export default async function RootLayout({ children }) {
         <div className='flex'>
             <SidebarProvider>
                 <Sidenav /> 
-                <div className="flex-[85%]">
+                <div className="flex-[85%] overflow-x-auto">
                     <div className='w-full h-full '>
                         <Navbar />
                         <div className='p-7 bg-[#F2F4F6] h-full max-h-[90%] overflow-y-auto scrollbar'>

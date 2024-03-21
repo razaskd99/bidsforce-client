@@ -1,12 +1,34 @@
 "use client";
 import { logout, logoutUser } from "@/app/api/util/action/account";
+import { getCookieValue } from "@/lib/scripts";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { LuLogOut } from "react-icons/lu";
 
+
+
 const AdminPanelNavbar = () => {
+    
+  const [profilePic, setProfilePic] = useState('/avatar.png')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let userRec = await getCookieValue('userLoginData');
+        if(userRec.user_profile_photo && userRec.user_profile_photo != "") {
+          setProfilePic(userRec.user_profile_photo)
+        }
+      } catch (error) {
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+
   return (
     <div className="bg-gray-400 h-16 w-full flex justify-between items-center text-white px-7">
       <div className="flex items-center gap-8">
@@ -38,7 +60,7 @@ const AdminPanelNavbar = () => {
         </Link>
         <Link href="#">
           <Image
-            src="/man.jpeg"
+            src={profilePic}
             width={36}
             height={36}
             alt="man"

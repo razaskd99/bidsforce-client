@@ -3,6 +3,7 @@ import './globals.css'
 import './style.css'
 import Head from 'next/head'
 import ReactDOM from 'react-dom';
+import Image from 'next/image'
 
 const rubik = Rubik({
   weight: ['300', '400', '500', '600', '700'],
@@ -28,7 +29,13 @@ export default function RootLayout({ children }) {
       <body className={`${rubik.className} `} >
 <h3 className='z-50'>
       <div id="mainLoader102" className="z-50 hidden fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50 justify-center items-center h-screen">
-            <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
+            <Image
+        src="/images/loader1.webp"
+        width={150}
+        height={150}
+        alt="Picture of the author"
+      />
+
         </div>
         </h3>
         {children}

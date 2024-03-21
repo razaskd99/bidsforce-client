@@ -1,7 +1,14 @@
 "use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import DatePickerInput from "@/components/DatePickerInput";
-import { Checkbox, FormGroup, ListItemText, TextField, Avatar, Typography } from "@mui/material";
+import {
+  Checkbox,
+  FormGroup,
+  ListItemText,
+  TextField,
+  Avatar,
+  Typography,
+} from "@mui/material";
 import { HiOutlineTrash } from "react-icons/hi2";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
@@ -18,12 +25,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Image from "next/image";
 import PopupInput from "@/components/PopupInput";
 import DragDrop from "@/components/FileInput";
-import ContactDialog from '@/components/ContactPopup';
+import ContactDialog from "@/components/ContactPopup";
 import Link from "next/link";
 import CheckboxDropdown from "@/components/CheckboxDropdown";
-import { getRfxById, getRfxContacts, getUsers, GetRfxDocumentsAction } from "@/app/api/rfx/actions/rfx";
+import {
+  getRfxById,
+  getRfxContacts,
+  getUsers,
+  GetRfxDocumentsAction,
+} from "@/app/api/rfx/actions/rfx";
 import { getRfxTypes, createUpdateRfxRequest } from "@/app/api/rfx/scripts";
-import { formatDate, fileDownload, hideMainLoader102 } from "@/app/api/util/utility";
+import {
+  formatDate,
+  fileDownload,
+  hideMainLoader102,
+  showMainLoader102,
+} from "@/app/api/util/utility";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -31,7 +48,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 const CreateNewRfx = ({
   preRfxData,
@@ -46,14 +63,14 @@ const CreateNewRfx = ({
   tenantID,
   loginUserID,
 }) => {
-
-  const router = useRouter()
-  hideMainLoader102()
+  const router = useRouter();
+  hideMainLoader102();
 
   const currentDate = new Date();
   // Format the date as "MM/DD/YYYY"
-  const currentdDate = `${currentDate.getMonth() + 1
-    }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+  const currentdDate = `${
+    currentDate.getMonth() + 1
+  }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
 
   const breadcrumbItems = [
     { label: "Dashboard", href: "/" },
@@ -69,8 +86,6 @@ const CreateNewRfx = ({
 
   const [selectedFilesMain, setSelectedFilesMain] = useState([]);
   const [uploaded, setUploaded] = useState(false);
-
-
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -97,9 +112,7 @@ const CreateNewRfx = ({
   const [rfxId, setRfxId] = useState(
     preRfxData?.rfx_id ? preRfxData?.rfx_id : 0
   );
-  const [initiatorId, setInitiatorId] = useState(
-    loginUserID ? loginUserID : 0
-  );
+  const [initiatorId, setInitiatorId] = useState(loginUserID ? loginUserID : 0);
   const [customer, setCustomer] = useState(
     preRfxData?.customer ? preRfxData?.customer : ""
   );
@@ -118,9 +131,7 @@ const CreateNewRfx = ({
   const [endUser, setEndUser] = useState(
     preRfxData?.end_user ? preRfxData?.end_user : ""
   );
-  const [endUserId, setEndUserId] = useState(
-    preRfxData?.enduser_id ?? 0
-  );
+  const [endUserId, setEndUserId] = useState(preRfxData?.enduser_id ?? 0);
   const [rfxNumber, setRfxNumber] = useState(
     preRfxData?.rfx_number ? preRfxData?.rfx_number : ""
   );
@@ -131,9 +142,7 @@ const CreateNewRfx = ({
   const [rfxTypeValue, setRfxTypeValue] = useState(
     preRfxData?.rfx_type_id ?? 0
   );
-  const [stageValue, setStageValue] = useState(
-    preRfxData?.rfx_stage_id ?? 0
-  );
+  const [stageValue, setStageValue] = useState(preRfxData?.rfx_stage_id ?? 0);
   const [bidValidityValue, setBidValidityValue] = useState(
     preRfxData?.bid_validity_id ?? 0
   );
@@ -146,26 +155,24 @@ const CreateNewRfx = ({
       : new Date().toISOString().slice(0, 10)
   );
   const [dueDate, setDueDate] = useState(
-    preRfxData?.due_date
-      ? preRfxData?.due_date
-      : ''
+    preRfxData?.due_date ? preRfxData?.due_date : ""
   );
   const [technicalClarificationDeadline, setTechnicalClarificationDeadline] =
     useState(
       preRfxData?.technical_clarification_deadline
         ? preRfxData?.technical_clarification_deadline
-        : ''
+        : ""
     );
   const [commercialClarificationDeadline, setCommercialClarificationDeadline] =
     useState(
       preRfxData?.commercial_clarification_deadline
         ? preRfxData?.commercial_clarification_deadline
-        : ''
+        : ""
     );
   const [submissionInstructions, setSubmissionInstructions] = useState(
     preRfxData?.submission_instructions
       ? preRfxData?.submission_instructions
-      : ''
+      : ""
   );
   const [visitToWorkSite, setVisitToWorkSite] = useState(
     preRfxData?.visit_worksite ? preRfxData?.visit_worksite : "no"
@@ -203,17 +210,23 @@ const CreateNewRfx = ({
       : null
   );
   const [acknowledgementComment, setAcknowledgementComment] = useState(
-    preRfxData?.acknowledgement_comment ? preRfxData?.acknowledgement_comment : ""
+    preRfxData?.acknowledgement_comment
+      ? preRfxData?.acknowledgement_comment
+      : ""
   );
   const [acknowledged, setAcknowledged] = useState(
     preRfxData?.acknowledged ? preRfxData?.acknowledged : false
   );
   const [acknowledgementDocument, setAcknowledgementDocument] = useState(
-    preRfxData?.acknowledgement_document ? preRfxData?.acknowledgement_document : 0
+    preRfxData?.acknowledgement_document
+      ? preRfxData?.acknowledgement_document
+      : 0
   );
   const [acknowledgementSubmittedOn, setAcknowledgementSubmittedOn] = useState(
     preRfxData?.acknowledgement_submitted_on
-      ? new Date(preRfxData?.acknowledgement_submitted_on).toISOString().slice(0, 10)
+      ? new Date(preRfxData?.acknowledgement_submitted_on)
+          .toISOString()
+          .slice(0, 10)
       : null
   );
 
@@ -221,41 +234,36 @@ const CreateNewRfx = ({
   const [documentsFormData, setDocumentsFormData] = useState(null);
   const [documentsUploaded, setDocumentsUploaded] = useState(false);
   const [selectedContact, setSelectedContacts] = useState([]);
-  const [isContactDialogOpen, setContactDialogOpen] = useState(false)
+  const [isContactDialogOpen, setContactDialogOpen] = useState(false);
   const [isAddContactClicked, setAddContactClicked] = useState(false);
   const handleContactSelect = (contact) => {
-    const temp = selectedContact.filter((c) => c.id == contact.id)
+    const temp = selectedContact.filter((c) => c.id == contact.id);
     if (!temp || !temp.length) {
       setSelectedContacts((prevContacts) => [...prevContacts, contact]);
     }
-    console.log(selectedContact)
+    console.log(selectedContact);
   };
   const handleAddContactClick = () => {
-    setPopUp(prevPopUp => [
+    setPopUp((prevPopUp) => [
       ...prevPopUp,
       <PopupInput
         key={prevPopUp.length}
-        label={'rfx'}
+        label={"rfx"}
         className="w-[430px]"
         users={users}
         onCloseDialog={handleClosePopupInput}
         setAddedContacts={setAddedContacts}
-      />
+      />,
     ]);
   };
 
   const handleClosePopupInput = (persons) => {
-
     //console.log('2222222222222222222',persons)
-
   };
-
 
   const [addedContacts, setAddedContacts] = useState([]);
   const [documentsData, setDocumentsData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
-
-
 
   useEffect(() => {
     if (visitToWorkSite == true) {
@@ -317,7 +325,10 @@ const CreateNewRfx = ({
 
       let documentsResponse = await GetRfxDocumentsAction(rfxNumb);
       if (documentsResponse.statusCode == 200) {
-        if (documentsResponse?.returnData && documentsResponse?.returnData.length > 0) {
+        if (
+          documentsResponse?.returnData &&
+          documentsResponse?.returnData.length > 0
+        ) {
           setDocumentsData(documentsResponse?.returnData);
         }
       }
@@ -341,10 +352,14 @@ const CreateNewRfx = ({
         setStageValue(prevRfxData?.rfx_stage_id);
         setBidValidityValue(prevRfxData?.bid_validity_id);
         setSubmissionModeValue(prevRfxData?.rfx_submission_mode_id);
-        setIssueDate(new Date(prevRfxData?.issued_date).toISOString().slice(1, 10));
+        setIssueDate(
+          new Date(prevRfxData?.issued_date).toISOString().slice(1, 10)
+        );
         setDueDate(new Date(prevRfxData?.due_date).toISOString().slice(1, 10));
         setTechnicalClarificationDeadline(
-          new Date(prevRfxData?.tech_clarification_deadline).toISOString().slice(1, 10)
+          new Date(prevRfxData?.tech_clarification_deadline)
+            .toISOString()
+            .slice(1, 10)
         );
         setCommercialClarificationDeadline(
           prevRfxData?.com_clarification_deadline
@@ -354,7 +369,6 @@ const CreateNewRfx = ({
         setVisitToWebsiteInstruction(prevRfxData?.visit_worksite_instructions);
         setExistingAgreement(prevRfxData?.under_existing_agreement);
         setAgreementReferenceNumber(prevRfxData?.agreement_ref_num);
-
       } else {
         alert("RFx No Found Against this ID!");
       }
@@ -362,7 +376,6 @@ const CreateNewRfx = ({
       alert("Enter a Valid Rfx Number!");
     }
   };
-
 
   const loadUsersRequest = async () => {
     let usersResponse = await getUsers();
@@ -373,55 +386,45 @@ const CreateNewRfx = ({
     }
   };
 
-
   const handleRadioChangeExistingAgreement = (event) => {
     alert(event.target.value);
     setSelectedValueExistingAgreement(event.target.value);
     // Additional actions based on the selected value can be performed here
   };
 
-
-  const uploadFiles = async (selectedFilesMain, apiBackendURL,
-    tenantID) => {
+  const uploadFiles = async (selectedFilesMain, apiBackendURL, tenantID) => {
     //event.preventDefault();
 
-
-
     try {
-
-
       const formData = new FormData();
       for (let i = 0; i < selectedFilesMain.length; i++) {
-        formData.append('files', selectedFilesMain[i]);
+        formData.append("files", selectedFilesMain[i]);
       }
 
-      // Make a POST request to your FastAPI route			
+      // Make a POST request to your FastAPI route
       const response = await fetch(apiBackendURL + "uploads/upload/", {
         method: "POST",
         body: formData,
         headers: {
-          'accept': 'application/json',
-          'tenantID': "2",
-          'docvaltKey': "docvaltkey",
-          'rfxID': "22222",
+          accept: "application/json",
+          tenantID: "2",
+          docvaltKey: "docvaltkey",
+          rfxID: "22222",
           // No need to set 'Content-Type' as it is automatically set for multipart/form-data
         },
       });
 
       if (response.ok) {
         console.log("Files uploaded successfully");
-        setUploaded(true)
+        setUploaded(true);
         props.setDocumentsUploaded(true);
       } else {
         console.error("Failed to upload files");
       }
-
     } catch (error) {
       console.error("Error uploading files", error);
     }
   };
-
-
 
   return (
     <>
@@ -502,7 +505,11 @@ const CreateNewRfx = ({
                 <option value={0}>Select Company</option>
                 {companies.map((option) =>
                   companyID === option.company_id ? (
-                    <option selected key={option.company_name} value={option.company_id}>
+                    <option
+                      selected
+                      key={option.company_name}
+                      value={option.company_id}
+                    >
                       {option.company_name}
                     </option>
                   ) : (
@@ -539,7 +546,10 @@ const CreateNewRfx = ({
                 label={"Content Submission"}
               >
                 {contentSubmission.map((option) => (
-                  <MenuItem key={option.title} value={option.rfx_content_submission_id}>
+                  <MenuItem
+                    key={option.title}
+                    value={option.rfx_content_submission_id}
+                  >
                     <Checkbox
                       defaultChecked={
                         contentSubmissionValue.indexOf(option.title) > -1
@@ -597,7 +607,11 @@ const CreateNewRfx = ({
               <option value={0}>Select a Rfx Stage</option>
               {rfxStages.map((option) =>
                 stageValue === option.rfx_stage_id ? (
-                  <option selected key={option.title} value={option.rfx_stage_id}>
+                  <option
+                    selected
+                    key={option.title}
+                    value={option.rfx_stage_id}
+                  >
                     {option.title}
                   </option>
                 ) : (
@@ -616,7 +630,11 @@ const CreateNewRfx = ({
               <option value={0}>Select a Bid Validity</option>
               {bidValidity.map((option) =>
                 bidValidityValue === option.bid_validity_id ? (
-                  <option selected key={option.title} value={option.bid_validity_id}>
+                  <option
+                    selected
+                    key={option.title}
+                    value={option.bid_validity_id}
+                  >
                     {option.title}
                   </option>
                 ) : (
@@ -635,11 +653,18 @@ const CreateNewRfx = ({
               <option value={0}>Select a Submission Mode</option>
               {submissionMode.map((option) =>
                 submissionModeValue === option.rfx_submission_mode_id ? (
-                  <option selected key={option.title} value={option.rfx_submission_mode_id}>
+                  <option
+                    selected
+                    key={option.title}
+                    value={option.rfx_submission_mode_id}
+                  >
                     {option.title}
                   </option>
                 ) : (
-                  <option key={option.title} value={option.rfx_submission_mode_id}>
+                  <option
+                    key={option.title}
+                    value={option.rfx_submission_mode_id}
+                  >
                     {option.title}
                   </option>
                 )
@@ -662,7 +687,11 @@ const CreateNewRfx = ({
                       <DatePicker
                         label={"Issue Date"}
                         value={dayjs(issueDate)}
-                        onChange={(date) => setIssueDate(new Date(date).toISOString().slice(0, 10))}
+                        onChange={(date) =>
+                          setIssueDate(
+                            new Date(date).toISOString().slice(0, 10)
+                          )
+                        }
                       />
                     </div>
                   </DemoContainer>
@@ -678,7 +707,9 @@ const CreateNewRfx = ({
                       <DatePicker
                         label={"Due Date"}
                         value={dayjs(dueDate)}
-                        onChange={(date) => setDueDate(new Date(date).toISOString().slice(0, 10))}
+                        onChange={(date) =>
+                          setDueDate(new Date(date).toISOString().slice(0, 10))
+                        }
                       />
                     </div>
                   </DemoContainer>
@@ -694,7 +725,11 @@ const CreateNewRfx = ({
                       <DatePicker
                         label={"Technical clarification deadline"}
                         value={dayjs(technicalClarificationDeadline)}
-                        onChange={(date) => setTechnicalClarificationDeadline(new Date(date).toISOString().slice(0, 10))}
+                        onChange={(date) =>
+                          setTechnicalClarificationDeadline(
+                            new Date(date).toISOString().slice(0, 10)
+                          )
+                        }
                       />
                     </div>
                   </DemoContainer>
@@ -710,7 +745,11 @@ const CreateNewRfx = ({
                       <DatePicker
                         label={"Commercial clarification deadline"}
                         value={dayjs(commercialClarificationDeadline)}
-                        onChange={(date) => setCommercialClarificationDeadline(new Date(date).toISOString().slice(0, 10))}
+                        onChange={(date) =>
+                          setCommercialClarificationDeadline(
+                            new Date(date).toISOString().slice(0, 10)
+                          )
+                        }
                       />
                     </div>
                   </DemoContainer>
@@ -802,7 +841,15 @@ const CreateNewRfx = ({
                 onChange={(e) => setAgreementReferenceNumber(e.target.value)}
               />
             </div>
-            <DragDrop setSelectedFilesMain={setSelectedFilesMain} setAttachedDocuments={setAttachedDocuments} apiBackendURL={apiBackendURL} storedDocuments={documentsData} tenantID={tenantID} docvaltkey="rfx" rfxID={rfxNumber} />
+            <DragDrop
+              setSelectedFilesMain={setSelectedFilesMain}
+              setAttachedDocuments={setAttachedDocuments}
+              apiBackendURL={apiBackendURL}
+              storedDocuments={documentsData}
+              tenantID={tenantID}
+              docvaltkey="rfx"
+              rfxID={rfxNumber}
+            />
 
             {/*documentsData.length && <div className="mt-5">
               {documentsData?.map((doc, index) => (
@@ -813,37 +860,49 @@ const CreateNewRfx = ({
                 </div>
               ))}
               </div>*/}
-
           </div>
 
           <div className="flex-[1] mt-5">
             <div className="border mb-3 rounded-md">
-              <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">RFx Contacts</div>
+              <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
+                RFx Contacts
+              </div>
               {contactsData.map((contact, index) => (
                 <TextField
-                key={index}
+                  key={index}
                   variant="outlined"
                   label={contact.conatct_key}
-                  value={contact.first_name + '' + contact.last_name}
+                  value={contact.first_name + "" + contact.last_name}
                   className="w-full  pointer-events-none mb-3"
-                  data_user_id={''}
+                  data_user_id={""}
                   InputProps={{
                     readOnly: true,
                   }}
                 />
               ))}
-
             </div>
             <div className="">
               <div className="bg-[#00000005] p-[14px] text-[#778CA2] flex items-center justify-between">
                 <span>Key Contacts</span>
-                <button onClick={handleAddContactClick} className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium  css-78trlr-MuiButtonBase-root-MuiIconButton-root" tabindex="0" type="button" >
-                  <img loading="lazy" width="18" height="21" decoding="async" data-nimg="1" src="/add-blue.svg" style={{ color: "transparent" }} />
+                <button
+                  onClick={handleAddContactClick}
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium  css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    loading="lazy"
+                    width="18"
+                    height="21"
+                    decoding="async"
+                    data-nimg="1"
+                    src="/add-blue.svg"
+                    style={{ color: "transparent" }}
+                  />
                   <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
                 </button>
               </div>
               <div className="bg-[#F8FAFB] flex flex-col gap-3 py-4 rounded-b-md items-center w-full">
-
                 {popUp.map((popup, index) => (
                   <div key={index}>{popup}</div>
                 ))}
@@ -868,12 +927,16 @@ const CreateNewRfx = ({
                 <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
               </button> */}
               </div>
-
             </div>
           </div>
         </div>
 
-        <ContactDialog isOpen={isContactDialogOpen} handleClose={() => setContactDialogOpen(false)} handleContactSelect={handleContactSelect} users={users} />
+        <ContactDialog
+          isOpen={isContactDialogOpen}
+          handleClose={() => setContactDialogOpen(false)}
+          handleContactSelect={handleContactSelect}
+          users={users}
+        />
 
         <div className="flex items-center gap-4 mt-20">
           <button className="border border-[#26BADA] bg-white text-[#26BADA] text-sm uppercase px-20 py-3 rounded-sm">
@@ -881,58 +944,76 @@ const CreateNewRfx = ({
           </button>
           <button
             onClick={() => {
-              createUpdateRfxRequest({
-                "opportunity_id": preRfxData.opportunity_id,
-                "initiator_id": loginUserID,
-                "rfx_bid_assignto": 0,
-                "rfx_title": opportunityTitle,
-                "rfx_number": rfxNumber,
-                "under_existing_agreement": existingAgreement === 'yes' ? true : false,
-                "status": '',
-                "previous_rfx_ref_num": '',
-                "revision_of_previous_rfx": isRevision ? true : false,
-                "agreement_ref_num": agreementReferenceNumber,
-                "issued_date": issueDate ? issueDate : null,
-                "due_date": dueDate ? dueDate : null,
-                "crm_id": opportunityCrmID,
-                "bid_number": bidNumber,
-                "request_for_bid": false,
-                "visit_worksite": visitToWorkSite === 'yes' ? true : false,
-                "visit_worksite_instructions": visitToWorksiteInstruction,
-                "tech_clarification_deadline": technicalClarificationDeadline ? technicalClarificationDeadline : null,
-                "com_clarification_deadline": commercialClarificationDeadline ? commercialClarificationDeadline : null,
-                "expected_award_date": expectedAwardDate ? expectedAwardDate : null,
-                "enduser_name": endUser,
-                "enduser_id": 1,
-                "enduser_type": '',
-                "acknowledged_by": 0,
-                "acknowledgement_date": acknowledgementDate ? acknowledgementDate : null,
-                "acknowledgement_comment": acknowledgementComment,
-                "acknowledged": acknowledged,
-                "acknowledgement_document": acknowledgementDocument,
-                "acknowledgement_submitted_on": acknowledgementSubmittedOn ? acknowledgementSubmittedOn : null,
-                "rfx_type_id": rfxTypeValue,
-                "bid_validity_id": bidValidityValue,
-                "rfx_content_submission": contentSubmission,
-                "rfx_content_submission_id": 1,
-                "rfx_submission_mode_id": submissionModeValue,
-                "submission_instructions": submissionInstructions,
-                "rfx_stage_id": stageValue,
-                "key_contacts": addedContacts,
-                "attached_documents": attachedDocuments,
-                "revesion_of_previous_rfx": isRevision === 'yes' ? true : false,
-                "attached_documents_uploaded": documentsUploaded,
-                "attachedFormData": documentsFormData
-              }, isRevision, rfxId, tenantID, apiBackendURL, selectedFilesMain,router)
-
-
+              createUpdateRfxRequest(
+                {
+                  opportunity_id: preRfxData.opportunity_id,
+                  initiator_id: loginUserID,
+                  rfx_bid_assignto: 0,
+                  rfx_title: opportunityTitle,
+                  rfx_number: rfxNumber,
+                  under_existing_agreement:
+                    existingAgreement === "yes" ? true : false,
+                  status: "",
+                  previous_rfx_ref_num: "",
+                  revision_of_previous_rfx: isRevision ? true : false,
+                  agreement_ref_num: agreementReferenceNumber,
+                  issued_date: issueDate ? issueDate : null,
+                  due_date: dueDate ? dueDate : null,
+                  crm_id: opportunityCrmID,
+                  bid_number: bidNumber,
+                  request_for_bid: false,
+                  visit_worksite: visitToWorkSite === "yes" ? true : false,
+                  visit_worksite_instructions: visitToWorksiteInstruction,
+                  tech_clarification_deadline: technicalClarificationDeadline
+                    ? technicalClarificationDeadline
+                    : null,
+                  com_clarification_deadline: commercialClarificationDeadline
+                    ? commercialClarificationDeadline
+                    : null,
+                  expected_award_date: expectedAwardDate
+                    ? expectedAwardDate
+                    : null,
+                  enduser_name: endUser,
+                  enduser_id: 1,
+                  enduser_type: "",
+                  acknowledged_by: 0,
+                  acknowledgement_date: acknowledgementDate
+                    ? acknowledgementDate
+                    : null,
+                  acknowledgement_comment: acknowledgementComment,
+                  acknowledged: acknowledged,
+                  acknowledgement_document: acknowledgementDocument,
+                  acknowledgement_submitted_on: acknowledgementSubmittedOn
+                    ? acknowledgementSubmittedOn
+                    : null,
+                  rfx_type_id: rfxTypeValue,
+                  bid_validity_id: bidValidityValue,
+                  rfx_content_submission: contentSubmission,
+                  rfx_content_submission_id: 1,
+                  rfx_submission_mode_id: submissionModeValue,
+                  submission_instructions: submissionInstructions,
+                  rfx_stage_id: stageValue,
+                  key_contacts: addedContacts,
+                  attached_documents: attachedDocuments,
+                  revesion_of_previous_rfx: isRevision === "yes" ? true : false,
+                  attached_documents_uploaded: documentsUploaded,
+                  attachedFormData: documentsFormData,
+                },
+                isRevision,
+                rfxId,
+                tenantID,
+                apiBackendURL,
+                selectedFilesMain,
+                router
+              );
+              
             }}
             className="border border-[#26BADA] text-white bg-[#26BADA] text-sm uppercase px-20 py-3 rounded-sm"
           >
             Submit
           </button>
         </div>
-      </div >
+      </div>
     </>
   );
 };

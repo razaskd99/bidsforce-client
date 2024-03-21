@@ -65,9 +65,8 @@ export default function ControlledAccordions({
     const [delivRows, setDelivRows] = useState(
         deliverablesRec.map((deliv, index) => ({
             id: deliv.bid_deliverables_id,
-            Title: deliv.title,
-            Type: deliv.template_type,
-            Template: deliv.template
+            Title: deliv.title.replace(/-/g, ' '),
+            Type: deliv.template_type.replace(/-/g, ' '),
         }))
     );
     const [meetingTableRows, setMeetingTableRows] = useState(
@@ -321,19 +320,30 @@ export default function ControlledAccordions({
                     id: deliv.bid_deliverables_id,
                     Title: deliv.title,
                     Type: deliv.template_type,
-                    Template: deliv.template
                 }));
                 setDelivRows(mappedData)
             }
         }
     };
     
-    const handleDelivRowClick = async (rowId) => {
-        const targetRow = delivRows.find(item => item.id === rowId)    
+    const handleDelivRowClick = async (rowId) => {            
         setshowBidDelTable(false)    
         setloadTemplate(false)
-
-        settemplateHTMLDeliver(targetRow.Template)        
+        
+        // get deliverables
+        let r1 = await getAllDeliverablesAction(rfxRecord.rfx_id)
+        let records = r1.returnData
+        setDelivRows(
+            records.map((deliv, index) => ({
+                id: deliv.bid_deliverables_id,
+                Title: deliv.title.replace(/-/g, ' '),
+                Type: deliv.template_type.replace(/-/g, ' '),
+            }))
+        );
+        // get selected row
+        const targetRow = records.find(item => item.bid_deliverables_id === rowId)
+        // set template
+        settemplateHTMLDeliver(targetRow.template)        
     }
     
     
@@ -471,7 +481,7 @@ export default function ControlledAccordions({
                         <span className='font-bold text-sm'>Bid Deliverables</span>
                         <FaCaretDown className='text-gray-500' />
                         <FaFile className='text-gray-500 text-lg' />
-                        <span className='text-[#26BADA] text-sm'>{delivRows.length} Technical Deliverables</span>
+                        <span className='text-[#26BADA] text-sm'>{delivRows.length} Deliverables</span>
                     </Typography>
                     <Typography sx={{ color: 'text.secondary' }} className='flex justify-end w-full gap-3'>
                         <AiFillMinusCircle />

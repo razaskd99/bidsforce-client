@@ -1031,6 +1031,54 @@ export const GetRfxDocumentsBy_RfxID_Key_Action = async (rfx_id, docvalt_key) =>
 }
 
 
+export const GetDocumentByKeyAction = async (docvalt_key) => {
+  const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
+  const apiUrl = `${apiBackendURL}docvalt/docvalt/tenant/${tenantID}/key/${docvalt_key}`;
+
+  const now = new Date();
+  const formattedTimestamp = now.toISOString()
+  const formatedDate = now.toISOString().split('T')[0]
+
+  const headers = new Headers({
+    cache: 'no-store',
+    'Accept': 'application/json',
+    'Authorization': `Bearer ${tokens}`,
+    'Content-Type': 'application/json'
+  });
+
+  const requestOptions = {
+    method: 'GET',
+    headers: headers,
+  };
+
+  try {
+    const response = await fetch(apiUrl, requestOptions);
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || 'Request Failed for Docvalt',
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || 'Request failed for Docvalt',
+    };
+  }
+}
+
+
 export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_key = 'rfx') => {
   const {apiBackendURL, tokens, tenantID} = await getApiPrereqVars()
   const apiUrl = `${apiBackendURL}docvalt/docvalt`;
@@ -1045,7 +1093,21 @@ export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_ke
     'Authorization': `Bearer ${tokens}`,
     'Content-Type': 'application/json'
   });
-
+console.log({
+  "tenant_id": tenantID,
+  "rfx_id": rfx_id,
+  "user_id": user_id,
+  "docvalt_key": docvalt_key,
+  "docvalt_dir": "",
+  "docvalt_filename": docData.name,
+  "docvalt_cloudpath": docData.path ? docData.path : '',
+  "file_type": (docData.type || '').split('/')[1],
+  "file_size": formatFileSize(parseInt(docData.size)),
+  "file_moved": false,
+  "created_date": formatedDate,
+  "created_at": formattedTimestamp,
+  "updated_at": formattedTimestamp
+})
   const requestOptions = {
     method: 'POST',
     headers: headers,
@@ -1056,7 +1118,7 @@ export const createDocUploadAction = async (rfx_id, user_id, docData, docvalt_ke
       "docvalt_key": docvalt_key,
       "docvalt_dir": "",
       "docvalt_filename": docData.name,
-      "docvalt_cloudpath": "",
+      "docvalt_cloudpath": docData.path ? docData.path : '',
       "file_type": (docData.type || '').split('/')[1],
       "file_size": formatFileSize(parseInt(docData.size)),
       "file_moved": false,

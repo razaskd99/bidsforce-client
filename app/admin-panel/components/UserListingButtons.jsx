@@ -10,6 +10,7 @@ import {
   deleteUserRequest,
   updateUserRequest,
 } from "@/app/api/admin-panel/scripts";
+import { GetDocumentByKeyAction, GetRfxDocumentsBy_RfxID_Key_Action } from "@/app/api/rfx/actions/rfx";
 
 export default function UserListingButtons(props) {
   const [companyList, setCompanyList] = useState([]);
@@ -18,6 +19,10 @@ export default function UserListingButtons(props) {
   const [openModal, setOpenModal] = useState(false);
   const [tenants, setTenants] = useState({ ...props.tenantData });
   const [currentUser, setCurrentUser] = useState({});
+  const [profilePic, setProfilePic] = useState("")
+  const [selectedFile, setSelectedFile] = useState({});
+  const [fileData, setFileData] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +48,7 @@ export default function UserListingButtons(props) {
           props.tenantID
         );
         setTeamList(data.returnData);
+       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -64,6 +70,22 @@ export default function UserListingButtons(props) {
 
   const handleCancel = (e) => {
     setOpenModal(false);
+  };
+
+
+  const handleChange = async(event) => {
+    const file = event.target.files[0];
+    setSelectedImage(URL.createObjectURL(file)); // Set selected image preview
+
+    // Create a new FormData object and append the single file
+    const formData = new FormData();
+    formData.append("file", file);
+    setFileData(formData)
+
+    const extractedFile = formData.get("file");
+    // Update the selectedFiles array with the single file
+    setSelectedFile(extractedFile);
+    
   };
 
   return (
@@ -285,20 +307,41 @@ export default function UserListingButtons(props) {
                           />
                           <label for="cpassword">Confirm Password</label>
                         </div>
-                        <div className=" col-md-6 mb-4">
+                        <div className=" col-md-6 mb-4">                          
                           <div className="input-group">
-                            <input
-                              type="file"
-                              className="form-control"
-                              id="user_profile_photo"
-                              name="user_profile_photo"
-                            />
-                            <label
-                              className="input-group-text"
-                              for="user_profile_photo"
-                            >
-                              Upload Picture
-                            </label>
+                            
+                            {selectedImage ? (
+                              <div>
+                                <img
+                                  src={selectedImage}
+                                  alt="Profile"
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                                <button onClick={() => setSelectedImage(null)}>
+                                  Remove
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="mb-3 w-full">
+                                <label
+                                  for="formFileLg"
+                                  className="mb-2 inline-block text-neutral-500 dark:text-neutral-400"
+                                >
+                                  Upload Profile Picture
+                                </label>
+                                <input
+                                  className="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
+                                  id="formFileLg"
+                                  type="file"
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            )}
+
                           </div>
                         </div>
                       </div>
@@ -321,7 +364,9 @@ export default function UserListingButtons(props) {
                           currentUser.user_id,
                           props.apiBackendURL,
                           props.accessToken,
-                          props.tenantID
+                          props.tenantID,
+                          selectedFile,
+                          fileData
                         )
                       }
                       type="button"
