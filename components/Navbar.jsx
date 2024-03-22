@@ -47,7 +47,7 @@ const Navbar = () => {
           <span className='bg-[#FE4D97] w-2 h-2 block absolute rounded-full top-0 right-0 border border-white'></span>
         </Link>
         <Link href='#'>
-          <Image src={profilePic} width={36} height={36} alt='profile' className='rounded-full object-cover' />
+          <img src={profilePic} width={36} height={36} alt='profile' className='rounded-full object-cover' />
         </Link>
         <Link href='#' onClick={async () => {
           const updatedLikes = await logoutUser();

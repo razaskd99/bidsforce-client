@@ -2892,12 +2892,13 @@ const RfxDetail = ({
         {active === "Bid Revision" && (
           <div>
             {showRevisionTable && (
-              <div className="p-5 bg-white shadow-sm h-full min-h-screen">
+              <div className="p-5 bg-white shadow-sm h-full min-h-screen">                
                 <div className="flex justify-end uppercase text-[#00AAEC] text-sm mb-4 cursor-pointer ">
                   {/* <div className="flex items-center gap-1" onClick={addClarificationRow}>
                                 <span>New Documents</span>
                                 <IoMdAddCircleOutline />
                             </div> */}
+                            
                   <button
                     className={`upprecase my-5 uppercase rounded-md p-2  bg-[#00AAEC] text-white cursor-pointer flex items-center gap-1`}
                     onClick={() => {
@@ -2908,6 +2909,7 @@ const RfxDetail = ({
                     Proceed <FaArrowRight />{" "}
                   </button>
                 </div>
+                <h1 className="text-2xl text-center mb-2">"This is related to the Kanban and Kanaban is in the next sprint so please skip this and proceed."</h1>
                 {showRevisionTable && (
                   <SearchTableNew
                     rows={bidRevisionRows}

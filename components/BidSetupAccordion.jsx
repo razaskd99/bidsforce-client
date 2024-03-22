@@ -40,7 +40,8 @@ export default function ControlledAccordions({
         koffRec,
         deliverablesRec,
         bidteamRec,
-        tenantID
+        tenantID,
+        active
     }) {
     
     const [isContactDialogOpen, setContactDialogOpen] = useState(false);
@@ -103,6 +104,67 @@ export default function ControlledAccordions({
     const [templateHTMLDeliver, settemplateHTMLDeliver] = useState('')
     const [templateHTMLKoff, settemplateHTMLKoff] = useState('')
     const [templateCSS, setTemplateCSS] = useState('')
+
+    const [isActive, setIsActive] = useState(active)
+
+
+    
+    useEffect(() => {
+        // get deliv list
+        getAllDeliverablesAction(rfxRecord.rfx_id)
+            .then((res) => {
+                if(res.statusCode == 200) {
+                    let records = res.returnData
+                    let mappedData = records.map((item, index) => ({
+                        id: item.bid_deliverables_id,
+                        Title: item.title.replace(/-/g, ' '),
+                        Type: item.template_type.replace(/-/g, ' '),
+                    }))
+                    setDelivRows(mappedData)
+                }
+            })
+        .catch((err) => console.log(err));
+        
+        // get koff list
+        getAllKoffMeetingAction(rfxRecord.rfx_id)
+            .then((res) => {
+                if(res.statusCode == 200) {
+                    let records = res.returnData
+                    let mappedData = records.map((item, index) => ({
+                        id: item.bid_kickoff_meeting_id,
+                        Title: item.title,
+                        Date: item.date,
+                        StartTime: new Date(item.start_time).toLocaleTimeString(undefined, { hour12: true }),
+                        EndTime: new Date(item.end_time).toLocaleTimeString(undefined, { hour12: true }),
+                        Location: item.location,
+                        Description: item.description
+                    }))
+                    setMeetingTableRows(mappedData)                }
+            })
+        .catch((err) => console.log(err));
+        
+        // get bid team
+        getRfxContactsByKey(rfxRecord.rfx_id, 'bid-team-' + rfxRecord.rfx_id)
+            .then((res) => {
+                if(res.statusCode == 200) {
+                    let records = res.returnData
+                    let mappedData = records.map((item, index) => ({
+                        id: item.user_id,
+                        designation: item.designation_title,
+                        name: `${item.first_name} ${item.last_name}`,
+                        email: item.email,
+                        image: item.user_profile_photo ? item.user_profile_photo : '/avatar.jpg',
+                        role: item.team_role
+                    }))
+                    setSelectedContacts(mappedData) 
+                }
+            })
+        .catch((err) => console.log(err));
+
+        // de activate
+        setIsActive(false)
+        
+    }, [isActive]);
 
 
     function applyDynamicCSS(css) {
@@ -316,11 +378,11 @@ export default function ControlledAccordions({
             if(r2.statusCode == 200){
                 console.log(r2)
                 let delivRows = r2.returnData
-                const mappedData = delivRows.map((deliv, index) => ({
+                let mappedData = delivRows.map((deliv, index) => ({
                     id: deliv.bid_deliverables_id,
-                    Title: deliv.title,
-                    Type: deliv.template_type,
-                }));
+                    Title: deliv.title.replace(/-/g, ' '),
+                    Type: deliv.template_type.replace(/-/g, ' '),
+                }))
                 setDelivRows(mappedData)
             }
         }
@@ -354,7 +416,7 @@ export default function ControlledAccordions({
 
     }
     const handleMeetingSubmit = async () => {
-        
+        // create koff
         const data = {
             "rfx_id": rfxRecord.rfx_id,
             "title": koffTitle,
@@ -365,8 +427,7 @@ export default function ControlledAccordions({
             "date": koffDate,
             "start_time": koffStartTime,
             "end_time": koffEndTime
-        }
-        
+        }                
         const r1 = await createKoffMeetingAction(data)
         if(r1.statusCode == 200) {
             // add contacts
@@ -430,6 +491,8 @@ export default function ControlledAccordions({
         //settemplateHTMLDeliverChanged(e.target.innerHTML)
     }
 
+
+    
     
 
     return (
