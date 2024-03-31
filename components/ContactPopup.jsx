@@ -83,7 +83,7 @@ const ContactDialog = ({ isOpen, handleClose, handleContactSelect, users }) => {
               <ListItemAvatar>
                 <Avatar alt={contact.name} src={contact.image} />
               </ListItemAvatar>
-              <ListItemText primary={contact.name} />
+              <ListItemText primary={contact.name} />              
             </ListItem>
           ))}
         </List>

@@ -38,6 +38,8 @@ import {
   generateUniqueSixDigitNumber,
   generateBidOrderNumber,
   hideMainLoader102,
+  showMainLoader102,
+  generateClarifRefNumber,
 } from "@/app/api/util/utility";
 import { movetoNextStageAction } from "@/app/api/rfx/stages";
 import {
@@ -601,20 +603,16 @@ const RfxDetail = ({
       active == "Bid Acknowledgement"
     ) {
       setDocumentDetail(true);
-      const r1 = await getAllSubmissionAction(rfxRecord.rfx_id);
-      let records = r1.returnData;
-      // get selected record
-      const targetSubmission = records.find(
-        (item) => item.bid_submission_id === rowId
-      );
-      setSelectedSubmissionRow(targetSubmission);
-      console.log("Selected Sub roe", selectedSubmissionRow);
-      // get selected submission documents
+      // get current submission by_id
+      const r1 = await getSubmissionByIdAction(rowId);      
+      const subrec = r1.returnData;     
+      setSelectedSubmissionRow(subrec);
+      // get submission documents
       const r2 = await GetRfxDocumentsBy_RfxID_Key_Action(
         rfxRecord.rfx_id,
-        "submission-" + targetSubmission.bid_submission_id
+        "submission-" + subrec.bid_submission_id
       );
-      records = r2.returnData;
+      let records = r2.returnData;
       setSelectedSubmissionDocuments(records);
       // get submitted user
       const r3 = await getUserById(r2.returnData.submitted_by);
@@ -629,11 +627,11 @@ const RfxDetail = ({
       let r5 = await getBidSubmissionAckBySubIdAction(rowId);
       setSubmissionAcknowledgement(r5.returnData);
       // get assign_to details
-      let r6 = await getUserById(targetSubmission.assign_to_id);
+      let r6 = await getUserById(subrec.assign_to_id);
       setBidSubAssignto(r6.data);
       // get submission submitted_by user
-      let r7 = await getUserById(targetSubmission.submitted_by);
-      setSubmissionSubmittedBy(r7.data);
+      let r7 = await getUserById(subrec.submitted_by);
+      setSubmissionSubmittedBy(r7.data);      
     }
     if (active == "Bid Clarifications") {
       setBidDetailInfo(true);
@@ -826,11 +824,7 @@ const RfxDetail = ({
   const typeInput = [
     { value: "Technical", label: "Technical" },
     { value: "Commercial", label: "Commercial" },
-    { value: "Commercial Unpriced", label: "Commercial Unpriced" },
-    {
-      value: "Combined Techno Commercial",
-      label: "Combined Techno Commercial",
-    },
+    { value: "General", label: "General" },
   ];
   const currencyInput = [
     { value: "USD", label: "US Dollar" },
@@ -925,13 +919,13 @@ const RfxDetail = ({
     }
     // get clarification post
     const r3 = await getAllRfxClarificationPostRecordsBy_ClarifId_Action(
-      selectedClarificationRow.id
+      selectedClarificationRow.rfx_clarification_id
     );
     setRfxClarPostRows(r3.returnData);
     // get clarif post documents
     const r4 = await GetRfxDocumentsAction(rfxRecord.rfx_id);
     setRfxClarPostDocsRows(r4.returnData);
-
+    
     setReplyMessage("");
     setUploadedFiles([]);
     setShowReply(false);
@@ -1027,6 +1021,7 @@ const RfxDetail = ({
       !bidClarificationDueDate
     ) {
       alert("Please fill the required fields.");
+      hideMainLoader102()
       return false;
     }
     const data = {
@@ -1085,7 +1080,14 @@ const RfxDetail = ({
     setBidClarificationRows(mappedData);
   };
 
+  const handleBidClarificationRefNum = (e) => {
+    const refNum = generateClarifRefNumber(rfxRecord.opportunity_id, rfxRecord.crm_id, e.target.value) 
+    setBidClarificationRefNumber(refNum)
+    setBidClarificationType(e.target.value)    
+  }
+
   const handleAddOrderRow = async () => {
+    showMainLoader102();
     if (!purchaseOrder || !orderCurrency || !orderValue) {
       alert("Please fill the required fields.");
       return;
@@ -1118,6 +1120,10 @@ const RfxDetail = ({
 
     // create order
     let r1 = await createBidOrderAction(data);
+    // complete stage
+    if(r1.statusCode == 200) {
+      //let c2 = await updateStageDetailAction(nextElement.stages_detail_id, 'current', nextElement.stage_score, false)
+    }
     // create contacts
     if (r1.statusCode == 200 && selectedOrderContact.length) {
       let bid_order_id = r1.returnData.bid_order_id;
@@ -1169,6 +1175,7 @@ const RfxDetail = ({
     setSelectedFilesMain([]);
     setAddOrderForm(false);
     setOrderTable(true);
+    hideMainLoader102();
   };
 
   const onYesButtonClick = () => {
@@ -1502,6 +1509,7 @@ const RfxDetail = ({
                         className="border border-gray-200 p-2 outline-1 outline-gray-300 w-full"
                         value={item.value}
                         rows={4}
+                        readOnly
                         onChange={(e) =>
                           handleValueChange(index, e.target.value)
                         }
@@ -1511,6 +1519,7 @@ const RfxDetail = ({
                         type="text"
                         className="border border-gray-200 p-2 outline-1 outline-gray-300 w-full"
                         value={item.value}
+                        readOnly
                         onChange={(e) =>
                           handleValueChange(index, e.target.value)
                         }
@@ -1617,8 +1626,8 @@ const RfxDetail = ({
                 </div>
                 <div className="border mb-3 rounded-md">
                   <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
-                    RFx Contacts
-                  </div>
+                  Customer Contacts for RFx
+                  </div>{console.log(keyContactsRec)}
                   {keyContactsRec.map((item, index) => (
                     <div
                       className="bg-[#F4F5F6] px-4 py-1 flex  items-center justify-between"
@@ -1626,7 +1635,7 @@ const RfxDetail = ({
                     >
                       <div className="flex flex-[3] bg-white border rounded-[30px] p-1 gap-2 items-center max-w-[60%] w-full">
                         <Image
-                          src="/man.jpeg"
+                          src={item.profile_image ? item.profile_image : '/avatar.png'}
                           width={38}
                           height={38}
                           className="rounded-[100%] object-cover w-[38px] h-[38px]"
@@ -1642,7 +1651,7 @@ const RfxDetail = ({
                         </div>
                       </div>
                       <div className="bg-[#26BADA] h-max rounded-md text-xs text-white p-1 min-w-[80px] text-center ">
-                        {item.contact_key}
+                        {item.persona_role}
                       </div>
                     </div>
                   ))}
@@ -2208,8 +2217,14 @@ const RfxDetail = ({
                   <div className="flex flex-col">
                     {/* {!hideDocBtn && */}
                     <button
-                      className="text-white text-center bg-[#26BADA] py-3 uppercase mb-3 rounded-md border-0"
+                      className={`text-white text-center bg-[#26BADA] py-3 uppercase mb-3 rounded-md border-0 ${
+                        !submissionAcknowledgement.acknowledged
+                        ? "bg-[#00AAEC] text-white"
+                        : "bg-[#EFF3F5] text-[#000]"
+                      }`}
+                      
                       onClick={handleChangeStatus}
+                      disabled={submissionAcknowledgement.acknowledged}
                     >
                       Submit to customer
                     </button>
@@ -2387,7 +2402,7 @@ const RfxDetail = ({
                   rows={bidClarificationRows}
                   NoRowsOverlay={NoRowsOverlayBids}
                 />
-                <div className="flex justify-start items-center gap-4">
+                {/*<div className="flex justify-start items-center gap-4">
                   <button
                     className={`upprecase my-5 rounded-md p-3  bg-[#00AAEC] text-white cursor-pointer min-w-[200px]`}
                     onClick={() => {
@@ -2410,7 +2425,7 @@ const RfxDetail = ({
                     setBidClarificationRows={setBidClarificationRows}
                     setBidRevisionRows={setBidRevisionRows}
                   />
-                </div>
+                  </div>*/}
               </div>
             )}
             {bidDetail && (
@@ -2428,7 +2443,7 @@ const RfxDetail = ({
                   </div>
                   <TextField
                     id="outlined-basic"
-                    label="Clarification Title"
+                    label="Clarification Title *"
                     variant="outlined"
                     className="bg-white w-full"
                     // autoFocus
@@ -2437,10 +2452,10 @@ const RfxDetail = ({
                   />
                   <TextField
                     select
-                    label="Type"
+                    label="Clarification Type *"
                     className="bg-white w-[50%]"
                     // value={bidClarificationSelectedRow.type}
-                    onChange={(e) => setBidClarificationType(e.target.value)}
+                    onChange={handleBidClarificationRefNum}
                   >
                     {typeInput.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
@@ -2453,13 +2468,11 @@ const RfxDetail = ({
                     <TextField
                       id="outlined-basic"
                       label="Reference#"
-                      // value={bidClarificationSelectedRow.reference_num}
+                      value={bidClarificationRefNumber}
+                      disabled={true}
                       variant="outlined"
-                      // autoFocus
                       className="bg-white w-full"
-                      onChange={(e) =>
-                        setBidClarificationRefNumber(e.target.value)
-                      }
+                      //onChange={(e) =>setBidClarificationRefNumber(e.target.value)}
                     />
                   </div>
                   <textarea
@@ -2892,13 +2905,13 @@ const RfxDetail = ({
         {active === "Bid Revision" && (
           <div>
             {showRevisionTable && (
-              <div className="p-5 bg-white shadow-sm h-full min-h-screen">                
+              <div className="p-5 bg-white shadow-sm h-full min-h-screen">
                 <div className="flex justify-end uppercase text-[#00AAEC] text-sm mb-4 cursor-pointer ">
                   {/* <div className="flex items-center gap-1" onClick={addClarificationRow}>
                                 <span>New Documents</span>
                                 <IoMdAddCircleOutline />
                             </div> */}
-                            
+
                   <button
                     className={`upprecase my-5 uppercase rounded-md p-2  bg-[#00AAEC] text-white cursor-pointer flex items-center gap-1`}
                     onClick={() => {
@@ -2909,7 +2922,10 @@ const RfxDetail = ({
                     Proceed <FaArrowRight />{" "}
                   </button>
                 </div>
-                <h1 className="text-2xl text-center mb-2">"This is related to the Kanban and Kanaban is in the next sprint so please skip this and proceed."</h1>
+                <h1 className="text-2xl text-center mb-2">
+                  "This is related to the Kanban and Kanaban is in the next
+                  sprint so please skip this and proceed."
+                </h1>
                 {showRevisionTable && (
                   <SearchTableNew
                     rows={bidRevisionRows}

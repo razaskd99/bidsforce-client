@@ -47,7 +47,7 @@ const RfxList = (props) => {
                              onClick={() => handleViewModeChange('grid')}
                          >
                              <BsFillGrid3X3GapFill className={`text-lg ${viewMode === 'grid' ? 'text-[#26BADA]' : 'text-[#999a9b]' }`} />
-                             <span className={`${viewMode === 'grid' ? 'text-black' : 'text-[#999a9b]' }`}>GRID</span>
+                             <span className={`${viewMode === 'grid' ? 'text-black' : 'text-[#999a9b]' }`}>KANBAN</span>
                          </div>
                          <div className="w-[260px] flex items-center justify-between rounded-2xl bg-white py-[6px] px-5">
                              <input type="text" placeholder='Search within results' className='w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm' />

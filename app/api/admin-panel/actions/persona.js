@@ -61,7 +61,7 @@ export const createPersonaAction = async (
 
 // Update Persona record in db
 export const updatePersonaRecordAction = async (formData, id, apiBackendURL, tokens, tenantID) => {
-  const apiUrl = `${apiBackendURL}/persona/persona/id/${id}`;
+  const apiUrl = `${apiBackendURL}persona/persona/id/${id}`;
   
   const headers = new Headers({
     cache: "no-store",

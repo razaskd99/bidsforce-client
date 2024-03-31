@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { 
+  deletePersonaRequest,
   deleteRfxPrereqRequest, 
 } from "@/app/api/admin-panel/scripts";
 import RfxPrereqInfoModal from "./PersonaInfoModal";
@@ -48,7 +49,7 @@ export default function PersonaListingButtons(props) {
       <>  
         <div className="dropdown">                          
             <button 
-                onClick={(e)=>deleteRfxPrereqRequest(e, props.tablename, props.id)}
+                onClick={(e)=>deletePersonaRequest(e, props.id, props.apiBackendURL, props.tokens, props.tenantID)}
                 type="button" 
                 className="btn btn-xs btn-primary waves-effect mr-2 ">
                 <span className="tf-icons mdi mdi-delete me-1 b"></span> Delete

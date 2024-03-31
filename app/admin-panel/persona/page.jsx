@@ -99,8 +99,7 @@ export default async function AdminPanelDesignation() {
                     <td>
                       <PersonaListingButtons
                         propsData={item}
-                        tablename={"bid_validity"}
-                        id={item.bid_validity_id}
+                        id={item.persona_id}
                         apiBackendURL={apiBackendURL}
                         tenantID={tenantID}
                         tokens={tokens}

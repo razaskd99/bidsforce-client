@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   createPersonaRequest,
   createRfxPrereqRequest,
+  updatePersonaRequest,
   updateRfxPrereqRequest,
 } from "@/app/api/admin-panel/scripts";
 
@@ -64,7 +65,7 @@ export default function PersonaInfoModal(props) {
           <div className="modal-content" id="modalFormComponent1">
             <div className="modal-header">
               <h4 className="modal-title text-capitalize" id="modalCenterTitle">
-                {props.tablename.replace("_", " ").replace("_", " ")} Details
+                Persona Details
               </h4>
               <button
                 onClick={handleCancel}
@@ -97,8 +98,8 @@ export default function PersonaInfoModal(props) {
                     <div className="form-floating form-floating-outline">
                       <select
                         onChange={handleChangeValues}
-                        id="m4_is_active"
-                        name="m4_is_active"
+                        id="m7_is_active"
+                        name="m7_is_active"
                         className="form-select"
                       >
                         <option>Select Status... *</option>
@@ -124,8 +125,8 @@ export default function PersonaInfoModal(props) {
                       <input
                         type="text"
                         onChange={handleChangeValues}
-                        id="m4_alias"
-                        name="m4_alias"
+                        id="m7_description"
+                        name="m7_description"
                         value={formData.m7_description}
                         className="form-control"
                         placeholder="Description"
@@ -184,9 +185,8 @@ export default function PersonaInfoModal(props) {
               ) : (
                 <button
                   onClick={(e) =>
-                    updateRfxPrereqRequest(
+                    updatePersonaRequest(
                       e,
-                      props.tablename,
                       props.id,
                       props.apiBackendURL,
                       props.tokens,

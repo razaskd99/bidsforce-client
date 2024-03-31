@@ -19,6 +19,7 @@ export default function OpportunityAddNewButton(props) {
           onClick={() => setOpenOpportunityModal(true)}
           type="button"
           className="btn btn-sm btn-secondary waves-effect justify-between"
+          style={props.style} 
         >
           <span className="tf-icons mdi mdi-plus me-1"></span>New Opportunity
         </button>
@@ -31,6 +32,8 @@ export default function OpportunityAddNewButton(props) {
           apiBackendURL={props.apiBackendURL} 
           tokens={props.tokens} 
           tenantID={props.tenantID}
+          style={{display: "block",opacity: 1,background: "rgba(151,149,158,50%)",}}
+
         />
       )}
     </>

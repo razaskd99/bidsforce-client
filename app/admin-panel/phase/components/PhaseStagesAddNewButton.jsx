@@ -46,11 +46,11 @@ export default function PhaseStagesAddNewButton(props) {
         </label>
       </div>
 
-      {props.typeName === "rfx stage" && (
+      {props.typeName === "rfxstage" && (
         <button
           onClick={
-            /*props.customLayout ? ()=>setOpenPhaseStageModal(true) /*:*/ () =>
-              alert("This is a premium functionality.")
+            /*props.customLayout ?*/ ()=>setOpenPhaseStageModal(true) /*: () =>
+              alert("This is a premium functionality.")*/
           }
           type="button"
           className="btn btn-sm btn-secondary waves-effect justify-between"
@@ -59,13 +59,13 @@ export default function PhaseStagesAddNewButton(props) {
         </button>
       )}
 
-      {props.typeName === "bid stage" && (
+      {props.typeName === "bidstage" && (
         <button
           onClick={
-            /*props.customLayout ? () =>
+            /*props.customLayout ? */() =>
               setOpenPhaseStageModal(
                 true
-              ) :*/ () => alert("This is a premium functionality.")
+              ) /*: () => alert("This is a premium functionality.")*/
           }
           type="button"
           className="btn btn-sm btn-secondary waves-effect justify-between"

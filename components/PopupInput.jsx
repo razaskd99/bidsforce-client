@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import { HiOutlineTrash } from "react-icons/hi2";
 
-const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts }) => {
+const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts, personas }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedPerson, setSelectedPerson] = useState('');
@@ -31,12 +31,12 @@ const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts }
     };
 
     const handlePersonSelect = (person) => {        
-        setAddedContacts((prevContacts) => [...prevContacts, {...person, contact_key: contactKey}]);    
-        setPersons((prevContacts) => [...prevContacts, {...person, contact_key: contactKey}]);    
+        setAddedContacts((prevContacts) => [...prevContacts, {...person, contact_key: 'rfx', persona_role: contactKey}]);    
+        setPersons((prevContacts) => [...prevContacts, {...person, contact_key: 'rfx', persona_role: contactKey}]);    
         onCloseDialog(persons);
         setModalOpen(false);
-        setSelectedPerson({...person, contact_key: contactKey});       
-        
+        setSelectedPerson({...person, contact_key: 'rfx', persona_role: contactKey});       
+        setContactKey("")
         //handleModalClose(person);
         console.log('Selected Person:', persons);
     };
@@ -55,23 +55,28 @@ const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts }
                     readOnly: true,
                 }}
             />
+            <span className="right-[30%] left-[50%]" style={{ position: 'absolute' }}>{selectedPerson.persona_role}</span>      
             <IconButton onClick={handleModalOpen} className="right-4 " style={{ position: 'absolute' }}>
                 <Image src="/add-blue.svg" width={18} height={21} />
             </IconButton>
             <Dialog open={isModalOpen} onClose={handleModalClose} >
                 <div className="p-4 w-[600px]">
                     <DialogTitle className="text-center font-medium text-[26px] mb-4">
-                        <div className="fkex jutify-center mb-6 md:grid-cols-2">
-                            <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Key</label>
-                            <input 
-                                type="text" 
-                                name="contact_key" 
-                                onChange={(e)=>setContactKey(e.target.value)}
-                                style={{ border: !contactKey ? '1px solid red' : '1px solid #ccc' }} 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="RFx Contact Key" 
-                                required 
-                            />
+                        <div className="fkex jutify-center mb-1 md:grid-cols-2">
+                            <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Persona Role</label>
+                            <select
+                                id="persona_role"
+                                className="block w-full px-4 py-4 text-sm border rounded-sm border-gray-300 hover:border-black"
+                                onChange={(e) => setContactKey(e.target.value)}
+                            >
+                                <option value={''}>Select Persona</option>
+                                {personas?.map((option) =>                  
+                                    <option key={option.persona_role} value={option.persona_role}>
+                                    {option.persona_role}
+                                    </option>                  
+                                )}
+                            </select>
+                            {!contactKey && <label for="first_name" className="block my-2 text-sm font-medium text-red-600 ">Select persona from the above list.</label>}
                         </div>
                     </DialogTitle>
                     <DialogContent>

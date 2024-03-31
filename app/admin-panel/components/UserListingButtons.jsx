@@ -10,7 +10,10 @@ import {
   deleteUserRequest,
   updateUserRequest,
 } from "@/app/api/admin-panel/scripts";
-import { GetDocumentByKeyAction, GetRfxDocumentsBy_RfxID_Key_Action } from "@/app/api/rfx/actions/rfx";
+import {
+  GetDocumentByKeyAction,
+  GetRfxDocumentsBy_RfxID_Key_Action,
+} from "@/app/api/rfx/actions/rfx";
 
 export default function UserListingButtons(props) {
   const [companyList, setCompanyList] = useState([]);
@@ -19,7 +22,7 @@ export default function UserListingButtons(props) {
   const [openModal, setOpenModal] = useState(false);
   const [tenants, setTenants] = useState({ ...props.tenantData });
   const [currentUser, setCurrentUser] = useState({});
-  const [profilePic, setProfilePic] = useState("")
+  const [profilePic, setProfilePic] = useState("");
   const [selectedFile, setSelectedFile] = useState({});
   const [fileData, setFileData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -48,7 +51,6 @@ export default function UserListingButtons(props) {
           props.tenantID
         );
         setTeamList(data.returnData);
-       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -72,20 +74,18 @@ export default function UserListingButtons(props) {
     setOpenModal(false);
   };
 
-
-  const handleChange = async(event) => {
+  const handleChange = async (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file)); // Set selected image preview
 
     // Create a new FormData object and append the single file
     const formData = new FormData();
     formData.append("file", file);
-    setFileData(formData)
+    setFileData(formData);
 
     const extractedFile = formData.get("file");
     // Update the selectedFiles array with the single file
     setSelectedFile(extractedFile);
-    
   };
 
   return (
@@ -111,7 +111,8 @@ export default function UserListingButtons(props) {
           type="button"
           className="btn btn-xs btn-outline-primary waves-effect "
         >
-          <span className="tf-icons mdi mdi-delete-outline me-1 b"></span> Update
+          <span className="tf-icons mdi mdi-delete-outline me-1 b"></span>{" "}
+          Update
         </button>
         <br></br>
       </div>
@@ -251,7 +252,10 @@ export default function UserListingButtons(props) {
                             </option>
                           </select>
                           <label for="is_active">Select User Status</label>
-                          <div id="defaultFormControlHelp" className="form-text">
+                          <div
+                            id="defaultFormControlHelp"
+                            className="form-text"
+                          >
                             This enables to Active or Deactive User account.
                           </div>
                         </div>
@@ -289,6 +293,7 @@ export default function UserListingButtons(props) {
                           <input
                             type="password"
                             onChange={handleChangeValues}
+                            value={currentUser.password}
                             className="form-control"
                             id="password"
                             name="password"
@@ -307,9 +312,8 @@ export default function UserListingButtons(props) {
                           />
                           <label for="cpassword">Confirm Password</label>
                         </div>
-                        <div className=" col-md-6 mb-4">                          
+                        <div className=" col-md-6 mb-4">
                           <div className="input-group">
-                            
                             {selectedImage ? (
                               <div>
                                 <img
@@ -341,7 +345,6 @@ export default function UserListingButtons(props) {
                                 />
                               </div>
                             )}
-
                           </div>
                         </div>
                       </div>

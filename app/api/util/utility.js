@@ -59,6 +59,16 @@ export const generateBidOrderNumber = () => {
   return uniqueEightDigitNumber;
 };
 
+export const generateClarifRefNumber = (opp, crm, type) => {  
+  const timestamp = new Date().getTime();
+  const seed = timestamp % 1000; // Use the last 3 digits of the timestamp for seed
+  const randomComponent = Math.floor(seed + Math.random() * (10000 - seed));
+  const uniqueFourDigitNumber = randomComponent % 10000; // Ensure it is 4 digits
+  const clarif_ref_num = `OPP-${opp}-${crm}-Rfx-${type}-${uniqueFourDigitNumber}`;
+
+  return clarif_ref_num;
+};
+
 export const formatFileSize = (sizeInBytes) => {
   const KB = 1024;
   const MB = KB * 1024;

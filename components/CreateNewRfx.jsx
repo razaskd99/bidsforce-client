@@ -59,9 +59,11 @@ const CreateNewRfx = ({
   contentSubmission,
   users,
   companies,
+  personas,
   apiBackendURL,
   tenantID,
   loginUserID,
+  primaryContactsRec
 }) => {
   const router = useRouter();
   hideMainLoader102();
@@ -108,6 +110,7 @@ const CreateNewRfx = ({
   const [usersData, setUsersData] = useState([]);
 
   const [popUp, setPopUp] = useState([]);
+  console.log("STATE", popUp);
 
   const [rfxId, setRfxId] = useState(
     preRfxData?.rfx_id ? preRfxData?.rfx_id : 0
@@ -121,6 +124,9 @@ const CreateNewRfx = ({
   );
   const [opportunityTitle, setOpportunityTitle] = useState(
     preRfxData?.opportunity_title ? preRfxData?.opportunity_title : ""
+  );
+  const [rfxTitle, setRfxTitle] = useState(
+    preRfxData?.rfxTitle ? preRfxData?.rfxTitle : ""
   );
   const [company, setCompany] = useState(
     preRfxData?.company ? preRfxData?.company : ""
@@ -250,9 +256,10 @@ const CreateNewRfx = ({
         key={prevPopUp.length}
         label={"rfx"}
         className="w-[430px]"
-        users={users}
+        users={primaryContactsRec}
         onCloseDialog={handleClosePopupInput}
         setAddedContacts={setAddedContacts}
+        personas={personas}
       />,
     ]);
   };
@@ -337,6 +344,7 @@ const CreateNewRfx = ({
         let prevRfxData = res.rfxData;
         setCustomer(prevRfxData.customer_name);
         setOpportunityId(prevRfxData?.opportunity_id);
+        setRfxTitle(prevRfxData?.rfxTitle);
         setOpportunityTitle(prevRfxData?.opportunity_title);
 
         setCompanyID(prevRfxData?.company_id);
@@ -437,7 +445,7 @@ const CreateNewRfx = ({
               id="revision-radio-buttons-group-label"
               className="text-black"
             >
-              Is this request a revision of previous RFx?
+              Is this request related to revision of a previously submitted bid?
             </FormLabel>
             <RadioGroup
               aria-labelledby="revision-radio-buttons-group-label"
@@ -479,21 +487,33 @@ const CreateNewRfx = ({
               <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
               <TextField
                 id="customer"
-                label={customer ? "" : "Customer"}
+                label={"Customer"}
                 variant="outlined"
                 className="bg-white w-full"
                 defaultValue={customer}
+                InputProps={{ readOnly: true }}
+              />
+            </div>
+            <div className="relative w-full">
+              <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
+              <TextField
+                id="rfx_title"
+                label={"RFx Title"}
+                variant="outlined"
+                className="bg-white w-full"
+                defaultValue={opportunityTitle}
+                onChange={(e) => setRfxTitle(e.target.value)}
               />
             </div>
             <div className="relative w-full">
               <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
               <TextField
                 id="opportunity_title"
-                label={opportunityTitle ? "" : "Title"}
+                label={"Opportunity Name"}
                 variant="outlined"
                 className="bg-white w-full"
                 defaultValue={opportunityTitle}
-                onChange={(e) => setOpportunityTitle(e.target.value)}
+                InputProps={{ disabled: true }}
               />
             </div>
             <div className="relative w-full">
@@ -524,10 +544,11 @@ const CreateNewRfx = ({
               <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
               <TextField
                 id="end_user"
-                label={endUser ? "" : "End User"}
+                label={"End User"}
                 variant="outlined"
                 className="bg-white w-full"
                 defaultValue={endUser}
+                InputProps={{ readOnly: true }}
                 onChange={(e) => setEndUser(e.target.value)}
               />
             </div>
@@ -567,7 +588,7 @@ const CreateNewRfx = ({
               <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
               <TextField
                 id="rfx_number"
-                label={rfxNumber ? "" : "RFx #"}
+                label={"Customer RFx Number"}
                 variant="outlined"
                 className="bg-white w-full"
                 defaultValue={rfxNumber}
@@ -604,7 +625,7 @@ const CreateNewRfx = ({
               className="block w-full px-4 py-4 text-sm border rounded-sm border-gray-300 hover:border-black"
               onChange={(e) => setStageValue(parseInt(e.target.value))}
             >
-              <option value={0}>Select a Rfx Stage</option>
+              <option value={0}>Select a Bid Type</option>
               {rfxStages.map((option) =>
                 stageValue === option.rfx_stage_id ? (
                   <option
@@ -650,7 +671,7 @@ const CreateNewRfx = ({
               className="block w-full px-4 py-4 text-sm border rounded-sm border-gray-300 hover:border-black"
               onChange={(e) => setSubmissionModeValue(parseInt(e.target.value))}
             >
-              <option value={0}>Select a Submission Mode</option>
+              <option value={0}>Select a Bid Submission Mode</option>
               {submissionMode.map((option) =>
                 submissionModeValue === option.rfx_submission_mode_id ? (
                   <option
@@ -685,7 +706,7 @@ const CreateNewRfx = ({
                   <DemoContainer components={["DatePicker"]}>
                     <div id={"issue_date"}>
                       <DatePicker
-                        label={"Issue Date"}
+                        label={"RFx Issue Date"}
                         value={dayjs(issueDate)}
                         onChange={(date) =>
                           setIssueDate(
@@ -705,7 +726,7 @@ const CreateNewRfx = ({
                   <DemoContainer components={["DatePicker"]}>
                     <div id={"due_date"}>
                       <DatePicker
-                        label={"Due Date"}
+                        label={"Bid Due Date"}
                         value={dayjs(dueDate)}
                         onChange={(date) =>
                           setDueDate(new Date(date).toISOString().slice(0, 10))
@@ -723,7 +744,7 @@ const CreateNewRfx = ({
                   <DemoContainer components={["DatePicker"]}>
                     <div id={"technical_clarification_deadline"}>
                       <DatePicker
-                        label={"Technical clarification deadline"}
+                        label={"Technical Clarifications Deadline"}
                         value={dayjs(technicalClarificationDeadline)}
                         onChange={(date) =>
                           setTechnicalClarificationDeadline(
@@ -743,7 +764,7 @@ const CreateNewRfx = ({
                   <DemoContainer components={["DatePicker"]}>
                     <div id={"commercial_clarification_deadline"}>
                       <DatePicker
-                        label={"Commercial clarification deadline"}
+                        label={"Commercial Clarifications Deadline"}
                         value={dayjs(commercialClarificationDeadline)}
                         onChange={(date) =>
                           setCommercialClarificationDeadline(
@@ -758,7 +779,7 @@ const CreateNewRfx = ({
             </div>
           </div>
         </div>
-        <div className="flex gap-8">
+        <div className="flex gap-8 pt-3">
           <div className="flex-[2] flex flex-col">
             <textarea
               id="Submission_instructions"
@@ -807,7 +828,7 @@ const CreateNewRfx = ({
                   className="text-black"
                 >
                   Does this RFx fall under an existing agreement with the
-                  supplier?
+                  Customer?
                 </FormLabel>
                 <RadioGroup
                   aria-labelledby="revision-radio-buttons-group-label"
@@ -864,9 +885,9 @@ const CreateNewRfx = ({
 
           <div className="flex-[1] mt-5">
             <div className="border mb-3 rounded-md">
-              <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
-                RFx Contacts
-              </div>
+              {/*<div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
+                Customer Contacts for RFx
+            </div>*/}
               {contactsData.map((contact, index) => (
                 <TextField
                   key={index}
@@ -883,19 +904,20 @@ const CreateNewRfx = ({
             </div>
             <div className="">
               <div className="bg-[#00000005] p-[14px] text-[#778CA2] flex items-center justify-between">
-                <span>Key Contacts</span>
+                <span>Customer Contacts for RFx</span>
                 <button
                   onClick={handleAddContactClick}
                   className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium  css-78trlr-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
+                  tabIndex="0"
                   type="button"
                 >
-                  <img
+                  <Image
                     loading="lazy"
                     width="18"
                     height="21"
                     decoding="async"
                     data-nimg="1"
+                    alt="user"
                     src="/add-blue.svg"
                     style={{ color: "transparent" }}
                   />
@@ -903,11 +925,11 @@ const CreateNewRfx = ({
                 </button>
               </div>
               <div className="bg-[#F8FAFB] flex flex-col gap-3 py-4 rounded-b-md items-center w-full">
-                {popUp.map((popup, index) => (
-                  <div key={index}>{popup}</div>
-                ))}
+                {popUp.map((popup, index) => {
+                  return <div key={index}>{popup}</div>;
+                })} 
 
-                {/* <PopupInput
+              {/* <PopupInput
                   label={'Add contact'}
                   className="w-[430px]"
                   // users={users}
@@ -915,9 +937,9 @@ const CreateNewRfx = ({
                   onCloseDialog={handleClosePopupInput} // Pass the callback function
 
                 /> */}
-                {/* {renderPopups()} */}
+              {/* {renderPopups()} */}
 
-                {/* <button 
+              {/* <button 
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium right-4 mt-2  css-78trlr-MuiButtonBase-root-MuiIconButton-root" 
                     tabindex="0" 
                     type="button"
@@ -935,7 +957,7 @@ const CreateNewRfx = ({
           isOpen={isContactDialogOpen}
           handleClose={() => setContactDialogOpen(false)}
           handleContactSelect={handleContactSelect}
-          users={users}
+          users={primaryContactsRec}
         />
 
         <div className="flex items-center gap-4 mt-20">
@@ -949,7 +971,7 @@ const CreateNewRfx = ({
                   opportunity_id: preRfxData.opportunity_id,
                   initiator_id: loginUserID,
                   rfx_bid_assignto: 0,
-                  rfx_title: opportunityTitle,
+                  rfx_title: rfxTitle,
                   rfx_number: rfxNumber,
                   under_existing_agreement:
                     existingAgreement === "yes" ? true : false,
@@ -1006,7 +1028,6 @@ const CreateNewRfx = ({
                 selectedFilesMain,
                 router
               );
-              
             }}
             className="border border-[#26BADA] text-white bg-[#26BADA] text-sm uppercase px-20 py-3 rounded-sm"
           >

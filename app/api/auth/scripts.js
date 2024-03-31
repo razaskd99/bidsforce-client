@@ -28,13 +28,13 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
   if (user) {
     
     if (user.role === 'sales') {
-      router.push('/rfx');
+      router.push('/dashboard');
       setActive('block');
 
       setHide('hidden');
 
     } else if (user?.role === 'admin') {
-      router.push('/bids');
+      router.push('/dashboard');
       setActive('block');
       setHide('hidden');
     }
@@ -75,15 +75,19 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
 
       // Use optional chaining and nullish coalescing
       const profilePic = res?.user?.user_profile_photo ?? '/images/users/profile.jpg';
+     
+      try{
       // Set the src attribute of the image
       document.getElementById('welcome-profile-pic').src = profilePic;
-      if (designation === 'sales representative') {
-        router.push('/rfx');
+      } catch(err){}
+    
+      if (designation === 'Sales Representative') {
+        router.push('/dashboard');
         setActive('block');
         setHide('hidden');
 
-      } else if (designation === 'bid manager') {
-        router.push('/bids');
+      } else if (designation === 'Bid Manager') {
+        router.push('/dashboard');
         setActive('block');
         setHide('hidden');
       }

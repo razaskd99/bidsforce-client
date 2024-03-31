@@ -28,6 +28,8 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${rubik.className} `} >
 <h3 className='z-50'>
+
+  
       <div id="mainLoader102" className="z-50 hidden fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50 justify-center items-center h-screen">
             <Image
         src="/images/loader1.webp"

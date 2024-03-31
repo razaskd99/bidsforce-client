@@ -43,10 +43,10 @@ export default function CommercialDeliverables(editor) {
         <div class="container mx-auto px-4 py-2 custome-color-card mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black ">Basic Of Proposal</h1>
+                    <span class="text-base font-medium text-black ">Basic Of Proposal</span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -54,7 +54,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
     
                     <script>
@@ -73,10 +73,10 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">Executive Summary</h1>
+                    <span class="text-base font-medium text-black">Executive Summary</span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -84,7 +84,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
     
                     <script>
@@ -103,10 +103,10 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">Table Of Content</h1>
+                    <span class="text-base font-medium text-black">Table Of Content</span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -114,7 +114,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {
@@ -132,11 +132,11 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">Commercial Schedule
-                    </h1>
+                    <span class="text-base font-medium text-black">Commercial Schedule
+                    </span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -144,7 +144,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {
@@ -162,11 +162,11 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">RFX Compliance and Deviation
-                    </h1>
+                    <span class="text-base font-medium text-black">RFX Compliance and Deviation
+                    </span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -174,7 +174,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {
@@ -192,11 +192,11 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">T&Cs Deviations
-                    </h1>
+                    <span class="text-base font-medium text-black">T&Cs Deviations
+                    </span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -204,7 +204,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {
@@ -222,10 +222,10 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">Bank Guarantee Formats </h1>
+                    <span class="text-base font-medium text-black">Bank Guarantee Formats </span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -233,7 +233,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {
@@ -251,10 +251,10 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">Spare Parts Price List</h1>
+                    <span class="text-base font-medium text-black">Spare Parts Price List</span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -262,7 +262,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {
@@ -280,10 +280,10 @@ export default function CommercialDeliverables(editor) {
         <div class="container custome-color-card  mx-auto px-4 py-2  mt-1">
             <div class="flex flex-wrap -mx-2 justify-between">
                 <div class="w-1/2 md:w-1/2 px-2">
-                    <h1 class="text-lg font-medium text-black">Un-Prices Commercial Proposal</h1>
+                    <span class="text-base font-medium text-black">Un-Prices Commercial Proposal</span>
                 </div>
                 <div class="w-1/2 md:w-1/2 px-2 flex justify-between">
-                    <label class="relative inline-block w-14 h-8 cursor-pointer">
+                    <label class="relative inline-block w-12 h-6 cursor-pointer">
                         <!-- Checkbox -->
                         <input type="checkbox" class="sr-only peer" id="toggleSwitch">
                         <!-- Line -->
@@ -291,7 +291,7 @@ export default function CommercialDeliverables(editor) {
                             class="absolute top-0 left-0 right-0 bottom-0 bg-gray-300 peer-checked:bg-blue-500 rounded-full transition duration-300"></span>
                         <!-- Dot -->
                         <span
-                            class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
+                            class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-6"></span>
                     </label>
                     <script>
                         document.getElementById('toggleSwitch').addEventListener('change', function () {

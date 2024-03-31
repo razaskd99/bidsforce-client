@@ -72,6 +72,7 @@ export default async function AdminPanelCompanies() {
             <thead className="table-light">
               <tr>
                 <th>Company</th>
+                <th>Type</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Industry</th>
@@ -111,6 +112,7 @@ export default async function AdminPanelCompanies() {
                         </div>
                       </div>
                     </td>
+                    <td>{item.company_type}</td>
                     <td>
                       <a
                         className="text-secondary"

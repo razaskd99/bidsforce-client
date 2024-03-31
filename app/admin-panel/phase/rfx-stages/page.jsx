@@ -57,7 +57,7 @@ export default async function AdminPanelDesignation() {
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
         <PhaseStagesAddNewButton
-          typeName={"rfx stage"}
+          typeName={"rfxstage"}
           buttonType={"new"}
           customLayout={customLayout}
           tokens={tokens}
@@ -114,7 +114,7 @@ export default async function AdminPanelDesignation() {
                     <td>
                       <PhaseStageListingButtons
                         propsData={item}
-                        typeName={"rfx stage"}
+                        typeName={"rfxstage"}
                         id={item.bidding_phases_id}
                         customLayout={customLayout}
                         tokens={tokens}

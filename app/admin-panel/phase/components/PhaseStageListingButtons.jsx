@@ -40,8 +40,9 @@ export default function PhaseStageListingButtons(props) {
       <div className="dropdown">
         <button
           onClick={
-            /*props.customLayout ? (e)=>deletePhaseStageRequest(e, props.id, props.apiBackendURL, props.tokens, props.tenantID) :*/ () =>
-              alert("This is a premium functionality.")
+            /*props.customLayout ?*/ (e)=>deletePhaseStageRequest(e, props.id, props.apiBackendURL, props.tokens, props.tenantID) 
+            /*: () =>
+              alert("This is a premium functionality.")*/
           }
           type="button"
           className="btn btn-xs btn-primary waves-effect mr-2 "

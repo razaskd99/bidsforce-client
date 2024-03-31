@@ -167,11 +167,7 @@ export default function OpportunityInfoModal(props) {
         tabindex="-1"
         aria-modal="true"
         role="dialog"
-        style={{
-          display: "block",
-          opacity: 1,
-          background: "rgba(151,149,158,50%)",
-        }}
+        style={props.style} 
       >
         <div className="modal-dialog modal-dialog-centered min-w-[1000px] sm:w-full md:w-full lg:max-w-5xl xl:max-w-5xl">
           <div className="modal-content" id="modalFormComponent1">
@@ -346,7 +342,6 @@ export default function OpportunityInfoModal(props) {
                     </div>
                   </div>
                 </div>
-
                 <div className="row g-2">
                   <div className="col mb-4">
                     <div className="form-floating form-floating-outline">
@@ -391,7 +386,6 @@ export default function OpportunityInfoModal(props) {
                     </div>
                   </div>
                 </div>
-
                 <div className="row g-2">
                   <div className="col mb-4">
                     <div className="form-floating form-floating-outline">

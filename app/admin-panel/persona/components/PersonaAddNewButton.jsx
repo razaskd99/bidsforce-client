@@ -24,7 +24,6 @@ export default function PersonaAddNewButton(props) {
         {openPersonaModal && <RfxPrereqInfoModal 
                                 setOpenPersonaModal={setOpenPersonaModal} 
                                 buttonType={props.buttonType} 
-                                tablename={props.buttonName}
                                 apiBackendURL={props.apiBackendURL}
                                 tenantID={props.tenantID}
                                 tokens={props.tokens}

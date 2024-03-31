@@ -18,6 +18,7 @@ export default function CompanyInfoModal(props) {
         m1_industry: props.modalData && props.modalData.industry ? props.modalData.industry : "",
         m1_website: props.modalData && props.modalData.website ? props.modalData.website : "",
         m1_company_logo: props.modalData && props.modalData.company_logo ? props.modalData.company_logo : "",
+        m1_company_type: props.modalData && props.modalData.company_type ? props.modalData.company_type : "",        
     });
   
   
@@ -100,10 +101,21 @@ export default function CompanyInfoModal(props) {
                         </div>
                     </div>
                     <div className="row g-2">
-                        <div className="col mb-4">
-                        <div className="input-group">
-                            <input type="file" onChange={handleChangeValues} className="form-control" id="m1_company_logo" name="m1_company_logo" />
+                        <div className="col-6 mb-4">
+                          <div className="input-group">
+                              <input type="file" onChange={handleChangeValues} className="form-control" id="m1_company_logo" name="m1_company_logo" />
+                          </div>
                         </div>
+                        <div className="col-6">
+                            <select
+                            className="form-select"
+                            id="m1_company_type"
+                            name="m1_company_type"
+                            >
+                              <option value={""}>Company Type *</option>
+                              <option selected={formData.company_type == 'Customer' ? true : false}>Customer</option>
+                              <option selected={formData.company_type == 'End User' ? true : false}>End User</option>                            
+                          </select>
                         </div>
                     </div>
                     <div className="row g-2">

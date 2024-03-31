@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import CustomPagination from "./CustomPagination";
 import { showMainLoader102 } from "@/app/api/util/utility";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 // Define a function for rendering option cell
 const renderOptionCell = (params) => (
@@ -96,7 +97,7 @@ export default function DataTable({ viewMode, data, viewType }) {
       enduser_type: rowData.enduser_type,
       rfx_id: rowData.rfx_id,
     }));
-  } catch (err) {}
+  } catch (err) { }
 
   // Setup necessary variables and state
   const pathname = usePathname();
@@ -138,7 +139,7 @@ export default function DataTable({ viewMode, data, viewType }) {
             maxWidth: "86vw",
             userSelect: "none",
           }}
-          className="data-table"
+          className="data-table mb-3"
         >
           <DataGrid
             className="select-none mb-5"
@@ -153,52 +154,35 @@ export default function DataTable({ viewMode, data, viewType }) {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {paginatedRows.map((row) => (
-              <div
-                key={row.id}
-                className="bg-white p-8 py-16 border rounded-md text-center"
-              >
-                <Image
-                  src={`/${row.checkbox}`}
-                  width={80}
-                  height={80}
-                  className="m-auto mb-1"
-                />
-                <div className="mt-2 text-[#778CA2] mb-1">
-                  {row.description}
-                </div>
-                <div className="text-xl mb-1">{row.customer}</div>
-                <div className="mt-2 text-lg mb-1">{row.duedate}</div>
-                <div className="mt-2 text-sm text-[#98A9BC] mb-2">Due Date</div>
-                <div className="flex justify-center relative w-[30%] m-auto mt-3">
-                  <Image
-                    src="/man.jpeg"
-                    alt="man"
-                    width={36}
-                    height={36}
-                    className=" rounded-full w-auto absolute top-0 left-[0px]"
-                  />
-                  <Image
-                    src="/man.jpeg"
-                    alt="man"
-                    width={36}
-                    height={36}
-                    className=" rounded-full w-auto absolute top-0 left-[20px]"
-                  />
-                  <Image
-                    src="/man.jpeg"
-                    alt="man"
-                    width={36}
-                    height={36}
-                    className=" rounded-full w-auto absolute top-0 left-[40px]"
-                  />
-                  <div className="bg-[#F8FAFB] p-3 text-[#98A9BC] rounded-full w-auto absolute top-0 left-[60px]">
-                    +5
+            {/* Render cards for each stage */}
+            {['Initiated', 'In Progress', 'InReview', 'Closed'].map((stage, index) => (
+              <div key={index} className=" bg-[#dcdbdb7b] rounded-t-lg">
+                {/* Stage column heading */}
+                <p className=" bg-[#26BADA] rounded-t-lg text-white p-2 ">{stage}</p>
+
+                {/* Render cards for the current stage */}
+                {paginatedRows.filter(row => row.status === stage.toLowerCase().replace(' ', '_')).map((row) => (
+                  <div key={row.id} className=" bg-white rounded-md my-4 mx-3 shadow-sm p-2 pb-0 relative overflow-hidden h-auto">
+                    <h3 className='text-[13px] mt-4 '>{row.description}</h3>
+                    <p className='text-[13px] mt-1 text-[#98A9BC]'>{row.type}</p>
+                    <div className="flex items-center justify-between text-[#98A9BC]  text-[11px] mt-3 m  mb-6  ">
+                      <div className="flex items-center justify-center relative -space-x-3">
+                        <Image src="/man.jpeg" alt="man" width={25} height={25} className="rounded-full w-auto" />
+                        <Image src="/man.jpeg" alt="man" width={25} height={25} className="rounded-full w-auto" />
+                        <Image src="/man.jpeg" alt="man" width={25} height={25} className="rounded-full w-auto" />
+                        <div className="bg-[#F8FAFB] text-sm flex items-center justify-center p-4 w-4 h-4 text-[#98A9BC] rounded-full">+5</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <FaRegCalendarAlt />
+                        <p>{row.duedate}</p>
+                      </div>  
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             ))}
           </div>
+
 
           <CustomPagination
             totalItems={adjustedRows.length}

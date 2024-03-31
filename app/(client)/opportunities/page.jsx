@@ -6,12 +6,17 @@ const axios = require('axios');
 import getConfig from "next/config";
 import Image from "next/image"
 import Link from "next/link";
+// import NewOpportunity from "@/components/forms/NewOpportunity";
 
 // start login init
 import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from '../../setup';
 import { getToken } from "@/app/api/util/script";
+// import OpportunityAddNewButton from "@/app/admin-panel/components/OpportunityAddNewButton";
+import OpenOpportunity from "@/components/forms/OpenOpportunity";
+import OpenCustomer from "@/components/forms/OpenCustomer";
+import { getAllCompanyRecordsAction } from "@/app/api/rfx/actions/rfx";
 // end login init 
 
 const Opportunitues = async () => {
@@ -28,8 +33,14 @@ const Opportunitues = async () => {
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
 
+  let response = {}
+
   // get opportunities call
   let opportunitiesRecords = await getAllOppotunitiesRecords(apiBackendURL, tokens, tenantID)
+
+  // get companies
+  response = await getAllCompanyRecordsAction()
+  let companyRecords = response.returnData 
 
   const breadcrumbItems = [
     { label: "Dashboard", href: "/" },
@@ -50,20 +61,18 @@ const Opportunitues = async () => {
 
     <div>
       <Breadcrumbs items={breadcrumbItems} />
-      <div className="flex">
-        <Link href="/admin-panel/opportunities" className="text-md text-[#26BADA] flex items-center gap-2 cursor-pointer" >
-            New Opportunity
-            <Image src="add-blue.svg" width={18} height={21} alt="add" />
-        </Link>
-        <div className="w-[260px] flex items-center justify-between rounded-2xl bg-white py-[6px] px-5 my-4 ml-auto">
-          <input
-            type="text"
-            placeholder="Search within results"
-            className="w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm"
-          />
-          <button>
-            <IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" />
-          </button>
+      <div className="flex items-center gap-2">
+      <OpenOpportunity companyRecords={companyRecords} className="mr-2" />
+      <OpenCustomer companyRecords={companyRecords}/>
+      <div className="w-[260px] flex items-center justify-between rounded-2xl bg-white py-[6px] px-5 my-4 ml-auto">
+      <input
+        type="text"
+        placeholder="Search within results"
+        className="w-full text-black bg-transparent border-0 outline-none placeholder:text-[#778CA2] placeholder:text-sm"
+      />
+      <button>
+        <IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" />
+      </button>
       </div>
     </div>
 

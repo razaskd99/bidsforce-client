@@ -45,7 +45,11 @@ import {
   deletePhaseStageRecordAction,
 } from "./actions/phaseStages";
 import { uploadSingleFile } from "../util/utility";
-import { createPersonaAction } from "./actions/persona";
+import {
+  createPersonaAction,
+  deletePersonaRecordAction,
+  updatePersonaRecordAction,
+} from "./actions/persona";
 import { createDocUploadAction } from "../rfx/actions/rfx";
 import { uploadImagesOnBlob } from "../util/vercelFileHandler";
 
@@ -156,22 +160,31 @@ export const createUserRequest = async (
   let success = true;
   if (valid) {
     // upload file
-    if(selectedFile && selectedFile.name) {
+    if (selectedFile && selectedFile.name) {
       if (process.env.IS_LOCAL === "local") {
         // upload file on local or AWS
-        let resp = await uploadSingleFile(selectedFile, apiBackendURL, tenantID, folderName);
-        formData.user_profile_photo = "tenant-" + tenantID + "/" + folderName + selectedFile.name
-        console.log("Running on localhost");
+        /*let resp = await uploadSingleFile(
+          selectedFile,
+          apiBackendURL,
+          tenantID,
+          folderName
+        );
+        formData.user_profile_photo =
+          "tenant-" + tenantID + "/" + folderName + selectedFile.name;
+        console.log("Running on localhost");*/
+        // upload file on blob
+        const uploaded = await uploadImagesOnBlob(fileData);
+        formData.user_profile_photo = uploaded[0].url;
       } else {
         // upload file on blob
-        const uploaded= await uploadImagesOnBlob(fileData);
-        formData.user_profile_photo = uploaded[0].url
+        const uploaded = await uploadImagesOnBlob(fileData);
+        formData.user_profile_photo = uploaded[0].url;
         console.log("Running on Vercel or different environment");
-      }    
+      }
     }
     // create user
     let res = await createUserAction(apiBackendURL, accessToken, formData);
-    if (res.statusCode === 200) {      
+    if (res.statusCode === 200) {
       window.location = "/admin-panel/users";
     } else {
       valid = false;
@@ -276,7 +289,7 @@ export const updateUserRequest = async (
     !formData.last_name
   ) {
     showError("Validtaion Error", "Please fill the required field.");
-    false;
+    return;
   }
 
   if (valid && formData.password) {
@@ -286,20 +299,27 @@ export const updateUserRequest = async (
         "Password and Confirm Password are different."
       );
     }
+    return;
   }
 
   if (valid) {
     // upload file
-    if(selectedFile && selectedFile.name) {
+    if (selectedFile && selectedFile.name) {
       if (process.env.IS_LOCAL === "local") {
         // upload file on local or AWS
-        let resp = await uploadSingleFile(selectedFile, apiBackendURL, tenantID, folderName);
-        formData.user_profile_photo = "tenant-" + tenantID + "/" + folderName + selectedFile.name
+        let resp = await uploadSingleFile(
+          selectedFile,
+          apiBackendURL,
+          tenantID,
+          folderName
+        );
+        formData.user_profile_photo =
+          "tenant-" + tenantID + "/" + folderName + selectedFile.name;
         console.log("Running on localhost");
       } else {
         // upload file on blob
-        const uploaded= await uploadImagesOnBlob(fileData);
-        formData.user_profile_photo = uploaded[0].url
+        const uploaded = await uploadImagesOnBlob(fileData);
+        formData.user_profile_photo = uploaded[0].url;
         console.log("Running on Vercel or different environment");
       }
     }
@@ -397,11 +417,14 @@ export const createCompanyRequest = async (
     company_logo: document.getElementById("m1_company_logo")
       ? document.getElementById("m1_company_logo").value
       : "",
+    company_type: document.getElementById("m1_company_type")
+      ? document.getElementById("m1_company_type").value
+      : "",
   };
-
+  
   let valid = true;
   let message = "";
-  const validationFields = ["company_name", "phone", "email", "industry"];
+  const validationFields = ["company_name", "phone", "email", "industry", "company_type"];
 
   validationFields.forEach((element) => {
     if (!formData[element]) {
@@ -470,11 +493,14 @@ export const updateCompanyRequest = async (
     company_logo: document.getElementById("m1_company_logo")
       ? document.getElementById("m1_company_logo").value
       : "",
+    company_type: document.getElementById("m1_company_type")
+      ? document.getElementById("m1_company_type").value
+      : "",
   };
 
   let valid = true;
   let message = "";
-  const validationFields = ["company_name", "phone", "email", "industry"];
+  const validationFields = ["company_name", "phone", "email", "industry", "company_type"];
 
   validationFields.forEach((element) => {
     if (!formData[element]) {
@@ -509,7 +535,7 @@ export const updateCompanyRequest = async (
   }
 
   if (!valid || !success) {
-    //showModalError(message)
+    showModalError(message)
   }
 };
 
@@ -1647,21 +1673,19 @@ export const deletePhaseStageRequest = async (
   }
 };
 
-
-
 ///////////////////////// Persona methods
 
 // Client request to create new Persona
 export const createPersonaRequest = async (
   e,
-   apiBackendURL,
+  apiBackendURL,
   tokens,
   tenantID
 ) => {
   e.preventDefault();
 
   const formData = {
-    is_active: document.getElementById("m7_persona_role")
+    persona_role: document.getElementById("m7_persona_role")
       ? document.getElementById("m7_persona_role").value
       : "",
     is_active: true,
@@ -1672,7 +1696,7 @@ export const createPersonaRequest = async (
 
   let valid = true;
   let message = "";
-  const validationFields = ["c", "is_active"];
+  const validationFields = ["persona_role"];
 
   validationFields.forEach((element) => {
     if (!formData[element]) {
@@ -1685,11 +1709,11 @@ export const createPersonaRequest = async (
   formData.is_active =
     isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
 
-  if (valid && formData.selectedIndex == 0) {
+  if (valid && isactive.selectedIndex == 0) {
     valid = false;
     message = "Please select the status.";
   }
-
+  console.log(formData);
   let success = true;
   if (valid) {
     let res = await createPersonaAction(
@@ -1710,5 +1734,99 @@ export const createPersonaRequest = async (
 
   if (!valid || !success) {
     showModalError(message);
+  }
+};
+
+// Client request to update Persona
+export const updatePersonaRequest = async (
+  e,
+  id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
+  e.preventDefault();
+
+  const formData = {
+    persona_role: document.getElementById("m7_persona_role")
+      ? document.getElementById("m7_persona_role").value
+      : "",
+    is_active: true,
+    description: document.getElementById("m7_description")
+      ? document.getElementById("m7_description").value
+      : "",
+  };
+
+  let valid = true;
+  let message = "";
+  const validationFields = ["persona_role"];
+
+  validationFields.forEach((element) => {
+    if (!formData[element]) {
+      valid = false;
+      message = "Please fill the required fields.";
+    }
+  });
+
+  const isactive = document.getElementById("m7_is_active");
+  formData.is_active =
+    isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
+
+  if (valid && isactive.selectedIndex == 0) {
+    valid = false;
+    message = "Please select the status.";
+  }
+
+  let success = true;
+  if (valid) {
+    let res = await updatePersonaRecordAction(
+      formData,
+      id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
+    if (res.statusCode === 200) {
+      document.getElementById("modalform4").reset();
+      showModalSuccess("Details updated successfully.");
+      window.location.reload();
+    } else {
+      valid = false;
+      message = res.error;
+    }
+  }
+
+  if (!valid || !success) {
+    showModalError(message);
+  }
+};
+
+// Client request to delete
+export const deletePersonaRequest = async (
+  e,
+  id,
+  apiBackendURL,
+  tokens,
+  tenantID
+) => {
+  e.preventDefault();
+
+  const userConfirmed = window.confirm(
+    "Are you sure want delete persona?" + id
+  );
+
+  if (userConfirmed) {
+    let res = await deletePersonaRecordAction(
+      id,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
+    if (res) {
+      window.location.reload();
+    } else {
+      //showError("Server Error:", res.returnData.error)
+      window.location.reload();
+    }
   }
 };

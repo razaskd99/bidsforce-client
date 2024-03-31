@@ -12,27 +12,23 @@ export const showError = (title, message) => {
     }, 2000);
 }
 
-export const showModalError = (message) => {
-    document.getElementById('modalErrorMessageAlert').style.display = "none"
-    document.getElementById('modalSuccessMessageAlert').style.display = "none"
-    
+export const showModalError = (message) => {    
     document.getElementById('modalErrorMessageAlert').innerHTML = message
     document.getElementById('modalErrorMessageAlert').style.display = "block"
-    /*setTimeout(() => {            
-    document.getElementById('modalErrorMessageAlert').style.display = "none"
-    }, 2500);*/
+    setTimeout(() => {            
+        document.getElementById('modalErrorMessageAlert').innerHTML = 'Operation failed.'
+        document.getElementById('modalErrorMessageAlert').style.display = "none"
+    }, 2500);
 }
 
 
-export const showModalSuccess = (message) => {
-    document.getElementById('modalErrorMessageAlert').style.display = "none"
-    document.getElementById('modalSuccessMessageAlert').style.display = "none"
-    
+export const showModalSuccess = (message) => {    
     document.getElementById('modalSuccessMessageAlert').innerHTML = message
     document.getElementById('modalSuccessMessageAlert').style.display = "block"
-    /*setTimeout(() => {            
-    document.getElementById('modalSuccessMessageAlert').style.display = "none"
-    }, 2500);*/
+    setTimeout(() => {      
+        document.getElementById('modalSuccessMessageAlert').innerHTML = 'Operation successful.'      
+        document.getElementById('modalSuccessMessageAlert').style.display = "none"
+    }, 2500);
 }
 
 

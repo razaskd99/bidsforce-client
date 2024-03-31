@@ -22,55 +22,89 @@ const CreateRfx = ({ data }) => {
   let date = new Date().toLocaleDateString();
 
   const [opportunityData, setOpportunityData] = useState([
-    { name: "RFx ID", value: "Not Assigned", id: "rfx_id" },
-    { name: "BID ID", value: "Not Assigned", id: "bid_id" },
+    // { name: "RFx ID", value: "Not Assigned", id: "rfx_id" },
+    // { name: "BID ID", value: "Not Assigned", id: "bid_id" },
 
-    { name: "CRM ID", value: data.crm_id, id: "crm_id" },
-    { name: "Opportunity Title", value: data.title, id: "opportunity_title" },
+    { name: "Opportunity Number", value: data.crm_id, id: "crm_id" },
+    { name: "Opportunity Name", value: data.title, id: "opportunity_title" },
 
     { name: "Customer", value: data.customer_name, id: "customer" },
-    { name: "Stage", value: data.stage, id: "stage" },
+    { name: "Opportunity Sales Stage", value: data.stage, id: "stage" },
 
     { name: "End User", value: data.end_user_name, id: "end_user" },
     { name: "Opportunity Type", value: data.type, id: "opportunity_type" },
 
     { name: "Region", value: data.region, id: "region" },
-    { name: "Industry Code", value: data.industry_code, id: "industry_code" },
+    {
+      name: "Opportunity Industry",
+      value: data.industry_code,
+      id: "industry_code",
+    },
 
-    { name: "Business Unit", value: data.business_unit, id: "business_unit" },
+    {
+      name: "Opportunity Business Line",
+      value: data.business_unit,
+      id: "business_unit",
+    },
     { name: "Project Type", value: data.project_type, id: "project_type" },
 
-    { name: "Competition", value: data.competition, id: "competition" },
+    //{ name: "Competition", value: data.competition, id: "competition" },
     {
       name: "Total Opportunity Value ($)",
       value: data.total_value,
       id: "total_opportunity_value",
     },
+    // {
+    //   name: "Gross Profit (%)",
+    //   value: data.gross_profit_percent,
+    //   id: "gross_profit_percent",
+    // },
+    // {
+    //   name: "Opportunity Probability",
+    //   value: data.probability,
+    //   id: "opportunity_probability",
+    // },
+
+    // {
+    //   name: "Delivery Duration",
+    //   value: data.delivery_duration,
+    //   id: "delivery_duration",
+    // },
+    // {
+    //   name: "Gross Profit Value",
+    //   value: data.gross_profit_value,
+    //   id: "gross_profit_value",
+    // },
     {
-      name: "Gross Profit (%)",
-      value: data.gross_profit_percent,
-      id: "gross_profit_percent",
-    },
-    {
-      name: "Opportunity Probability",
-      value: data.probability,
-      id: "opportunity_probability",
+      name: "Opportunity Committed for Sales Budget",
+      value: data.forcasted,
+      id: "opportunity_forecasted",
     },
 
     {
-      name: "Delivery Duration",
-      value: data.delivery_duration,
-      id: "delivery_duration",
+      name: "End User Project",
+      value: data.end_user_project,
+      id: "end_user_project",
     },
     {
-      name: "Gross Profit Value",
-      value: data.gross_profit_value,
-      id: "gross_profit_value",
+      name: "Opportunity Currency",
+      value: data.opportunity_currency,
+      id: "opportunity_currency ",
     },
     {
-      name: "Opportunity Forecasted",
-      value: data.forcasted,
-      id: "opportunity_forecasted",
+      name: "Sales Persuit Progress",
+      value: data.sales_persuit_progress,
+      id: "sales_persuit_progress",
+    },
+    {
+      name: "Opportunity Owner",
+      value: data.opportunity_owner,
+      id: "opportunity_owner",
+    },
+    {
+      name: "Bidding Unit",
+      value: data.bidding_unit,
+      id: "bidding_unit",
     },
     {
       name: "Description",
@@ -97,12 +131,12 @@ const CreateRfx = ({ data }) => {
 
   const postValues = (e) => {
     e.preventDefault();
-
     showMainLoader102();
+
     //alert()
     let rfxTempData = {
-      rfx_id: document.getElementById("rfx_id").value,
-      bid_id: document.getElementById("bid_id").value,
+      rfx_id: "",
+      bid_id: "",
       crm_id: document.getElementById("crm_id").value,
       opportunity_title: document.getElementById("opportunity_title").value,
       customer: document.getElementById("customer").value,
@@ -113,17 +147,14 @@ const CreateRfx = ({ data }) => {
       industry_code: document.getElementById("industry_code").value,
       business_unit: document.getElementById("business_unit").value,
       project_type: document.getElementById("project_type").value,
-      competition: document.getElementById("competition").value,
+      competition: "",
       total_opportunity_value: document.getElementById(
         "total_opportunity_value"
       ).value,
-      gross_profit_percent: document.getElementById("gross_profit_percent")
-        .value,
-      opportunity_probability: document.getElementById(
-        "opportunity_probability"
-      ).value,
-      delivery_duration: document.getElementById("delivery_duration").value,
-      gross_profit_value: document.getElementById("gross_profit_value").value,
+      gross_profit_percent: 0,
+      opportunity_probability: "",
+      delivery_duration: "",
+      gross_profit_value: 0,
       opportunity_forecasted: document.getElementById("opportunity_forecasted")
         .value,
       description: document.getElementById("description").value,
@@ -142,6 +173,7 @@ const CreateRfx = ({ data }) => {
     router.push("/rfx/newfx");
   };
 
+  console.log(data);
   return (
     <>
       <Breadcrumbs items={breadcrumbItems} />
@@ -163,6 +195,7 @@ const CreateRfx = ({ data }) => {
                     rows={4}
                     name={item.name}
                     id={item.id}
+                    readOnly
                     onChange={(e) => handleValueChange(index, e.target.value)}
                   />
                 ) : (
@@ -172,6 +205,7 @@ const CreateRfx = ({ data }) => {
                     value={item.value}
                     name={item.name}
                     id={item.id}
+                    readOnly
                     onChange={(e) => handleValueChange(index, e.target.value)}
                   />
                 )}

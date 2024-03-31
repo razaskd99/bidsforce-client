@@ -1,4 +1,4 @@
-import { getBidVality, getContentSubmission, getRfxStages, getRfxTypes, getSubmissionMode, getUsers, getAllCompanyRecordsAction } from "@/app/api/rfx/actions/rfx";
+import { getBidVality, getContentSubmission, getRfxStages, getRfxTypes, getSubmissionMode, getUsers, getAllCompanyRecordsAction, getAllPersonaRecordsAction } from "@/app/api/rfx/actions/rfx";
 import CreateNewRfx from "@/components/CreateNewRfx";
 import { getUserById } from "@/app/api/rfx/actions/user";
 import getConfig from "next/config";
@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
+import { getAllPrimaryContactsAction } from "@/app/api/rfx/actions/primaryContacts";
 // end login init 
 
 const NewFx = async () => {
@@ -38,7 +39,6 @@ const NewFx = async () => {
   let bidValidityRes= await getBidVality();
   const bidValidity = bidValidityRes.data
 
-
   let submissionModeRes= await getSubmissionMode();
   const submissionMode = submissionModeRes.data
 
@@ -48,15 +48,17 @@ const NewFx = async () => {
   let usersRes= await getUsers();
   const users = usersRes.data
 
+  let contactsRes = await getAllPrimaryContactsAction()
+  const primaryContactsRec = contactsRes.returnData
+
   let companyRes = await getAllCompanyRecordsAction();
   const companyList = companyRes.returnData
 
+  let personaRes = await getAllPersonaRecordsAction();
+  const personaList = personaRes.returnData
   
-  if (serverRuntimeConfig) {
-    if (Object.entries(serverRuntimeConfig.TEMP_DATA).length > 0) {
-      preRfxData = { ...serverRuntimeConfig.TEMP_DATA }
-    }
-  }
+  // load opportunity details from cookie
+  preRfxData = await getCookieValue('rfxTempData')
 
   // check user is login
   let isLogin = await getCookieValue('loginStatus')
@@ -67,7 +69,7 @@ const NewFx = async () => {
   }
   
    return (
-    <CreateNewRfx preRfxData={preRfxData}  rfxType={rfxType} rfxStages={rfxStages} bidValidity={bidValidity} submissionMode={submissionMode} contentSubmission={contentSubmission} users={users} companies={companyList}  apiBackendURL={apiBackendURL} tenantID={tenantID}  loginUserID={userLoginData.user_id} />
+    <CreateNewRfx preRfxData={preRfxData}  rfxType={rfxType} rfxStages={rfxStages} bidValidity={bidValidity} submissionMode={submissionMode} contentSubmission={contentSubmission} users={users} companies={companyList} personas={personaList}  apiBackendURL={apiBackendURL} tenantID={tenantID}  loginUserID={userLoginData.user_id} primaryContactsRec={primaryContactsRec} />
   );
 };
 

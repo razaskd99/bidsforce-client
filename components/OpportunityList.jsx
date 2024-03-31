@@ -1,11 +1,14 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchTable from './SearchTable'
+import OpportunityInfoModal from '/admin-panel/components/OpportunityInfoModal.jsx';
 
-const OpportunityList = ({data}) => {
+const [openOpportunityModal,setOpenOpportunityModal ] = useState(false);
+const OpportunityList = ({ data }) => {
   return (
     <div>
-        <SearchTable rows={data} />
+      <SearchTable rows={data} />
+      {openOpportunityModal && (<OpportunityInfoModal setOpenOpportunityModal={setOpenOpportunityModal} />)}
     </div>
   )
 }

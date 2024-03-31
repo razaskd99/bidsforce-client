@@ -7,18 +7,18 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FaCaretDown } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
-import { AiFillMinusCircle } from "react-icons/ai";
+import { AiFillMinusCircle,AiFillDelete  } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { IoMdAddCircle } from "react-icons/io";
 import { FaFile } from "react-icons/fa";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import { FaChevronLeft, FaRegCalendarDays } from "react-icons/fa6";
 import ContactDialog from './ContactPopup1';
 import Image from 'next/image';
 import { FormControlLabel, MenuItem, Switch, TextField } from '@mui/material';
-import { FaChevronLeft, FaRegCalendarDays } from "react-icons/fa6";
 import { CalendarMonth } from '@mui/icons-material';
 import CalendarTimeline from './CalendarTimeline';
 import SearchTable from './SearchTable';
-import { IoMdAddCircleOutline } from "react-icons/io";
 import TimePickerValue from './TimePicker';
 import DynamicDatePicker from './DatePickerInput';
 import { getAllKoffMeetingAction, getKoffMeetingByIDAction, createKoffMeetingAction} from '@/app/api/manager/actions/kickoff';
@@ -31,6 +31,8 @@ import SearchTableNew from './SearchTableNew';
 import { createContactsAction, getRfxContactsByKey } from '@/app/api/rfx/actions/rfx';
 import { createDeliverablesAction, getAllDeliverablesAction, getDeliverablesByIDAction } from '@/app/api/manager/actions/deliverables';
 import { getPages, getpage } from '@/app/api/user-templates/API';
+import { deleteContactAction } from '@/app/api/manager/actions/contacts';
+import { hideMainLoader102, showMainLoader102 } from '@/app/api/util/utility';
 
 
 export default function ControlledAccordions({
@@ -147,9 +149,10 @@ export default function ControlledAccordions({
         getRfxContactsByKey(rfxRecord.rfx_id, 'bid-team-' + rfxRecord.rfx_id)
             .then((res) => {
                 if(res.statusCode == 200) {
-                    let records = res.returnData
+                    let records = res.rfxData
                     let mappedData = records.map((item, index) => ({
                         id: item.user_id,
+                        contact_id: item.contact_id,
                         designation: item.designation_title,
                         name: `${item.first_name} ${item.last_name}`,
                         email: item.email,
@@ -166,7 +169,38 @@ export default function ControlledAccordions({
         
     }, [isActive]);
 
+    const handleDeleteContact = async(index) => {
+        const updatedContacts = [...selectedContact];
+        updatedContacts.splice(index, 1);
+        setSelectedContacts(updatedContacts);
+        showMainLoader102()
 
+        // delete contact            
+        const r1 = await deleteContactAction(index)
+        // get contact            
+        if(r1.statusCode == 200) {
+            getRfxContactsByKey(rfxRecord.rfx_id, 'bid-team-' + rfxRecord.rfx_id)
+            .then((res) => {
+                if(res.statusCode == 200) {
+                    let records = res.rfxData
+                    let mappedData = records.map((item, index) => ({
+                        id: item.user_id,
+                        contact_id: item.contact_id,
+                        designation: item.designation_title,
+                        name: `${item.first_name} ${item.last_name}`,
+                        email: item.email,
+                        image: item.user_profile_photo ? item.user_profile_photo : '/avatar.jpg',
+                        role: item.team_role
+                    }))
+                    setSelectedContacts(mappedData) 
+                } else {
+                    setSelectedContacts([])
+                }
+            })
+            .catch((err) => console.log(err));
+        }
+        hideMainLoader102()
+    }
     function applyDynamicCSS(css) {
         useEffect(() => {
             const styleElement = document.createElement('style');
@@ -182,11 +216,14 @@ export default function ControlledAccordions({
 
 
     const handleContactSelect = async (contact) => {                
+        showMainLoader102()
+        setSelectedContacts([])
         // get bid team
-        const r2 = await getRfxContactsByKey(rfxRecord.rfx_id, 'bid-team-' + rfxRecord.rfx_id)
+        const r2 = await getRfxContactsByKey(rfxRecord.rfx_id, 'bid-team-' + rfxRecord.rfx_id)        
         const records = r2.rfxData
         const mappeddata = records.map((item) => ({
             id: item.user_id,
+            contact_id: item.contact_id,
             designation: item.designation_title,
             name: `${item.first_name} ${item.last_name}`,
             email: item.email,
@@ -202,13 +239,14 @@ export default function ControlledAccordions({
 
         // add bid team if not added
         if(!filteredData.length) {            
-            const r3 = await createContactsAction(rfxRecord.rfx_id, contact.id, 'bid-team-' + rfxRecord.rfx_id)        
+            const r3 = await createContactsAction(rfxRecord.rfx_id, contact.id, 'bid-team-' + rfxRecord.rfx_id)  
+            contact = {...contact, contact_id: r3.returnData.contact_id}      
             setSelectedContacts((prevContacts) => [...prevContacts, contact]);
         }
 
-        // refresh contacts
-        
+        // refresh contacts        
         setContactDialogOpen(false);
+        hideMainLoader102()
     };
     const handleAttendeeSelect = (attendee) => {
         setSelectedAttendees((prevAttendee) => [...prevAttendee, attendee]);
@@ -518,15 +556,16 @@ export default function ControlledAccordions({
                 <AccordionDetails className='border border-gray-300 flex justify-center flex-col-reverse items-center py-3'>
                     <IoMdAddCircle className='text-4xl text-[#26BADA] cursor-pointer' onClick={handleAddTeam} />
                     {selectedContact?.map((selectedContact, index) => (
-                        <div className="border border-gray-300 px-4 py-1 flex items-center justify-between my-1 text-[#98A9BC] w-full" key={index}>
+                        <div className="border border-gray-300 px-4 py-1 flex items-center justify-between my-1 text-[#98A9BC] w-full" key={selectedContact.contact_id}>
                             <div className="flex gap-2 items-center flex-[1]">
                                 <Image src={selectedContact.image} width={38} height={38} alt='contact' className="rounded-[100%] object-cover w-[38px] h-[38px]" />
-                                <span className="text-sm leading-4">{selectedContact.name}</span>
+                                <span className="text-sm leading-4">{selectedContact.name}</span> 
                             </div>
                             <span className="text-sm leading-4 flex-[1]">{selectedContact.email}</span>
                             <span className="text-sm leading-4 flex-[1]">{selectedContact.designation}</span>
                             <span className="bg-[#26BADA] max-w-[120px] mr-4 flex-[1] h-max rounded-md text-xs text-white p-1 min-w-[80px] text-center  leading-4 block">{selectedContact.role ? selectedContact.role : 'requester'}</span>
-                            < BsThreeDots className='flex-[1/2]' />
+                            < AiFillDelete className='flex-[1/2] mr-4 cursor-pointer' onClick={() => handleDeleteContact(selectedContact.contact_id)} />
+                            < BsThreeDots className='flex-[1/2] cursor-pointer' />
                         </div>
                     ))}
                 </AccordionDetails>

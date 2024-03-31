@@ -1,16 +1,39 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Typography,
+  List,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Radio from "@mui/material/Radio";
 
 export default async function SideNavAdminPanel(props) {
   const sideNavData = [
-    {icon: "/ico.svg",text: "Tenants",link: "/controlpanel/auth/members",},
-    {icon: "/bids.svg",text: "Register Tenant",link: "/controlpanel/auth/register",},
-    {icon: "/contacts.png",text: "Change Password",link: "/controlpanel/auth/password",},
+    { icon: "/ico.svg", text: "Tenants", link: "/controlpanel/auth/members" },
+    {
+      icon: "/bids.svg",
+      text: "Register Tenant",
+      link: "/controlpanel/auth/register",
+    },
+    {
+      icon: "/contacts.png",
+      text: "Change Password",
+      link: "/controlpanel/auth/password",
+    },
   ];
 
   return (
-    <aside id="layout-menu" className="layout-menu menu-vertical menu bg-[#252631] shadow-lg " >
+    <aside
+      id="layout-menu"
+      className="layout-menu menu-vertical menu bg-[#252631] shadow-lg "
+    >
       <div className="app-brand demo">
         <Link href={props.homeURL} className="app-brand-link d-block">
           <span className="app-brand-logo demo me-1">
@@ -33,214 +56,281 @@ export default async function SideNavAdminPanel(props) {
           <i className="mdi menu-toggle-icon d-xl-block align-middle mdi-20px"></i>
         </Link>
       </div>
-
       <div className="menu-inner-shadow"></div>
+      <List component="nav">
+        {/* Admin Dashboards */}
+        <ListItem button>
+          <ListItemText
+            primary={
+              <Typography variant="h6" color="primary">
+                Admin Dashboards
+              </Typography>
+            }
+          />
+        </ListItem>
 
-      <ul className="menu-inner py-1">
-        <li className="menu-item active open ">
-          <Link href="javascript:void(0);" className="menu-link no-underline ">
-            <div data-i18n="Dashboards" className="text-xl text-[#26bada] mt-3">
-              Admin Dashboards
-            </div>
-          </Link>
-        </li>
-
-        <li className="menu-item">
-          <Link
-            href="javascript:void(0);"
-            className="menu-link no-underline menu-toggle text-white hover:bg-gray-300 font-normal "
+        {/* USERS */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon className="text-white" />}
           >
-            <div data-i18n="Layouts">USERS</div>
-          </Link>
+            <ListItemText
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  USERS
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/users"
+                  passHref
+                >
+                  <ListItemText primary="Users" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/teams"
+                  passHref
+                >
+                  <ListItemText primary="Teams" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/companies"
+                  passHref
+                >
+                  <ListItemText primary="Companies" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/designation"
+                  passHref
+                >
+                  <ListItemText primary="Designations" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
-          <ul className="menu-sub">
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/users"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Users</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/teams"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Teams</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/companies"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Companies</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/designation"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Designations</div>
-              </Link>
-            </li>
-          </ul>
-        </li>
-
-        <li className="menu-item">
-          <Link
-            href="javascript:void(0);"
-            className="menu-link no-underline menu-toggle text-white hover:bg-gray-300 font-normal "
+        {/* PERSONA */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            className="m-0"
+            expandIcon={<ExpandMoreIcon className="text-white m-0" />}
           >
-            <div data-i18n="Layouts">PERSONA</div>
-          </Link>
+            <ListItemText
+              className="m-0"
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  PERSONA
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/persona"
+                  passHref
+                >
+                  <ListItemText primary="Persona List" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
-          <ul className="menu-sub">
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/persona"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Persona List</div>
-              </Link>
-            </li>            
-          </ul>
-        </li>
-
-        <li className="menu-item">
-          <Link
-            href="javascript:void(0);"
-            className="menu-link no-underline menu-toggle text-white font-extrabold hover:bg-gray-300 font-normal "
+        {/* RFX PRE-REQUISITES */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon className="text-white" />}
           >
-            <div data-i18n="Layouts">RFX PRE-REQUISITES</div>
-          </Link>
+            <ListItemText
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  RFX PRE-REQUISITES
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/rfx/bid-validity"
+                  passHref
+                >
+                  <ListItemText primary="Bid Validity" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/rfx/rfx-type"
+                  passHref
+                >
+                  <ListItemText primary="Rfx Type" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/rfx/rfx-content-submission"
+                  passHref
+                >
+                  <ListItemText primary="RFx Content Submission" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/rfx/rfx-submission-mode"
+                  passHref
+                >
+                  <ListItemText primary="RFx Submission Mode" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/rfx/rfx-stage"
+                  passHref
+                >
+                  <ListItemText primary="RFx Stage" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
-          <ul className="menu-sub">
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/rfx/bid-validity"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without menu">Bid Validity</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/rfx/rfx-type"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Rfx Type</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/rfx/rfx-content-submission"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">RFx Content Submission</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/rfx/rfx-submission-mode"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">RFx Submission Mode</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/rfx/rfx-stage"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">RFx Stage</div>
-              </Link>
-            </li>
-          </ul>
-        </li>
+        {/* CUSTOMERS */}
+        {/* {<Accordion className="bg-[#252631] text-white" style={{background:"#252631"}}>
+					<AccordionSummary expandIcon={<ExpandMoreIcon className="text-white" />}>
+						<ListItemText primary={<Typography variant="p" color="white" className="text-base">CUSTOMERS</Typography>} />
+					</AccordionSummary>
+					<AccordionDetails>
+						<List component="div" disablePadding>
+							<ListItem button className="py-0 text-[#cecece]">
+								<Link className="no-underline text-[#cecece]" href="/admin-panel/customers" passHref>
+									<ListItemText primary="Customers" />
+								</Link>
+							</ListItem>
+							<ListItem button className="py-0 text-[#cecece]">
+								<Link className="no-underline text-[#cecece]" href="/admin-panel/opportunities" passHref>
+									<ListItemText primary="Opportunities" />
+								</Link>
+							</ListItem>
+						</List>
+					</AccordionDetails>
+				</Accordion>} */}
 
-        <li className="menu-item">
-          <Link
-            href="javascript:void(0);"
-            className="menu-link no-underline menu-toggle text-white font-extrabold hover:bg-gray-300 font-normal "
+        {/* STAGES */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon className="text-white" />}
           >
-            <div data-i18n="Layouts">CUSTOMERS</div>
-          </Link>
+            <ListItemText
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  STAGES
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/phase/rfx-stages"
+                  passHref
+                >
+                  <ListItemText primary="Rfx Stages" />
+                </Link>
+              </ListItem>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/phase/bid-stages"
+                  passHref
+                >
+                  <ListItemText primary="Bid Staages" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
-          <ul className="menu-sub">
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/customers"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Customers</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/opportunities"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Opportunities</div>
-              </Link>
-            </li>
-          </ul>
-        </li>
-
-        <li className="menu-item">
-          <Link
-            href="javascript:void(0);"
-            className="menu-link no-underline menu-toggle text-white font-extrabold hover:bg-gray-300 font-normal "
+        {/* TEMPLATES */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon className="text-white" />}
           >
-            <div data-i18n="Layouts">STAGES</div>
-          </Link>
+            <ListItemText
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  TEMPLATES
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem button className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/template-builder"
+                  passHref
+                >
+                  <ListItemText primary="Create a Template" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
-          <ul className="menu-sub">
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/phase/rfx-stages"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Rfx Stages</div>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/phase/bid-stages"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Bid Staages</div>
-              </Link>
-            </li>
-          </ul>
-        </li>
-
-        <li className="menu-item">
-          <Link
-            href="javascript:void(0);"
-            className="menu-link no-underline menu-toggle text-white font-extrabold hover:bg-gray-300 font-normal "
-          >
-            <div data-i18n="Layouts">TEMPLATES</div>
-          </Link>
-
-          <ul className="menu-sub">
-            <li className="menu-item">
-              <Link
-                href="/admin-panel/template-builder"
-                className="menu-link no-underline text-white hover:bg-gray-300"
-              >
-                <div data-i18n="Without navbar">Create a Template</div>
-              </Link>
-            </li>
-          </ul>
-        </li>
-
-        <li className="menu-header fw-medium mt-4">
-          <span className="menu-header-text">Misc</span>
-        </li>
-      </ul>
+        {/* Misc */}
+        <ListItem>
+          <ListItemText
+            primary={
+              <Typography variant="subtitle1" className="fw-medium mt-4">
+                Misc
+              </Typography>
+            }
+          />
+        </ListItem>
+      </List>
+      );
     </aside>
   );
 }
