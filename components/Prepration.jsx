@@ -55,7 +55,7 @@ const Prepration = ({handleChangeStatus}) => {
                 <span className='text-[#778CA2] ml-1'>Filtered Result</span>
                 <span className='text-[#778CA2] border border-[#F8FAFB] bg-[#F8FAFB] px-2 py-1 rounded-sm flex items-center gap-1'>Activity <RxCross1 className='text-sm cursor-pointer' /> </span>
             </div>
-            <div className="kanban-board flex gap-2">
+            {/* <div className="kanban-board flex gap-2">
                 <div className="column p-2 w-[25%] bg-[#EFF3F5]">
                     <span className='bg-[#26BADA] w-full  px-2 py-3 rounded-t-lg text-[#fff] flex justify-between'>
                         <p>To Do  {groupedTasks.todo.length}</p>
@@ -104,7 +104,7 @@ const Prepration = ({handleChangeStatus}) => {
                         <TaskCard key={task.id} task={task} />
                     ))}
                 </div>
-            </div>
+            </div> */}
 
         </div>
     )

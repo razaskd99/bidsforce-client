@@ -926,7 +926,7 @@ const Detail = () => {
                                     // defaultValue="90 days"
                                     className="bg-white w-[50%]"
                                 >
-                                    {typeInput.map((option) => (
+                                    {typeInput?.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
                                             {option.label}
                                         </MenuItem>
@@ -1002,7 +1002,7 @@ const Detail = () => {
                                     // defaultValue="90 days"
                                     className="bg-white w-[50%]"
                                 >
-                                    {typeInput.map((option) => (
+                                    {typeInput?.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
                                             {option.label}
                                         </MenuItem>

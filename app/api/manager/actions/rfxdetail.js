@@ -24,7 +24,7 @@ export const getRfxDetailAction = async (rfx_id) => {
     if (!response.ok) {
       return {
         statusCode: "400",
-        returnData: {},
+        returnData: [],
         error: response.statusText || "Request failed for Rfx Detail",
       };
     }
@@ -38,7 +38,7 @@ export const getRfxDetailAction = async (rfx_id) => {
   } catch (error) {
     return {
       statusCode: "400",
-      returnData: {},
+      returnData: [],
       error: error.message || "Request failed for Rfx Detail",
     };
   }

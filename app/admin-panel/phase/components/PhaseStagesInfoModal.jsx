@@ -70,7 +70,7 @@ export default function PhaseStagesInfoModal(props) {
                     <div className="row">
                       <div className="col mb-4 mt-2">
                         <div className="form-floating form-floating-outline">
-                            <input type="text" onChange={handleChangeValues} id="m1_default_name" name="m1_default_name" value={formData.m1_default_name} className="form-control" placeholder="Name" />
+                            <input type="text" disabled={props?.buttonType == 'new' ? false : true} onChange={handleChangeValues} id="m1_default_name" name="m1_default_name" value={formData.m1_default_name} className="form-control" placeholder="Name" />
                             <label for="m1_default_name">Name *</label>
                         </div>
                       </div>

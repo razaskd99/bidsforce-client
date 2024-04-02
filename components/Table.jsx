@@ -67,7 +67,7 @@ export default function DataTable({ viewMode, data, viewType }) {
       customer: rowData.company_name,
       type: rowData.rfx_type,
       duedate: rowData.due_date,
-      contacts: rowData.customer_name,
+      contacts: `${rowData.initiator_first_name} ${rowData.initiator_last_name}`,
       status: rowData.status, // Replace with the actual status value
       rfx_title: rowData.rfx_title,
       rfx_type: rowData.rfx_type,

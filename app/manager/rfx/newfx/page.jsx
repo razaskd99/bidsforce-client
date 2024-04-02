@@ -137,7 +137,7 @@ const NewFx = () => {
             // defaultValue="RFI"
             className="bg-white"
           >
-            {rfxType.map((option) => (
+            {rfxType && rfxType.length && rfxType?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -150,7 +150,7 @@ const NewFx = () => {
             //defaultValue="Budgetery"
             className="bg-white"
           >
-            {stage.map((option) => (
+            {stage && stage.length && stage?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -162,7 +162,7 @@ const NewFx = () => {
             // defaultValue="90 days"
             className="bg-white"
           >
-            {bidValidity.map((option) => (
+            {bidValidity && bidValidity.length && bidValidity?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -175,7 +175,7 @@ const NewFx = () => {
             // defaultValue="Email"
             className="bg-white"
           >
-            {submissionMode.map((option) => (
+            {submissionMode && submissionMode.length && submissionMode?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>

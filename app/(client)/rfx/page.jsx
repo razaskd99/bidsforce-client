@@ -38,7 +38,6 @@ const RfxPage = async () => {
 
   rfxRecords = records.rfxData
 
-
   // check user is login
   let isLogin = await getCookieValue('loginStatus')
   if (isLogin == true || isLogin == 'true') {

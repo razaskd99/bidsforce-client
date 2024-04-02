@@ -110,7 +110,6 @@ const CreateNewRfx = ({
   const [usersData, setUsersData] = useState([]);
 
   const [popUp, setPopUp] = useState([]);
-  console.log("STATE", popUp);
 
   const [rfxId, setRfxId] = useState(
     preRfxData?.rfx_id ? preRfxData?.rfx_id : 0
@@ -126,7 +125,7 @@ const CreateNewRfx = ({
     preRfxData?.opportunity_title ? preRfxData?.opportunity_title : ""
   );
   const [rfxTitle, setRfxTitle] = useState(
-    preRfxData?.rfxTitle ? preRfxData?.rfxTitle : ""
+    opportunityTitle ? opportunityTitle : ""
   );
   const [company, setCompany] = useState(
     preRfxData?.company ? preRfxData?.company : ""
@@ -247,7 +246,6 @@ const CreateNewRfx = ({
     if (!temp || !temp.length) {
       setSelectedContacts((prevContacts) => [...prevContacts, contact]);
     }
-    console.log(selectedContact);
   };
   const handleAddContactClick = () => {
     setPopUp((prevPopUp) => [
@@ -423,7 +421,6 @@ const CreateNewRfx = ({
       });
 
       if (response.ok) {
-        console.log("Files uploaded successfully");
         setUploaded(true);
         props.setDocumentsUploaded(true);
       } else {
@@ -523,7 +520,7 @@ const CreateNewRfx = ({
                 onChange={(e) => setCompanyID(parseInt(e.target.value))}
               >
                 <option value={0}>Select Company</option>
-                {companies.map((option) =>
+                {companies?.map((option) =>
                   companyID === option.company_id ? (
                     <option
                       selected
@@ -566,7 +563,7 @@ const CreateNewRfx = ({
                 onChange={(event) => setSelectedOptions(event.target.value)}
                 label={"Content Submission"}
               >
-                {contentSubmission.map((option) => (
+                {contentSubmission?.map((option) => (
                   <MenuItem
                     key={option.title}
                     value={option.rfx_content_submission_id}
@@ -591,7 +588,8 @@ const CreateNewRfx = ({
                 label={"Customer RFx Number"}
                 variant="outlined"
                 className="bg-white w-full"
-                defaultValue={rfxNumber}
+                value={'Not Assigned'}
+                readOnly={true}
                 onChange={(e) => setRfxNumber(e.target.value)}
               />
             </div>
@@ -603,7 +601,7 @@ const CreateNewRfx = ({
               onChange={(e) => setRfxTypeValue(parseInt(e.target.value))}
             >
               <option value={0}>Select a RFx Type</option>
-              {rfxType.map((option) =>
+              {rfxType?.map((option) =>
                 rfxTypeValue == parseInt(option.rfx_type_id) ? (
                   <option
                     selected={true}
@@ -626,7 +624,7 @@ const CreateNewRfx = ({
               onChange={(e) => setStageValue(parseInt(e.target.value))}
             >
               <option value={0}>Select a Bid Type</option>
-              {rfxStages.map((option) =>
+              {rfxStages?.map((option) =>
                 stageValue === option.rfx_stage_id ? (
                   <option
                     selected
@@ -649,7 +647,7 @@ const CreateNewRfx = ({
               onChange={(e) => setBidValidityValue(parseInt(e.target.value))}
             >
               <option value={0}>Select a Bid Validity</option>
-              {bidValidity.map((option) =>
+              {bidValidity?.map((option) =>
                 bidValidityValue === option.bid_validity_id ? (
                   <option
                     selected
@@ -672,7 +670,7 @@ const CreateNewRfx = ({
               onChange={(e) => setSubmissionModeValue(parseInt(e.target.value))}
             >
               <option value={0}>Select a Bid Submission Mode</option>
-              {submissionMode.map((option) =>
+              {submissionMode?.map((option) =>
                 submissionModeValue === option.rfx_submission_mode_id ? (
                   <option
                     selected
@@ -873,7 +871,7 @@ const CreateNewRfx = ({
             />
 
             {/*documentsData.length && <div className="mt-5">
-              {documentsData?.map((doc, index) => (
+              {documentsData??.map((doc, index) => (
                 <div className="flex justify-between mb-2">
                   <div className="w-1/3"><button onClick={(e)=>fileDownload(e, tenantID, apiBackendURL, doc.docvalt_filename, 'rfx')}>{doc.docvalt_filename}</button></div>
                   <div className="w-1/3 text-gray-400">{doc.file_size}</div>             
@@ -888,7 +886,7 @@ const CreateNewRfx = ({
               {/*<div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
                 Customer Contacts for RFx
             </div>*/}
-              {contactsData.map((contact, index) => (
+              {contactsData?.map((contact, index) => (
                 <TextField
                   key={index}
                   variant="outlined"
@@ -925,7 +923,7 @@ const CreateNewRfx = ({
                 </button>
               </div>
               <div className="bg-[#F8FAFB] flex flex-col gap-3 py-4 rounded-b-md items-center w-full">
-                {popUp.map((popup, index) => {
+                {popUp?.map((popup, index) => {
                   return <div key={index}>{popup}</div>;
                 })} 
 

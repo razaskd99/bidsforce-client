@@ -117,7 +117,7 @@ const RfxDetail = ({
   bidClarifRec,
   bidOrderRec,
 }) => {
-  console.log(submissionRec);
+ 
   hideMainLoader102();
   const [open, setOpen] = useState(false);
   const [openRequestDailog, setOpenRequestDailog] = useState(false);
@@ -316,7 +316,7 @@ const RfxDetail = ({
     useState([]);
 
   const onPersonSelect = (person) => {
-    console.log(person);
+   
   };
   const handleValueChange = (index, newValue) => {
     const updatedData = [...overviewData];
@@ -352,7 +352,6 @@ const RfxDetail = ({
     }
   }, []);
   const handleOrderContactSelect = (contact) => {
-    console.log("CNT", contact);
     const currentContact = selectedOrderContact.find(
       (c) => c.id === contact.id
     );
@@ -426,7 +425,6 @@ const RfxDetail = ({
         if (changeContent) {
           const nextStage = updatedStages[currentStageIndex + 1];
           contentShow(nextStage.displayName);
-          console.log(nextStage);
         }
 
         return updatedStages;
@@ -434,10 +432,8 @@ const RfxDetail = ({
     }
   };
   const contentShow = (category, status) => {
-    console.log(category, status);
     setActive(category);
     setActive((prevActive) => {
-      console.log("Active:", prevActive);
       return prevActive;
     });
   };
@@ -504,7 +500,6 @@ const RfxDetail = ({
   const handleDocClose = () => {
     setHideDocSubmitBtn(true);
     setDocDailog(false);
-    console.log("Hide");
   };
   const handleRowClick = async (rowId) => {
     setSelectedRowId(rowId);
@@ -526,10 +521,7 @@ const RfxDetail = ({
       const targetClarification = clarificationRec.find(
         (item) => item.rfx_clarification_id === rowId
       );
-      setSelectedClarificationRow(targetClarification);
-      console.log("Row ID:", rowId);
-      console.log("Single Record:", targetClarification);
-      console.log("All Record:", clarificationRec);
+      setSelectedClarificationRow(targetClarification);      
       if (targetClarification) {
         setclarificationTitle(targetClarification.clarification_title);
         setCurrentRecordDetailDueDate(
@@ -551,7 +543,6 @@ const RfxDetail = ({
             : "/avatar.png"
         );
         setCurrentRecordRfxDesc(targetClarification.description);
-        console.log("Current Record is:", targetClarification);
       }
       // get clarif
       const r0 = await getRfxClarificationRecordByIDAction(rowId);
@@ -565,7 +556,6 @@ const RfxDetail = ({
       // get assignto details
       const r2 = await getUserById(assigned_to);
       setclarificationAssignTo(r2.data);
-      console.log(r2);
       // get clarification post
       const r3 = await getAllRfxClarificationPostRecordsBy_ClarifId_Action(
         rowId
@@ -587,15 +577,7 @@ const RfxDetail = ({
           designation: record.designation_title,
           role: record.team_role,
         }))
-      );
-      console.log(
-        r1,
-        " clarification documents",
-        "rfx-clarifications-" + rowId
-      );
-      console.log(r2, " clarification Assignto");
-      console.log(clarificationAssignTo, "AAAssignto");
-      console.log(r3, " clarification Posts");
+      );     
     }
     if (
       active == "Bid Submission" ||
@@ -748,7 +730,6 @@ const RfxDetail = ({
         }));
       setSelectedUsers(mappeddata);
     }
-    console.log("Seelll", selectedUsers);
   };
   // const handleRowClick = () => {
   //     setClarificationDetail(true)
@@ -1179,7 +1160,7 @@ const RfxDetail = ({
   };
 
   const onYesButtonClick = () => {
-    console.log("8888888888888");
+
   };
   const NoRowsOverlayClarification = () => (
     <Stack height="100%" alignItems="center" justifyContent="center">
@@ -1627,7 +1608,7 @@ const RfxDetail = ({
                 <div className="border mb-3 rounded-md">
                   <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
                   Customer Contacts for RFx
-                  </div>{console.log(keyContactsRec)}
+                  </div>
                   {keyContactsRec.map((item, index) => (
                     <div
                       className="bg-[#F4F5F6] px-4 py-1 flex  items-center justify-between"
@@ -2598,7 +2579,6 @@ const RfxDetail = ({
                         </div>
                       )}
                     </div>
-                    {console.log("HEY:", selectedUsers)}
                     {/*selectedUsers && selectedUsers.length > 0 ? (
                                     selectedUsers.map((user, index) => (
                                         <div key={index} className="bg-[#F4F5F6] py-3 px-4 flex items-center justify-between">

@@ -116,7 +116,6 @@ const CreateRfx = ({ data }) => {
     const updatedData = [...opportunityData];
     updatedData[index].value = newValue;
     setOpportunityData(updatedData);
-    console.log(opportunityData);
   };
 
   const breadcrumbItems = [
@@ -148,15 +147,12 @@ const CreateRfx = ({ data }) => {
       business_unit: document.getElementById("business_unit").value,
       project_type: document.getElementById("project_type").value,
       competition: "",
-      total_opportunity_value: document.getElementById(
-        "total_opportunity_value"
-      ).value,
+      total_opportunity_value: document.getElementById("total_opportunity_value").value,
       gross_profit_percent: 0,
       opportunity_probability: "",
       delivery_duration: "",
       gross_profit_value: 0,
-      opportunity_forecasted: document.getElementById("opportunity_forecasted")
-        .value,
+      opportunity_forecasted: document.getElementById("opportunity_forecasted").value,
       description: document.getElementById("description").value,
       expected_award_date: getPickerValue("expected_award_date"),
       expected_rfx_date: getPickerValue("expected_rfx_date"),
@@ -169,11 +165,11 @@ const CreateRfx = ({ data }) => {
       return inputElement.value;
     }
 
-    loadPostData(rfxTempData);
+
+    loadPostData(data.opportunity_id);
     router.push("/rfx/newfx");
   };
 
-  console.log(data);
   return (
     <>
       <Breadcrumbs items={breadcrumbItems} />

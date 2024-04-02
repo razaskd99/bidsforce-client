@@ -12,13 +12,16 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 // end cookie init
 
-export const loadPostData = async (postData) => {
+export const loadPostData = async (id) => {
   /*const { serverRuntimeConfig } = getConfig() || {};
   if (serverRuntimeConfig) {
     serverRuntimeConfig.TEMP_DATA = {}
     serverRuntimeConfig.TEMP_DATA = postData    
   }*/
-  cookies().set("rfxTempData", JSON.stringify(postData));
+  try{
+    cookies.remove('temp_opp_id');
+  }catch{}
+  cookies().set("temp_opp_id", id);
 };
 
 // get all Persona records

@@ -31,7 +31,7 @@ export const getAllPrimaryContactsAction = async () => {
       if (!response.ok) {
         return {
           statusCode: "400",
-          data: [],
+          returnData: [],
           error: response.statusText || 'Request failed for  Primary Contacts',
         };
       }
@@ -72,7 +72,7 @@ export const getPrimaryContactsByIDAction = async (primary_contacts_id) => {
       if (!response.ok) {
         return {
           statusCode: "400",
-          returnData: {},
+          returnData: [],
           error: response.statusText || 'Request failed for  Primary Contacts',
         };
       }
@@ -88,7 +88,7 @@ export const getPrimaryContactsByIDAction = async (primary_contacts_id) => {
 
       return {
         statusCode: "400",
-        returnData: {},
+        returnData: [],
         error: error.message || 'Request failed for Primary Contacts',
       };
     }

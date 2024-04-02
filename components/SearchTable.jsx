@@ -61,8 +61,7 @@ export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
           ),
       }));
     columns = [...columns].sort((a, b) => a.order - b.order);
-
-    console.log(columns);
+    
     function getCustomHeaderName(key) {
       switch (key) {
         case "crm_id":

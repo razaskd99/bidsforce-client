@@ -80,9 +80,8 @@ export const createUpdateRfxRequest = async (
     
   showMainLoader102();
   if (!document?.getElementById("rfx_title").value) {
-    showErrorMessageAlertMain("Please provide the Rfx title.");
     hideMainLoader102();
-
+    showErrorMessageAlertMain("Please provide the Rfx title.")
     return;
   }
 
@@ -93,8 +92,7 @@ export const createUpdateRfxRequest = async (
   let bid_validity = bidvalidity.options[bidvalidity.selectedIndex].value ?? 0;
 
   const submissionmode = document.getElementById("submission_mode");
-  let rfx_submission_mode =
-    submissionmode.options[submissionmode.selectedIndex].value ?? 0;
+  let rfx_submission_mode = submissionmode.options[submissionmode.selectedIndex].value ?? 0;
 
   const rfxstage = document.getElementById("rfx_stage");
   let rfx_stage = rfxstage.options[rfxstage.selectedIndex].value ?? 0;
@@ -105,16 +103,18 @@ export const createUpdateRfxRequest = async (
     rfx_submission_mode == 0 ||
     rfx_stage == 0
   ) {
-    showErrorMessageAlertMain("Select option from provided dropdown.");
+    hideMainLoader102()
+    showErrorMessageAlertMain("Select option from provided dropdown.")
     return;
   }
-
+  
   if (
     !isValidDate(rfxData.due_date) ||
     !isValidDate(rfxData.tech_clarification_deadline) ||
     !isValidDate(rfxData.com_clarification_deadline)
   ) {
-    showErrorMessageAlertMain("Select the provided date options.");
+    hideMainLoader102()
+    showErrorMessageAlertMain("Select the provided date options.")
     return;
   }
 
@@ -122,7 +122,8 @@ export const createUpdateRfxRequest = async (
     rfxData.visit_worksite === true &&
     rfxData.visit_worksite_instructions === ""
   ) {
-    showErrorMessageAlertMain("Provide details for visit worksite.");
+    hideMainLoader102()
+    showErrorMessageAlertMain("Provide details for visit worksite.")
     return;
   }
 
@@ -140,35 +141,33 @@ export const createUpdateRfxRequest = async (
     return rfxData.key_contacts.find((obj) => obj.primary_contacts_id === primary_contacts_id);
   });
   rfxData.key_contacts = uniqueContacts;
-  
-  showMainLoader102();
+    
   let response = {};
   if (isRevision === "yes") {
     response = await updateRfxAction(rfxData, rfx_id);
     if (response.statusCode == 200 && selectedFilesMain.length > 0) {
-      uploadFiles(selectedFilesMain, apiBackendURL, tenantID, rfx_id, "rfx");
+      //uploadFiles(selectedFilesMain, apiBackendURL, tenantID, rfx_id, "rfx");
     }
     successMessageAlertMain("Rfx information updated successfully.");
     window.location = "/rfx";
   } else {
-    response = await createNewRfxAction(rfxData);
-    console.log("rrrrr sajjad", response);
+    response = await createNewRfxAction(rfxData)
+    if(response.statusCode != 200) {
+      showErrorMessageAlertMain(response.error)
+      hideMainLoader102()
+      return
+    }
     if (response.statusCode == 200 && selectedFilesMain.length > 0) {
-      uploadFiles(
+      /*uploadFiles(
         selectedFilesMain,
         apiBackendURL,
         tenantID,
         response.returnData.rfx_id,
         "rfx"
-      );
+      );*/
     }
-    if (response.statusCode == 200) {
-      // successMessageAlertMain("Rfx information added successfully.")
-      // window.location = '/rfx';
-    } else {
-      // showErrorMessageAlertMain(response.error)
-    }
-
+    
+    successMessageAlertMain("New Rfx information added successfully.");
     router.push("/rfx");
     hideMainLoader102();
   }
@@ -196,79 +195,77 @@ export const createOpportunityRequest = async (
       : "",
     probability: document.getElementById("m6_probability")
       ? document.getElementById("m6_probability").value
-      : "",
-    total_value: document.getElementById("m6_opportunity_value")
+      : "",    
+    total_value: document.getElementById("m6_opportunity_value").value
       ? document.getElementById("m6_opportunity_value").value
-      : "",
-    total_value: document.getElementById("m6_opportunity_value")
-      ? document.getElementById("m6_opportunity_value").value
-      : "",
+      : 0,
     crm_id: document.getElementById("m6_opportunity_number")
       ? document.getElementById("m6_opportunity_number").value
       : "",
     customer_name: customerName,
     end_user_name: endUserName,
 
-    region: document.getElementById("m6_region")
+    region: document.getElementById("m6_region").value
       ? document.getElementById("m6_region").value
       : "",
-    industry_code: document.getElementById("m6_opportunity_industry")
+    industry_code: document.getElementById("m6_opportunity_industry").value
       ? document.getElementById("m6_opportunity_industry").value
       : "",
-    business_unit: document.getElementById("m6_opportunity_business_line")
+    business_unit: document.getElementById("m6_opportunity_business_line").value
       ? document.getElementById("m6_opportunity_business_line").value
       : "",
-    project_type: document.getElementById("m6_project_type")
+    project_type: document.getElementById("m6_project_type").value
       ? document.getElementById("m6_project_type").value
       : "",
-    delivery_duration: document.getElementById("m6_delivery_duration")
+    delivery_duration: document.getElementById("m6_delivery_duration").value
       ? document.getElementById("m6_delivery_duration").value
       : "",
-    stage: document.getElementById("m6_opportunity_sales_stage")
+    stage: document.getElementById("m6_opportunity_sales_stage").value
       ? document.getElementById("m6_opportunity_sales_stage").value
       : "",
-    status: document.getElementById("m6_status")
+    status: document.getElementById("m6_status").value
       ? document.getElementById("m6_status").value
       : "",
-    expected_award_date: document.getElementById("m6_expected_award_date")
+    expected_award_date: document.getElementById("m6_expected_award_date").value
       ? document.getElementById("m6_expected_award_date").value
       : "",
-    expected_rfx_date: document.getElementById("m6_expected_rfx_date")
+    expected_rfx_date: document.getElementById("m6_expected_rfx_date").value
       ? document.getElementById("m6_expected_rfx_date").value
       : "",
-    close_date: document.getElementById("m6_close_date")
+    close_date: document.getElementById("m6_close_date").value
       ? document.getElementById("m6_close_date").value
       : "",
-    competition: document.getElementById("m6_competition")
+    competition: document.getElementById("m6_competition").value
       ? document.getElementById("m6_competition").value
       : "",
-    gross_profit_percent: document.getElementById("m6_gross_profit_percent")
+    gross_profit_percent: document.getElementById("m6_gross_profit_percent").value
       ? document.getElementById("m6_gross_profit_percent").value
-      : "",
-    gross_profit_value: document.getElementById("m6_gross_profit_value")
+      : 0,
+    gross_profit_value: document.getElementById("m6_gross_profit_value").value
       ? document.getElementById("m6_gross_profit_value").value
-      : "",
+      : 0,
     description: document.getElementById("m6_description")
       ? document.getElementById("m6_description").value
       : "",
     forcasted: opportunityCommittedForSalesBudget,
-    end_user_project: document.getElementById("m6_end_user_project")
+    end_user_project: document.getElementById("m6_end_user_project").value
       ? document.getElementById("m6_end_user_project").value
       : "",
-    opportunity_currency: document.getElementById("m6_opportunity_currency")
+    opportunity_currency: document.getElementById("m6_opportunity_currency").value
       ? document.getElementById("m6_opportunity_currency").value
       : "",
-    sales_persuit_progress: document.getElementById("m6_sales_persuit_progress")
+    sales_persuit_progress: document.getElementById("m6_sales_persuit_progress").value
       ? document.getElementById("m6_sales_persuit_progress").value
       : "",
-    opportunity_owner: document.getElementById("m6_opportunity_owner")
+    opportunity_owner: document.getElementById("m6_opportunity_owner").value
       ? document.getElementById("m6_opportunity_owner").value
       : "",
-    bidding_unit: document.getElementById("m6_bidding_unit")
+    bidding_unit: document.getElementById("m6_bidding_unit").value
       ? document.getElementById("m6_bidding_unit").value
       : "",
   };
-console.log(formData)
+
+  
   let valid = true;
   let message = "";
   const validationFields = ["company_id", "title"];

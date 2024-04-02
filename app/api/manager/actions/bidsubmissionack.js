@@ -24,7 +24,7 @@ export const getBidSubmissionAckBySubIdAction = async (bid_submission_id) => {
     if (!response.ok) {
       return {
         statusCode: "400",
-        returnData: {},
+        returnData: [],
         error: response.statusText || "Request failed for Bid Submission Acknowledgement",
       };
     }
@@ -38,7 +38,7 @@ export const getBidSubmissionAckBySubIdAction = async (bid_submission_id) => {
   } catch (error) {
     return {
       statusCode: "400",
-      returnData: {},
+      returnData: [],
       error: error.message || "Request failed for Bid Submission Acknowledgement",
     };
   }

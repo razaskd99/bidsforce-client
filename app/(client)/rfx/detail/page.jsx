@@ -1056,8 +1056,7 @@ const Detail = () => {
                                 <div className="bg-[#F8FAFB] flex flex-col gap-3 py-4 px-6 rounded-b-md items-center w-full">
                                     <PopupInput label={"Assign to"} className="w-full" />
                                     <BidDialog openBid={openContactAssign} handleBidClose={handlCloseContact} />
-                                </div>
-                               
+                                </div>                               
                             </div>
                             <div className="border mb-3 rounded-md">
                                 <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] flex justify-between items-center" >

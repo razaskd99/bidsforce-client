@@ -570,7 +570,6 @@ const BidDetail = ({
   const onYesButtonClick = () => {};
 
   const handleContactSelect = (contact) => {
-    console.log("CON:", contact);
     const matchingUser = selectedContact.find((user) => user.id === contact.id);
 
     if (!matchingUser) {
@@ -579,7 +578,6 @@ const BidDetail = ({
     setContactDialogOpen(false);
   };
   const handleClarifContactSelect = (contact) => {
-    console.log("CON:", contact);
     const matchingUser = selectedContact.find(
       (user) => user.user_id === contact.user_id
     );
@@ -647,12 +645,10 @@ const BidDetail = ({
   const handleReviewerDialogDone = (selectedUsers) => {
     setSelectedUsers(selectedUsers);
     handleReviewerDialogClose();
-    console.log(selectedUsers);
   };
   const handleDetailDialogDone = (selectedUsers) => {
     setSelectedDetailsUsers(selectedUsers);
     handleDetailDialogClose();
-    console.log(selectedUsers);
   };
   //
   const handleOptionChange = (option) => {
@@ -684,7 +680,6 @@ const BidDetail = ({
     handleChangeStatus(false);
     // setActiveBidRequestBtn(true);
     setOpenOrderAck(false); //To close popup
-    console.log("YES CLICKED");
   };
   const handleDailogTextChange = (event) => {
     setDailogTextValue(event.target.value);
@@ -774,7 +769,6 @@ const BidDetail = ({
         );
         setCurrentRecordDetailClarType(targetClarification.clarification_type);
         setCurrentRecordDetailStatus(targetClarification.status);
-        console.log("Current Record is:", targetClarification);
       }
       // get rfx clarif docs
       const r1 = await GetRfxDocumentsBy_RfxID_Key_Action(
@@ -806,15 +800,7 @@ const BidDetail = ({
           designation: record.designation_title,
           role: record.team_role,
         }))
-      );
-      console.log("CONTACTS", r5.rfxData);
-      console.log(
-        r1,
-        " clarification documents",
-        "rfx-clarifications-" + rowId
-      );
-      console.log(r2, " clarification Assignto");
-      console.log(r3, " clarification Posts");
+      );      
     }
     if (active == "Submission") {
       setShowSubmissionTable(false);
@@ -945,7 +931,6 @@ const BidDetail = ({
       );
       const contrec = r3.rfxData;
       setBidOrderSelectedContacts(contrec);
-      console.log(assign, "2222222222222222222222222");
     }
 
     let r1 = await getAllReviewContactsBy_BidReviewID_Action(rowId);
@@ -1447,7 +1432,6 @@ const BidDetail = ({
         let r2 = await getAllBidReviewPostRecordsById(rowIdSelected);
         let records = r2.returnData;
         setReviewReplyCommentList(records);
-        console.log(r2, " iiiidddddd");
       }
     }
   };
@@ -1464,7 +1448,7 @@ const BidDetail = ({
       .then((list) => {
         setTemplatesAll(list);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {});
   }, []);
 
   useEffect(async () => {
@@ -1474,7 +1458,7 @@ const BidDetail = ({
         setRfxPrereqStageList(res.returnData);
         // console.log(res)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {});
   }, []);
 
   useEffect(() => {
@@ -1484,13 +1468,13 @@ const BidDetail = ({
         .then((res) => {
           setClosingOrderDetails(res.returnData[0]);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {});
       // get docs
       GetRfxDocumentsAction(rfxRecord.rfx_id)
         .then((res) => {
           setClosingOrderDocvalt(res.returnData);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {});
     }
   }, []);
 
@@ -1513,7 +1497,7 @@ const BidDetail = ({
                 setSubmissionrows(mappedData);
             }
         })
-        .catch((err) => console.log(err));  
+        .catch((err) => {});  
     }
   }, []);
 
@@ -1525,7 +1509,7 @@ const BidDetail = ({
         .then((res) => {
             setBidClarifRows(res.returnData);
         })
-        .catch((err) => console.log(err));     
+        .catch((err) => {});     
     }
   }, []);
 
@@ -1537,7 +1521,7 @@ const BidDetail = ({
         .then((res) => {
           setClosingOrderDetails(res.returnData[0]);
         })
-        .catch((err) => console.log(err));     
+        .catch((err) => {});     
     }
   }, []);
 
@@ -1707,7 +1691,6 @@ const BidDetail = ({
 
   const handleSkipClick = () => {
     setSkipDialogOpen(true);
-    console.log("ddddddddddd");
   };
 
   const handleCloseSkipDialog = () => {
@@ -1715,7 +1698,6 @@ const BidDetail = ({
   };
 
   const handleSkipSubmit = (reason) => {
-    console.log("Skip Reason 666666:", reason);
   };
   const updateParentSkipReason = (newSkipReason) => {
     setSkipReason(newSkipReason);
@@ -1723,7 +1705,6 @@ const BidDetail = ({
 
   const F = (newSkipReason) => {
     setSkipReason(newSkipReason);
-    console.log("UpdateParet");
   };
   const handleClickBidClarifList = () => {
     setShowBidClarificationDetial(false);
@@ -1982,8 +1963,6 @@ const BidDetail = ({
       </p>
     </Stack>
   );
-
-  // console.log("clar:", clarificationRec)
 
   // hide loader on page load
   hideMainLoader102();
