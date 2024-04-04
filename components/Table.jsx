@@ -35,13 +35,16 @@ const columns = [
       <Image src={`/${params.value}`} width={40} height={40} />
     ),
   },
-  { field: "description", headerName: "Description", width: 200 },
-  { field: "rfxid", headerName: "RFX ID", width: 160 },
+  { field: "rfxid", headerName: "RFX ID", width: 60 },
+  { field: "type", headerName: "RFx Type", width: 160 },
+  { field: "opportunity_title", headerName: "Opportunity Name", width: 160 },
   { field: "customer", headerName: "Customer", width: 160 },
-  { field: "type", headerName: "Type", width: 160 },
-  { field: "duedate", headerName: "Due Date", width: 160 },
-  { field: "contacts", headerName: "Contacts", width: 160 },
+  { field: "end_user_name", headerName: "End User", width: 160 },
+  { field: "issued_date", headerName: "RFx Creation Date", width: 160 },
+  { field: "due_date", headerName: "Due Date", width: 160 },
+  { field: "owner", headerName: "RFx Owner", width: 160 },
   { field: "status", headerName: "Status", width: 160 },
+  
   {
     field: "options",
     headerName: "...",
@@ -59,6 +62,7 @@ export default function DataTable({ viewMode, data, viewType }) {
       id: rowData.rfx_id, // Assuming rfx_id is unique
       tenant_id: rowData.tenant_id,
       opportunity_id: rowData.opportunity_id,
+      opportunity_title: rowData.opportunity_title,
       initiator_id: rowData.initiator_id,
       rfx_bid_assignto: rowData.rfx_bid_assignto,
       checkbox: "Galaxy Petroleum.png", // Replace with the actual checkbox value
@@ -94,7 +98,9 @@ export default function DataTable({ viewMode, data, viewType }) {
       tech_clarification_deadline: rowData.tech_clarification_deadline,
       com_clarification_deadline: rowData.com_clarification_deadline,
       enduser_id: rowData.enduser_id,
-      enduser_type: rowData.enduser_type,
+      end_user_name: rowData.end_user_name,
+      end_user_name: rowData.end_user_name,
+      owner: rowData.initiator_first_name + " " + rowData.initiator_last_name,
       rfx_id: rowData.rfx_id,
     }));
   } catch (err) { }

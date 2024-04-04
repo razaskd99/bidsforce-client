@@ -49,6 +49,8 @@ import dayjs, { Dayjs } from "dayjs";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import { useRouter } from "next/navigation";
+import { getUserById } from "@/app/api/rfx/actions/user";
+import { getCookieValue } from "@/lib/scripts";
 
 const CreateNewRfx = ({
   preRfxData,
@@ -269,7 +271,17 @@ const CreateNewRfx = ({
   const [addedContacts, setAddedContacts] = useState([]);
   const [documentsData, setDocumentsData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [loginUserRec, setLoginUserRec] = useState({});
 
+  
+  useEffect(() => {
+    getCookieValue("userLoginData")
+      .then((data) => {
+        setLoginUserRec(data)
+      })
+      .catch((err) => {});
+  }, []);
+  
   useEffect(() => {
     if (visitToWorkSite == true) {
       setVisitToWorkSite("yes");
@@ -484,10 +496,10 @@ const CreateNewRfx = ({
               <AiOutlineQuestionCircle className="absolute right-0.5 top-0.5 z-10 text-[#98A9BC]" />
               <TextField
                 id="customer"
-                label={"Customer"}
+                label={"Initiator"}
                 variant="outlined"
                 className="bg-white w-full"
-                defaultValue={customer}
+                defaultValue={`${loginUserRec.first_name} ${loginUserRec.last_name}`}
                 InputProps={{ readOnly: true }}
               />
             </div>

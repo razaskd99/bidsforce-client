@@ -22,6 +22,7 @@ import { redirect } from "next/navigation";
 import { getToken } from "@/app/api/util/script";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
+import { getAllPrimaryContactsAction } from "@/app/api/rfx/actions/primaryContacts";
 // end login init 
 
 const BDetail = async ({ params }) => {
@@ -83,6 +84,9 @@ const BDetail = async ({ params }) => {
     records = await getAllUsers();
     let allUsersRec = records.data
 
+    records = await getAllPrimaryContactsAction()
+    const primaryContactsRec = records?.returnData
+
     records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'pre-lim-review');
     let prelimReviewRec = records.returnData 
     
@@ -126,7 +130,7 @@ const BDetail = async ({ params }) => {
     
     return (
         <div>
-            <BidDetail data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} docvaltRec={docvalt} login_user_id={userLoginData.user_id} prelimReviewRec={prelimReviewRec} detailedReviewRec={detailedReviewRec} clarificationRec={clarificationRec} finalReviewRec={finalReviewRec} koffRec={koffRec} deliverablesRec={deliverablesRec} bidteamRec={bidteamRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec} />
+            <BidDetail data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} docvaltRec={docvalt} login_user_id={userLoginData.user_id} prelimReviewRec={prelimReviewRec} detailedReviewRec={detailedReviewRec} clarificationRec={clarificationRec} finalReviewRec={finalReviewRec} koffRec={koffRec} deliverablesRec={deliverablesRec} bidteamRec={bidteamRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec} primaryContactsRec={primaryContactsRec} />
         </div>
     )
 }

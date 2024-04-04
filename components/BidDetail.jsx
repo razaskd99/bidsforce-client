@@ -53,6 +53,7 @@ import {
 } from "@/app/api/util/utility";
 import {
   createContactsAction,
+  getAllRfxStagesByRfxIdAction,
   getRfxContacts,
   getRfxContactsByKey,
 } from "@/app/api/rfx/actions/rfx";
@@ -134,6 +135,7 @@ const BidDetail = ({
   submissionRec,
   bidClarifRec,
   bidOrderRec,
+  primaryContactsRec,
   login_user_id,
   tenantID,
   apiBackendURL,
@@ -753,7 +755,7 @@ const BidDetail = ({
       // get Rfx Clarif by_id
       const r0 = await getRfxClarificationRecordByIDAction(rowId);
       const targetClarification = r0.returnData
-      const assign_to = clarificationRec.assign_to;
+      const assign_to = targetClarification.assign_to;
       // set values
       setSelectedClarificationRow(targetClarification);
       if (targetClarification) {
@@ -776,9 +778,9 @@ const BidDetail = ({
         "rfx-clarifications-" + rowId
       );
       setclarificationSelectedDocuments(r1.returnData);
-      // get assignto details
+      // get assignto details 
       const r2 = await getUserById(assign_to);
-      setclarificationAssignTo(r2.data);
+      setclarificationAssignTo(r2.data)      
       // get rfx calrif post
       const r3 = await getAllRfxClarificationPostRecordsBy_ClarifId_Action(
         rowId
@@ -956,8 +958,8 @@ const BidDetail = ({
   ];
   const breadcrumbItems = [
     { label: "Dashboard", href: "/" },
-    { label: "RFx List", href: "/rfx" },
-    { label: rfxRecord.rfx_number, href: "/rfx" },
+    { label: "Bids List", href: "/bids"},
+    { label: rfxRecord.rfx_title, href: "/manager/rfx/detail/" + rfxRecord.rfx_id},
   ];
   const [preLimRows, setPreLimRows] = useState(
     prelimReviewRec.map((review, index) => ({
@@ -1039,7 +1041,8 @@ const BidDetail = ({
   const [stages, setStages] = useState(
     stagesList.map((record) => ({
       stage: record.default_name,
-      displayName: record.new_name ? record.new_name : record.default_name,
+      displayName: record.default_name,
+      newName: record.new_name,
       status: record.stage_status,
       order: record.display_order,
     }))
@@ -1435,6 +1438,24 @@ const BidDetail = ({
       }
     }
   };
+
+  
+
+  useEffect(() => {
+    getAllRfxStagesByRfxIdAction(rfxRecord.rfx_id, 'bidstage')
+      .then((resp) => {
+        let list = resp.stagesList
+        setStages(list.map((record) => ({
+            stage: record.default_name,
+            displayName: record.default_name,
+            newName: record.new_name,
+            status: record.stage_status,
+            order: record.display_order,
+          }))
+        );
+      })
+      .catch((err) => {});
+  }, []);
 
   useEffect(() => {
     const currentStage = stages.find((stage) => stage.status === "current");
@@ -2102,7 +2123,7 @@ const BidDetail = ({
                 fill={getStatusColor(stageData.status)}
                 fontSize="16"
               >
-                {stageData.stage == "Initiate" ? "Initiated" : stageData.stage}
+                {(stageData.stage == "Initiate" ? "Initiated" : (stageData.newName ? stageData.newName : stageData.stage))}
               </text>
             </g>
             <defs>
@@ -2241,14 +2262,14 @@ const BidDetail = ({
                   ))}
               </div>
               <div className="flex-[1] flex flex-col">
-                <div className="flex items-center gap-3 mt-[-16px]">
+                {/*<div className="flex items-center gap-3 mt-[-16px]">
                   <span className="text-[#778CA2]">
                     Last Updated: {formatDatetime(new Date())}{" "}
                   </span>
                   <span className="text-[#26BADA]">
                     <LuRefreshCcw />
                   </span>
-                </div>
+                </div>*/}
                 <button
                   className="text-white text-center bg-[#26BADA] py-3 mt-[10px] mb-[18px] rounded-md border-0 uppercase"
                   onClick={() => handleChangeStatus("Pre-lim Review")}
@@ -2304,7 +2325,7 @@ const BidDetail = ({
                 <div className="border mb-3 rounded-md">
                   <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] flex justify-between">
                     <p>Assign to</p>
-                    <p className="uppercase text-[#26BADA] text-xs">Reassign</p>
+                    <p className="uppercase text-[#26BADA] text-xs">Re-assign</p>
                   </div>
                   <div className="bg-[#F4F5F6] py-3 px-4 flex   items-center justify-between">
                     <AssignPopupInput
@@ -2624,7 +2645,7 @@ const BidDetail = ({
                         open={reviewerDialogOpen}
                         onClose={handleReviewerDialogClose}
                         onDone={handleReviewerDialogDone}
-                        usersRec={allUsersRec}
+                        usersRec={primaryContactsRec}
                       />
                     </div>
                     {inTemplateDetail && (
@@ -2934,7 +2955,7 @@ const BidDetail = ({
                       open={detailDialogOpen}
                       onClose={handleDetailDialogClose}
                       onDone={handleDetailDialogDone}
-                      usersRec={allUsersRec}
+                      usersRec={primaryContactsRec}
                     />
                   </div>
                   {inDetailReviewTemplate && (

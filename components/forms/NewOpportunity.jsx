@@ -176,17 +176,6 @@ const NewOpportunity = (props) => {
             <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
-                id="m6_probability"
-                name="m6_probability"
-                label="Probability"
-                variant="outlined"
-                // value={formData.m6_probability}
-                onChange={handleChangeValues}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
                 id="m6_opportunity_value"
                 name="m6_opportunity_value"
                 label="Opportunity Value"
@@ -248,17 +237,6 @@ const NewOpportunity = (props) => {
                 label="Project Type"
                 variant="outlined"
                 // value={formData.m6_project_type}
-                onChange={handleChangeValues}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                id="m6_delivery_duration"
-                name="m6_delivery_duration"
-                label="Delivery Duration"
-                variant="outlined"
-                // value={formData.m6_delivery_duration}
                 onChange={handleChangeValues}
               />
             </Grid>
@@ -330,39 +308,6 @@ const NewOpportunity = (props) => {
                 InputLabelProps={{
                   shrink: true,
                 }}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                id="m6_competition"
-                name="m6_competition"
-                label="Competition"
-                variant="outlined"
-                // value={formData.m6_competition}
-                // onChange={handleChangeValues}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                id="m6_gross_profit_percent"
-                name="m6_gross_profit_percent"
-                label="Gross Profit Percent"
-                variant="outlined"
-                type="number"
-                onChange={handleChangeValues}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                id="m6_gross_profit_value"
-                name="m6_gross_profit_value"
-                label="Gross Profit Value"
-                variant="outlined"
-                type="number"
-                onChange={handleChangeValues}
               />
             </Grid>
             <Grid item xs={12} md={4}>

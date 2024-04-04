@@ -203,54 +203,7 @@ const RfxDetail = ({
   const [bidOrderSelectedRow, setBidOrderSelectedRow] = useState({});
   const [bidOrderAcknowledgedBy, setBidOrderAcknowledgedBy] = useState({});
   const [bidOrderSelectedContacts, setBidOrderSelectedContacts] = useState([]);
-
-  const [overviewData, setoverviewData] = useState([
-    {
-      name: "RFx ID",
-      value: rfxRecord.rfx_number ? rfxRecord.rfx_number : "Not Assigned",
-    },
-    { name: "BID ID", value: bidNumber ? bidNumber : "Not Assigned" },
-
-    { name: "CRM ID", value: rfxRecord.crm_id ?? "" },
-    { name: "Opportunity Title", value: rfxRecord.rfx_title ?? "" },
-
-    { name: "Customer", value: rfxRecord.customer_name ?? "" },
-    { name: "Stage", value: rfxRecord.opportunity_stage ?? "" },
-
-    { name: "End User", value: rfxRecord.company_name ?? "" },
-    { name: "Opportunity Type", value: rfxRecord.opportunity_type ?? "" },
-
-    { name: "Region", value: rfxRecord.region ?? "" },
-    { name: "Industry Code", value: rfxRecord.industry_code ?? "" },
-
-    { name: "Business Unit", value: rfxRecord.business_unit ?? "" },
-    { name: "Project Type", value: rfxRecord.project_type ?? "" },
-
-    { name: "Competition", value: rfxRecord.project_type ?? "" },
-    {
-      name: "Total Opportunity Value ($)",
-      value: "$" + rfxRecord.competition ?? "$0",
-    },
-    {
-      name: "Gross Profit (%)",
-      value: rfxRecord.gross_profit_percent + "%" ?? "0%",
-    },
-    { name: "Opportunity Probability", value: rfxRecord.probability ?? "" },
-
-    { name: "Delivery Duration", value: rfxRecord.delivery_duration ?? "" },
-    {
-      name: "Gross Profit Value",
-      value: "$" + rfxRecord.gross_profit_value ?? "$0",
-    },
-    {
-      name: "Opportunity Forecasted",
-      value: rfxRecord.forcasted ? "Yes" : "No",
-    },
-    {
-      name: "Description",
-      value: rfxRecord.opportunity_description ?? "",
-    },
-  ]);
+  
   const [selectedRowId, setSelectedRowId] = useState(0);
   const [selectedClarificationRow, setSelectedClarificationRow] = useState([]);
   const [clarificationTitle, setclarificationTitle] = useState("");
@@ -323,26 +276,82 @@ const RfxDetail = ({
     updatedData[index].value = newValue;
     setoverviewData(updatedData);
   };
-
   const [stages, setStages] = useState(
     stagesList.map((record) => ({
       stage: record.default_name,
-      displayName: record.new_name ? record.new_name : record.default_name,
+      displayName: record.default_name,
+      newName: record.new_name,
       status: record.stage_status,
       order: record.display_order,
-    }))
-    /*[
-            { stage: 'RFx Issued', displayName: 'RFx Issued', status: 'done', order: 1 },
-            { stage: 'RFx Acknowledge', displayName: 'RFx Acknowledge', status: 'current', order: 2 },
-            { stage: 'Bid Request', displayName: 'Bid Request', status: 'pending', order: 3 },
-            { stage: 'RFx Clarifications', displayName: 'RFx Clarifications', status: 'pending', order: 4 },
-            { stage: 'Bid Submission', displayName: 'Bid Submission', status: 'pending', order: 5 },
-            { stage: 'Bid Acknowledgement', displayName: 'Bid Acknowledgement', status: 'pending', order: 6 },
-            { stage: 'Bid Clarifications', displayName: 'Bid Clarifications', status: 'pending', order: 7 },
-            { stage: 'Bid Revision', displayName: 'Bid Revision', status: 'pending', order: 8 },
-            { stage: 'Order', displayName: 'Order', status: 'pending', order: 9 }
-        ]*/
+    }))  
   );
+
+
+  const [overviewData, setoverviewData] = useState([
+    { name: "RFx Status", value: stages.find((stage) => stage.status === "current").displayName },
+    {
+      name: "RFx ID",
+      value: rfxRecord.rfx_number ? rfxRecord.rfx_number : "Not Assigned",
+    },
+    { name: "BID ID", value: bidNumber ? bidNumber : "Not Assigned" },
+
+    { name: "CRM ID", value: rfxRecord.crm_id ?? "" },
+    { name: "Opportunity Title", value: rfxRecord.rfx_title ?? "" },
+        
+    { name: "Customer", value: rfxRecord.customer_name ?? "" },
+    { name: "Stage", value: rfxRecord.opportunity_stage ?? "" },
+
+    { name: "End User", value: rfxRecord.company_name ?? "" },
+    { name: "Opportunity Type", value: rfxRecord.opportunity_type ?? "" },
+
+    { name: "Region", value: rfxRecord.region ?? "" },
+    { name: "Industry Code", value: rfxRecord.industry_code ?? "" },
+
+    { name: "Business Unit", value: rfxRecord.business_unit ?? "" },
+    { name: "Project Type", value: rfxRecord.project_type ?? "" },
+
+    { name: "Competition", value: rfxRecord.project_type ?? "" },
+    {
+      name: "Total Opportunity Value ($)",
+      value: "$" + rfxRecord.competition ?? "$0",
+    },
+    {
+      name: "Gross Profit (%)",
+      value: rfxRecord.gross_profit_percent + "%" ?? "0%",
+    },
+    { name: "Opportunity Probability", value: rfxRecord.probability ?? "" },
+
+    { name: "Delivery Duration", value: rfxRecord.delivery_duration ?? "" },
+    {
+      name: "Gross Profit Value",
+      value: "$" + rfxRecord.gross_profit_value ?? "$0",
+    },
+    {
+      name: "Opportunity Forecasted",
+      value: rfxRecord.forcasted ? "Yes" : "No",
+    },
+    {
+      name: "Description",
+      value: rfxRecord.opportunity_description ?? "",
+    },
+  ]);
+
+
+  useEffect(() => {
+    getAllRfxStagesByRfxIdAction(rfxRecord.rfx_id, 'rfxstage')
+      .then((resp) => {
+        let list = resp.stagesList
+        setStages(list.map((record) => ({
+            stage: record.default_name,
+            displayName: record.default_name,
+            newName: record.new_name,
+            status: record.stage_status,
+            order: record.display_order,
+          }))
+        );
+      })
+      .catch((err) => {});
+  }, []);
 
   useEffect(() => {
     const currentStage = stages.find((stage) => stage.status === "current");
@@ -389,7 +398,7 @@ const RfxDetail = ({
     if (currentStageIndex !== -1 && currentStageIndex < stages.length - 1) {
       // changes in DB
       if (stages[currentStageIndex].stage == "RFx Acknowledge") {
-        let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
+        //let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       } else if (
         stages[currentStageIndex].stage == "Bid Request" &&
         personAssignTo.id
@@ -406,7 +415,7 @@ const RfxDetail = ({
       } else if (stages[currentStageIndex].stage == "Bid Submission") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       } else if (stages[currentStageIndex].stage == "Bid Acknowledgement") {
-        let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
+        //let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       } else if (stages[currentStageIndex].stage == "Bid Clarifications") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       } else if (stages[currentStageIndex].stage == "Bid Revision") {
@@ -546,7 +555,7 @@ const RfxDetail = ({
       }
       // get clarif
       const r0 = await getRfxClarificationRecordByIDAction(rowId);
-      const assigned_to = r0.returnData.assigned_to;
+      const assigned_to = r0.returnData.assign_to;
       // get documents for clarif
       const r1 = await GetRfxDocumentsBy_RfxID_Key_Action(
         rfxRecord.rfx_id,
@@ -759,7 +768,7 @@ const RfxDetail = ({
   const breadcrumbItems = [
     { label: "Dashboard", href: "/" },
     { label: "RFx List", href: "/rfx" },
-    { label: rfxRecord.rfx_id, href: "/rfx/detail/" + rfxRecord.rfx_id },
+    { label: rfxRecord.rfx_title, href: "/rfx/detail/" + rfxRecord.rfx_id },
   ];
   const [rows, setRows] = useState([]);
   const [clarificationRows, setClarificationRows] = useState(
@@ -1245,7 +1254,7 @@ const RfxDetail = ({
       {/* NOTIFICATION DIV */}
       <div className="flex bg-white mb-6 ">
         <div className="flex justify-between max-w-[60%] w-full border-r border-gray-200 p-[10px]">
-          <span className="text-xl">{data?.title}</span>
+          <span className="text-xl">{rfxRecord.rfx_title}</span>
           <span className="text-sm text-[#FF912B]">
             {" "}
             :{rfxRecord.rfx_number ? rfxRecord.rfx_number : rfxRecord.rfx_id}
@@ -1371,7 +1380,7 @@ const RfxDetail = ({
                 fill={getStatusColor(stageData.status)}
                 fontSize="13"
               >
-                {stageData.stage}
+                {stageData.newName ? stageData.newName : stageData.stage}
               </text>
             </g>
             <defs>
@@ -1510,7 +1519,7 @@ const RfxDetail = ({
                 ))}
               </form>
               <div className="flex-[1] flex flex-col">
-                <div className="flex items-center gap-3 mt-[-16px]">
+                {/*<div className="flex items-center gap-3 mt-[-16px]">
                   <span className="text-[#778CA2]">
                     Last Updated: 26 Jul, 2021
                   </span>
@@ -1518,7 +1527,7 @@ const RfxDetail = ({
                   <span className="text-[#26BADA]">
                     <LuRefreshCcw />
                   </span>
-                </div>
+                </div>*/}
                 <button
                   className={` text-center  py-3 mt-[10px] mb-[18px] rounded-md border-0 ${
                     avtiveBidRequestBtn
@@ -1969,7 +1978,7 @@ const RfxDetail = ({
                       </div>
                     )}
                   </div>
-                  <div className="border mb-3 rounded-md">
+                  {/*<div className="border mb-3 rounded-md">
                     <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
                       Key Contacts
                     </div>
@@ -2001,7 +2010,7 @@ const RfxDetail = ({
                         </div>
                       </div>
                     ))}
-                  </div>
+                  </div>*/}
                 </div>
               </div>
             )}
@@ -2383,7 +2392,7 @@ const RfxDetail = ({
                   rows={bidClarificationRows}
                   NoRowsOverlay={NoRowsOverlayBids}
                 />
-                {/*<div className="flex justify-start items-center gap-4">
+                {<div className="flex justify-start items-center gap-4">
                   <button
                     className={`upprecase my-5 rounded-md p-3  bg-[#00AAEC] text-white cursor-pointer min-w-[200px]`}
                     onClick={() => {
@@ -2406,7 +2415,7 @@ const RfxDetail = ({
                     setBidClarificationRows={setBidClarificationRows}
                     setBidRevisionRows={setBidRevisionRows}
                   />
-                  </div>*/}
+                  </div>}
               </div>
             )}
             {bidDetail && (

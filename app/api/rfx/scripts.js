@@ -193,9 +193,9 @@ export const createOpportunityRequest = async (
     type: document.getElementById("m6_type")
       ? document.getElementById("m6_type").value
       : "",
-    probability: document.getElementById("m6_probability")
-      ? document.getElementById("m6_probability").value
-      : "",    
+    // probability: document.getElementById("m6_probability")
+    //   ? document.getElementById("m6_probability").value
+    //   : "",    
     total_value: document.getElementById("m6_opportunity_value").value
       ? document.getElementById("m6_opportunity_value").value
       : 0,
@@ -217,9 +217,9 @@ export const createOpportunityRequest = async (
     project_type: document.getElementById("m6_project_type").value
       ? document.getElementById("m6_project_type").value
       : "",
-    delivery_duration: document.getElementById("m6_delivery_duration").value
-      ? document.getElementById("m6_delivery_duration").value
-      : "",
+    // delivery_duration: document.getElementById("m6_delivery_duration").value
+    //   ? document.getElementById("m6_delivery_duration").value
+    //   : "",
     stage: document.getElementById("m6_opportunity_sales_stage").value
       ? document.getElementById("m6_opportunity_sales_stage").value
       : "",
@@ -235,15 +235,15 @@ export const createOpportunityRequest = async (
     close_date: document.getElementById("m6_close_date").value
       ? document.getElementById("m6_close_date").value
       : "",
-    competition: document.getElementById("m6_competition").value
-      ? document.getElementById("m6_competition").value
-      : "",
-    gross_profit_percent: document.getElementById("m6_gross_profit_percent").value
-      ? document.getElementById("m6_gross_profit_percent").value
-      : 0,
-    gross_profit_value: document.getElementById("m6_gross_profit_value").value
-      ? document.getElementById("m6_gross_profit_value").value
-      : 0,
+    // competition: document.getElementById("m6_competition").value
+    //   ? document.getElementById("m6_competition").value
+    //   : "",
+    // gross_profit_percent: document.getElementById("m6_gross_profit_percent").value
+    //   ? document.getElementById("m6_gross_profit_percent").value
+    //   : 0,
+    // gross_profit_value: document.getElementById("m6_gross_profit_value").value
+    //   ? document.getElementById("m6_gross_profit_value").value
+    //   : 0,
     description: document.getElementById("m6_description")
       ? document.getElementById("m6_description").value
       : "",

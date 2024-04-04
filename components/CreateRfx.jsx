@@ -3,16 +3,18 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { LuRefreshCcw } from "react-icons/lu";
+import { LuRefreshCcw, LuFileEdit } from "react-icons/lu";
 import DatePickerInput from "@/components/DatePickerInput";
 import { useRouter } from "next/navigation";
 import { loadPostData } from "@/app/api/rfx/actions/rfx";
 import { redirect } from "next/navigation";
 import {
+  formatDateString,
   formatDatetime,
   hideMainLoader102,
   showMainLoader102,
 } from "@/app/api/util/utility";
+import { Label } from "@mui/icons-material";
 
 const CreateRfx = ({ data }) => {
   hideMainLoader102();
@@ -22,8 +24,7 @@ const CreateRfx = ({ data }) => {
   let date = new Date().toLocaleDateString();
 
   const [opportunityData, setOpportunityData] = useState([
-    // { name: "RFx ID", value: "Not Assigned", id: "rfx_id" },
-    // { name: "BID ID", value: "Not Assigned", id: "bid_id" },
+ 
 
     { name: "Opportunity Number", value: data.crm_id, id: "crm_id" },
     { name: "Opportunity Name", value: data.title, id: "opportunity_title" },
@@ -48,39 +49,17 @@ const CreateRfx = ({ data }) => {
     },
     { name: "Project Type", value: data.project_type, id: "project_type" },
 
-    //{ name: "Competition", value: data.competition, id: "competition" },
     {
       name: "Total Opportunity Value ($)",
       value: data.total_value,
       id: "total_opportunity_value",
     },
-    // {
-    //   name: "Gross Profit (%)",
-    //   value: data.gross_profit_percent,
-    //   id: "gross_profit_percent",
-    // },
-    // {
-    //   name: "Opportunity Probability",
-    //   value: data.probability,
-    //   id: "opportunity_probability",
-    // },
-
-    // {
-    //   name: "Delivery Duration",
-    //   value: data.delivery_duration,
-    //   id: "delivery_duration",
-    // },
-    // {
-    //   name: "Gross Profit Value",
-    //   value: data.gross_profit_value,
-    //   id: "gross_profit_value",
-    // },
+    
     {
       name: "Opportunity Committed for Sales Budget",
-      value: data.forcasted,
+      value: data.forcasted  == false ? "No" : "Yes",
       id: "opportunity_forecasted",
     },
-
     {
       name: "End User Project",
       value: data.end_user_project,
@@ -132,39 +111,6 @@ const CreateRfx = ({ data }) => {
     e.preventDefault();
     showMainLoader102();
 
-    //alert()
-    let rfxTempData = {
-      rfx_id: "",
-      bid_id: "",
-      crm_id: document.getElementById("crm_id").value,
-      opportunity_title: document.getElementById("opportunity_title").value,
-      customer: document.getElementById("customer").value,
-      stage: document.getElementById("stage").value,
-      end_user: document.getElementById("end_user").value,
-      opportunity_type: document.getElementById("opportunity_type").value,
-      region: document.getElementById("region").value,
-      industry_code: document.getElementById("industry_code").value,
-      business_unit: document.getElementById("business_unit").value,
-      project_type: document.getElementById("project_type").value,
-      competition: "",
-      total_opportunity_value: document.getElementById("total_opportunity_value").value,
-      gross_profit_percent: 0,
-      opportunity_probability: "",
-      delivery_duration: "",
-      gross_profit_value: 0,
-      opportunity_forecasted: document.getElementById("opportunity_forecasted").value,
-      description: document.getElementById("description").value,
-      expected_award_date: getPickerValue("expected_award_date"),
-      expected_rfx_date: getPickerValue("expected_rfx_date"),
-      opportunity_id: data.opportunity_id,
-    };
-
-    function getPickerValue(pickerId) {
-      let datePickerContainer = document.getElementById(pickerId);
-      let inputElement = datePickerContainer.querySelector("input");
-      return inputElement.value;
-    }
-
 
     loadPostData(data.opportunity_id);
     router.push("/rfx/newfx");
@@ -173,7 +119,10 @@ const CreateRfx = ({ data }) => {
   return (
     <>
       <Breadcrumbs items={breadcrumbItems} />
+
       <div className="bg-white p-8">
+      <Link href={"/opportunities/edit/" + data.opportunity_id} className="flex text-[#26BADA] font-bold py-2 px-4 w-20 "><LuFileEdit style={{width: '40px', height: '40px'}}/>   </Link>
+
         <div className="flex w-full">
           <form className="grid grid-cols-2 gap-4  p-4 flex-[2]">
             {opportunityData.map((item, index) => (
@@ -185,25 +134,16 @@ const CreateRfx = ({ data }) => {
               >
                 <span className=" block text-[#778CA2]">{item.name}</span>
                 {item.name === "Description" ? (
-                  <textarea
-                    className="border border-gray-200 p-2 outline-1 outline-gray-300 w-full"
-                    value={item.value}
+                  <p
+                    className="outline-1 outline-gray-300 w-full"
                     rows={4}
-                    name={item.name}
-                    id={item.id}
-                    readOnly
-                    onChange={(e) => handleValueChange(index, e.target.value)}
-                  />
+                  >{item.value}</p>
                 ) : (
-                  <input
-                    type="text"
-                    className="border border-gray-200 p-2 outline-1 outline-gray-300 w-full"
-                    value={item.value}
-                    name={item.name}
-                    id={item.id}
-                    readOnly
-                    onChange={(e) => handleValueChange(index, e.target.value)}
-                  />
+                  <span
+                    className="outline-1 outline-gray-300 w-full"
+                    //onChange={(e) => handleValueChange(index, e.target.value)}
+                  >{item.value}</span>
+
                 )}
               </div>
             ))}
@@ -237,32 +177,14 @@ const CreateRfx = ({ data }) => {
                   Expected award date
                 </span>
                 <span>
-                  <DatePickerInput
-                    data={[
-                      {
-                        label: "Expected award date",
-                        predate: data,
-                        id: "expected_award_date",
-                      },
-                    ]}
-                    className="w-full"
-                  />
+                  {formatDateString(data.expected_award_date)}
                 </span>
               </div>
               <div className="border-b border-[#E8ECEF] w-[90%] m-auto"></div>
               <div className="bg-[#F4FCFD] px-4 py-5">
                 <span className="text-[#778CA2] block">Expected RFx date</span>
                 <span>
-                  <DatePickerInput
-                    data={[
-                      {
-                        label: "Expected RFx date",
-                        predate: data,
-                        id: "expected_rfx_date",
-                      },
-                    ]}
-                    className="w-full"
-                  />
+                  {formatDateString(data.expected_rfx_date)}
                 </span>
               </div>
             </div>

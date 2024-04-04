@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -13,6 +13,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs, { Dayjs } from "dayjs";
+import { getAllPersonaRecordsAction } from '@/app/api/rfx/actions/rfx';
 
 const SelectReviewerDialog = ({ open, onClose, onDone, usersRec }, props) => {
     const [issuedDate, setIssuedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -25,14 +26,24 @@ const SelectReviewerDialog = ({ open, onClose, onDone, usersRec }, props) => {
         id: contact.user_id,
         name: `${contact.first_name} ${contact.last_name}`,
         designation: contact.designation_title,
-        image: contact.user_profile_photo ? contact.user_profile_photo : '/avatar.jpg',
+        image: contact.profile_image ? contact.profile_image : '/avatar.jpg',
     }));
-    const typeInput = [
-        { id: 1, role: 'Reviewer' },
-        { id: 2, role: 'Approver' },
-    ]
+    const [persona, setPersona] = useState([]);
     const [selectedUserIndex, setSelectedUserIndex] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
+
+    useEffect(() => {
+        getAllPersonaRecordsAction()
+          .then((resp) => {
+            let list = resp.returnData
+            setPersona(
+                list.map((item) => ({
+                    id: item.id,
+                    role: item.persona_role,                    
+                }))
+            );
+          }).catch((err) => {});
+      }, []);
 
     const handleClick = (event, index) => {
         setAnchorEl(event.currentTarget);
@@ -112,7 +123,7 @@ const SelectReviewerDialog = ({ open, onClose, onDone, usersRec }, props) => {
                                 className="bg-white w-full flex-[1] "
                                 onChange={(e)=>handleMenuItemChangeRole(e, index)}
                             >
-                                {typeInput.map((option) => (
+                                {persona.map((option) => (
                                     <MenuItem key={option.id} value={option.role} >
                                         {option.role}
                                     </MenuItem>

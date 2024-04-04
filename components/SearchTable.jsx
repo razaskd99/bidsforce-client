@@ -36,7 +36,7 @@ export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
       "title",
       "customer_name",
       "end_user_name",
-      "gross_profit_value",
+      "total_value",
       "business_unit",
       "opportunity_owner",
       "expected_award_date",
@@ -72,7 +72,7 @@ export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
           return "Customer";
         case "end_user_name":
           return "End User";
-        case "gross_profit_value":
+        case "total_value":
           return "Opportunity Value";
         case "business_unit":
           return "Business Line";
@@ -96,7 +96,7 @@ export default function SearchTable({ rows, NoRowsOverlay, handlRowDetail }) {
           return 3;
         case "end_user_name":
           return 4;
-        case "gross_profit_value":
+        case "total_value":
           return 5;
         case "business_unit":
           return 6;
