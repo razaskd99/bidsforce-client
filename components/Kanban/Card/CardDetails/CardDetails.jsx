@@ -69,6 +69,21 @@ export default function CardDetails(props) {
     setValues({ ...values, title: value });
   };
 
+  const calculateProgress = () => {
+    switch (values.status) {
+      case "To Do":
+        return 0;
+      case "In Progress":
+        return 25;
+      case "In Review":
+        return 50;
+      case "Complete":
+        return 100;
+      default:
+        return 0;
+    }
+  };
+
   const calculatePercent = () => {
     const totalTask = values.task.length;
     const completedTask = values.task.filter(

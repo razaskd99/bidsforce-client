@@ -8,7 +8,7 @@ const BidDialog = ( props) => {
   return (
     <Dialog open={props.openBid} onClose={props.handleBidClose}>
       <div className="min-w-[600px] px-4 py-6">
-        <DialogTitle className='text-center mb-3'>Assign Bid Request</DialogTitle>
+        <DialogTitle className='text-center mb-3'>{props.title}</DialogTitle>
         <DialogContent>
           <div className="border mb-3 rounded-md">
             <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] " >Submit to</div>

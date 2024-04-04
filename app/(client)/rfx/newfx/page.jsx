@@ -80,7 +80,7 @@ const NewFx = async () => {
   }
 
    return (
-    <CreateNewRfx preRfxData={preRfxData}  rfxType={rfxType} rfxStages={rfxStages} bidValidity={bidValidity} submissionMode={submissionMode} contentSubmission={contentSubmission} users={users} companies={companyList} personas={personaList}  apiBackendURL={apiBackendURL} tenantID={tenantID}  loginUserID={userLoginData.user_id} primaryContactsRec={primaryContactsRec} />
+    <CreateNewRfx preRfxData={preRfxData}  rfxType={rfxType} rfxStages={rfxStages} bidValidity={bidValidity} submissionMode={submissionMode} contentSubmission={contentSubmission} users={users} companies={companyList} personas={personaList}  apiBackendURL={apiBackendURL} tenantID={tenantID}  loginUserID={userLoginData.user_id} primaryContactsRec={primaryContactsRec} loginUserRec={userLoginData} />
   );
 };
 

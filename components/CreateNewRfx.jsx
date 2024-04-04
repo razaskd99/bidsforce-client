@@ -65,7 +65,8 @@ const CreateNewRfx = ({
   apiBackendURL,
   tenantID,
   loginUserID,
-  primaryContactsRec
+  primaryContactsRec,
+  loginUserRec
 }) => {
   const router = useRouter();
   hideMainLoader102();
@@ -271,16 +272,9 @@ const CreateNewRfx = ({
   const [addedContacts, setAddedContacts] = useState([]);
   const [documentsData, setDocumentsData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [loginUserRec, setLoginUserRec] = useState({});
 
   
-  useEffect(() => {
-    getCookieValue("userLoginData")
-      .then((data) => {
-        setLoginUserRec(data)
-      })
-      .catch((err) => {});
-  }, []);
+
   
   useEffect(() => {
     if (visitToWorkSite == true) {

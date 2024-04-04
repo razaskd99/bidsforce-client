@@ -70,7 +70,7 @@ const PopupInputtest = (props) => {
                                     <div className="flex justify-between w-full bg-white mb-2 px-2 py-1" key={person.id}>
                                         <div className="flex flex-[1] border border-[#E8ECEF] rounded-3xl items-center px-1">
                                             <Avatar className="mr-2">
-                                                <Image src="/man.jpeg" width={38} height={38} />
+                                                <Image src={person.image} width={38} height={38} />
                                             </Avatar>
                                             <div className="">
                                                 <Typography variant="subtitle1" className="font-medium">{person.name}</Typography>

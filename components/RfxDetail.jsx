@@ -310,22 +310,11 @@ const RfxDetail = ({
     { name: "Business Unit", value: rfxRecord.business_unit ?? "" },
     { name: "Project Type", value: rfxRecord.project_type ?? "" },
 
-    { name: "Competition", value: rfxRecord.project_type ?? "" },
     {
       name: "Total Opportunity Value ($)",
-      value: "$" + rfxRecord.competition ?? "$0",
+      value: "$" + rfxRecord.total_value ?? "$0",
     },
-    {
-      name: "Gross Profit (%)",
-      value: rfxRecord.gross_profit_percent + "%" ?? "0%",
-    },
-    { name: "Opportunity Probability", value: rfxRecord.probability ?? "" },
-
-    { name: "Delivery Duration", value: rfxRecord.delivery_duration ?? "" },
-    {
-      name: "Gross Profit Value",
-      value: "$" + rfxRecord.gross_profit_value ?? "$0",
-    },
+    
     {
       name: "Opportunity Forecasted",
       value: rfxRecord.forcasted ? "Yes" : "No",
@@ -1171,6 +1160,18 @@ const RfxDetail = ({
   const onYesButtonClick = () => {
 
   };
+
+  const handleReassignBid = async() => {
+    const currentStage = stages.find((stage) => stage.status === "current");
+    if(currentStage.displayName == 'Bid Request') {
+      handleChangeStatus();
+    } else {
+      const bidn = generateUniqueSixDigitNumber();
+      let c1 = await updateBidNumberAction(rfxRecord.rfx_id, bidn);
+      let c2 = await updateBidAssignToAction(rfxRecord.rfx_id, personAssignTo.id);
+    }    
+  }
+
   const NoRowsOverlayClarification = () => (
     <Stack height="100%" alignItems="center" justifyContent="center">
       <Image src="/no-row.png" width={480} height={260} alt="No Rows" />
@@ -1530,14 +1531,14 @@ const RfxDetail = ({
                 </div>*/}
                 <button
                   className={` text-center  py-3 mt-[10px] mb-[18px] rounded-md border-0 ${
-                    avtiveBidRequestBtn
+                    avtiveBidRequestBtn 
                       ? "bg-[#26BADA] text-white"
                       : "text-[#778CA2] bg-[#EFF3F5]"
                   }`}
                   onClick={handleClickOpenBidRequestDailog}
                   onPersonSelect={onPersonSelect}
                   // disabled={rfxRecord.bid_number ? true : false}
-                  disabled={!avtiveBidRequestBtn}
+                  disabled={!avtiveBidRequestBtn || bidNumber?.length}
                 >
                   {bidNumber?.length ? "BID IS REQUESTED" : "REQUEST BID"}
                 </button>
@@ -1546,8 +1547,9 @@ const RfxDetail = ({
                   openBid={openRequestDailog}
                   handleBidClose={handlCloseRequestBidDailog}
                   // onYesButtonClick={() => handleChangeStatus('RFx Clarifications')}
-                  onYesButtonClick={() => handleChangeStatus()}
+                  onYesButtonClick={() => handleReassignBid()}
                   setPersonAssignTo={setPersonAssignTo}
+                  title="Assign Bid Request"
                 />
                 <div className="border mt-[18px] mb-3 rounded-md">
                   <div className="bg-[#00000005] py-2 px-[14px] ">
@@ -1588,14 +1590,16 @@ const RfxDetail = ({
                   </div>
                 </div>
                 <div className="border mb-3 rounded-md">
-                  <div className="bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
-                    Assigned to
+                  <div className="flex justify-between bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
+                    <p>Assign to</p>
+                    <button onClick={handleClickOpenBidRequestDailog} className="uppercase text-[#26BADA] text-xs">Re-Assign</button>
                   </div>
+                  
                   <div className="bg-[#F4F5F6] px-4 py-5 flex  items-center justify-between">
                     {initiatorRec && (
                       <div className="flex flex-[3] bg-white border rounded-[30px] p-1 gap-2 items-center max-w-[60%] w-full">
                         <Image
-                          src="/man.jpeg"
+                          src={personAssignTo.image ? personAssignTo.image : '/avatar.png'}
                           width={38}
                           height={38}
                           className="rounded-[100%] object-cover w-[38px] h-[38px]"
@@ -1603,10 +1607,10 @@ const RfxDetail = ({
                         />
                         <div className="">
                           <span className="text-sm leading-4">
-                            {initiatorRec.first_name} {initiatorRec.last_name}
+                            {personAssignTo.name}
                           </span>
                           <span className="text-sm leading-4 text-[#778CA2] block">
-                            {initiatorRec.designation_title}
+                            {personAssignTo.designation}
                           </span>
                         </div>
                       </div>

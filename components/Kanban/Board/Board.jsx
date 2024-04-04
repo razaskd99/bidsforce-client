@@ -5,7 +5,9 @@ import { MoreHorizontal } from "react-feather";
 import Editable from "../Editable/Editable";
 import Dropdown from "../Dropdown/Dropdown";
 import { Droppable } from "react-beautiful-dnd";
+
 export default function Board(props) {
+  console.log(props)
   const [show, setShow] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
@@ -21,8 +23,8 @@ export default function Board(props) {
   });
 
   return (
-    <div className="board">
-      <div className="board__top">
+    <div className="board rounded-t-lg ">
+      <div className="board__top bg-[#26BADA] p-1 rounded-t-lg text-white">
         {show ? (
           <div>
             <input
@@ -43,7 +45,7 @@ export default function Board(props) {
               className="board__title"
             >
               {props?.name || "Name of Board"}
-              <span className="total__cards">{props.card?.length}</span>
+              <span className="total__cards ml-2">{props.card?.length}</span>
             </p>
           </div>
         )}
@@ -51,8 +53,11 @@ export default function Board(props) {
           onClick={() => {
             setDropdown(true);
           }}
+          className="flex items-center gap-2"
         >
+          <Editable name={"\u00A0"} btnName={""} placeholder={"Enter Card Title"} onSubmit={(value) => props.addCard(value, props.id)} className="hover:bg-[#26DADA] bg-white" />
           <MoreHorizontal />
+
           {/*{dropdown && (
             <Dropdown
               class="board__dropdown"
@@ -80,9 +85,11 @@ export default function Board(props) {
                 key={items.id}
                 title={items.title}
                 tags={items.tags}
+                progress={items.progress} // Pass the progress prop here
                 updateCard={props.updateCard}
                 removeCard={props.removeCard}
                 card={items}
+                status={props.name} // Pass the board status as status prop
               />
             ))}
             {provided.placeholder}
@@ -90,12 +97,7 @@ export default function Board(props) {
         )}
       </Droppable>
       <div className="board__footer">
-        <Editable
-          name={"Add Card"}
-          btnName={"Add Card"}
-          placeholder={"Enter Card Title"}
-          onSubmit={(value) => props.addCard(value, props.id)}
-        />
+        <Editable name={"Add Card"} btnName={"Add Card"} placeholder={"Enter Card Title"} onSubmit={(value) => props.addCard(value, props.id)} />
       </div>
     </div>
   );
