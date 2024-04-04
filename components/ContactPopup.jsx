@@ -36,7 +36,7 @@ const ContactDialog = ({ isOpen, handleClose, handleContactSelect, users }) => {
     user_id: user.user_id,
     name: `${user.first_name} ${user.last_name}`,
     designation: user.designation_title,
-    image: user.user_profile_photo,
+    image: user.profile_image ? user.profile_image : '/avatar.png',
   })); 
       
   
@@ -50,7 +50,7 @@ const ContactDialog = ({ isOpen, handleClose, handleContactSelect, users }) => {
   };
   const handleContactClick = contact => {
     handleContactSelect(contact);
-    handleClose();
+    handleClose();    
   };
 
   return (

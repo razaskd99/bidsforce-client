@@ -288,7 +288,7 @@ const RfxDetail = ({
 
 
   const [overviewData, setoverviewData] = useState([
-    { name: "RFx Status", value: stages.find((stage) => stage.status === "current").displayName },
+    { name: "RFx Status", value: stages.find((stage) => stage.status === "current")?.displayName },
     {
       name: "RFx ID",
       value: rfxRecord.rfx_number ? rfxRecord.rfx_number : "Not Assigned",
@@ -298,7 +298,7 @@ const RfxDetail = ({
     { name: "CRM ID", value: rfxRecord.crm_id ?? "" },
     { name: "Opportunity Title", value: rfxRecord.rfx_title ?? "" },
         
-    { name: "Customer", value: rfxRecord.customer_name ?? "" },
+    { name: "Customer", value: rfxRecord.company_name ?? "" },
     { name: "Stage", value: rfxRecord.opportunity_stage ?? "" },
 
     { name: "End User", value: rfxRecord.company_name ?? "" },
@@ -386,12 +386,10 @@ const RfxDetail = ({
     );
     if (currentStageIndex !== -1 && currentStageIndex < stages.length - 1) {
       // changes in DB
-      if (stages[currentStageIndex].stage == "RFx Acknowledge") {
+      /*if (stages[currentStageIndex].stage == "RFx Acknowledge") {
         //let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
-      } else if (
-        stages[currentStageIndex].stage == "Bid Request" &&
-        personAssignTo.id
-      ) {
+      }*/ 
+      if (stages[currentStageIndex].stage == "Bid Request") {
         const bidn = generateUniqueSixDigitNumber();
         let c1 = await updateBidNumberAction(rfxRecord.rfx_id, bidn);
         let c2 = await updateBidAssignToAction(
@@ -1531,16 +1529,16 @@ const RfxDetail = ({
                 </div>*/}
                 <button
                   className={` text-center  py-3 mt-[10px] mb-[18px] rounded-md border-0 ${
-                    avtiveBidRequestBtn 
+                    !bidNumber?.length 
                       ? "bg-[#26BADA] text-white"
                       : "text-[#778CA2] bg-[#EFF3F5]"
                   }`}
                   onClick={handleClickOpenBidRequestDailog}
                   onPersonSelect={onPersonSelect}
                   // disabled={rfxRecord.bid_number ? true : false}
-                  disabled={!avtiveBidRequestBtn || bidNumber?.length}
+                  disabled={bidNumber?.length}
                 >
-                  {bidNumber?.length ? "BID IS REQUESTED" : "REQUEST BID"}
+                  {"REQUEST BID"}
                 </button>
                 <BidDialog
                   keyContactsRec={allUsersRec}
@@ -1596,7 +1594,7 @@ const RfxDetail = ({
                   </div>
                   
                   <div className="bg-[#F4F5F6] px-4 py-5 flex  items-center justify-between">
-                    {initiatorRec && (
+                    {(personAssignTo && personAssignTo.image != undefined) && (
                       <div className="flex flex-[3] bg-white border rounded-[30px] p-1 gap-2 items-center max-w-[60%] w-full">
                         <Image
                           src={personAssignTo.image ? personAssignTo.image : '/avatar.png'}
