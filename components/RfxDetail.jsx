@@ -444,6 +444,7 @@ const RfxDetail = ({
     const totalStages = stages.length;
     return Math.floor((completedStages / totalStages) * 100);
   };
+  const [isBidRequest, setIsBidRequest] = useState(false);
   const getStatusColor = (status) => {
     switch (status) {
       case "done":
@@ -468,8 +469,9 @@ const RfxDetail = ({
   const handleClickOpenBid = () => {
     setOpenBid(true);
   };
-  const handleClickOpenBidRequestDailog = () => {
+  const handleClickOpenBidRequestDailog = (bid_requested) => {
     setOpenRequestDailog(true);
+    setIsBidRequest(bid_requested);    
   };
   const handleClickOpenContact = () => {
     setOpenContactAssign(true);
@@ -1161,11 +1163,9 @@ const RfxDetail = ({
 
   const handleReassignBid = async() => {
     const currentStage = stages.find((stage) => stage.status === "current");
-    if(currentStage.displayName == 'Bid Request') {
+    if(currentStage.displayName == 'Bid Request' && isBidRequest) {
       handleChangeStatus();
     } else {
-      const bidn = generateUniqueSixDigitNumber();
-      let c1 = await updateBidNumberAction(rfxRecord.rfx_id, bidn);
       let c2 = await updateBidAssignToAction(rfxRecord.rfx_id, personAssignTo.id);
     }    
   }
@@ -1533,7 +1533,7 @@ const RfxDetail = ({
                       ? "bg-[#26BADA] text-white"
                       : "text-[#778CA2] bg-[#EFF3F5]"
                   }`}
-                  onClick={handleClickOpenBidRequestDailog}
+                  onClick={()=>handleClickOpenBidRequestDailog(true)}
                   onPersonSelect={onPersonSelect}
                   // disabled={rfxRecord.bid_number ? true : false}
                   disabled={bidNumber?.length}
@@ -1590,7 +1590,7 @@ const RfxDetail = ({
                 <div className="border mb-3 rounded-md">
                   <div className="flex justify-between bg-[#00000005] py-2 px-[14px] text-[#778CA2] ">
                     <p>Assign to</p>
-                    <button onClick={handleClickOpenBidRequestDailog} className="uppercase text-[#26BADA] text-xs">Re-Assign</button>
+                    <button onClick={()=>handleClickOpenBidRequestDailog(false)} className="uppercase text-[#26BADA] text-xs">Re-Assign</button>
                   </div>
                   
                   <div className="bg-[#F4F5F6] px-4 py-5 flex  items-center justify-between">

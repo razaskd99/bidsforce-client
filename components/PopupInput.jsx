@@ -19,6 +19,7 @@ const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts, 
     const [persons, setPersons] = useState([]);
     const [contactKey, setContactKey] = useState("");
     
+    console.log(users)
 
 
      const handleModalOpen = () => {
@@ -88,8 +89,8 @@ const PopupInput = ({ label, className, users, onCloseDialog, setAddedContacts, 
                                     <div className="flex justify-between w-full bg-white mb-2 px-2 py-1" key={person.user_id}>
                                         <div className="flex flex-[1] border border-[#E8ECEF] rounded-3xl items-center px-1">
                                             <Avatar className="mr-2">
-                                                {person?.user_profile_photo ?
-                                                    <Image src="/man.jpeg" width={38} height={38} />
+                                                {person?.profile_image ?
+                                                    <Image src={person.profile_image} width={38} height={38} />
                                                     : <Image src="/images/users/profile.jpg" width={38} height={38} />
 
                                                 }
