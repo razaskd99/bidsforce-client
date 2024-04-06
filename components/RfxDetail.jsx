@@ -46,6 +46,8 @@ import {
   updateBidAssignToAction,
   updateBidNumberAction,
   getAllRfxStagesByRfxIdAction,
+  getRfxById,
+  updateRfxStatusAction,
 } from "@/app/api/rfx/actions/rfx";
 import SearchTableNew from "./SearchTableNew";
 import {
@@ -389,7 +391,7 @@ const RfxDetail = ({
       /*if (stages[currentStageIndex].stage == "RFx Acknowledge") {
         //let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       }*/ 
-      if (stages[currentStageIndex].stage == "Bid Request") {
+      if (stages[currentStageIndex].stage == "Bid Request" && isBidRequest) {
         const bidn = generateUniqueSixDigitNumber();
         let c1 = await updateBidNumberAction(rfxRecord.rfx_id, bidn);
         let c2 = await updateBidAssignToAction(
@@ -397,14 +399,22 @@ const RfxDetail = ({
           personAssignTo.id
         );
         let c3 = await movetoNextStageAction(rfxRecord.rfx_id);
+        let c4 = await getRfxById(rfxRecord.rfx_id);
+        let c5 = await changeRfxStatusJSON(c2?.rfxData?.status, stages[currentStageIndex].displayName);
       } else if (stages[currentStageIndex].stage == "RFx Clarifications") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
+        let c2 = await getRfxById(rfxRecord.rfx_id);
+        let c3 = await changeRfxStatusJSON(c2?.rfxData?.status, stages[currentStageIndex].displayName);
       } else if (stages[currentStageIndex].stage == "Bid Submission") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
+        let c2 = await getRfxById(rfxRecord.rfx_id);
+        let c3 = await changeRfxStatusJSON(c2?.rfxData?.status, stages[currentStageIndex].displayName);
       } else if (stages[currentStageIndex].stage == "Bid Acknowledgement") {
         //let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       } else if (stages[currentStageIndex].stage == "Bid Clarifications") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
+        let c2 = await getRfxById(rfxRecord.rfx_id);
+        let c3 = await changeRfxStatusJSON(c2?.rfxData?.status, stages[currentStageIndex].displayName);
       } else if (stages[currentStageIndex].stage == "Bid Revision") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
       }
@@ -427,6 +437,18 @@ const RfxDetail = ({
       });
     }
   };
+
+  async function changeRfxStatusJSON(jsonString, status) {
+    try {
+      const jsonObject = JSON.parse(jsonString);
+      const json = {...jsonObject, rfx: status};
+      const resp = await updateRfxStatusAction(rfxRecord.rfx_id, JSON.stringify(json));
+      return json;
+    } catch (error) {
+      return null;
+    }
+  }
+
   const contentShow = (category, status) => {
     setActive(category);
     setActive((prevActive) => {
@@ -487,12 +509,11 @@ const RfxDetail = ({
   };
   const handleClose = ({ close, ackDate, ackComment }) => {
     setOpen(false);
-
     setAcknowledgementDate(ackDate);
     setAcknowledgementComment(ackComment);
   };
   const rfxYesClick = () => {
-    handleChangeStatus(false);
+    //handleChangeStatus(false);
     setActiveBidRequestBtn(true);
   };
   const handleDocClose = () => {

@@ -57,6 +57,16 @@ const columns = [
 export default function DataTable({ viewMode, data, viewType }) {
   let adjustedRows = [];
   // Adjusted rows with unique ids
+
+  function statusStrToJSON(jsonString) {
+    try {
+      const jsonObject = JSON.parse(jsonString);
+      return jsonObject;
+    } catch (error) {
+      return null;
+    }
+  }
+
   try {
     adjustedRows = data.map((rowData, index) => ({
       id: rowData.rfx_id, // Assuming rfx_id is unique
@@ -72,7 +82,7 @@ export default function DataTable({ viewMode, data, viewType }) {
       type: rowData.rfx_type,
       duedate: rowData.due_date,
       contacts: `${rowData.initiator_first_name} ${rowData.initiator_last_name}`,
-      status: rowData.status, // Replace with the actual status value
+      status: statusStrToJSON(rowData.status) != null ? (viewType == 'bids' ? statusStrToJSON(rowData.status).bid : statusStrToJSON(rowData.status).rfx) : '', 
       rfx_title: rowData.rfx_title,
       rfx_type: rowData.rfx_type,
       rfx_number: rowData.rfx_number,

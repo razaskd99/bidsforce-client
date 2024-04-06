@@ -111,7 +111,7 @@ const SelectReviewerDialog = ({ open, onClose, onDone, usersRec }, props) => {
                                 }}
                             />
                             {user.image && (
-                                <Image
+                                <img
                                     src={user.image}
                                     width={24}
                                     height={24}

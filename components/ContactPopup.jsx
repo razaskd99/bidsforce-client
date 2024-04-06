@@ -81,7 +81,7 @@ const ContactDialog = ({ isOpen, handleClose, handleContactSelect, users }) => {
           {filteredContacts?.map(contact => (
             <ListItem key={contact.id} className='border-b border-gray-200 cursor-pointer' onClick={() => handleContactClick(contact)}>
               <ListItemAvatar>
-                <Avatar alt={contact.name} src={contact.image} />
+                <img width={38} height={38} alt={contact.name} src={contact.image} />
               </ListItemAvatar>
               <ListItemText primary={contact.name} />              
             </ListItem>

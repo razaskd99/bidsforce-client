@@ -134,6 +134,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_title}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 100 }}                
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -171,6 +172,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_type}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 50 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -205,6 +207,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_region}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 100 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -216,6 +219,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_industry_code}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 25 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -227,6 +231,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_business_unit}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 100 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -238,6 +243,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_project_type}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 100 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -249,6 +255,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_stage}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 150 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -260,6 +267,7 @@ const NewOpportunity = (props) => {
                 variant="outlined"
                 // value={formData.m6_status}
                 onChange={handleChangeValues}
+                inputProps={{ maxLength: 25 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -317,6 +325,7 @@ const NewOpportunity = (props) => {
                 name="m6_end_user_project"
                 label="End User Project"
                 variant="outlined"
+                inputProps={{ maxLength: 100 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -326,6 +335,7 @@ const NewOpportunity = (props) => {
                 name="m6_opportunity_currency"
                 label="Opportunity Currency"
                 variant="outlined"
+                inputProps={{ maxLength: 15 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -335,6 +345,7 @@ const NewOpportunity = (props) => {
                 name="m6_sales_persuit_progress"
                 label="Sales Pursuit Progress"
                 variant="outlined"
+                inputProps={{ maxLength: 100 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -344,6 +355,7 @@ const NewOpportunity = (props) => {
                 name="m6_opportunity_owner"
                 label="Opportunity Owner"
                 variant="outlined"
+                inputProps={{ maxLength: 100 }}  
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -353,6 +365,7 @@ const NewOpportunity = (props) => {
                 name="m6_bidding_unit"
                 label="Bidding Unit"
                 variant="outlined"
+                inputProps={{ maxLength: 25 }}  
               />
             </Grid>
           </Grid>

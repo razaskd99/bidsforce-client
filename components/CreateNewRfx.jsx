@@ -978,8 +978,8 @@ const CreateNewRfx = ({
                   rfx_title: rfxTitle,
                   rfx_number: rfxNumber,
                   under_existing_agreement:
-                    existingAgreement === "yes" ? true : false,
-                  status: "",
+                  existingAgreement === "yes" ? true : false,
+                  status: '{"rfx": "RFx Issued", "bid": "Initiated"}',
                   previous_rfx_ref_num: "",
                   revision_of_previous_rfx: isRevision ? true : false,
                   agreement_ref_num: agreementReferenceNumber,

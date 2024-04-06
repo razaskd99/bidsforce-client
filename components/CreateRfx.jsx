@@ -149,14 +149,14 @@ const CreateRfx = ({ data }) => {
             ))}
           </form>
           <div className="flex-[1] flex flex-col">
-            <div className="flex items-center gap-3 mt-[-16px]">
+            {/*<div className="flex items-center gap-3 mt-[-16px]">
               <span className="text-[#778CA2]">
                 Last Updated: {formatDatetime(data.last_updated_at)}
               </span>
               <span className="text-[#26BADA]">
                 <LuRefreshCcw />
               </span>
-            </div>
+            </div>*/}
             <Link
               onClick={(e) => {
                 postValues(e);

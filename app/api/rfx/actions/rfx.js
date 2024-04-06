@@ -598,7 +598,7 @@ export const createNewRfxAction = async (rfxData) => {
         rfx_title: rfxData.rfx_title,
         rfx_number: rfxData.rfx_number,
         under_existing_agreement: rfxData.under_existing_agreement,
-        status: "initiated",
+        status: rfxData.status,
         previous_rfx_ref_num: rfxData.previous_rfx_ref_num,
         revision_of_previous_rfx: rfxData.revision_of_previous_rfx,
         agreement_ref_num: rfxData.agreement_ref_num,
@@ -995,6 +995,57 @@ export const updateBidAssignToAction = async (rfx_id, rfx_bid_assignto) => {
     };
   }
 };
+
+
+export const updateRfxStatusAction = async (rfx_id, status) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  const apiUrl = `${apiBackendURL}rfx/rfx/rfx-status/id/${rfx_id}`;
+
+  const now = new Date();
+  const formattedTimestamp = now.toISOString();
+  const formatedDate = now.toISOString().split("T")[0];
+
+  const headers = new Headers({
+    cache: "no-store",
+    Accept: "application/json",
+    Authorization: `Bearer ${tokens}`,
+    "Content-Type": "application/json",
+  });
+
+  const requestOptions = {
+    method: "PUT",
+    headers: headers,
+    body: JSON.stringify({
+      status: status,
+    }),
+  };
+
+  try {
+    const response = await fetch(apiUrl, requestOptions);
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: { status: true },
+        error: response.statusText || "Request Failed for RFx Status",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: { status: result },
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: { status: false },
+      error: error.message || "Request failed for RFx Status",
+    };
+  }
+};
+
 
 export const GetRfxDocumentsAction = async (rfx_id) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();

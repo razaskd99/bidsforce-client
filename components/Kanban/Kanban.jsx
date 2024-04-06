@@ -7,8 +7,8 @@ import "./bootstrap.css";
 
 function Kanban() {
   const [data, setData] = useState(() => {
-    const savedData = localStorage.getItem("kanban-board");
-    return savedData
+  const savedData = localStorage?.getItem("kanban-board");
+  return savedData
       ? JSON.parse(savedData)
       : [
           { id: 1, boardName: "To Do", card: [] },
@@ -17,9 +17,9 @@ function Kanban() {
           { id: 4, boardName: "Complete", card: [] },
         ];
   });
-console.log(data)
+
   useEffect(() => {
-    localStorage.setItem("kanban-board", JSON.stringify(data));
+    //localStorage?.setItem("kanban-board", JSON.stringify(data));
   }, [data]);
 
   const setName = (title, bid) => {

@@ -178,17 +178,26 @@ export const movetoNextBidStageAction = async (rfxID) => {
         resp = await getRfxStagesDetailByRfxIdAction(rfxID, 'bidstage')
         let stagesData = resp.returnData
 
+        const currentIndex = stagesData.findIndex((item) => item.stage_status === 'current');
+
+        // update last element
+        if(currentIndex == stagesData.length-1) {
+          const element = stagesData.find((item) => item.stages_detail_id === stagesData[currentIndex].stages_detail_id);
+          resp = await updateStageDetailAction(element.stages_detail_id, 'done', element.stage_score, true)
+          return resp
+        }
+        
         // update current element
         const currentElement = stagesData.find((item) => item.stage_status === 'current');
         resp = await updateStageDetailAction(currentElement.stages_detail_id, 'done', currentElement.stage_score, true)
 
         // update next element
-        const currentIndex = stagesData.findIndex((item) => item.stage_status === 'current');
         const nextElement = currentIndex !== -1 && currentIndex < stagesData.length - 1 ? stagesData[currentIndex + 1] : null;
-        resp = await updateStageDetailAction(nextElement.stages_detail_id, 'current', nextElement.stage_score, false)
-        return true;
+        let resp2 = await updateStageDetailAction(nextElement.stages_detail_id, 'current', nextElement.stage_score, false)
+        
+        return resp;
   }catch(e) {
-    return false;
+    return {};
   }
 }  
 

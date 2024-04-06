@@ -40,7 +40,7 @@ const ContactTable = ({ rows }) => {
             <tr key={row.id} className="bg-white ">
               <td className="px-4 py-2">
 {
-                <Image src={row.profile_image} width={40} height={40} className="rounded-full" />
+                <img src={row.profile_image} width={40} height={40} className="rounded-full" />
 }
               </td>
               <td className="px-4 py-2">{row.first_name +' '+ row.first_name}</td>
