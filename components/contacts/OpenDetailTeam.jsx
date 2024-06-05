@@ -181,7 +181,7 @@ export default function OpenDetailTeam ( props ) {
                                 <div className="bg-white p-4 flex items-center justify-between mt-3 mb-1 text-[#000000] w-full" key={team.contacts_team_id}>                                    
                                    
                                     <div className="flex gap-3 items-center flex-[1]">
-                                        <Image src={team.profile_image ? team.profile_image : '/avatar.png'} width={38} height={38} alt='contact' className="rounded-[100%] object-cover w-[38px] h-[38px]" />
+                                        <img src={team.profile_image ? team.profile_image : '/avatar.png'} width={38} height={38} alt='contact' className="rounded-[100%] object-cover w-[38px] h-[38px]" />
                                         <span className="text-sm leading-4">{team.first_name} {team.last_name}</span> 
                                     </div>
                                     <span className="text-sm leading-4 flex-[1]">{team.job_title}</span>

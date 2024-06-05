@@ -84,7 +84,7 @@ export default function AdminUserDetail( props ) {
                     modalType={'edit'}
                 />
 
-                <Image src={contactsDetail.profile_image ? contactsDetail.profile_image : '/avatar.png'} alt="man" width={120} height={120} className="rounded-full" />
+                <img src={contactsDetail.profile_image ? contactsDetail.profile_image : '/avatar.png'} alt="man" width={120} height={120} className="rounded-full" />
                 <p className="text-xl">{contactsDetail.first_name + ' ' + contactsDetail.last_name}</p>
                 <p className="text-[#778CA2]">{contactsDetail.job_title}</p>
                 <p className="text-sm text-[#778CA2] mt-3">Manager</p>

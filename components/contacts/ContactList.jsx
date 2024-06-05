@@ -37,7 +37,7 @@ const ContactList = ({ isOpen, handleClose, contacts, handleAddContactToTeam }) 
                 {/* List of contacts */}
                 {filteredContacts.map(contact => (
                     <div key={contact.id} className='flex items-center justify-start gap-4  p-2 cursor-pointer border-b border-gray-300' onClick={() => handleAddContact(contact)}>
-                        <Image src={contact.image} alt={contact.name} width={30} height={30} className='rounded-full object-cover' />
+                        <img src={contact.image} alt={contact.name} width={30} height={30} className='rounded-full object-cover' />
                         <p style={{ textAlign: 'center' }}>{contact.name}</p>
                     </div>
                 ))}

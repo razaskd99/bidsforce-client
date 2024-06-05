@@ -81,7 +81,7 @@ const OpportunityDetail = ({
     { name: "Opportunity Currency", value: data.opp_currency, id: "opp_currency ", },
     
     { name: "Bidding Unit", value: data.bidding_unit, id: "bidding_unit", },
-    { name: "Opportunity Committed for Sales Budget", value: data.opp_commited_sales_budget, id: "opp_commited_sales_budget", },
+    { name: "Opportunity Committed for Sales Budget", value: data.opp_comm_sales_budget, id: "opp_comm_sales_budget", },
         
     {
       name: "Description",

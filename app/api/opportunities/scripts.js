@@ -16,7 +16,7 @@ export const createOpportunityRequest = async (
   let valid = true;
   let message = "";
   const validationFields = ["opp_title", "customer_id", "enduser_id", "enduser_project", "opp_value", "opp_currency",
-    "opp_sale_stage", "opp_pursuit_progress", "opp_business_line", "opp_commited_sales_budget", "opp_industry", 
+    "opp_sale_stage", "opp_pursuit_progress", "opp_business_line", "opp_comm_sales_budget", "opp_industry", 
     "opp_owner_id", "region", "bidding_unit", "project_type", "opp_type"
   ];
   
@@ -62,7 +62,7 @@ export const updateOpportunityRequest = async (
   let valid = true;
   let message = "";
   const validationFields = ["opp_title", "customer_id", "enduser_id", "enduser_project", "opp_value", "opp_currency",
-    "opp_sale_stage", "opp_pursuit_progress", "opp_business_line", "opp_commited_sales_budget", "opp_industry", 
+    "opp_sale_stage", "opp_pursuit_progress", "opp_business_line", "opp_comm_sales_budget", "opp_industry", 
     "opp_owner_id", "region", "bidding_unit", "project_type", "opp_type"
   ];
   

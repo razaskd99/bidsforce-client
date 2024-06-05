@@ -4,6 +4,7 @@ import './style.css'
 import Head from 'next/head'
 import ReactDOM from 'react-dom';
 import Image from 'next/image'
+import NextTopLoader from 'nextjs-toploader';
 
 const rubik = Rubik({
   weight: ['300', '400', '500', '600', '700'],
@@ -41,6 +42,29 @@ export default function RootLayout({ children }) {
 
             </div>
           </h3>
+          <NextTopLoader
+
+          color="#2299DD"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+          template='<div class="bar" role="bar"><div class="peg"></div></div> 
+          <section className="dots-ease-loader-main">
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+            </section>'
+          zIndex={1600}
+          showAtBottom={true}
+          
+          />
         {children}
 
       </body>

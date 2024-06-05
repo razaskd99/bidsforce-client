@@ -85,7 +85,7 @@ const NewOpportunity = (props) => {
     opp_sale_stage: modalData && modalData.opp_sale_stage ? modalData.opp_sale_stage : "",
     opp_pursuit_progress: modalData && modalData.opp_pursuit_progress ? modalData.opp_pursuit_progress : "",
     opp_business_line: modalData && modalData.opp_business_line ? modalData.opp_business_line : "",
-    opp_commited_sales_budget: modalData && modalData.opp_commited_sales_budget ? modalData.opp_commited_sales_budget : "",
+    opp_comm_sales_budget: modalData && modalData.opp_comm_sales_budget ? modalData.opp_comm_sales_budget : "",
     opp_industry: modalData && modalData.opp_industry ? modalData.opp_industry : "",
     opp_owner_id: modalData && modalData.opp_owner_id ? modalData.opp_owner_id : accountOwnerID,
     region: modalData && modalData.region ? modalData.region : "",
@@ -390,18 +390,18 @@ const NewOpportunity = (props) => {
               <TextField
                 fullWidth
                 select
-                name="opp_commited_sales_budget"
+                name="opp_comm_sales_budget"
                 label="Opportunity Committed for Sales Budget"
                 variant="outlined"
                 onChange={handleChangeValues}
-                defaultValue={isEdit && !isFormDataChanged ? modalData?.opp_commited_sales_budget : formData.opp_commited_sales_budget}
+                defaultValue={isEdit && !isFormDataChanged ? modalData?.opp_comm_sales_budget : formData.opp_comm_sales_budget}
                 >
                 <MenuItem value="">Select Opportunity Committed for Sales Budget *</MenuItem>
                 {oppCommForSalesBudgetList && oppCommForSalesBudgetList?.map(option => (
                   <MenuItem 
                     key={option.title} 
                     value={option.title}
-                    selected={modalData?.opp_commited_sales_budget ? (modalData?.opp_commited_sales_budget === option.title ? true : false) : (formData.opp_commited_sales_budget === option.title ? true : false)}  
+                    selected={modalData?.opp_comm_sales_budget ? (modalData?.opp_comm_sales_budget === option.title ? true : false) : (formData.opp_comm_sales_budget === option.title ? true : false)}  
                   >
                     {option.title}
                   </MenuItem>

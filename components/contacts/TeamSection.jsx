@@ -24,7 +24,7 @@ const TeamSection = () => {
                         {/* Overlapping user images */}
                         <div className="flex -space-x-3">
                             {teamMembers.slice(0, 3).map((member) => (
-                                <Image key={member.id} src={member.image} alt={member.name} width={32} height={32} className="w-8 h-8 rounded-full ring-2 ring-white "/>
+                                <img key={member.id} src={member.image} alt={member.name} width={32} height={32} className="w-8 h-8 rounded-full ring-2 ring-white "/>
                             ))}
                             <div className="w-8 h-8 rounded-full bg-gray-100 text-[#98A9BC] text-xs text-center flex items-center justify-center">+ {teamMembers.length - 3}</div>
                         </div>
@@ -34,7 +34,7 @@ const TeamSection = () => {
                     {teamMembers.map((member) => (
                         <div key={member.id} className="grid grid-cols-6 items-center w-full bg-white text-[#98A9BC] p-2 gap-x-4">
                             <span className='flex items-center gap-2 text-black font-semibold'>
-                                <Image src={member.image} alt={member.name} width={40} height={40} className="w-10 h-10 rounded-full" />
+                                <img src={member.image} alt={member.name} width={40} height={40} className="w-10 h-10 rounded-full" />
                                 <Typography variant="subtitle1">{member.name}</Typography>
                             </span>
                             <Typography variant="body2">{member.designation}</Typography>
