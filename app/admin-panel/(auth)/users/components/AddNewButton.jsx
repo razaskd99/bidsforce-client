@@ -2,36 +2,39 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import UserInfoModal from "./UserInfoModal";
 
-//import CustomerInfoModal from "./CustomerInfoModal";
 export default function AddNewButton(props) {
-  //const [openDesignationModal, setOpenDesignationModal] = useState(false);
-  const [openTeamModal, setOpenTeamModal] = useState(false);
-  const [openCustomerModal, setOpenCustomerModal] = useState(false);
+  const [openUserModal, setOpenUserModal] = useState(false);
 
-  const handleCancel = () => {
-    //setOpenModal(false)
-    props.setOpenDesignationModal(false);
-  };
+  const handleOpen = ()=>{
+    setOpenUserModal(true)
+  }
+
+  const handleClose = ()=>{
+    setOpenUserModal(false)
+  }
 
   return (
     <>
-      {props.buttonName === "customer" && (
+      {
         <button
-          onClick={() => setOpenCustomerModal(true)}
+          onClick={handleOpen}
           type="button"
           className="btn btn-sm btn-secondary waves-effect justify-between"
         >
-          <span className="tf-icons mdi mdi-plus me-1"></span>New Customer
+          <span className="tf-icons mdi mdi-plus me-1"></span>New User
         </button>
-      )}
+      } 
 
-      {/* {openCustomerModal && (
-        <CustomerInfoModal
-          setOpenCustomerModal={setOpenCustomerModal}
+      {openUserModal && (
+        <UserInfoModal
+          isOpen={openUserModal}
+          handleClose={handleClose}
           buttonType={props.buttonType}
+          tenantDetails={props.tenantDetails} 
         />
-      )} */}
+      )}
     </>
   );
 }

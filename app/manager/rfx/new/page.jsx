@@ -1,6 +1,6 @@
 'use client'
 import Breadcrumbs from "@/components/Breadcrumbs";
-import SearchTable from "@/components/SearchTable";
+//import OpportunityTable from "@/components/OpportunityTable";
 import Link from 'next/link'
 import { useState } from "react";
 
@@ -41,7 +41,7 @@ const NewRfx = () => {
                     {!searchResults && <Link href="/manager/rfx/newfx" className="text-[#26BADA] text-xs cursor-pointer uppercase ">Create RFQ Manually</Link>}
                 </div>
             </div>
-            {searchResults && <SearchTable rows={rows}   />}
+            {/*searchResults && <OpportunityTable rows={rows}   />*/}
 
         </>
 

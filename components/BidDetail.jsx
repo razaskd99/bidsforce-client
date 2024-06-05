@@ -17,7 +17,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import BidDialog from "@/components/BidRequestDailogue";
 import { IoIosSearch, IoMdAddCircleOutline } from "react-icons/io";
 import { LuFilter } from "react-icons/lu";
-import SearchTable from "@/components/SearchTable";
+//import OpportunityTable from "./OpportunityTable";
 import { FaRegFilePdf, FaFileExcel, FaRegFileImage } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa";
 import DragDrop from "@/components/FileInput";
@@ -4756,13 +4756,13 @@ const BidDetail = ({
 
         {active === "Bid Documents" && (
           <div>
-            {!documentDetail && (
-              <SearchTable
+            {/*!documentDetail && (
+              <OpportunityTable
                 rows={documentRow}
                 handleRowClick={handleDocRowClick}
                 NoRowsOverlay={NoRowsOverlayDocuments}
               />
-            )}
+            )*/}
             {documentDetail && (
               <div className="flex p-8 ">
                 <div className="flex-[3]">
@@ -5970,12 +5970,12 @@ const BidDetail = ({
                 </div>
               </div>
             )}
-            {showOrderDone && (
-              <SearchTable
+            {/*showOrderDone && (
+              <OpportunityTable
                 rows={[]}
                 NoRowsOverlay={NoRowsOverlayOrderHandover}
               />
-            )}{" "}
+            )*/}{" "}
           </div>
         )}
       </div>

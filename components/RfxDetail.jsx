@@ -17,7 +17,6 @@ import Link from "next/link";
 import { LuRefreshCcw } from "react-icons/lu";
 import BidDialog from "@/components/BidRequestDailogue";
 import { IoIosSearch, IoMdAddCircleOutline } from "react-icons/io";
-import SearchTable from "@/components/SearchTable";
 import { FaRegFilePdf } from "react-icons/fa";
 import DragDrop from "@/components/FileInput";
 import { FaRegFileImage } from "react-icons/fa";
@@ -400,7 +399,7 @@ const RfxDetail = ({
         );
         let c3 = await movetoNextStageAction(rfxRecord.rfx_id);
         let c4 = await getRfxById(rfxRecord.rfx_id);
-        let c5 = await changeRfxStatusJSON(c2?.rfxData?.status, stages[currentStageIndex].displayName);
+        let c5 = await changeRfxStatusJSON(c4?.rfxData?.status, stages[currentStageIndex].displayName);
       } else if (stages[currentStageIndex].stage == "RFx Clarifications") {
         let c1 = await movetoNextStageAction(rfxRecord.rfx_id);
         let c2 = await getRfxById(rfxRecord.rfx_id);

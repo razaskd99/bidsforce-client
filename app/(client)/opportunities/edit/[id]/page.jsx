@@ -1,4 +1,4 @@
-import { getOpportunityByID } from "@/app/api/opportunities/scripts";
+//import { getOpportunityByID } from "@/app/api/opportunities/scripts";
 import EditOpportunity from "@/components/EditOpportunity";
 import getConfig from "next/config";
 
@@ -8,7 +8,9 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import { hideMainLoader102 } from "@/app/api/util/utility";
-import { getAllCompanyRecordsAction } from "@/app/api/rfx/actions/rfx";
+import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
+
+
 // end login init
 
 const AddRfx = async ({ params }) => {
@@ -29,12 +31,12 @@ const AddRfx = async ({ params }) => {
   let tokens = res?.tokenData?.access_token;
 
   // call all  request
-  let records = await getOpportunityByID(apiBackendURL, tokens, tenantID, id);
-  let opportunityRec = records.opportunityData;
+  //let records = await getOpportunityByid(apiBackendURL, tokens, tenantID, id);
+  let opportunityRec = []//records.opportunityData;
 
   // get all company
-  records = await getAllCompanyRecordsAction();
-  let companyRecords = records.returnData;
+  records = await getAllAccountRecordsAction('');
+  let accountRecords = records.returnData;
 
   // check user is login
   let isLogin = await getCookieValue("loginStatus");
@@ -44,10 +46,10 @@ const AddRfx = async ({ params }) => {
       redirect("/login");
     }
   }
-
+console.log(opportunityRec)
   return (
     <>
-      <EditOpportunity data={opportunityRec} companyRecords={companyRecords}/>
+      <EditOpportunity data={opportunityRec} accountRecords={accountRecords}/>
     </>
   );
 };

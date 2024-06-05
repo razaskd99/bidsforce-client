@@ -10,30 +10,35 @@ import { getCookieValue } from "@/lib/scripts";
 
 const data1 = [
   { icon: "/ico.svg", text: "Dashboard", link: "/dashboard", },
+  { icon: "/doc.png", text: "Accounts", link: "/accounts", },
   { icon: "/doc.png", text: "opportunities", link: "/opportunities", },
   { icon: "/bids.svg", text: "rfx", link: "/rfx", },
   { icon: "/bids.svg", text: "Bids", link: "/bids", },
+  { icon: "/bids.svg", text: "Bids", link: "/bids", },
+  { icon: "/bids.svg", text: "Orders", link: "/orders", },
   { icon: "/desk.png", text: "my desk", link: "/my-desk", },
   { icon: "/doc.png", text: "approvals", link: "/approvals", },
   { icon: "/doc.png", text: "doc vault", link: "/doc-vault", },
   { icon: "/calendar.png", text: "time tracker", link: "/time-tracker", },
   { icon: "/calendar.png", text: "Calendar", link: "/calendar", },
-  { icon: "/contacts.png", text: "contacts", link: "/contacts", },
+  { icon: "/contacts.png", text: "Users", link: "/users", },
   { icon: "/contacts.png", text: "resources", link: "/resources", },
   { icon: "/contacts.png", text: "settings", link: "/admin-panel", },
 ];
 
 const data2 = [
   { icon: "/ico.svg", text: "Dashboard", link: "/dashboard", },
+  { icon: "/doc.png", text: "Accounts", link: "/accounts", },
   { icon: "/doc.png", text: "opportunities", link: "/opportunities", },
   { icon: "/bids.svg", text: "rfx", link: "/rfx", },
   { icon: "/bids.svg", text: "bids", link: "/bids", },
+  { icon: "/bids.svg", text: "Orders", link: "/orders", },
   { icon: "/desk.png", text: "my desk", link: "/my-desk", },
   { icon: "/doc.png", text: "approvals", link: "/approvals", },
   { icon: "/doc.png", text: "doc vault", link: "/doc-vault", },
   { icon: "/calendar.png", text: "time tracker", link: "/time-tracker", },
   { icon: "/calendar.png", text: "Calendar", link: "/calendar", },
-  { icon: "/contacts.png", text: "contacts", link: "/contacts", },
+  { icon: "/contacts.png", text: "Users", link: "/users", },
   { icon: "/contacts.png", text: "resources", link: "/resources", },
   { icon: "/contacts.png", text: "settings", link: "/admin-panel", },
 ];

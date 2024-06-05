@@ -10,7 +10,7 @@ import Link from "next/link";
 import { LuRefreshCcw } from "react-icons/lu";
 import BidDialog from '@/components/BidRequestDailogue';
 import { IoIosSearch, IoMdAddCircleOutline } from "react-icons/io";
-import SearchTable from '@/components/SearchTable';
+import OpportunityTable from './OpportunityTable';
 import { FaRegFilePdf, FaFileExcel, FaRegFileImage } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa";
 import DragDrop from '@/components/FileInput';
@@ -2902,7 +2902,7 @@ const BidDetail = ({
                 </div>}
 
                 {active === 'Bid Documents' && <div>
-                    {!documentDetail && <SearchTable rows={documentRow} handleRowClick={handleDocRowClick} NoRowsOverlay={NoRowsOverlayDocuments} />
+                    {!documentDetail && <OpportunityTable rows={documentRow} handleRowClick={handleDocRowClick} NoRowsOverlay={NoRowsOverlayDocuments} />
                     }
                     {documentDetail &&
                         <div className='flex p-8 '>
@@ -3078,7 +3078,7 @@ const BidDetail = ({
 
                 {active === 'Bid Clarifications' &&
                     <div>
-                        {!showBidClarificationDetial && <SearchTable rows={Bidrows} NoRowsOverlay={NoRowsOverlayBidClarification} handlRowDetail={() => { setShowBidClarificationDetial(false) }} />}
+                        {!showBidClarificationDetial && <OpportunityTable rows={Bidrows} NoRowsOverlay={NoRowsOverlayBidClarification} handlRowDetail={() => { setShowBidClarificationDetial(false) }} />}
 
                         {showBidClarificationDetial && <div className="flex gap-6">
                             <div className="flex flex-[3] flex-col p-5">
@@ -3251,7 +3251,7 @@ const BidDetail = ({
                             <button><IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" /></button>
                         </div>
                     </div>
-                    {/* <SearchTable rows={documentRow} NoRowsOverlay={NoRowsOverlayOrder} /> */}
+                    {/* <OpportunityTable rows={documentRow} NoRowsOverlay={NoRowsOverlayOrder} /> */}
                     <div className="flex gap-3">
                         <div className="flex-[3] p-5 flex flex-col gap-8">
                             <div className=" flex items-center gap-1 text-[#00AAEC] cursor-pointer" onClick={() => setClarificationDetail(false)}>
@@ -3499,7 +3499,7 @@ const BidDetail = ({
                         </div>
 
                     </div>}
-                    {showOrderDone && <SearchTable rows={[]} NoRowsOverlay={NoRowsOverlayOrderHandover} />
+                    {showOrderDone && <OpportunityTable rows={[]} NoRowsOverlay={NoRowsOverlayOrderHandover} />
                     }                </div>}
             </div>
 

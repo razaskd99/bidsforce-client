@@ -7,11 +7,11 @@ import {
   updateCustomerRequest,
 } from "@/app/api/admin-panel/scripts";
 
-import {
+/*import {
   getAllCompanyRecordsAction,
   getAllDesignationRecordsAction,
 } from "@/app/api/admin-panel/actions/user";
-
+*/
 export default function CustomerInfoModal(props) {
   const [openModal, setOpenModal] = useState(true);
   const [companyList, setCompanyList] = useState([]);

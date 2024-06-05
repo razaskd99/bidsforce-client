@@ -2,16 +2,100 @@
 
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
-export const updateOpportunityAction = async (formData, opp_id) => {
+
+// create
+export const createOpportunityAction = async (formData) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  const apiUrl = `${apiBackendURL}opportunity/Opportunity/`;
+
+  const now = new Date();
+  const formattedTimestamp = now.toISOString();
+  const formatedDate = now.toISOString().split("T")[0];
+
+  //const expected_award_date = new Date(formData.expected_award_date).toISOString().split("T")[0];
+  // const expected_rfx_date = new Date(formData.expected_rfx_date).toISOString().split("T")[0];
+  // const close_date = new Date(formData.close_datae).toISOString().split("T")[0];
+
+  const headers = new Headers({
+    cache: "no-store",
+    Accept: "application/json",
+    Authorization: `Bearer ${tokens}`,
+    "Content-Type": "application/json",
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify({
+      "tenant_id":tenantID,
+      "account_id": 0,
+      "opp_number": formData.opp_number,
+      "opp_title": formData.opp_title,
+      "customer_id": formData.customer_id,
+      "enduser_id": formData.enduser_id,
+      "enduser_project": formData.enduser_project,
+      "opp_value": formData.opp_value,
+      "opp_currency": formData.opp_currency,
+      "opp_sale_stage": formData.opp_sale_stage,
+      "opp_pursuit_progress": formData.opp_pursuit_progress,
+      "opp_business_line": formData.opp_business_line,
+      "opp_commited_sales_budget": formData.opp_commited_sales_budget,
+      "opp_industry": formData.opp_industry,
+      "opp_owner_id": formData.opp_owner_id,
+      "region": formData.region,
+      "bidding_unit": formData.bidding_unit,
+      "project_type": formData.project_type,
+      "opp_type": formData.opp_type,
+      "description": formData.description ? formData.description : '',
+      "status": formData.status ? formData.status : '',
+      "expected_award_date": formData.expected_award_date ? formData.expected_award_date : formatedDate,
+      "expected_rfx_date": formData.expected_rfx_date ? formData.expected_rfx_date : formatedDate,
+      "close_date": formData.close_date ? formData.close_date : formatedDate,
+      "updated_at": formattedTimestamp,
+      "created_at": formattedTimestamp,
+      "data": ""
+    }),
+  };
+  
+  try {
+    const response = await fetch(apiUrl, requestOptions);
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request Failed for Opportunity",
+      };
+    }
+
+    const result = await response.json();
+
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for Opportunity",
+    };
+  }
+};
+
+
+// update
+export const updateOpportunityAction = async (formData, opportunity_id) => {
     const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-    const apiUrl = `${apiBackendURL}opportunity/Opportunity/id/${opp_id}`;
+    const apiUrl = `${apiBackendURL}opportunity/Opportunity/id/${opportunity_id}`;
   
     const now = new Date();
     const formattedTimestamp = now.toISOString();
     const formatedDate = now.toISOString().split("T")[0];
 
-    const expected_award_date = new Date(formData.expected_award_date).toISOString().split("T")[0];
-    const expected_rfx_date = new Date(formData.expected_rfx_date).toISOString().split("T")[0];
+    //const expected_award_date = new Date(formData.expected_award_date).toISOString().split("T")[0];
+    //const expected_rfx_date = new Date(formData.expected_rfx_date).toISOString().split("T")[0];
 
     const headers = new Headers({
       cache: "no-store",
@@ -24,38 +108,33 @@ export const updateOpportunityAction = async (formData, opp_id) => {
       method: "PUT",
       headers: headers,
       body: JSON.stringify({
-
         "tenant_id":tenantID,
-        "company_id": formData.company_id,
+        "account_id": 0,
+        "opp_number": formData.opp_number,
+        "opp_title": formData.opp_title,
         "customer_id": formData.customer_id,
-        "title": formData.title,
-        "type": formData.type,
-        "probability": "",
-        "total_value": parseInt(formData.total_value),
-        "crm_id": parseInt(formData.crm_id),
-        "customer_name": formData.customer_name,
-        "end_user_name": formData.end_user_name,
+        "enduser_id": formData.enduser_id,
+        "enduser_project": formData.enduser_project,
+        "opp_value": formData.opp_value,
+        "opp_currency": formData.opp_currency,
+        "opp_sale_stage": formData.opp_sale_stage,
+        "opp_pursuit_progress": formData.opp_pursuit_progress,
+        "opp_business_line": formData.opp_business_line,
+        "opp_commited_sales_budget": formData.opp_commited_sales_budget,
+        "opp_industry": formData.opp_industry,
+        "opp_owner_id": formData.opp_owner_id,
         "region": formData.region,
-        "industry_code": formData.industry_code,
-        "business_unit": formData.business_unit,
+        "bidding_unit": formData.bidding_unit,
         "project_type": formData.project_type,
-        "delivery_duration": "",
-        "stage": formData.stage,
-        "status": formData.status,
-        "expected_award_date": expected_award_date,
-        "expected_rfx_date": expected_rfx_date,
-        "close_date": formatedDate,
-        "competition": "",
-        "gross_profit_percent": 0,
-        "gross_profit_value": 0,
-        "description": formData.description,
-        "last_updated_at": formattedTimestamp,
-        "forcasted": formData.forecasted,
-        "end_user_project": formData.end_user_project,
-        "opportunity_currency": formData.opportunity_currency,
-        "sales_persuit_progress": formData.sales_persuit_progress,
-        "opportunity_owner": formData.opportunity_owner,
-        "bidding_unit": formData.bidding_unit 
+        "opp_type": formData.opp_type,
+        "description": formData.description ? formData.description : '',
+        "status": formData.status ? formData.status : '',
+        "expected_award_date": formData.expected_award_date ? formData.expected_award_date : formatedDate,
+        "expected_rfx_date": formData.expected_rfx_date ? formData.expected_rfx_date : formatedDate,
+        "close_date": formData.close_date ? formData.close_date : formatedDate,
+        "updated_at": formattedTimestamp,
+        "created_at": formattedTimestamp,
+        "data": ""
       }),
     };
 
@@ -87,3 +166,158 @@ export const updateOpportunityAction = async (formData, opp_id) => {
     }
   };
   
+
+  
+export const getMaxOpportunityByID = async () => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  const url = `${apiBackendURL}opportunity/opportunity/max_id`;
+
+    try{
+      const response = await fetch(url, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        },
+        redirect: "follow",
+      });
+
+      if (!response.ok) {
+        return {
+          statusCode: "400",
+          returnData: [],
+          error: response.statusText || "Request failed for Opportunity",
+        };
+      }
+
+      const result = await response.json();
+
+      return {
+        statusCode: 200,
+        returnData: result,
+      };
+    } catch (error) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: error.message || "Request failed for Opportunity",
+      }
+    };
+};
+
+
+
+export const getAllOppotunitiesRecords = async (searchTermValue, offset, limit) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+
+  try {
+    const url = `${apiBackendURL}opportunity/Opportunity/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
+    const response = await fetch(url, {
+      cache: "no-store",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request failed for Opportunity",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for Opportunity",
+    };
+  }
+};
+
+
+export const getOpportunityByID = async (id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  try {
+      const url = `${apiBackendURL}opportunity/Opportunity/id/${id}`;
+
+
+      const response = await fetch(url, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        },
+        redirect: "follow",
+      });
+  
+      if (!response.ok) {
+        return {
+          statusCode: "400",
+          returnData: [],
+          error: response.statusText || "Request failed for Opportunity",
+        };
+      }
+  
+      const result = await response.json();
+  
+      return {
+        statusCode: 200,
+        returnData: result,
+      };
+    } catch (error) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: error.message || "Request failed for Opportunity",
+      };
+    }
+  };
+
+
+// delete opportunity from db
+export const deleteOpportunityRecordByIdAction = async (opportunity_id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  try {
+    let  apiUrl = `${apiBackendURL}opportunity/Opportunity/id/${opportunity_id}`;
+    
+    const response = await fetch(apiUrl, {
+      cache: "no-store",
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request failed for Opportunity",
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for Opportunity",
+    };
+  }
+};

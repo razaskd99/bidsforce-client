@@ -6,17 +6,13 @@ import {
 } from "./utility";
 import {
   getAllUserRecordsAction,
-  getAllCompanyRecordsAction,
   getAllDesignationRecordsAction,
   getAllTeamRecordsAction,
   createUserAction,
   deleteUserRecordAction,
   updateUserRecordAction,
-  createCompanyAction,
   createDesignationAction,
   createTeamAction,
-  deleteCompanyRecordAction,
-  updateCompanyAction,
   deleteDesignationRecordAction,
   updateDesignationAction,
   deleteTeamRecordAction,
@@ -44,7 +40,7 @@ import {
   updatePhaseStageRecordAction,
   deletePhaseStageRecordAction,
 } from "./actions/phaseStages";
-import { uploadSingleFile } from "../util/utility";
+import { hideMainLoader102, showMainLoader102, uploadSingleFile } from "../util/utility";
 import {
   createPersonaAction,
   deletePersonaRecordAction,
@@ -52,293 +48,9 @@ import {
 } from "./actions/persona";
 import { createDocUploadAction } from "../rfx/actions/rfx";
 import { uploadImagesOnBlob } from "../util/vercelFileHandler";
+import { revalidatePath } from "next/cache";
+import { Route } from "lucide-react";
 
-// Client request to create User
-export const createUserRequest = async (
-  e,
-  apiBackendURL,
-  accessToken,
-  tenantID,
-  companyName,
-  desigination,
-  team,
-  activeUser,
-  selectedFile,
-  folderName,
-  fileData
-) => {
-  e.preventDefault();
-
-  const formData = {
-    tenant_id: tenantID,
-    company_id: companyName,
-    designation_id: desigination,
-    team_id: team,
-    active: activeUser,
-    first_name: document.getElementById("first_name")
-      ? document.getElementById("first_name").value
-      : "",
-    last_name: document.getElementById("last_name")
-      ? document.getElementById("last_name").value
-      : "",
-    email: document.getElementById("email")
-      ? document.getElementById("email").value
-      : "",
-    user_name: document.getElementById("user_name")
-      ? document.getElementById("user_name").value
-      : "",
-    password: document.getElementById("password")
-      ? document.getElementById("password").value
-      : "",
-    cpassword: document.getElementById("cpassword")
-      ? document.getElementById("cpassword").value
-      : "",
-    user_profile_photo: selectedFile.name ? selectedFile.name : "",
-    egistration_date: "2024-01-25",
-    last_login_at: "2024-01-25",
-    created_at: "2024-01-25T14:04:20.334Z",
-    updated_at: "2024-01-25T14:04:20.334Z",
-  };
-
-  // const companyid = document.getElementById("company_id");
-  // console.log(companyid);
-  // formData.company_id = companyid.options[companyid.selectedIndex].value;
-
-  // const designationid = document.getElementById("designation_id");
-  // formData.designation_id =
-  //   designationid.options[designationid.selectedIndex].value;
-
-  // const teamid = document.getElementById("team_id");
-  // formData.team_id = teamid.options[teamid.selectedIndex].value;
-
-  // const isactive = document.getElementById("is_active");
-  // const is_active = isactive.options[isactive.selectedIndex].value;
-  // formData.active =
-  //   isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
-  // formData.verified =
-  //   isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
-
-  let valid = true;
-  let message = "";
-  let title = "Validation Error:";
-  const validationFields = [
-    "first_name",
-    "last_name",
-    "user_name",
-    "email",
-    "password",
-    "cpassword",
-  ];
-
-  validationFields.forEach((element) => {
-    if (!formData[element]) {
-      valid = false;
-      message = "Fill all the required fields to process registraion.";
-    }
-  });
-
-  if (
-    !formData.company_id ||
-    !formData.designation_id ||
-    !formData.team_id ||
-    (!formData.team_id && !is_active)
-  ) {
-    valid = false;
-    message = "Select the business logic options to proceede registration.";
-  }
-
-  if (valid && formData.password != formData.cpassword) {
-    valid = false;
-    message = "Password and Confirm Password are different.";
-  }
-
-  if (valid && !isValidEmail(formData.email)) {
-    valid = false;
-    message = "Email is not in the valid format.";
-  }
-
-  let success = true;
-  if (valid) {
-    // upload file
-    if (selectedFile && selectedFile.name) {
-      if (process.env.IS_LOCAL === "local") {
-        // upload file on local or AWS
-        /*let resp = await uploadSingleFile(
-          selectedFile,
-          apiBackendURL,
-          tenantID,
-          folderName
-        );
-        formData.user_profile_photo =
-          "tenant-" + tenantID + "/" + folderName + selectedFile.name;
-        console.log("Running on localhost");*/
-        // upload file on blob
-        const uploaded = await uploadImagesOnBlob(fileData);
-        formData.user_profile_photo = uploaded[0].url;
-      } else {
-        // upload file on blob
-        const uploaded = await uploadImagesOnBlob(fileData);
-        formData.user_profile_photo = uploaded[0].url;
-        console.log("Running on Vercel or different environment");
-      }
-    }
-    // create user
-    let res = await createUserAction(apiBackendURL, accessToken, formData);
-    if (res.statusCode === 200) {
-      window.location = "/admin-panel/users";
-    } else {
-      valid = false;
-      title = "Server Error:";
-      message = res.error;
-    }
-  } else {
-  }
-
-  if (!valid || !success) {
-    showError(title, message);
-  }
-};
-
-// Client request to delete
-export const deleteUserRequest = async (
-  e,
-  user_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  e.preventDefault();
-
-  const userConfirmed = window.confirm(
-    "Are you sure want to delete User? This will delete user's all data."
-  );
-
-  if (userConfirmed) {
-    let res = await deleteUserRecordAction(
-      user_id,
-      apiBackendURL,
-      tokens,
-      tenantID
-    );
-    if (res) {
-      window.location.reload();
-    } else {
-      // showError("Server Error:", res.returnData.error*/);
-      window.location.reload();
-    }
-  }
-};
-
-// Client request to update user
-export const updateUserRequest = async (
-  e,
-  user_id,
-  apiBackendURL,
-  tokens,
-  tenantID,
-  selectedFile,
-  fileData
-) => {
-  e.preventDefault();
-
-  let formData = {
-    company_id: 0,
-    designation_id: 0,
-    team_id: 0,
-    is_active: true,
-    first_name: document.getElementById("first_name")
-      ? document.getElementById("first_name").value
-      : "",
-    last_name: document.getElementById("last_name")
-      ? document.getElementById("last_name").value
-      : "",
-    password: document.getElementById("password")
-      ? document.getElementById("password").value
-      : "",
-    cpassword: document.getElementById("cpassword")
-      ? document.getElementById("cpassword").value
-      : "",
-    user_profile_photo: document.getElementById("user_profile_photo")
-      ? document.getElementById("user_profile_photo").value
-      : "",
-  };
-
-  const companyid = document.getElementById("company_id");
-  formData.company_id = parseInt(
-    companyid.options[companyid.selectedIndex].value
-  );
-
-  const designationid = document.getElementById("designation_id");
-  formData.designation_id = parseInt(
-    designationid.options[designationid.selectedIndex].value
-  );
-
-  const teamid = document.getElementById("team_id");
-  formData.team_id = parseInt(teamid.options[teamid.selectedIndex].value);
-
-  const is_active = document.getElementById("is_active");
-  formData.is_active =
-    is_active.options[is_active.selectedIndex].value == "Active" ? true : false;
-
-  let valid = true;
-  if (
-    !formData.company_id ||
-    !formData.designation_id ||
-    !formData.team_id ||
-    !formData.first_name ||
-    !formData.last_name
-  ) {
-    showError("Validtaion Error", "Please fill the required field.");
-    return;
-  }
-
-  if (valid && formData.password) {
-    if (formData.password != formData.cpassword) {
-      showError(
-        "Validtaion Error",
-        "Password and Confirm Password are different."
-      );
-    }
-    return;
-  }
-
-  if (valid) {
-    // upload file
-    if (selectedFile && selectedFile.name) {
-      if (process.env.IS_LOCAL === "local") {
-        // upload file on local or AWS
-        let resp = await uploadSingleFile(
-          selectedFile,
-          apiBackendURL,
-          tenantID,
-          folderName
-        );
-        formData.user_profile_photo =
-          "tenant-" + tenantID + "/" + folderName + selectedFile.name;
-        console.log("Running on localhost");
-      } else {
-        // upload file on blob
-        const uploaded = await uploadImagesOnBlob(fileData);
-        formData.user_profile_photo = uploaded[0].url;
-        console.log("Running on Vercel or different environment");
-      }
-    }
-    // update user info
-    let res = await updateUserRecordAction(
-      formData,
-      user_id,
-      apiBackendURL,
-      tokens,
-      tenantID
-    );
-    if (res.statusCode === 200) {
-      window.location.reload();
-    } else {
-      showError("Server Error:", res.returnData.error);
-    }
-  } else {
-  }
-};
 
 // Client request to get all company
 export const getAllUserRequest = async (
@@ -376,199 +88,6 @@ export const getAllDesignationRequest = async (
   }
 };
 
-///////////////////////// Company methods
-
-// Client request to get all company
-export const getAllCompanyRequest = async (apiBackendURL, tokens, tenantID) => {
-  let res = await getAllCompanyRecordsAction(apiBackendURL, tokens, tenantID);
-  if (res.statusCode === 200) {
-    return res;
-  }
-};
-
-// Client request to create company
-export const createCompanyRequest = async (
-  e,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  e.preventDefault();
-
-  const formData = {
-    company_name: document.getElementById("m1_company_name")
-      ? document.getElementById("m1_company_name").value
-      : "",
-    phone: document.getElementById("m1_phone")
-      ? document.getElementById("m1_phone").value
-      : "",
-    email: document.getElementById("m1_email")
-      ? document.getElementById("m1_email").value
-      : "",
-    address: document.getElementById("m1_address")
-      ? document.getElementById("m1_address").value
-      : "",
-    industry: document.getElementById("m1_industry")
-      ? document.getElementById("m1_industry").value
-      : "",
-    website: document.getElementById("m1_website")
-      ? document.getElementById("m1_website").value
-      : "",
-    company_logo: document.getElementById("m1_company_logo")
-      ? document.getElementById("m1_company_logo").value
-      : "",
-    company_type: document.getElementById("m1_company_type")
-      ? document.getElementById("m1_company_type").value
-      : "",
-  };
-  
-  let valid = true;
-  let message = "";
-  const validationFields = ["company_name", "phone", "email", "industry", "company_type"];
-
-  validationFields.forEach((element) => {
-    if (!formData[element]) {
-      valid = false;
-      message = "Please fill the required fields.";
-    }
-  });
-
-  if (valid && !isValidEmail(formData.email)) {
-    valid = false;
-    message = "Invalid email address.";
-  }
-
-  let success = true;
-  if (valid) {
-    let res = await createCompanyAction(
-      formData,
-      apiBackendURL,
-      tokens,
-      tenantID
-    );
-    if (res.statusCode === 200) {
-      document.getElementById("modalform1").reset();
-      showModalSuccess("New details added successfully.");
-      window.location.reload();
-    } else {
-      valid = false;
-      message = res.error;
-    }
-  }
-
-  if (!valid || !success) {
-    showModalError(message);
-  }
-};
-
-// Client request to update company
-export const updateCompanyRequest = async (
-  e,
-  company_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  e.preventDefault();
-
-  const formData = {
-    company_name: document.getElementById("m1_company_name")
-      ? document.getElementById("m1_company_name").value
-      : "",
-    phone: document.getElementById("m1_phone")
-      ? document.getElementById("m1_phone").value
-      : "",
-    email: document.getElementById("m1_email")
-      ? document.getElementById("m1_email").value
-      : "",
-    address: document.getElementById("m1_address")
-      ? document.getElementById("m1_address").value
-      : "",
-    industry: document.getElementById("m1_industry")
-      ? document.getElementById("m1_industry").value
-      : "",
-    website: document.getElementById("m1_website")
-      ? document.getElementById("m1_website").value
-      : "",
-    company_logo: document.getElementById("m1_company_logo")
-      ? document.getElementById("m1_company_logo").value
-      : "",
-    company_type: document.getElementById("m1_company_type")
-      ? document.getElementById("m1_company_type").value
-      : "",
-  };
-
-  let valid = true;
-  let message = "";
-  const validationFields = ["company_name", "phone", "email", "industry", "company_type"];
-
-  validationFields.forEach((element) => {
-    if (!formData[element]) {
-      valid = false;
-      message = "Please fill the required fields.";
-    }
-  });
-
-  if (valid && !isValidEmail(formData.email)) {
-    valid = false;
-    message = "Invalid email address.";
-  }
-
-  let success = true;
-  if (valid) {
-    let res = await updateCompanyAction(
-      formData,
-      company_id,
-      apiBackendURL,
-      tokens,
-      tenantID
-    );
-
-    if (res.statusCode === 200) {
-      document.getElementById("modalform1").reset();
-      showModalSuccess("Details updated successfully.");
-      window.location.reload();
-    } else {
-      valid = false;
-      message = res.error;
-    }
-  }
-
-  if (!valid || !success) {
-    showModalError(message)
-  }
-};
-
-// Client request to delete company
-export const deleteCompanyRequest = async (
-  e,
-  company_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  e.preventDefault();
-
-  const userConfirmed = window.confirm(
-    "Are you sure want to delete Company? This will delete user's all data."
-  );
-
-  if (userConfirmed) {
-    let res = await deleteCompanyRecordAction(
-      company_id,
-      apiBackendURL,
-      tokens,
-      tenantID
-    );
-
-    if (res) {
-      window.location.reload();
-    } else {
-      //showError("Server Error:", "Could not delete")
-      window.location.reload();
-    }
-  }
-};
 
 ///////////////////////// Designation methods
 
@@ -1178,7 +697,7 @@ export const updateCustomerRequest = async (
       ? document.getElementById("m5_address").value
       : "",
   };
-  console.log(formData + "dataaaaaa");
+  
   const companyid = document.getElementById("m5_company_id");
   formData.company_id = companyid.options[companyid.selectedIndex].value;
 
@@ -1215,7 +734,6 @@ export const updateCustomerRequest = async (
       tokens,
       tenantID
     );
-    console.log(customer_id);
     if (res.statusCode === 200) {
       message = "Details updated successfully.";
       window.location.reload();
@@ -1342,7 +860,6 @@ export const createOpportunityRequest = async (
       message = "Please fill the required fields.";
     }
   });
-  console.log(formData);
   let success = true;
   if (valid) {
     let res = await createOpportunityAction(
@@ -1486,7 +1003,6 @@ export const updateOpportunityRequest = async (
       message = "Please fill the required fields.";
     }
   });
-  //console.log(formData);
 
   let success = true;
   if (valid) {
@@ -1713,7 +1229,6 @@ export const createPersonaRequest = async (
     valid = false;
     message = "Please select the status.";
   }
-  console.log(formData);
   let success = true;
   if (valid) {
     let res = await createPersonaAction(
@@ -1801,7 +1316,7 @@ export const updatePersonaRequest = async (
   }
 };
 
-// Client request to delete
+// Client request to delete Personal
 export const deletePersonaRequest = async (
   e,
   id,
@@ -1830,3 +1345,6 @@ export const deletePersonaRequest = async (
     }
   }
 };
+
+
+

@@ -17,18 +17,18 @@ import {
 } from "@/app/api/util/utility";
 import { updateOpportunityAction } from "@/app/api/opportunities/action/opportunity";
 
-const EditOpportunity = ({ data ,companyRecords}) => {
+const EditOpportunity = ({ data ,accountRecords}) => {
 
   hideMainLoader102();
-  const [endUserId, setEndUserId] = useState(companyRecords.find((company) => company.company_name === data.company_name).company_id);
-  const [customerId, setCustomerId] = useState(companyRecords.find((company) => company.company_name === data.company_name).company_id);
+  const [endUserId, setEndUserId] = useState(data.company_id);
+  const [customerId, setCustomerId] = useState(data.customer_id);
   const [customerName, setCustomerName] = useState(data.customer_name);
   const [endUserName, setEndUserName] = useState(data.end_user_name);
   const [customerList, setCustomerList] = useState(
-    companyRecords.filter((record) => record.company_type === "Customer")
+    accountRecords.filter((record) => record.company_type === "Customer")
   );
   const [endUserList, setEndUserList] = useState(
-    companyRecords.filter((record) => record.company_type === "End User")
+    accountRecords.filter((record) => record.company_type === "End User")
   );
   const [
     opportunityCommittedForSalesBudget,

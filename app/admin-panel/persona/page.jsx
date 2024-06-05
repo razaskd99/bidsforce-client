@@ -39,7 +39,7 @@ export default async function AdminPanelDesignation() {
 
   const breadcrumbItems = [
     { label: "Home", href: "/admin-panel" },
-    { label: "Bid Validity", href: "/admin-panel/rfx/bid-validity" },
+    { label: "Persona", href: "/admin-panel/persona" },
   ];
 
   return (
@@ -58,7 +58,7 @@ export default async function AdminPanelDesignation() {
       <div className="card">
         <div className="flex justify-between ">
           <div className=" ">
-            <h5 className="card-header">Bid Validity List</h5>
+            <h5 className="card-header">Persona List</h5>
           </div>
           <div className="mt-3 mr-2 ">{'Delete All BUtton'}</div>
         </div>

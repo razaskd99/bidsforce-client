@@ -43,6 +43,27 @@ export const formatDateString = (dateString) => {
   return formattedDate;
 };
 
+export const generatePassword = (length = 15) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+  let password = '';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    password += characters[randomIndex];
+  }
+  return password;
+};
+
+export const getCurrentHostName = () => {
+  if (typeof window !== 'undefined') {
+    const protocol = window.location.protocol;
+    const hostname = window.location.hostname;
+    const baseUrl = `${hostname}`;
+    return baseUrl;
+  } else {
+    return '';
+  }
+};
+
 export const generateUniqueSixDigitNumber = () => {
   const timestamp = new Date().getTime();
   const seed = timestamp % 1000000; // Use the last 6 digits of the timestamp
@@ -68,6 +89,46 @@ export const generateClarifRefNumber = (opp, crm, type) => {
 
   return clarif_ref_num;
 };
+
+ 
+
+export const generateAccountNumber = (value) => {
+  // value ko 8-digit format mein convert karne ke liye ziro fill karte hain
+  if(!value){
+   // const formattedNumber = value.toString().padStart(8, '0');
+    const acc_num = `AC-00000001`
+    return acc_num;
+  }
+  else{
+    const [prefix, numStr] = value.split('-');
+    let num = parseInt(numStr, 10) + 1;
+    let temp = num.toString().padStart(numStr.length, '0')
+    const acc_num = `${prefix}-${temp}`
+    return acc_num;
+  }
+};
+
+export const generateOpportunityNumber = (value) => {
+const timestamp = new Date();
+const fullYear = timestamp.getFullYear();
+
+const lastTwoDigitsOfYear = fullYear.toString().slice(-2);
+if(!value){
+  // const formattedNumber = value.toString().padStart(8, '0');
+    const opp_num = `OPP-${lastTwoDigitsOfYear}-00000001`
+    return opp_num;
+  }
+  else{
+    const [prefix, dat, numStr] = value.split('-');
+    let num = parseInt(numStr, 10) + 1;
+    let temp = num.toString().padStart(numStr.length, '0')
+    const opp_num = `${prefix}-${lastTwoDigitsOfYear}-${temp}`
+    console.log(opp_num)
+    return opp_num;
+  }
+};
+
+
 
 export const formatFileSize = (sizeInBytes) => {
   const KB = 1024;
@@ -111,10 +172,16 @@ export const successMessageAlertMain = (message, title = "Success!") => {
 };
 
 export const showMainLoader102 = () => {
-  try{
-    document.getElementById("mainLoader102").classList.remove("hidden")
-  }catch{}
-}
+  try {
+    const loaderElement = document.getElementById("mainLoader102");
+    if (loaderElement) {
+      loaderElement.classList.remove("hidden");
+      loaderElement.style.zIndex = "9999"; // Set a higher z-index value
+    }
+  } catch (error) {
+    console.error("Error showing main loader:", error);
+  }
+};
 
 export const hideMainLoader102 = () => {
   try{

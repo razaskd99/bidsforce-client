@@ -1,7 +1,8 @@
 .popover__wrapper {
-  position: absolute;
-  left: 55%;
-  top: 55%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
   max-width: 45%;
   display: flex;
@@ -10,6 +11,7 @@
   align-items: center;
   z-index: 30;
 }
+
 .popover__content {
   /* overflow-y: auto; */
   max-height: 95vh;
@@ -59,7 +61,7 @@
   width: 20px;
 }
 .create__btn {
-  background-color: #0079bf;
+  background-color: #26BADA;
   height: 2rem;
   color: white;
   font-size: 15px;
@@ -68,7 +70,6 @@
   margin-bottom: 5px;
 }
 .create__btn:hover {
-  background-color: #026aa7;
   cursor: pointer;
 }
 .h1,

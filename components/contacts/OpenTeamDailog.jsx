@@ -20,7 +20,7 @@ const OpenTeamDailog = ({personaRecords, userRecords}) => {
             New Team
             <Image src="add-blue.svg" width={18} height={21} alt="add" />
         </p> 
-      <SelectTeam isOpen={open} handleClose={handleClose} personaRecords={personaRecords} userRecords={userRecords} />
+      
     </div>
   );
 }

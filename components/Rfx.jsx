@@ -12,7 +12,6 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Navbar from "@/components/Navbar"
 import Sidenav from "@/components/Sidenav"
 import Footer from "@/components/Footer";
-import SearchTable from "@/components/SearchTable";
 
 const RfxList = (props) => {
     

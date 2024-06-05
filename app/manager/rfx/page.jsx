@@ -9,7 +9,6 @@ import { IoIosSearch } from "react-icons/io";
 import DataTable from "@/components/Table";
 import Footer from "@/components/Footer";
 import { useState } from "react";
-import SearchTable from "@/components/SearchTable";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 

@@ -19,7 +19,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   
-
+  
   return (
 
     <html lang="en">
@@ -27,19 +27,20 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={`${rubik.className} `} >
-<h3 className='z-50'>
+        <h3 className='z-50'>
+    
+          <div id="mainLoader102" className="z-50 hidden  fixed inset-0 flex justify-center items-center bg-gray-100 bg-opacity-30 justify-center items-center h-screen">
+              
+            <section className="dots-ease-loader-main">
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+            </section>
 
-  
-      <div id="mainLoader102" className="z-50 hidden fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50 justify-center items-center h-screen">
-            <Image
-        src="/images/loader1.webp"
-        width={150}
-        height={150}
-        alt="Picture of the author"
-      />
-
-        </div>
-        </h3>
+            </div>
+          </h3>
         {children}
 
       </body>

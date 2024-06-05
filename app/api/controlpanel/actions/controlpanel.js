@@ -115,6 +115,47 @@ export const getAllTenantRecordsAction = async (apiBackendURL, accessToken) => {
   }
 };
 
+// get  Tenant by id records from db
+export const getTenantRecordByIDAction = async (tenantID, apiBackendURL, accessToken) => {
+  
+  try {
+    const url = `${apiBackendURL}admin/control-panel/tenants/${tenantID}`;
+    
+    const response = await fetch(url, {
+      cache: 'no-store',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      redirect: 'follow',
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        tenantData: [],
+        error: response.statusText || 'Request failed for Tenant',
+      };
+    }
+
+    const result = await response.json();
+    
+    return {
+      statusCode: 200,
+      tenantData: result,
+    };
+
+  } catch (error) {    
+    return {
+      statusCode: "400",
+      tenantData: [],
+      error: error.message || 'Request failed for Tenant',
+    };
+  }
+};
+
 
 // delelte a Tenant records from db
 export const deleteTenantRecordAction = async (apiBackendURL, accessToken, tenant_id) => {

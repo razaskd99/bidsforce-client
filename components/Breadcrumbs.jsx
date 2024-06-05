@@ -5,7 +5,7 @@ const Breadcrumbs = ({ items }) => {
              {items.map((item, index) => (
                 <li key={index} className="first-letter:relative group">
                     <Link href={item.href} className={item?.inactiveClass }  >
-                        {item.label}
+                        <span className={/*index === 1 ? 'text-slate-500' : ''*/''}>{item.label}</span>
                     </Link>
                     {index < items.length - 1 && <span className="after:content-['>'] after:ml-2 "></span>}
                 </li>

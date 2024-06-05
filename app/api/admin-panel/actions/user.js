@@ -8,197 +8,11 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
+import { formatDateString } from "../../util/utility";
+import { revalidatePath } from "next/cache";
 // end login init
 
-// Add new User record in db
-export const createUserAction = async (apiBackendURL, tokens, formData) => {
-  const apiUrl = `${apiBackendURL}auth/signup`;
 
-  // get token
-  //let res = await getToken(apiBackendURL, username, password)
-  //let tokens = res?.tokenData?.access_token
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  let tenantID = await getCookieValue("TENANT_ID");
-
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      team_id: formData.team_id,
-      designation_id: formData.designation_id,
-      company_id: formData.company_id,
-      user_name: formData.user_name,
-      email: formData.email,
-      password: formData.password,
-      first_name: formData.first_name,
-      middle_name: "",
-      last_name: formData.last_name,
-      user_role: "",
-      role_level: "",
-      registration_date: formatedDate,
-      last_login_at: formattedTimestamp,
-      created_at: formattedTimestamp,
-      updated_at: formattedTimestamp,
-      active: formData.active === "Active" ? true : false,
-      verified: formData.active === "Active" ? true : false,
-      password_salt: "",
-      user_profile_photo: formData.user_profile_photo,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "User creation failed",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "User creation failed",
-    };
-  }
-};
-
-// Update User record in db
-export const updateUserRecordAction = async (
-  formData,
-  user_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  const apiUrl = `${apiBackendURL}auth/auth/users/id/${user_id}`;
-
-  // get token
-  //let res = await getToken(apiBackendURL, username, password)
-  //let tokens = res?.tokenData?.access_token
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      team_id: formData.team_id,
-      designation_id: formData.designation_id,
-      company_id: formData.company_id,
-      user_name: "string",
-      email: "user@example.com",
-      password: formData.password,
-      first_name: formData.first_name,
-      middle_name: "string",
-      last_name: formData.last_name,
-      user_role: "string",
-      role_level: "string",
-      registration_date: "2024-03-16",
-      last_login_at: "2024-03-16T16:36:51.061Z",
-      created_at: "2024-03-16T16:36:51.061Z",
-      updated_at: "2024-03-16T16:36:51.061Z",
-      active: formData.is_active,
-      verified: false,
-      password_salt: "string",
-      user_profile_photo: formData.user_profile_photo,
-    }),
-  };
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "User update failed",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "User updation failed",
-    };
-  }
-};
-
-// delete a User record from db
-export const deleteUserRecordAction = async (
-  user_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  try {
-    const url = `${apiBackendURL}auth/auth/users/id/${user_id}`;
-
-    // get token
-    //let res = await getToken(apiBackendURL, username, password)
-    //let tokens = res?.tokenData?.access_token
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for User",
-      };
-    }
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for User",
-    };
-  }
-};
 
 // delete  All Users from dbs
 export const deleteAllUsersAction = async () => {
@@ -236,20 +50,55 @@ export const deleteAllUsersAction = async () => {
   }
 };
 
+export const getUserRecordByIDAction = async (user_id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  try {
+    const url = `${apiBackendURL}auth/auth/users/id/${user_id}`;
+    
+    const response = await fetch(url, {
+      cache: "no-store",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request failed for User",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for User",
+    };
+  }
+};
+
+
 // get all Users records from db
 export const getAllUserRecordsAction = async (
-  apiBackendURL,
-  tokens,
-  tenantID
+  searchTermValue
 ) => {
   try {
-    const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
+    const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+    const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}?searchTerm=${searchTermValue}`;
 
-    // get token
-    //let res = await getToken(apiBackendURL, username, password)
-    //let tokens = res?.tokenData?.access_token
-
-    const response = await fetch(url, {
+      const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
       headers: {
@@ -283,52 +132,6 @@ export const getAllUserRecordsAction = async (
   }
 };
 
-// get all Company records from db
-export const getAllCompanyRecordsAction = async (
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  try {
-    const url = `${apiBackendURL}company/companies/tenant/${tenantID}`;
-
-    // get token
-    //let res = await getToken(apiBackendURL, username, password)
-    //let tokens = res?.tokenData?.access_token
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Designation",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Designation",
-    };
-  }
-};
 
 // get all Designation records from db
 export const getAllTeamRecordsAction = async (
@@ -377,187 +180,9 @@ export const getAllTeamRecordsAction = async (
   }
 };
 
-///////////////////////// Company methods
-
-// Add new company record in db
-export const createCompanyAction = async (
-  formData,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  const apiUrl = `${apiBackendURL}company/companies`;
-
-  // get token
-  //let res = await getToken(apiBackendURL, username, password)
-  //let tokens = res?.tokenData?.access_token
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      company_name: formData.company_name,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      industry: formData.industry,
-      company_type: formData.company_type,
-      website: formData.website,
-      company_logo: formData.company_logo,
-      created_date: formattedTimestamp,
-      updated_date: formattedTimestamp,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Company creation failed",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Company creation failed",
-    };
-  }
-};
-
-// Update company record in db
-export const updateCompanyAction = async (
-  formData,
-  company_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  const apiUrl = `${apiBackendURL}company/companies/id/${company_id}`;
-
-  // get token
-  //let res = await getToken(apiBackendURL, username, password)
-  //let tokens = res?.tokenData?.access_token
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      company_name: formData.company_name,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      industry: formData.industry,
-      company_type: formData.company_type,
-      website: formData.website,
-      company_logo: formData.company_logo,
-      created_date: formattedTimestamp,
-      updated_date: formattedTimestamp,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Company updation failed",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Company updation failed",
-    };
-  }
-};
-
-// delete a Company record from db
-export const deleteCompanyRecordAction = async (
-  company_id,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  try {
-    const url = `${apiBackendURL}company/companies/id/${company_id}`;
-
-    // get token
-    //let res = await getToken(apiBackendURL, username, password)
-    //let tokens = res?.tokenData?.access_token
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Company",
-      };
-    }
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Company",
-    };
-  }
-};
 
 // delete  All Company from db
-export const deleteAllCompanyRecordAction = async (company_id) => {
+/*export const deleteAllCompanyRecordAction = async (company_id) => {
   try {
     const url = `${apiBackendURL}company/companies/delete-all/id/${company_id}`;
 
@@ -590,17 +215,19 @@ export const deleteAllCompanyRecordAction = async (company_id) => {
     };
   }
 };
-
+*/
 ///////////////////////// Designation methods
 
 // get all Designation records from db
 export const getAllDesignationRecordsAction = async (
   apiBackendURL,
   tokens,
-  tenantID
+  tenantID,offset,limit
 ) => {
+
+  // here for pagination added offset and limit in url. now change api in server
   try {
-    const url = `${apiBackendURL}designation/designations/tenant/${tenantID}`;
+    const url = `${apiBackendURL}designation/designations/tenant/${tenantID}?offset=${offset}&limit=${limit}`;
 
     // get token
     //let res = await getToken(apiBackendURL, username, password)

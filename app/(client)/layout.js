@@ -33,21 +33,21 @@ export default async function RootLayout({ children }) {
                             {children}                            
                         </div>
                         
-                        <div id="successMessageAlertMain" class="fixed bottom-[4rem] position-absolute ml-[1.7rem] bg-white flex min-w-[35%] min-h-[60px] text-green-600 border border-green-500 rounded" style={{ display: 'none' }} role="alert">
-                            <div class="bg-green-500 w-16 shrink-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 fill-white" viewBox="0 0 512 512">
+                        <div id="successMessageAlertMain" className="fixed bottom-[4rem] position-absolute ml-[1.7rem] bg-white flex min-w-[35%] min-h-[60px] text-green-600 border border-green-500 rounded" style={{ display: 'none' }} role="alert">
+                            <div className="bg-green-500 w-16 shrink-0 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 fill-white" viewBox="0 0 512 512">
                                 <ellipse cx="256" cy="256" data-original="#fff" rx="256" ry="255.832" />
-                                <path class="fill-green-600" d="m235.472 392.08-121.04-94.296 34.416-44.168 74.328 57.904 122.672-177.016 46.032 31.888z"
+                                <path className="fill-green-600" d="m235.472 392.08-121.04-94.296 34.416-44.168 74.328 57.904 122.672-177.016 46.032 31.888z"
                                 data-original="#ffffff" />
                             </svg>
                             </div>
-                            <div class="px-4 py-1">
-                            <p class="font-bold text-base mr-4 mb-0.5">Success!</p>
-                            <span id="successMessageAlertMainContent" class="block sm:inline text-sm">
+                            <div className="px-4 py-1">
+                            <p className="font-bold text-base mr-4 mb-0.5">Success!</p>
+                            <span id="successMessageAlertMainContent" className="block sm:inline text-sm">
                             Operation successful.    
                             </span>
                             </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer fill-green-500 absolute right-4 top-3"
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 cursor-pointer fill-green-500 absolute right-4 top-3"
                             viewBox="0 0 320.591 320.591">
                             <path
                                 d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
@@ -59,21 +59,21 @@ export default async function RootLayout({ children }) {
                         </div>
 
 
-                        <div id="errorMessageAlertMain" class="fixed bottom-[4rem] position-absolute ml-[1.7rem] bg-white flex min-w-[35%] min-h-[60px] text-red-600 border border-red-500 rounded" style={{ display: 'none' }} role="alert">
-                            <div class="bg-red-500 w-16 shrink-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 fill-white" viewBox="0 0 32 32">
+                        <div id="errorMessageAlertMain" className="fixed bottom-[4rem] position-absolute ml-[1.7rem] bg-white flex min-w-[35%] min-h-[60px] text-red-600 border border-red-500 rounded" style={{ display: 'none' }} role="alert">
+                            <div className="bg-red-500 w-16 shrink-0 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 fill-white" viewBox="0 0 32 32">
                                 <path
                                 d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm6.36 20L21 22.36l-5-4.95-4.95 4.95L9.64 21l4.95-5-4.95-4.95 1.41-1.41L16 14.59l5-4.95 1.41 1.41-5 4.95z"
                                 data-original="#ea2d3f" />
                             </svg>
                             </div>
-                            <div class="px-4 py-1">
-                            <p class="font-bold text-lg mr-4 mb-0.5">Error!</p>
-                            <span id="errorMessageAlertMainContent" class="block sm:inline text-lg">
+                            <div className="px-4 py-1">
+                            <p className="font-bold text-lg mr-4 mb-0.5">Error!</p>
+                            <span id="errorMessageAlertMainContent" className="block sm:inline text-lg">
                                 Operation failed.    
                             </span>
                             </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer fill-red-500 absolute right-4 top-3"
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 cursor-pointer fill-red-500 absolute right-4 top-3"
                             viewBox="0 0 320.591 320.591">
                             <path
                                 d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"

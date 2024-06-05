@@ -1,4 +1,4 @@
-import { getOpportunityByID } from "@/app/api/opportunities/scripts";
+//import { getOpportunityByID } from "@/app/api/opportunities/scripts";
 import { getAllRfxStagesByRfxIdAction, getRfxContacts } from "@/app/api/rfx/actions/rfx";
 import { getRfxById } from "@/app/api/rfx/actions/rfx";
 import { getUserById, getAllUsers } from "@/app/api/rfx/actions/user";
@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-import { getPrimaryContactsByIDAction } from "@/app/api/rfx/actions/primaryContacts";
+import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
 // end login init 
 
 const Detail = async ({ params }) => {
@@ -35,8 +35,8 @@ const Detail = async ({ params }) => {
     let tokens = res?.tokenData?.access_token
  
     // call all  opportunity
-    let records = await getOpportunityByID(apiBackendURL, tokens, tenantID, id)
-    let opportunirtRec = records.rfxData;
+    //let records = await getOpportunityByID(apiBackendURL, tokens, tenantID, id)
+    let opportunirtRec = []//records.rfxData;
 
     // call current Rfx
     records = await getRfxById(id)

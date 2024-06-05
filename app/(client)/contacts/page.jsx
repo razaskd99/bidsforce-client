@@ -9,16 +9,17 @@ import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-import { getAllContactRecordsAction } from "@/app/api/contacts/actions/contact";
-import { getAllCompanyRecordsAction, getAllDesignationRecordsAction, getAllPersonaRecordsAction, getAllTeamRecordsAction } from "@/app/api/rfx/actions/rfx";
-import { getAllUsers } from "@/app/api/rfx/actions/user";
+import {  getAllPersonaRecordsAction } from "@/app/api/rfx/actions/rfx";
+import { getAllUsersAction } from "@/app/api/users/action/user";
 // end login init 
 
 
 
-export default async function Contacts() {
+export default async function Contacts({searchParams}) {
 
-
+  // search term
+  let searchTermValue=searchParams?.searchterm
+  if(!searchTermValue)searchTermValue=""
 
   let userEncrptedData = await getCookieValue('userPrivateData')
   let tenant_ID = await getCookieValue('TENANT_ID')
@@ -40,36 +41,18 @@ export default async function Contacts() {
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
 
-  // call all tenant action
-  let records = await getAllContactRecordsAction(apiBackendURL, tokens, tenantID);
-  let usersData = records.returnData;
-
   let response = {}
-
-  // get companies
-  response = await getAllCompanyRecordsAction()
-  let companyRecords = response.returnData 
-
-  // get designations
-  response = await getAllDesignationRecordsAction()
-  let designationRecords = response.returnData 
-
-  // get teams
-  response = await getAllTeamRecordsAction()
-  let teamRecords = response.returnData 
 
   // get persona
   response = await getAllPersonaRecordsAction()
   let personaRecords = response.returnData 
 
   // get users
-  response = await getAllUsers()
+  response = await getAllUsersAction(searchTermValue)
   let userRecords = response.data 
 
-  console.log("contacts",usersData)
-  console.log("tenant",tenantID)
-
-  const breadcrumbItems = [{ label: 'Dashboard', href: '/' }, { label: 'Contacts', href: '/contacts' }];
+  
+  /* const breadcrumbItems = [{ label: 'Dashboard', href: '/' }, { label: 'Contacts', href: '/contacts' }];
    let usersData2 = [
     { id: 1, name: 'Bryan C', role: 'requester', designation: 'Buyer', email:'mail@google.com', company: 'i6 Tech', rfxID: '548-6523', image: '/bryan.jpg' },
     { id: 2, name: 'Chand Kumar', role: 'requester', designation: 'Sr. Buyer', email:'mail@google.com', company: 'i6 Tech', rfxID: '548-6523', image: '/chand.jpg' },
@@ -79,8 +62,8 @@ export default async function Contacts() {
     { id: 6, name: 'Marvin Lambert', role: 'requester', designation: 'Buyer', email:'mail@google.com', company: 'i6 Tech', rfxID: '548-6523', image: '/marvin.jpg' },
     { id: 7, name: 'Ravi K.', role: 'requester', designation: 'Buyer', email:'mail@google.com', company: 'i6 Tech', rfxID: '548-6523', image: '/ravi.png' },
     { id: 8, name: 'Rose Peters', role: 'requester', designation: 'Buyer', email:'mail@google.com', company: 'i6 Tech', rfxID: '548-6523', image: '/rose.jpg' },
-  ];
-  const NoRowsOverlayContact = () => (
+  ];*/
+  /*const NoRowsOverlayContact = () => (
     <Stack height="100%" alignItems="center" justifyContent="center">
       <Image src="/no-contact.png" width={480} height={260} alt="No Rows" />
       <p className="text-[#252631] text-xl mb-3">No contacts yet</p>
@@ -88,18 +71,12 @@ export default async function Contacts() {
         You’ll see them here if there are any contacts posted
       </p>
     </Stack>
-  );
+   );*/
   return (
-    <div className="">
-      <Breadcrumbs items={breadcrumbItems} />
-      <div className="flex items-center gap-3">
-        <OpenContact designationRecords={designationRecords} companyRecords={companyRecords} teamRecords={teamRecords}/>
-        <OpenTeamDailog personaRecords={personaRecords} userRecords={userRecords} />
-      </div>
+    <div className="">      
       <div>
-        <ContactTabel rows={usersData} />
+        <OpenContact userRecords={userRecords} personaRecords={personaRecords} />
       </div>
-
     </div>
   )
 }

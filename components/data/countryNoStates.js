@@ -1,0 +1,20 @@
+export const countriesWithNoStatesJSON = [
+    "United Kingdom",
+    "France",
+    "Japan",
+    "New Zealand",
+    "Italy",
+    "Greece",
+    "Portugal",
+    "Norway",
+    "Netherlands",
+    "Sweden",
+    "Finland",
+    "South Korea",
+    "Switzerland",
+    "Belgium",
+    "Denmark",
+    "Ireland",
+    "Iceland",
+    "Israel"
+];

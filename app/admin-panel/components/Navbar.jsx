@@ -3,31 +3,74 @@ import { logout, logoutUser } from "@/app/api/util/action/account";
 import { getCookieValue } from "@/lib/scripts";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import { User2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LuLogOut } from "react-icons/lu";
-
+import { Logout, Settings } from "@mui/icons-material";
+import { useRouter, usePathname } from "next/navigation";
+import { showMainLoader102 } from "@/app/api/util/utility";
 
 
 const AdminPanelNavbar = () => {
     
   const [profilePic, setProfilePic] = useState('/avatar.png')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [openMenu, setOpenMenu] = useState(false);
+  const [userID, setUserID] = useState('');
+  const pathname = usePathname();
+  const router = useRouter();
+  const menuRef = useRef(null);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let userRec = await getCookieValue('userLoginData');
-        if(userRec.user_profile_photo && userRec.user_profile_photo != "") {
-          setProfilePic(userRec.user_profile_photo)
-        }
-      } catch (error) {
-      }
-    };
-  
-    fetchData();
+  useEffect(() => {        
+      getCookieValue('userLoginData')
+        .then((userRec) => {
+            if(userRec.first_name) {
+              setProfilePic(userRec.profile_image);
+              setEmail(userRec.email);
+              setName(userRec.first_name + ' ' + userRec.last_name);
+              setUserID(userRec.user_id);
+            }
+        })
+        .catch((err) => {});
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close menu if clicked outside
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleProfileDropdown = () => {
+   setProfileDropdownOpen((prevState) => !prevState);
+   
+  };
+
+
+  const profileClick = () => {
+    if (!pathname.includes('/users/detail/' + userID)) {
+      showMainLoader102();
+      setOpenMenu(false); 
+      router.push('/admin-panel/users/detail/' + userID);       
+    }
+  };
+
+  const logoutClick = async () => {    
+    showMainLoader102();
+    const updatedLikes = await logoutUser();
+    window.location.replace("/login");          
+  };
 
   return (
     <div className="bg-gray-400 h-16 w-full flex justify-between items-center text-white px-7">
@@ -65,17 +108,39 @@ const AdminPanelNavbar = () => {
             height={36}
             alt="man"
             className="rounded-full object-cover"
+            onClick={toggleProfileDropdown}
           />
-        </Link>
-        <Link
-          href="#"
-          onClick={async () => {
-            const updatedLikes = await logoutUser();
-            window.location.replace("/login");
-          }}
-        >
-          <LuLogOut className="text-xl" />
-        </Link>
+          {profileDropdownOpen && <div id="dropdownAvatar" ref={menuRef} class="z-10 absolute top-16 right-2 bg-white divide-y divide-gray-100 rounded-md shadow w-47 dark:bg-gray-700 dark:divide-gray-600">
+              <div class="flex px-4 py-3 text-sm bg-gray-100 text-gray-900 dark:text-white gap-2">
+                <img src={profilePic} width={36} height={36} className="rounded-full" />
+                <div>
+                  <div className="text-md font-medium">{name}</div>
+                  <div class="font-light truncate text-gray-400">{email}</div>
+                </div>
+              </div>
+              <ul class="text-sm text-black font-medium dark:text-gray-00" aria-labelledby="dropdownUserAvatarButton">
+                <li className="flex hover:bg-gray-100 px-3 py-3 dark:hover:bg-gray-900 dark:hover:text-white">
+                  <User2Icon className="text-gray-400"/>
+                  <Link
+                    class="block px-4 py-2"
+                    href={'/admin-panel/users/detail/' + userID} 
+                    onClick={profileClick} 
+                  >YOUR PROFILE</Link>
+                </li>
+                <li className="flex hover:bg-gray-100 px-3 py-3 dark:hover:bg-gray-900 dark:hover:text-white">
+                  <Settings className="text-gray-400"/> <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">SETTINGS</a>
+                </li>
+                <li className="flex hover:bg-gray-100 px-3 py-3 dark:hover:bg-gray-900 dark:hover:text-white">
+                  <Logout className="text-gray-400"/>
+                  <Link 
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white"
+                    href="/login" 
+                    onClick={logoutClick} 
+                  >SIGN OUT</Link>
+                </li>
+              </ul>    
+          </div>}
+        </Link>        
       </div>
     </div>
   );

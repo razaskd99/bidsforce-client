@@ -27,13 +27,13 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
 
   if (user) {
     
-    if (user.role === 'sales') {
+    if (user?.user_role === 'sales') {
       router.push('/dashboard');
       setActive('block');
 
       setHide('hidden');
 
-    } else if (user?.role === 'admin') {
+    } else if (user?.user_role === 'admin') {
       router.push('/dashboard');
       setActive('block');
       setHide('hidden');
@@ -66,27 +66,23 @@ export const loginSubmit = async (e, active, setActive, hide, setHide, router, t
         welcomeMsg.textContent = `Welcome ${res.user?.first_name}   ${res.user?.last_name} !`;
       } catch {}
 
-      // get user designation
-      let designation = ''
-      try {
-        const r1= await getDesignationRecordByIDAction(res?.user?.designation_id);
-        designation = r1.returnData.title;
-      } catch {  }
-
+      // get user role
+      let role = res?.user?.user_role;
+      
       // Use optional chaining and nullish coalescing
-      const profilePic = res?.user?.user_profile_photo ?? '/images/users/profile.jpg';
+      const profilePic = res?.user?.profile_image ?? '/images/users/profile.jpg';
      
       try{
       // Set the src attribute of the image
       document.getElementById('welcome-profile-pic').src = profilePic;
       } catch(err){}
     
-      if (designation === 'Sales Representative') {
+      if (role === 'Administrator') {
         router.push('/dashboard');
         setActive('block');
         setHide('hidden');
 
-      } else if (designation === 'Bid Manager') {
+      } else if (role === 'User') {
         router.push('/dashboard');
         setActive('block');
         setHide('hidden');

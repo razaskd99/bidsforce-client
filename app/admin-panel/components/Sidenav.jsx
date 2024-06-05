@@ -59,7 +59,7 @@ export default async function SideNavAdminPanel(props) {
       <div className="menu-inner-shadow"></div>
       <List component="nav">
         {/* Admin Dashboards */}
-        <ListItem button>
+        <ListItem >
           <ListItemText
             primary={
               <Typography variant="h6" color="primary">
@@ -87,7 +87,7 @@ export default async function SideNavAdminPanel(props) {
           </AccordionSummary>
           <AccordionDetails>
             <List component="div" disablePadding>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/users"
@@ -96,16 +96,9 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="Users" />
                 </Link>
               </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
-                <Link
-                  className="no-underline text-[#cecece]"
-                  href="/admin-panel/teams"
-                  passHref
-                >
-                  <ListItemText primary="Teams" />
-                </Link>
-              </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+
+                           
+              {/* <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/companies"
@@ -113,8 +106,8 @@ export default async function SideNavAdminPanel(props) {
                 >
                   <ListItemText primary="Companies" />
                 </Link>
-              </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+              </ListItem> 
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/designation"
@@ -122,12 +115,12 @@ export default async function SideNavAdminPanel(props) {
                 >
                   <ListItemText primary="Designations" />
                 </Link>
-              </ListItem>
+              </ListItem>*/}
             </List>
           </AccordionDetails>
         </Accordion>
 
-        {/* PERSONA */}
+        {/* Persona */}
         <Accordion
           className="bg-[#252631] text-white"
           style={{ background: "#252631" }}
@@ -147,7 +140,8 @@ export default async function SideNavAdminPanel(props) {
           </AccordionSummary>
           <AccordionDetails>
             <List component="div" disablePadding>
-              <ListItem button className="py-0 text-[#cecece]">
+              
+            <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/persona"
@@ -159,6 +153,167 @@ export default async function SideNavAdminPanel(props) {
             </List>
           </AccordionDetails>
         </Accordion>
+
+        {/* Funtional Group */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            className="m-0"
+            expandIcon={<ExpandMoreIcon className="text-white m-0" />}
+          >
+            <ListItemText
+              className="m-0"
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  FUNCTIONAL GROUP
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem  className="py-0 text-[#cecece]">
+                  <Link
+                    className="no-underline text-[#cecece]"
+                    href="/admin-panel/functional-group"
+                    passHref
+                  >
+                    <ListItemText primary="Functional Group List" />
+                  </Link>
+                </ListItem> 
+            </List>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* ACCOUNT */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            className="m-0"
+            expandIcon={<ExpandMoreIcon className="text-white m-0" />}
+          >
+            <ListItemText
+              className="m-0"
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  ACCOUNT
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/account/type"
+                  passHref
+                >
+                  <ListItemText primary="Account Type" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* Opp PRE-REQUISITES */}
+        <Accordion
+          className="bg-[#252631] text-white"
+          style={{ background: "#252631" }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon className="text-white" />}
+          >
+            <ListItemText
+              primary={
+                <Typography variant="p" color="white" className="text-base">
+                  OPPORTUNITY
+                </Typography>
+              }
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+            <List component="div" disablePadding>
+              {/* <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/opportunity-currency"
+                  passHref
+                >
+                  <ListItemText primary="Opportunity Currency" />
+                </Link>
+              </ListItem> */}
+               <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/opportunity-sales-stages"
+                  passHref
+                >
+                  <ListItemText primary="Opportunity Sales Stages" />
+                </Link>
+              </ListItem>
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/sales-pursuit-progress"
+                  passHref
+                >
+                  <ListItemText primary="Sales Pursuit Progress" />
+                </Link>
+              </ListItem>
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/business-line"
+                  passHref
+                >
+                  <ListItemText primary="Business Line" />
+                </Link>
+              </ListItem>
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/opportunity-committed-for-sales-budget"
+                  passHref
+                >
+                  <ListItemText primary="opportunity Committed for Sales Budget" />
+                </Link>
+              </ListItem> 
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/bidding-unit"
+                  passHref
+                >
+                  <ListItemText primary="Bidding Unit" />
+                </Link>
+              </ListItem> 
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/project-type"
+                  passHref
+                >
+                  <ListItemText primary="Project Type" />
+                </Link>
+              </ListItem>
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/opportunity-type"
+                  passHref
+                >
+                  <ListItemText primary="Opportunity Type" />
+                </Link>
+              </ListItem>
+            </List>
+          </AccordionDetails>
+        </Accordion>
+
 
         {/* RFX PRE-REQUISITES */}
         <Accordion
@@ -178,7 +333,7 @@ export default async function SideNavAdminPanel(props) {
           </AccordionSummary>
           <AccordionDetails>
             <List component="div" disablePadding>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/rfx/bid-validity"
@@ -187,7 +342,7 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="Bid Validity" />
                 </Link>
               </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/rfx/rfx-type"
@@ -196,7 +351,7 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="Rfx Type" />
                 </Link>
               </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/rfx/rfx-content-submission"
@@ -205,7 +360,7 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="RFx Content Submission" />
                 </Link>
               </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/rfx/rfx-submission-mode"
@@ -214,7 +369,7 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="RFx Submission Mode" />
                 </Link>
               </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/rfx/rfx-stage"
@@ -234,12 +389,12 @@ export default async function SideNavAdminPanel(props) {
 					</AccordionSummary>
 					<AccordionDetails>
 						<List component="div" disablePadding>
-							<ListItem button className="py-0 text-[#cecece]">
+							<ListItem  className="py-0 text-[#cecece]">
 								<Link className="no-underline text-[#cecece]" href="/admin-panel/customers" passHref>
 									<ListItemText primary="Customers" />
 								</Link>
 							</ListItem>
-							<ListItem button className="py-0 text-[#cecece]">
+							<ListItem  className="py-0 text-[#cecece]">
 								<Link className="no-underline text-[#cecece]" href="/admin-panel/opportunities" passHref>
 									<ListItemText primary="Opportunities" />
 								</Link>
@@ -266,7 +421,7 @@ export default async function SideNavAdminPanel(props) {
           </AccordionSummary>
           <AccordionDetails>
             <List component="div" disablePadding>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/phase/rfx-stages"
@@ -275,7 +430,7 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="Rfx Stages" />
                 </Link>
               </ListItem>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/phase/bid-stages"
@@ -306,7 +461,7 @@ export default async function SideNavAdminPanel(props) {
           </AccordionSummary>
           <AccordionDetails>
             <List component="div" disablePadding>
-              <ListItem button className="py-0 text-[#cecece]">
+              <ListItem  className="py-0 text-[#cecece]">
                 <Link
                   className="no-underline text-[#cecece]"
                   href="/admin-panel/template-builder"

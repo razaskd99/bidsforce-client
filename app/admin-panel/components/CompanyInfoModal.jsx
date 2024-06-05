@@ -2,11 +2,11 @@
 import React,{useState, useEffect} from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
+/*import { 
     createCompanyRequest,
     updateCompanyRequest
   } from "@/app/api/admin-panel/scripts";
-
+*/
 
 export default function CompanyInfoModal(props) {
     const[openModal, setOpenModal] = useState(true)  
@@ -144,7 +144,7 @@ export default function CompanyInfoModal(props) {
                   className="btn btn-outline-primary waves-effect" 
                   data-bs-dismiss="modal">Cancel</button>
 
-                  { props.buttonType && props.buttonType === "new"
+                  { /*props.buttonType && props.buttonType === "new"
                     ?
                     <button 
                     onClick={(e)=>createCompanyRequest(e, props.apiBackendURL, props.tokens, props.tenantID)}
@@ -154,7 +154,7 @@ export default function CompanyInfoModal(props) {
                     <button 
                     onClick={(e)=>updateCompanyRequest(e, props.modalData.company_id, props.apiBackendURL, props.tokens, props.tenantID)}
                     type="button" 
-                    className="btn btn-primary waves-effect waves-light">Update Info</button>}
+  className="btn btn-primary waves-effect waves-light">Update Info</button>*/}
                 </div>
               </div>
             </div>

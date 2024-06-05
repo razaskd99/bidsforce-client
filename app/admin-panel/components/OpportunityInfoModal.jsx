@@ -9,8 +9,9 @@ import {
 
 import {
   getAllCustomerRecordsAction,
-  getAllCompanyRecordsAction,
 } from "@/app/api/admin-panel/actions/user";
+import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
+
 
 export default function OpportunityInfoModal(props) {
   const [openModal, setOpenModal] = useState(true);
@@ -110,11 +111,7 @@ export default function OpportunityInfoModal(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let res = await getAllCompanyRecordsAction(
-          props.apiBackendURL,
-          props.tokens,
-          props.tenantID
-        );
+        let res = await getAllAccountRecordsAction('');
         setCompanyList(res.returnData);
 
         let res2 = await getAllCustomerRecordsAction(

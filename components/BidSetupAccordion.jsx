@@ -18,7 +18,6 @@ import Image from 'next/image';
 import { FormControlLabel, MenuItem, Switch, TextField } from '@mui/material';
 import { CalendarMonth } from '@mui/icons-material';
 import CalendarTimeline from './CalendarTimeline';
-import SearchTable from './SearchTable';
 import TimePickerValue from './TimePicker';
 import DynamicDatePicker from './DatePickerInput';
 import { getAllKoffMeetingAction, getKoffMeetingByIDAction, createKoffMeetingAction} from '@/app/api/manager/actions/kickoff';

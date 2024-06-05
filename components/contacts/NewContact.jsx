@@ -1,34 +1,59 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField, MenuItem, Button, Alert, } from '@mui/material';
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
-import { createPrimaryContactsRequest } from '@/app/api/rfx/scripts';
+import { countriesListJSON } from "../data/country";
+import { Edit } from 'lucide-react';
+import moment from 'moment-timezone';
+import { getAllFunctionalGroupAction } from '@/app/api/contacts/actions/functionalGroup';
+import { updateUserDetailLimited } from '@/app/api/users/script';
+import { citiesListJSON } from '../data/city';
 
-const NewContact = (props) => {
-  const { isOpen, handleClose, handleChangeValues, designationRecords, companyRecords, teamRecords, handleCancel, } = props;
+const NewContact = ({ isOpen, handleClose, modalType, contactsData}) => {
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [fileData, setFileData] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [designationList, setDesignationList] = useState(designationRecords)
-  const [companyList, setCompanyList] = useState(companyRecords)
-  const [teamList, setTeamList] = useState(teamRecords)
+  const [isEdit, setIsEdit] = useState(modalType && modalType == 'edit' ? true : false)
+  const [isFormDataChanged, setIsFormDataChanged] = useState(false)
+  const [functionalList, setFunctionalList] = useState([]);
+  const [cityList, setCityList] = useState([]);
+ 
   const [formData, setFormData] = useState({
-      company_id: '', 
-      designation_id: '', 
-      team_id: '', 
-      first_name: '', 
-      last_name: '', 
-      manager: '', 
-      function_group: '', 
-      contact_number: '', 
-      time_zone: '', 
-      email: '', 
-      working_hours: '', 
-      work_location: '', 
-      profile_image: ''
+      job_title: contactsData?.job_title ? contactsData?.job_title : '', 
+      // first_name: contactsData?.first_name ? contactsData?.first_name : '', 
+      // last_name: contactsData?.last_name ? contactsData?.last_name : '', 
+      // manager: contactsData?.manager ? contactsData?.manager : '', 
+      //functional_group: contactsData?.functional_group ? contactsData?.functional_group : '', 
+      contact_number: contactsData?.contact_number ? contactsData?.contact_number : '', 
+      time_zone: contactsData?.time_zone ? contactsData?.time_zone : '', 
+      // email: contactsData?.email ? contactsData?.email : '',      
+      work_location: contactsData?.work_location ? contactsData?.work_location : '', 
+      profile_image: contactsData?.profile_image ? contactsData?.profile_image : '/avatar.png',
+      // working_hours: contactsData?.work_hours_start && contactsData?.work_hours_end ? contactsData?.work_hours_start + ' - '+ contactsData?.work_hours_end : '', 
+      work_hours_start: contactsData?.work_hours_start ?  contactsData?.work_hours_start : '',
+      work_hours_end: contactsData?.work_hours_end ?  contactsData?.work_hours_end : '',
+      password: contactsData?.password ?  contactsData?.password : '',
+      cpassword: '',
   });
-  
+
+  useEffect(() => {
+    getAllFunctionalGroupAction()
+      .then((resp) => {
+        const list = resp.returnData;
+        setFunctionalList(
+          list.map((rec) => ({
+            id: rec.id,
+            name: rec.title   
+          }))
+        );
+      })
+      .catch((err) => {});    
+  }, []);
+ 
+
+   
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
@@ -41,66 +66,113 @@ const NewContact = (props) => {
     const extractedFile = formData.get("file");
     // Update the selectedFiles array with the single file
     setSelectedFile(extractedFile); 
+
+    setIsFormDataChanged(true);
   };
   
+
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    if(!isFormDataChanged) {
+      setFormData({...contactsData, [e.target.name]: e.target.value});
+      //if(e.target.name == 'city') setCityList(citiesListJSON[contactsData.work_location]);
+    } else {
+      setFormData({...formData, [e.target.name]: e.target.value});
+    }
+    setIsFormDataChanged(true);
   }
-  const functionalGroupOptions = [
-    { id: 1, name: "Sales" },
-    { id: 2, name: "Marketing" },
-    { id: 3, name: "Finance" },
-  ];
 
-  const teamOptions = [
-    { id: 1, name: "Team A" },
-    { id: 2, name: "Team B" },
-    { id: 3, name: "Team C" },
-  ];
-  const timeZoneOptions = [
-    { id: 'UTC', name: 'UTC (Coordinated Universal Time)' },
-    { id: 'GMT', name: 'GMT (Greenwich Mean Time)' },
-    { id: 'EST', name: 'EST (Eastern Standard Time)' },
-    { id: 'CST', name: 'CST (Central Standard Time)' },
-    { id: 'MST', name: 'MST (Mountain Standard Time)' },
-    { id: 'PST', name: 'PST (Pacific Standard Time)' },
-    { id: 'CET', name: 'CET (Central European Time)' },
-    { id: 'EET', name: 'EET (Eastern European Time)' },
-    { id: 'JST', name: 'JST (Japan Standard Time)' },
-    { id: 'AEDT', name: 'AEDT (Australian Eastern Daylight Time)' },
-    { id: 'NZDT', name: 'NZDT (New Zealand Daylight Time)' },
-  ];
+  const handleTimeZoneChange = (e) => {
+    
+    // Calculate working hours based on the selected time zone
+    const { start, end } = getWorkingHoursInTimeZone(e.target.value);
 
-  const workingHoursOptions = [
-    { id: 1, name: "8 hours" },
-    { id: 2, name: "6 hours" },
-    { id: 3, name: "4 hours" },
-  ];
+    if(!isFormDataChanged) {
+      setFormData({...contactsData, time_zone: e.target.value, work_hours_start:  start +' - '+ end});
+    } else {
+      setFormData({...formData, time_zone: e.target.value, work_hours_start:  start +' - '+ end});
+    }    
+    setIsFormDataChanged(true);
+    
+  };
 
-  const workLocationOptions = [
-    { id: 1, name: "Office A" },
-    { id: 2, name: "Office B" },
-    { id: 3, name: "Office C" },
-  ];
+  const handleHoursChange = (e) => { 
+    
+    if(!isFormDataChanged) {
+      setFormData({...contactsData, work_hours_start: e.target.value,});
+    } else {
+      setFormData({...formData,  work_hours_start: e.target.value,});
+    }    
+    setIsFormDataChanged(true);    
+  };
+
+  // Function to get working hours based on time zone, considering daylight saving time
+  const getWorkingHoursInTimeZone = (timeZone) => {
+    const now = moment().tz(timeZone);
+    const isDST = now.isDST(); // Check if daylight saving time is active
+    const startHour = isDST ? 10 : 9; // Adjust start hour if DST is active
+    const endHour = isDST ? 18 : 17; // Adjust end hour if DST is active
+    const startOfWorkingHours = now.clone().set({ hour: startHour, minute: 0, second: 0 });
+    const endOfWorkingHours = now.clone().set({ hour: endHour, minute: 0, second: 0 });
+    return { start: startOfWorkingHours.format('LT'), end: endOfWorkingHours.format('LT') };
+  }; 
+
+
+  const handleChangeCountry = (e) => {
+    if (!isFormDataChanged) {
+      setFormData({ ...contactsData, work_location: e.target.value, });
+      setCityList(citiesListJSON[e.target.value]);
+    } else {
+      setFormData({ ...formData, work_location: e.target.value, });
+      setCityList(citiesListJSON[e.target.value]);
+    }    
+    setIsFormDataChanged(true);
+  };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle className='flex items-center justify-between'><span>Add new user </span> <IoMdCloseCircleOutline className='text-[#778CA2] cursor-pointer' onClick={handleClose} /></DialogTitle>
-      <DialogContent className='bg-[#F2F4F6]'>
+    <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm" > 
+      <DialogTitle className='flex items-center justify-between'> 
+        <span>{isEdit ? 'Edit Contact' : 'Add Contact'} </span>  
+        <IoMdCloseCircleOutline className='text-[#778CA2] cursor-pointer' onClick={handleClose} />
+      </DialogTitle>
+      <DialogContent className='bg-[#F2F4F6]' id="dialogContainer"> 
         <Grid container spacing={2} className='mt-2'>
           {/* Input */}
           <Grid item xs={12}>
-            {selectedImage ?
-             <span className="block m-auto w-20 h-20 rounded-full overflow-hidden">
-              <img src={URL.createObjectURL(selectedImage)} alt="Preview" className="w-full h-full object-cover" />
-            </span> : (
-              <label htmlFor="img" className="relative cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center text-lg text-gray-700 rounded-lg p-6 text-center">
-                <input type="file" name="img" id="img" className="hidden" onChange={handleImageChange} />
-                <span className="w-12 h-12 bg-center bg-cover rounded-full">
-                  <BsCloudUpload className='text-2xl' />
-                </span>
-                <span >UPLOAD IMAGE</span>
-              </label>
+          {selectedImage ? (
+                <label htmlFor="img" className="relative cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center text-lg text-gray-700 rounded-lg p-6 text-center">
+                  <input type="file" name="img" id="img" className="hidden" onChange={handleImageChange} />
+                  <span className="block m-auto w-20 h-20 rounded-full overflow-hidden">
+                  <img src={URL.createObjectURL(selectedImage)} alt="Preview" width={85} height={85} className="rounded-full object-contain" />
+                  </span>
+                  <Edit/>
+                </label>)  : (
+                !isFormDataChanged && isEdit && contactsData?.profile_image
+               ?               
+                <label htmlFor="img" className="relative cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center text-lg text-gray-700 rounded-lg p-6 text-center">
+                  <input type="file" name="img" id="img" className="hidden" onChange={handleImageChange} />
+                  <span className="block m-auto overflow-hidden">
+                    <img src={contactsData?.profile_image ? contactsData?.profile_image : '/avatar.png'} alt="Preview" width={85} height={85} className=" rounded-full object-cover" />
+                  </span>
+                  <Edit/>
+                </label>                             
+               :
+               formData.profile_image
+               ?
+                <label htmlFor="img" className="relative cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center text-lg text-gray-700 rounded-lg p-6 text-center">
+                  <input type="file" name="img" id="img" className="hidden" onChange={handleImageChange} />
+                  <span className="block m-auto w-20 h-20 rounded-full overflow-hidden">
+                    <img src={formData.profile_image} alt="Preview"  width={85} height={85} className="rounded-full object-cover" />
+                  </span>
+                  <Edit/>
+                </label>
+              :
+                <label htmlFor="img" className="relative cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center text-lg text-gray-700 rounded-lg p-6 text-center">
+                  <input type="file" name="img" id="img" className="hidden" onChange={handleImageChange} />
+                  <span className="w-12 h-12 bg-center bg-cover rounded-full">
+                    <BsCloudUpload className='text-2xl' />
+                  </span>
+                  <span >UPLOAD IMAGE</span>
+                </label>
             )}
           </Grid>
 
@@ -110,8 +182,10 @@ const NewContact = (props) => {
               fullWidth
               name="first_name"
               label="First Name *"
+              defaultValue={contactsData?.first_name ? contactsData?.first_name : formData.first_name}
               onChange={handleChange}
               className='bg-white'
+              disabled={true}
             />
           </Grid>
           <Grid item xs={6}>
@@ -120,77 +194,54 @@ const NewContact = (props) => {
               name="last_name"
               label="Last Name *"
               onChange={handleChange}
+              defaultValue={contactsData?.last_name ? contactsData?.last_name : formData.last_name}
               className='bg-white'
+              disabled={true}
             />
           </Grid>
 
           {/* Row 2 */}
           <Grid item xs={6}>
             <TextField
-              select
               fullWidth
-              name="designation_id"
-              label="Designation Name *"
+              name="job_title"
+              label="Job Title *"
+              defaultValue={contactsData?.job_title ? contactsData?.job_title : formData.job_title}
               onChange={handleChange}
               className='bg-white'
-            >
-              <MenuItem value="">Select Designation *</MenuItem>
-              {designationList.map(option => (
-                <MenuItem key={option.designation_id} value={option.designation_id}>
-                  {option.title}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={6}>
-            {/*<TextField
-              fullWidth
-              id="company"
-              name="company"
-              label="Company"
-              onChange={handleChangeValues}
-              className='bg-white'
-              />*/}
-              <TextField
-              select
-              fullWidth
-              name="company_id"
-              label="Company Name *"
-              onChange={handleChange}
-              className='bg-white'
-            >
-              <MenuItem value="">Select Company *</MenuItem>
-              {companyList.map(option => (
-                <MenuItem key={option.company_id} value={option.company_id}>
-                  {option.company_name}
-                </MenuItem>
-              ))}
-            </TextField>
+            />
           </Grid>
 
           {/* Row 3 */}
-          {/* <Grid item xs={6}>
+          <Grid item xs={6}>
             <TextField
               fullWidth
-              id="m5_manager"
-              name="m5_manager"
-              label="Manager"
-              onChange={handleChangeValues}
+              name="manager"
+              label="Manager *"
+              defaultValue={contactsData?.manager ? contactsData?.manager : formData.manager}
+              onChange={handleChange}
               className='bg-white'
+              disabled={true}
             />
-          </Grid>*/}
+          </Grid>
           <Grid item xs={6}>
             <TextField
               select
               fullWidth
-              name="function_group"
+              name="functional_group"
               label="Functional Group *"
+              defaultValue={contactsData?.functional_group ? contactsData?.functional_group : formData.functional_group}
               onChange={handleChange}
               className='bg-white'
+              disabled={true}
             >
               <MenuItem value="">Select Functional Group *</MenuItem>
-              {functionalGroupOptions.map(option => (
-                <MenuItem key={option.id} value={option.name}>
+              {functionalList.map(option => (
+                <MenuItem 
+                  key={option.name} 
+                  value={option.name}
+                  selected={option.name === formData.name ? true : false}   
+                >
                   {option.name}
                 </MenuItem>
               ))}
@@ -204,43 +255,9 @@ const NewContact = (props) => {
               name="contact_number"
               label="Contact Number"
               onChange={handleChange}
+              defaultValue={contactsData?.contact_number ? contactsData?.contact_number : formData.contact_number}
               className='bg-white'
             />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              select
-              fullWidth
-              name="team_id"
-              label="Team *"
-              onChange={handleChange}
-              className='bg-white'
-            >
-              <MenuItem value="">Select Team *</MenuItem>
-              {teamList.map(option => (
-                <MenuItem key={option.team_id} value={option.team_id}>
-                  {option.team_title}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          {/* Row 5 */}
-          <Grid item xs={6}>
-            <TextField
-              select
-              fullWidth
-              name="time_zone"
-              label="Time Zone *"
-              onChange={handleChange}
-              className='bg-white'
-            >
-              <MenuItem value="">Select Time Zone *</MenuItem>
-              {timeZoneOptions.map(option => (
-                <MenuItem key={option.id} value={option.name}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
           </Grid>
           <Grid item xs={6}>
             <TextField
@@ -249,30 +266,126 @@ const NewContact = (props) => {
               name="email"
               label="Email *"
               onChange={handleChange}
+              defaultValue={contactsData?.email ? contactsData?.email : formData.email}
               className='bg-white'
+              disabled={true}
             />
           </Grid>
+          {/* Row 5 */}
+          <Grid item xs={6}>
+            <TextField
+              select
+              fullWidth
+              name="time_zone"
+              label="Time Zone *"
+              defaultValue={contactsData?.time_zone ? contactsData?.time_zone : formData.time_zone}
+              onChange={handleTimeZoneChange}
+              className='bg-white'
+            >
+              <MenuItem value="">Select Time Zone *</MenuItem>
+              {moment.tz.names().map((option) => (
+                <MenuItem 
+                  key={option} 
+                  value={option}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          
 
           {/* Row 6 */}
           <Grid item xs={6}>
           <TextField
+              name="work_hours_start"
+              label="Work Hours *"
+              onChange={handleHoursChange}
+              defaultValue={contactsData?.work_hours_start ? contactsData?.work_hours_start : formData.work_hours_start}
+              className='bg-white w-full'
+              type="text"
+            />
+          </Grid>
+          {/*<Grid item xs={6}>
+          <TextField
               fullWidth
-              name="working_hours"
-              label="Working Hours"
+              select
+              name="work_location"
+              label="Work Location *"
               onChange={handleChange}
+              defaultValue={contactsData?.work_location ? contactsData?.work_location : formData.work_location}
               className='bg-white'
+            >
+              {countriesListJSON.map((item)=>( 
+                    <MenuItem
+                      value={item.name}
+                      selected={formData.country == item.name ? true : false}
+                    >
+                      {item.name}
+                    </MenuItem>
+              ))}
+            </TextField>
+          </Grid>*/}
+          <Grid item xs={6}>
+            {/*<TextField
+              fullWidth
+              select
+              name="city"
+              label="City *"
+              onChange={handleChange}
+              defaultValue={contactsData?.city ? contactsData?.city : formData.city}
+              className='bg-white'
+            >
+              {!isFormDataChanged
+              ?
+              citiesListJSON[contactsData?.work_location]?.map((item) => (
+                <MenuItem
+                  key={item}
+                  value={item}
+                >
+                  {item}
+                </MenuItem>
+              ))
+              :
+              cityList.map((item) => (
+                <MenuItem
+                  key={item}
+                  value={item}
+                >
+                  {item}
+                </MenuItem>
+              ))}
+              </TextField>*/}
+              <TextField
+                fullWidth
+                name="work_location"
+                label="Country, City *"
+                onChange={handleChange}
+                defaultValue={contactsData?.work_location ? contactsData?.work_location : formData.work_location}
+                className='bg-white'
+              />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              name="password"
+              label= "Password *"
+              onChange={handleChange}
+              defaultValue={isEdit ? '**************' : formData.password}
+              className='bg-white'
+              type="password"
             />
           </Grid>
           <Grid item xs={6}>
-
-          <TextField
+            <TextField
               fullWidth
-              name="work_location"
-              label="Work Location"
+              name="cpassword"
+              label= "Confirm Password *"
               onChange={handleChange}
+              defaultValue={isEdit ? '**************' : formData.cpassword}
               className='bg-white'
+              type="password"
             />
-
           </Grid>
         </Grid>
       </DialogContent>
@@ -293,17 +406,23 @@ const NewContact = (props) => {
         </Alert>
       </DialogContent>
       <DialogActions className='flex items-center justify-between mt-3 px-6'>
-      <button 
-        onClick={(e)=>createPrimaryContactsRequest(
-          e,
-          formData,
-          selectedFile,
-          fileData
-        )}
-        className='bg-[#26BADA]  
-        text-white rounded-md px-4 py-2 min-w-[120px] uppercase'
-      >Add</button>
-       <button className='bg-[#E8ECEF]  text-[#778CA2] rounded-md px-4 py-2 min-w-[120px] uppercase'>Cancel</button>
+      {isEdit &&
+      
+        <button 
+          onClick={(e)=>updateUserDetailLimited(
+            e,
+            handleClose,
+            formData,
+            contactsData?.user_id,
+            selectedFile,
+            fileData
+          )}
+          className='bg-[#26BADA]  
+          text-white rounded-md px-4 py-2 min-w-[120px] uppercase'
+        >SAVE</button>
+      
+      }
+       <button className='bg-[#E8ECEF]  text-[#778CA2] rounded-md px-4 py-2 min-w-[120px] uppercase' onClick={handleClose}>Cancel</button>
       </DialogActions>      
     </Dialog >
   );

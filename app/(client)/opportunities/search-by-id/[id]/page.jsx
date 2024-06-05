@@ -1,8 +1,8 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import SearchTable from "@/components/SearchTable";
+//import OpportunityTable from "@/components/OpportunityTable";
 import { IoIosSearch } from "react-icons/io";
 import getConfig from 'next/config'
-import { getOpportunityByID } from "@/app/api/opportunities/scripts";
+//import { getOpportunityByID } from "@/app/api/opportunities/scripts";
 
 const SeachOpportunityId = async ({params}) => {
 
@@ -20,9 +20,9 @@ const SeachOpportunityId = async ({params}) => {
     tenantID = serverRuntimeConfig.TENANT_ID
   }
   // call all  request
-  let records = await getOpportunityByID(apiBackendURL, accessToken, tenantID,id)
+  //let records = await getOpportunityByID(apiBackendURL, accessToken, tenantID,id)
 
-  let opportunitiesRecords = records.opportunityData;
+  let opportunitiesRecords = []//records.opportunityData;
   let recs=[]
   recs.push(opportunitiesRecords)
    const breadcrumbItems = [
@@ -44,8 +44,8 @@ const SeachOpportunityId = async ({params}) => {
           <IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" />
         </button>
       </div>
-      {recs.length>0?
-        <SearchTable rows={recs} />:"No Record Found"
+      {/*recs.length>0?
+        <OpportunityTable rows={recs} />:"No Record Found"*/
       }
     </div>
   );

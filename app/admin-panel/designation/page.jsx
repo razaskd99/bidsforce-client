@@ -13,18 +13,34 @@ import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 // end login init 
 
-export default async function AdminPanelDesignation() {
-  
+//for pagination
+import Pagination from "@/components/pageniation-util/pagination"
+
+
+export default async function AdminPanelDesignation({ searchParams }) {
+
+
+  let numberOfRecirds=5
+  // for pagination
+  const search = searchParams?.query || ""
+  const currentPage = Number(searchParams?.page) || 1
+
+
+  const limit = Number(searchParams?.limit) || numberOfRecirds
+  const offset = (currentPage - 1) * limit
+
+
+
   let userEncrptedData = await getCookieValue('userPrivateData')
   let tenant_ID = await getCookieValue('TENANT_ID')
   let userLoginData = await getCookieValue('userLoginData')
 
   // check user is login
-  let isLogin = await getCookieValue('loginStatus')    
-  if (!isLogin) { 
-      { redirect("/login") }
+  let isLogin = await getCookieValue('loginStatus')
+  if (!isLogin) {
+    { redirect("/login") }
   }
-  
+
   // get env variables
   let apiBackendURL = API_BACKEND_SERVER
   let username = userEncrptedData.user
@@ -35,9 +51,15 @@ export default async function AdminPanelDesignation() {
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
 
-  // call all tenant action
-  let records = await getAllDesignationRecordsAction(apiBackendURL, tokens, tenantID);
+  // call all tenant action 
+  let records = await getAllDesignationRecordsAction(apiBackendURL, tokens, tenantID, offset,limit);
+  // for pagination added offet and limit in above function
   let allRecords = records.returnData;
+
+  // for pagination
+  let { data, total_count } = allRecords
+  const totalPages = Math.ceil(total_count / limit)
+
 
   const breadcrumbItems = [
     { label: "Home", href: "/admin-panel" },
@@ -48,14 +70,19 @@ export default async function AdminPanelDesignation() {
     <div className=" w-full">
       <div className="flex w-full justify-between mb-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <AddNewButton 
-          buttonName={"designation"} 
-          buttonType={"new"} 
-          apiBackendURL={apiBackendURL} 
-          tokens={tokens} 
+        <AddNewButton
+          buttonName={"designation"}
+          buttonType={"new"}
+          apiBackendURL={apiBackendURL}
+          tokens={tokens}
           tenantID={tenantID}
         />
       </div>
+
+
+      <div className="flex">
+          <Pagination totalPages={totalPages} />
+        </div>
 
       <div className="card">
         <div className="flex justify-between ">
@@ -77,8 +104,8 @@ export default async function AdminPanelDesignation() {
               </tr>
             </thead>
             <tbody className="table-border-bottom-0">
-              {allRecords &&
-                allRecords.map((item, index) => (
+              {data &&
+                data.map((item, index) => (
                   <tr key={index}>
                     <td>
                       <div className="flex items-center">
@@ -106,10 +133,10 @@ export default async function AdminPanelDesignation() {
                       ) ? (
                         ""
                       ) : (
-                        <DesignationListingButtons 
-                          propsData={item} 
-                          apiBackendURL={apiBackendURL} 
-                          tokens={tokens} 
+                        <DesignationListingButtons
+                          propsData={item}
+                          apiBackendURL={apiBackendURL}
+                          tokens={tokens}
                           tenantID={tenantID}
                         />
                       )}

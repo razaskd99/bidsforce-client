@@ -13,7 +13,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import { LuRefreshCcw } from "react-icons/lu";
 import BidDialog from '@/components/BidRequestDailogue';
 import { IoIosSearch, IoMdAddCircleOutline } from "react-icons/io";
-import SearchTable from '@/components/SearchTable';
+//import OpportunityTable from '@/components/OpportunityTable';
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaRegFilePdf } from "react-icons/fa";
 import DragDrop from '@/components/FileInput';
@@ -569,7 +569,7 @@ const Detail = () => {
                                     <IoMdAddCircleOutline />
                                 </div>
                             </div>
-                            <SearchTable rows={rows} handleRowClick={handleRowClick} noRowsOverlay={NoRowsOverlayClarification} />
+                            {/*<OpportunityTable rows={rows} handleRowClick={handleRowClick} noRowsOverlay={NoRowsOverlayClarification} />*/}
 
                         </>
                     }
@@ -733,8 +733,8 @@ const Detail = () => {
                     }
                 </div>}
                 {active === 'Bid Documents' && <div>
-                    {!documentDetail && <SearchTable rows={documentRow} handleRowClick={handleDocRowClick} noRowsOverlay={NoRowsOverlayDocuments} />
-                    }                {documentDetail &&
+                    {/*!documentDetail && <OpportunityTable rows={documentRow} handleRowClick={handleDocRowClick} noRowsOverlay={NoRowsOverlayDocuments} />
+                    */}                {documentDetail &&
                         <div className='flex p-8 '>
                             <div className='flex-[3]'>
                                 <div className="border mb-3 rounded-md mt-4 ">
@@ -907,7 +907,7 @@ const Detail = () => {
                 </div>}
                 {active === 'Bid Clarifications' &&
                     <div>
-                        {!bidDetail && <SearchTable rows={Bidrows} NoRowsOverlay={NoRowsOverlayBids} />}
+                        {!bidDetail && <OpportunityTable rows={Bidrows} NoRowsOverlay={NoRowsOverlayBids} />}
                         <div className="flex">
                             <div className="flex-[3] p-5 flex flex-col gap-8">
                                 <div className=" flex items-center gap-1 text-[#00AAEC] cursor-pointer" onClick={() => setClarificationDetail(false)}>
@@ -982,7 +982,7 @@ const Detail = () => {
                             <button><IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" /></button>
                         </div>
                     </div>
-                    {/* <SearchTable rows={documentRow} NoRowsOverlay={NoRowsOverlayOrder} /> */}
+                    {/* <OpportunityTable rows={documentRow} NoRowsOverlay={NoRowsOverlayOrder} /> */}
                     <div className="flex gap-3">
                         <div className="flex-[3] p-5 flex flex-col gap-8">
                             <div className=" flex items-center gap-1 text-[#00AAEC] cursor-pointer" onClick={() => setClarificationDetail(false)}>

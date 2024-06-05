@@ -1,7 +1,7 @@
 'use client'
 import { getAccessToken } from "@/app/api/auth/scripts";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import SearchTable from "@/components/SearchTable";
+//import OpportunityTable from "@/components/OpportunityTable";
 import Link from 'next/link'
 import { useState } from "react";
 import getConfig from 'next/config'
@@ -79,7 +79,7 @@ const NewRfx = () => {
                     {!searchResults && <Link href="/rfx/newfx" className="text-[#26BADA] text-xs cursor-pointer uppercase ">Create RFQ Manually</Link>}
                 </div>
             </div>
-            {searchResults && <SearchTable rows={rows} />}
+            {/*searchResults && <OpportunityTable rows={rows} />*/}
 
         </>
 

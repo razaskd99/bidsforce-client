@@ -1,4 +1,4 @@
-import { getBidVality, getContentSubmission, getRfxStages, getRfxTypes, getSubmissionMode, getUsers, getAllCompanyRecordsAction, getAllPersonaRecordsAction } from "@/app/api/rfx/actions/rfx";
+import { getBidVality, getContentSubmission, getRfxStages, getRfxTypes, getSubmissionMode, getUsers, getAllPersonaRecordsAction } from "@/app/api/rfx/actions/rfx";
 import CreateNewRfx from "@/components/CreateNewRfx";
 import { getUserById } from "@/app/api/rfx/actions/user";
 import getConfig from "next/config";
@@ -8,8 +8,9 @@ import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-import { getAllPrimaryContactsAction } from "@/app/api/rfx/actions/primaryContacts";
-import { getOpportunityByID } from "@/app/api/opportunities/scripts";
+//import { getOpportunityByID } from "@/app/api/opportunities/scripts";
+import { getAllPrimaryContactsAction } from "@/app/api/contacts/actions/contacts";
+import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 // end login init 
 
 const NewFx = async () => {
@@ -52,7 +53,7 @@ const NewFx = async () => {
   let contactsRes = await getAllPrimaryContactsAction()
   const primaryContactsRec = contactsRes?.returnData
 
-  let companyRes = await getAllCompanyRecordsAction();
+  let companyRes = await getAllAccountRecordsAction('');
   const companyList = companyRes?.returnData
 
   let personaRes = await getAllPersonaRecordsAction();
@@ -65,8 +66,8 @@ const NewFx = async () => {
   let temp_opp_id = await getCookieValue('temp_opp_id')
 
   // get opportunity details
-  let oppRes = await getOpportunityByID(apiBackendURL, tokens, tenantID, temp_opp_id);
-  preRfxData = oppRes.opportunityData
+  //let oppRes = await getOpportunityByID(apiBackendURL, tokens, tenantID, temp_opp_id);
+  preRfxData = []//oppRes.opportunityData
   
   // prep data for rfx
   preRfxData = {...preRfxData, opportunity_title: preRfxData.title, customer: preRfxData.customer_name, end_user: preRfxData.end_user_name, opportunity_type: preRfxData.type, total_opportunity_value: preRfxData.total_value, opportunity_probability: preRfxData.probability, opportunity_forecasted: preRfxData.forcasted, rfx_id: '', bid_id: ''}

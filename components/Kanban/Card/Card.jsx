@@ -1,105 +1,87 @@
 import React, { useState } from "react";
+import { VscChecklist } from "react-icons/vsc";
+import { LuMessagesSquare } from "react-icons/lu";
+import { IoCalendarOutline } from "react-icons/io5";
+// import { format } from 'date-fns';
 import { Draggable } from "react-beautiful-dnd";
-import { CheckSquare, MoreHorizontal } from "react-feather";
+import { Calendar, CheckSquare, Clock, MoreHorizontal } from "react-feather";
+import Dropdown from "../Dropdown/Dropdown";
+import Modal from "../Modal/Modal";
 import Tag from "../Tags/Tag";
 import "./Card.css";
-import CardDetails from "./CardDetails/CardDetails";
-import Image from "next/image";
-import { VscChecklist } from "react-icons/vsc";
-import { TbMessages } from "react-icons/tb";
-import { FaRegCalendarAlt } from "react-icons/fa";
-
+import CardDetail from "../CardDetail/CardDetail";
+import Link from "next/link";
 const Card = (props) => {
-  const [modalShow, setModalShow] = useState(false);
-  const calculateProgress = (status) => {
-    switch (status) {
-      case "To Do":
-        console.log("Inside TODO")
-        return 0;
-      case "In Progress":
-        console.log("PROG")
+	console.log("props", props)
+	const [dropdown, setDropdown] = useState(false);
+	const [modalShow, setModalShow] = useState(false);
 
-        return 25;
-      case "In Review":
-        console.log("Inside Rev")
+	return (
+		<Draggable key={props.id.toString()} draggableId={props.id.toString()} index={props.index} >
+			{(provided) => (
+				<div className="custom__card p-3"
+					onClick={() => {
+						props.openCardDetail(props.id);
+					}}
+					//  onClick={() => { setModalShow(true); }}
+					// onClick={() => { console.log("INSIDE") }}
+					{...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
+					<div className="card__text"><p>{props.title}</p>
+						{/* <MoreHorizontal className="car__more" onClick={() => {setDropdown(true);}} />  */}
+					</div>
+					<div className="card__text flex flex-col gap-1 text-[#98A9BC] items-start">
+						{/* <p className="text-black text-[13px]">{props.card.title}</p> */}
+						<p>{props.card.company || "DRP Refinery Automation "}</p>
+						<div className="flex justify-between w-full">
+							<div className="flex gap-1 items-center">
+								<img
+									src={props.card.image || "https://images.unsplash.com/photo-1587397845856-e6cf49176c70?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D "}
+									alt="user" width={30} height={30}
+									className="object-cover rounded-full w-8 h-8"
+								/>
+								<VscChecklist />
+								<span className=" text-[11px]">5/8</span>
+								<LuMessagesSquare className="ml-1" />
+								<span className="text-[11px]">5/8</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<IoCalendarOutline />
+								<span className="text-[11px]">
+									{props.card.issueDate ? new Date(props.card.issueDate).toISOString().split('T')[0] : "20 Dec, 2023"}
+								</span>
+							</div>
+						</div>
+					</div>
+					<div className="card__tags">
+						{props.tags?.map((item, index) => (
+							<Tag key={index} tagName={item.tagName} color={item.color} />
+						))}
+					</div>
 
-        return 50;
-      case "Complete":
-        console.log("Inside Glass")
-        return 100;
-      default:
-        return 0;
-    }
-  };
+					{props.card && props.card.task && (
 
-  const progress = calculateProgress(props.status);
+						<div className="card__footer">
+							{/* <div className="time"><Clock /><span>Sun 12:30</span></div> */}
+							{props.card.task.length !== 0 && (
+								<div className="task">
+									<CheckSquare />
+									<span>
+										{props.card.task.length !== 0
+											? `${(props.card.task?.filter(
+												(item) => item.completed === true
+											)).length
+											} / ${props.card.task.length}`
+											: `${"0/0"}`}
+									</span>
+								</div>
+							)}
+						</div>)}
 
-  return (
-    <Draggable
-      key={props.id.toString()}
-      draggableId={props.id.toString()}
-      index={props.index}
-    >
-      {(provided) => (
-        <>
-          {modalShow && (
-            <CardDetails
-              updateCard={props.updateCard}
-              onClose={setModalShow}
-              card={props.card}
-              bid={props.bid}
-              removeCard={props.removeCard}
-            />
-          )}
-
-          <div
-            className="custom__card p-3 overflow-hidden rounded-lg relative" onClick={() => { setModalShow(true); }} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
-            <div className="card__text capitalize">
-              <p>{props.title}</p>
-              <MoreHorizontal className="car__more" />
-            </div>
-            <div className="company text-[#98A9BC]">DRP Refinery Automation </div>
-            <div className="flex items-center justify-between text-[#98A9BC]  text-sm mt-3 m  mb-6  ">
-              <div className="flex items-center gap-1">
-                <Image src="/man.jpeg" alt="user" width={20} height={20} className='rounded-full mr-2' />
-                <VscChecklist />
-                <p>3/5</p>
-                <TbMessages />
-                <p>8</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaRegCalendarAlt />
-                <p>02/03/2024</p>
-              </div>
-            </div>
-            <div className="card__tags">
-              {props.tags?.map((item, index) => (
-                <Tag key={index} tagName={item.tagName} color={item.color} />
-              ))}
-            </div>
-
-            <div className="card__footer">
-              <div className="task-progress">
-                <CheckSquare />
-                <span>
-                  {props.card.task.length !== 0
-                    ? `${props.card.task.filter((item) => item.completed === true)
-                      .length
-                    } / ${props.card.task.length}`
-                    : `${"0/0"}`}
-                </span>
-              </div>
-            </div>
-            <div className="progress-bar h-2 bg-slate-300 w-full absolute left-0 right-0 bottom-0" style={{ with: "100%" }}>
-              {console.log({ progress })}
-              <div className="progress h-2" style={{ width: `${progress+10}%`, backgroundColor: progress < 30 ? "#FE4D97" : "#6DD230" }}></div>
-            </div>
-            {provided.placeholder}
-          </div>
-        </>
-      )}
-    </Draggable>
-  );
+					{provided.placeholder}
+				</div>
+			)}
+		</Draggable>
+	);
 };
 
 export default Card;

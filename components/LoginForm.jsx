@@ -20,7 +20,7 @@ const LoginForm = (props) => {
             <div className='max-w-[550px] w-full login'>
                 <div className='bg-[#252631] h-[200px] flex justify-center items-center'>
                     <div className='w-[396px]'>
-                        <img width="100%" height='100%' src={'/bidsforce logo Op1-01 2.png'} alt='ll' />
+                        <img src={'/bidsforce logo Op1-01 2.png'} alt='ll' />
                     </div>
                 </div>
                 <div className={`pt-16 bg-white ${hide}`}>

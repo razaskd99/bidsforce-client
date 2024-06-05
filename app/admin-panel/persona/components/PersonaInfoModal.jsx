@@ -35,7 +35,7 @@ export default function PersonaInfoModal(props) {
     };
   }, []);
 
-  console.log(props.modalData);
+  
   const handleChangeValues = (e) => {
     let data = { ...formData, [e.target.name]: e.target.value };
     setFormDate({ ...data });
@@ -44,7 +44,7 @@ export default function PersonaInfoModal(props) {
 
   const handleCancel = (e) => {
     setOpenModal(false);
-    props.setOpenRfxPrereqModal(false);
+    props.setOpenPersonaModal(false);
   };
 
   return (

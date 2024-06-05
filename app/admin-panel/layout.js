@@ -59,6 +59,18 @@ export default function RootLayout({ children }) {
                     </div>
                 </SidebarProvider>
 
+                <div id="mainLoader102" className="z-50 hidden  fixed inset-0 flex justify-center items-center bg-gray-100 bg-opacity-30 justify-center items-center h-screen">
+       
+                    <section className="dots-ease-loader-main">
+                        <div className="dot"></div>
+                        <div className="dot"></div>
+                        <div className="dot"></div>
+                        <div className="dot"></div>
+                        <div className="dot"></div>
+                    </section>
+
+                </div>
+                
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" async></script>
                 <script src="https://cdn.tailwindcss.com" async></script>
 
@@ -66,6 +78,8 @@ export default function RootLayout({ children }) {
                 <script src="/assets/vendor/js/helpers.js" async ></script>
                 <script src="/assets/vendor/js/menu.js" async ></script>
                 <script src="/assets/js/main.js" async ></script>
+
+                
             </body>
         </html>
 

@@ -77,7 +77,7 @@ export default function (props) {
             </div>
             <div>
               <button
-                className="create__btn my-2"
+                className="create__btn my-2 p-1 bg-[#26BADA] text-white"
                 onClick={() => {
                   if (label !== "") {
                     if (selectedColor === "") {

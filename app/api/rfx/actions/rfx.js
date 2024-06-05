@@ -24,6 +24,47 @@ export const loadPostData = async (id) => {
   cookies().set("temp_opp_id", id);
 };
 
+
+// get all rfx records by opportunity id
+export const getAllRfxRecordsActionByOppId = async (opportunity_id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  try {
+    const url = `${apiBackendURL}rfx/rfx/opportunity-id/${opportunity_id}`;
+
+    const response = await fetch(url, {
+      cache: "no-store",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request failed for RFx",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for RFx",
+    };
+  }
+};
+
 // get all Persona records
 export const getAllPersonaRecordsAction = async () => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
@@ -64,45 +105,6 @@ export const getAllPersonaRecordsAction = async () => {
   }
 };
 
-// get all Company records from db
-export const getAllCompanyRecordsAction = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}company/companies/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Company",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Company",
-    };
-  }
-};
 
 // get all Customer records from db
 export const getAllCustomerRecordsAction = async () => {
@@ -1477,7 +1479,7 @@ export const createOpportunityAction = async (formData) => {
       type: formData.type,
       probability: "",
       total_value: formData.total_value,
-      crm_id: parseInt(formData.crm_id) ?? 0,
+      crm_id: formData.crm_id,
       customer_name: formData.customer_name,
       end_user_name: formData.end_user_name,
       region: formData.region,
@@ -1536,10 +1538,10 @@ export const createOpportunityAction = async (formData) => {
 
 
 // get all Designation records
-export const getAllDesignationRecordsAction = async () => {
+export const getAllDesignationRecordsAction = async (offset,limit) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
-    const url = `${apiBackendURL}designation/designations/tenant/${tenantID}`;
+    const url = `${apiBackendURL}designation/designations/tenant/${tenantID}?offset=${offset}&limit=${limit}`;
 
     const response = await fetch(url, {
       cache: "no-store",

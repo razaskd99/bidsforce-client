@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import SearchTable from "@/components/SearchTable";
+//import OpportunityTable from "@/components/OpportunityTable";
 import Link from "next/link";
 import { IoIosSearch } from "react-icons/io";
 import getConfig from 'next/config'
@@ -39,7 +39,7 @@ const Opportunitues = () => {
           <IoIosSearch className="transform scale-x-[-1] text-[#778CA2]" />
         </button>
       </div>
-      <SearchTable rows={rows} />
+      {/*<OpportunityTable rows={rows} />*/}
     </div>
   );
 };

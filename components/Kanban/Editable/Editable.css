@@ -10,6 +10,11 @@
   transition: ease-in-out 200ms;
   margin-inline: auto;
 }
+/* .editable > p:hover {
+  background-color: #ccc;
+  color: #000;
+  cursor: pointer;
+} */
 .editable__input {
   display: flex;
   flex-direction: column;

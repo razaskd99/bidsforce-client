@@ -7,56 +7,43 @@ import Dropdown from "../Dropdown/Dropdown";
 import { Droppable } from "react-beautiful-dnd";
 
 export default function Board(props) {
-  console.log(props)
+  const { card, openCardDetail } = props;
   const [show, setShow] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-
   useEffect(() => {
-    document.addEventListener("keypress", (e) => {
+    const handleKeyPress = (e) => {
       if (e.code === "Enter") setShow(false);
-    });
-    return () => {
-      document.removeEventListener("keypress", (e) => {
-        if (e.code === "Enter") setShow(false);
-      });
     };
-  });
+    document.addEventListener("keypress", handleKeyPress);
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, []);
 
   return (
-    <div className="board rounded-t-lg ">
-      <div className="board__top bg-[#26BADA] p-1 rounded-t-lg text-white">
+    <div className="board bg-[#EFF3F5]">
+      <div className="board__top bg-[#26BADA] text-white p-2">
         {show ? (
           <div>
-            <input
-              className="title__input"
-              type={"text"}
-              defaultValue={props.name}
-              onChange={(e) => {
-                props.setName(e.target.value, props.id);
-              }}
-            />
+            <input className="title__input" type={"text"}    defaultValue={props.name}
+              onChange={(e) => { props.setName(e.target.value, props.id); }} />
           </div>
         ) : (
           <div>
-            <p
-              onClick={() => {
-                setShow(true);
-              }}
-              className="board__title"
-            >
+            <p onClick={() => { setShow(true); }} className="board__title">
               {props?.name || "Name of Board"}
-              <span className="total__cards ml-2">{props.card?.length}</span>
+              {/* <span className="text-white ml-1 font-normal">{props.card?.length}</span> */}
             </p>
           </div>
         )}
-        <div
-          onClick={() => {
-            setDropdown(true);
-          }}
-          className="flex items-center gap-2"
-        >
-          <Editable name={"\u00A0"} btnName={""} placeholder={"Enter Card Title"} onSubmit={(value) => props.addCard(value, props.id)} className="hover:bg-[#26DADA] bg-white" />
-          <MoreHorizontal />
+        <div className="flex gap-1 items-center">
+          <Editable
+            name={""}
+            btnName={"Add Card"}
+            placeholder={"Enter Card Title"}
+            onSubmit={(value) => props.addCard(value, props.id)}
+          />
+          <MoreHorizontal onClick={() => { setDropdown(true); }} />
 
           {/*{dropdown && (
             <Dropdown
@@ -73,7 +60,7 @@ export default function Board(props) {
       <Droppable droppableId={props.id.toString()}>
         {(provided) => (
           <div
-            className="board__cards"
+            className="board__cards h-[100vh]"
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
@@ -85,11 +72,12 @@ export default function Board(props) {
                 key={items.id}
                 title={items.title}
                 tags={items.tags}
-                progress={items.progress} // Pass the progress prop here
                 updateCard={props.updateCard}
                 removeCard={props.removeCard}
                 card={items}
-                status={props.name} // Pass the board status as status prop
+                // onClick={() => props.openCardDetail(c.id)} 
+                openCardDetail={openCardDetail} // Pass openCardDetail to Card
+
               />
             ))}
             {provided.placeholder}
@@ -97,7 +85,12 @@ export default function Board(props) {
         )}
       </Droppable>
       <div className="board__footer">
-        <Editable name={"Add Card"} btnName={"Add Card"} placeholder={"Enter Card Title"} onSubmit={(value) => props.addCard(value, props.id)} />
+        {/* <Editable
+          name={"Add Card"}
+          btnName={"Add Card"}
+          placeholder={"Enter Card Title"}
+          onSubmit={(value) => props.addCard(value, props.id)}
+        /> */}
       </div>
     </div>
   );
