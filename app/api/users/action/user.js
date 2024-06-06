@@ -45,7 +45,7 @@ export const createUserAction = async (formData) => {
       "work_location": formData.work_location,
       "work_hours_start": formData.work_hours_start,
       "work_hours_end": formData.work_hours_end ? formData.work_hours_end : '',
-      "active": formData.active,
+      "active": formData.active ? formData.active : true,
       "verified": false,
       "registration_date": formatedDate,
       "last_login_at": formattedTimestamp,
@@ -71,8 +71,6 @@ export const createUserAction = async (formData) => {
     }
 
     const result = await response.json();
-
-    revalidatePath("/admin-panel/users",'page')
 
     return {
       statusCode: 200,
@@ -135,7 +133,7 @@ export const updateUserRecordAction = async (
       "work_location": formData.work_location,
       "work_hours_start": formData.work_hours_start,
       "work_hours_end": formData.work_hours_end ? formData.work_hours_end : '',
-      "active": formData.active,
+      "active": formData.active ? formData.active : true,
       "verified": false,
       "registration_date": formatedDate,
       "last_login_at": formattedTimestamp,
@@ -160,8 +158,6 @@ export const updateUserRecordAction = async (
     }
 
     const result = await response.json();
-
-    revalidatePath("/admin-panel/users",'page')
     
     return {
       statusCode: 200,
@@ -221,8 +217,6 @@ export const updateUserDetailLimitedAction = async (formData, user_id) => {
     }
 
     const result = await response.json();
-
-    revalidatePath("/users/detail/" + user_id, 'page')
 
     return {
       statusCode: 200,

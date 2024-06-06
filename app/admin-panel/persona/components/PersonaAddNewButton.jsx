@@ -13,11 +13,11 @@ export default function PersonaAddNewButton(props) {
     const handleCancel = ()=>{
         props.openPersonaModal(false)      
     }
- 
+
   return (    
       <>  
         {props.buttonName === "persona" &&
-        <button onClick={()=>setOpenPersonaModal(true)} type="button" className="btn btn-sm btn-secondary waves-effect justify-between">
+        <button onClick={()=>setOpenPersonaModal(true)} type="button" className="text-md text-[#26BADA] flex items-center gap-1 cursor-pointer">
             <span className="tf-icons mdi mdi-plus me-1"></span>New Persona
         </button>}
                

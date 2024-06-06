@@ -1,13 +1,8 @@
 "use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { LuRefreshCcw, LuFileEdit } from "react-icons/lu";
-import DatePickerInput from "@/components/DatePickerInput";
 import { useRouter } from "next/navigation";
-import { loadPostData } from "@/app/api/rfx/actions/rfx";
-import { redirect } from "next/navigation";
 import {
   formatDateString,
   formatDatetime,
@@ -235,7 +230,7 @@ const OpportunityDetail = ({
               </div>
               <div className="bg-[#F4F5F6] px-4 py-5 flex  items-center gap-4">
                 <div className="flex flex-[3] bg-white border rounded-[30px] p-1 gap-2 items-center">
-                  <Image
+                  <img
                     src={ownerRec.profile_image ? ownerRec.profile_image : '/avatar.png'}
                     width={38}
                     height={38}

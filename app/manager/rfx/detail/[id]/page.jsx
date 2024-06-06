@@ -22,7 +22,7 @@ import { redirect } from "next/navigation";
 import { getToken } from "@/app/api/util/script";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
-import { getAllPrimaryContactsAction } from "@/app/api/contacts/actions/contacts";
+// import { getAllPrimaryContactsAction } from "@/app/api/contacts/actions/contacts";
 // end login init 
 
 const BDetail = async ({ params }) => {
@@ -84,8 +84,8 @@ const BDetail = async ({ params }) => {
     records = await getAllUsers();
     let allUsersRec = records.data
 
-    records = await getAllPrimaryContactsAction()
-    const primaryContactsRec = records?.returnData
+    // records = await getAllPrimaryContactsAction()
+    const primaryContactsRec = []// records?.returnData
 
     records = await getAllReviewsRecordsBy_Rfx_Key_Action(rfxID, 'pre-lim-review');
     let prelimReviewRec = records.returnData 

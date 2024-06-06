@@ -9,7 +9,7 @@ import { Edit } from "lucide-react";
 import { BsCloudUpload } from "react-icons/bs";
 import SearchingListInput from "@/components/forms/SearchingListInput";
 import { getAllUsersAction } from "@/app/api/users/action/user";
-import { getAllFunctionalGroupAction } from "@/app/api/contacts/actions/functionalGroup";
+import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
 import moment from 'moment-timezone';
 import { citiesListJSON } from "@/components/data/city";
 import { trim } from "jquery";

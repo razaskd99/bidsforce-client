@@ -3,6 +3,8 @@ import Link from "next/link";
 import PersonaAddNewButton from "./components/PersonaAddNewButton";
 import PersonaInfoModal from "./components/PersonaInfoModal";
 import PersonaListingButtons from "./components/PersonaListingButtons";
+import PersonaTable from './components/PersonaTable'
+import SearchSection from '@/components/SearchSection'
 
 // start login init
 import { redirect } from "next/navigation";
@@ -10,9 +12,19 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import { getAllPersonaRecordsAction } from "@/app/api/admin-panel/actions/persona";
+import Pagination from "@/components/pageniation-util/pagination";
 // end login init 
 
-export default async function AdminPanelDesignation() {
+export default async function AdminPanelDesignation({searchParams}) {
+  let searchTermValue=searchParams?.searchterm
+  if(!searchTermValue)searchTermValue=""
+
+  // pagination
+  let numberOfRecords=5
+  const currentPage = Number(searchParams?.page) || 1
+  const limit = Number(searchParams?.limit) || numberOfRecords
+  const offset = (currentPage - 1) * limit
+
   let userEncrptedData = await getCookieValue('userPrivateData')
   let tenant_ID = await getCookieValue('TENANT_ID')
   let userLoginData = await getCookieValue('userLoginData')
@@ -33,9 +45,12 @@ export default async function AdminPanelDesignation() {
   let res = await getToken(apiBackendURL, username, password)
   let tokens = res?.tokenData?.access_token
 
-  // call all tenant action
-  let records = await getAllPersonaRecordsAction(apiBackendURL, tokens, tenantID);
-  let allRecords = records.returnData;
+  // get all persona
+  let records = await getAllPersonaRecordsAction(searchTermValue, offset, limit, apiBackendURL, tokens, tenantID);
+  const allRecords = records?.returnData?.data || [];
+  const total_count = records?.returnData?.total_count || 0;
+  const totalPages = Math.ceil(total_count / limit)
+
 
   const breadcrumbItems = [
     { label: "Home", href: "/admin-panel" },
@@ -44,18 +59,21 @@ export default async function AdminPanelDesignation() {
 
   return (
     <div className=" w-full">
-      <div className="flex w-full justify-between mb-2">
+      <div className="">
         <Breadcrumbs items={breadcrumbItems} />
-        <PersonaAddNewButton 
-          buttonName={"persona"} 
-          buttonType={"new"} 
-          apiBackendURL={apiBackendURL}
-          tenantID={tenantID}
-          tokens={tokens}
-        />
-      </div>
+        <div className="flex items-center justify-items-end	 gap-2">
+          <PersonaAddNewButton 
+            buttonName={"persona"} 
+            buttonType={"new"} 
+            apiBackendURL={apiBackendURL}
+            tenantID={tenantID}
+            tokens={tokens}
+          />        
 
-      <div className="card">
+          <SearchSection/>
+        </div>
+      </div>
+      {/*<div className="card">
         <div className="flex justify-between ">
           <div className=" ">
             <h5 className="card-header">Persona List</h5>
@@ -110,7 +128,15 @@ export default async function AdminPanelDesignation() {
             </tbody>
           </table>
         </div>
-      </div>
+      </div>*/}
+
+        <div>
+          <PersonaTable allRecords={allRecords} apiBackendURL={apiBackendURL} tenantID={tenantID} tokens={tokens}/>       
+        </div> 
+
+        <div className=" flex justify-center mt-20"> 
+          <Pagination totalPages={totalPages} />
+        </div>
     </div>
   );
 }

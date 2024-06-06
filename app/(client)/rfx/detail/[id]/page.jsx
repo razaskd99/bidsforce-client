@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
+// import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
 // end login init 
 
 const Detail = async ({ params }) => {
@@ -49,15 +49,15 @@ const Detail = async ({ params }) => {
     let  contactsRec = records.rfxData
     
     let  keyContactsRec = []  
-    for (const item of contactsRec) {
-        try {
-            const apiData = await getPrimaryContactsByIDAction(item.contact_user_id);
-            const updatedObject = {...apiData.returnData, contact_key: item.conatct_key, persona_role: item.persona_role};
-            keyContactsRec.push(updatedObject);
-        } catch (error) {
-            console.error(`Error fetching data for object with id ${item.contact_user_id}`, error);
-        }
-    }
+    // for (const item of contactsRec) {
+    //     try {
+    //         const apiData = await getPrimaryContactsByIDAction(item.contact_user_id);
+    //         const updatedObject = {...apiData.returnData, contact_key: item.conatct_key, persona_role: item.persona_role};
+    //         keyContactsRec.push(updatedObject);
+    //     } catch (error) {
+    //         console.error(`Error fetching data for object with id ${item.contact_user_id}`, error);
+    //     }
+    // }
 
     
     let assigntoRec = {}

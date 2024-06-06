@@ -9,7 +9,7 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 //import { getOpportunityByID } from "@/app/api/opportunities/scripts";
-import { getAllPrimaryContactsAction } from "@/app/api/contacts/actions/contacts";
+// import { getAllPrimaryContactsAction } from "@/app/api/contacts/actions/contacts";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 // end login init 
 
@@ -50,8 +50,8 @@ const NewFx = async () => {
   let usersRes= await getUsers();
   const users = usersRes?.data
 
-  let contactsRes = await getAllPrimaryContactsAction()
-  const primaryContactsRec = contactsRes?.returnData
+  // let contactsRes = await getAllPrimaryContactsAction()
+  const primaryContactsRec =[]// contactsRes?.returnData
 
   let companyRes = await getAllAccountRecordsAction('');
   const companyList = companyRes?.returnData

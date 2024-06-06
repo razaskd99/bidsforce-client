@@ -4,9 +4,9 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField, But
 import { FaRegTrashCan, FaCirclePlus } from "react-icons/fa6";
 import SearchingListInput from '../forms/SearchingListInput';
 import { showModalError, showModalSuccess } from '@/app/api/rfx/utility';
-import { createContactsTeamAction } from '@/app/api/contacts/actions/team';
 import { Close } from '@mui/icons-material';
 import { hideMainLoader102, showMainLoader102 } from '@/app/api/util/utility';
+import { createContactsTeamAction } from '../../app/api/users/action/team';
 
 const SelectTeamEdit = (props) => {    
     const { isOpen, handleClose, personaRecords, userRecords, selectedUsers, modalType } = props;

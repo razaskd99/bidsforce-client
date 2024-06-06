@@ -3,6 +3,7 @@ import { showModalError, showModalSuccess } from "../rfx/utility";
 import { hideMainLoader102, showMainLoader102 } from "../util/utility";
 import { uploadImagesOnBlob } from "../util/vercelFileHandler";
 import { createUserAction, deleteUserRecordAction, updateUserDetailLimitedAction, updateUserRecordAction } from "./action/user";
+import { createFunctionalGroupAction, deleteFunctionalGroupRecordAction, updateFunctionalGroupAction } from "./action/functionalGroup";
 
 
 // Client request to create User
@@ -87,18 +88,17 @@ export const createUserRequest = async (
     let res = await createUserAction(formData);
     if (res.statusCode === 200) {
       //showModalSuccess("New details added successfully.");
-      //window.location.reload();
-      handleClose();
-      hideMainLoader102();
+      window.location.reload();
+      //handleClose();
     } else {
       valid = false;
       message = res.error;
-      hideMainLoader102();
     }
   } 
 
   if (!valid || !success) {
     showModalError(message);
+    hideMainLoader102();
   }
 };
 
@@ -120,10 +120,10 @@ export const deleteUserRequest = async (
   if (userConfirmed) {
     let res = await deleteUserRecordAction(user_id);
     if (res) {
-      //window.location.reload();
+      window.location.reload();
     } else {
       // showError("Server Error:", res.returnData.error*/);
-      //window.location.reload();
+      window.location.reload();
     }
   }
 };
@@ -215,17 +215,17 @@ export const updaateUserRequest = async (
     let res = await updateUserRecordAction(formData, user_id);
     if (res.statusCode === 200) {
       //showModalSuccess("User details updated successfully.");
-      //window.location.reload();
-      handleClose();
+      window.location.reload();
+      //handleClose();
     } else {
       valid = false;
       message = res.error;
-      hideMainLoader102();
     }
   } 
 
   if (!valid || !success) {
     showModalError(message);
+    hideMainLoader102();
   }
 };
 
@@ -300,20 +300,145 @@ export const updateUserDetailLimited = async (
       // update user
       let res = await updateUserDetailLimitedAction(formData, user_id);
       if (res.statusCode === 200) {
+        showMainLoader102();
         //showModalSuccess("User details updated successfully.");
-        //window.location.reload();
-        handleClose();
+        window.location.reload();
+        // handleClose();
       } else {
         valid = false;
         message = res.error;
-        hideMainLoader102();
       }
     } 
   
     if (!valid || !success) {      
       showModalError(message);
+      hideMainLoader102();
     }
-    hideMainLoader102();
+    
     
   };
-  
+
+
+  //////////////////////////// Functional Group
+
+
+// Client request to create new Functional Group
+export const createFunctionalGroupRequest = async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    title: document.getElementById("m8_title")
+      ? document.getElementById("m8_title").value
+      : "",
+    active: true,    
+  };
+
+  let valid = true;
+  let message = "";
+  const validationFields = ["title"];
+
+  validationFields.forEach((element) => {
+    if (!formData[element]) {
+      valid = false;
+      message = "Please fill the required fields.";
+    }
+  });
+
+  const isactive = document.getElementById("m8_active");
+  formData.active =
+    isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
+
+  if (valid && isactive.selectedIndex == 0) {
+    valid = false;
+    message = "Please select the active status.";
+  }
+  let success = true;
+  if (valid) {
+    showMainLoader102();
+    let res = await createFunctionalGroupAction(formData);
+    if (res.statusCode === 200) {
+      //showModalSuccess("New record added successfully.");
+      window.location.reload();
+    } else {
+      valid = false;
+      message = res.error;
+    }
+  }
+
+  if (!valid || !success) {
+    showModalError(message);
+    hideMainLoader102();
+  }
+};
+
+
+
+// Client request to update Functional Group
+export const updateFunctionalGroupRequest = async (e, id) => {
+  e.preventDefault();
+
+  const formData = {
+    title: document.getElementById("m8_title")
+      ? document.getElementById("m8_title").value
+      : "",
+    active: true,    
+  };
+
+  let valid = true;
+  let message = "";
+  const validationFields = ["title"];
+
+  validationFields.forEach((element) => {
+    if (!formData[element]) {
+      valid = false;
+      message = "Please fill the required fields.";
+    }
+  });
+
+  const isactive = document.getElementById("m8_active");
+  formData.active =
+    isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
+
+  if (valid && isactive.selectedIndex == 0) {
+    valid = false;
+    message = "Please select the active status.";
+  }
+  let success = true;
+  if (valid) {
+    showMainLoader102();
+    let res = await updateFunctionalGroupAction(formData, id);
+    if (res.statusCode === 200) {
+      //showModalSuccess("New record added successfully.");
+      window.location.reload();
+    } else {
+      valid = false;
+      message = res.error;
+    }
+  }
+
+  if (!valid || !success) {
+    showModalError(message);
+    hideMainLoader102();
+  }
+};
+
+
+// Client request to delete Functional Group
+export const deleteFunctionalGroupRequest = async (id) => {
+ // e.preventDefault();
+
+  const userConfirmed = window.confirm(
+    "Are you sure want to delete Functional Group?"
+  );
+
+  if (userConfirmed) {
+    showMainLoader102();
+    let res = await deleteFunctionalGroupRecordAction(id);
+    if (res.statusCode == 200) {
+      window.location.reload();
+    } else {
+      showError(res.returnData.error)
+      hideMainLoader102();
+    }
+  }
+};

@@ -7,7 +7,7 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import OpenDetailContact from "@/components/contacts/OpenDetailContact";
-import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
+// import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
 import { getAllDesignationRecordsAction, getAllPersonaRecordsAction, getAllTeamRecordsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 import { getAllUsers } from "@/app/api/rfx/actions/user";

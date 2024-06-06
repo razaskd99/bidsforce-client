@@ -11,8 +11,8 @@ import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import {  getAllPersonaRecordsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllUsersAction } from "@/app/api/users/action/user";
-import { getAllContactsTeamAction } from "@/app/api/contacts/actions/team";
 // end login init 
+import {getAllContactsTeamAction} from '@/app/api/users/action/team'
 
 
 

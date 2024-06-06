@@ -1,18 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Image from "next/image";
-import { LuMessagesSquare } from "react-icons/lu";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import CustomPagination from "../CustomPagination";
 import { usePathname, useRouter } from 'next/navigation';
-import { RowingTwoTone } from '@mui/icons-material';
 import { hideMainLoader102, showMainLoader102 } from '@/app/api/util/utility';
-import { EyeIcon } from 'lucide-react';
-import { deletePrimaryContactsRecordAction, getPrimaryContactsByIDAction } from '@/app/api/contacts/actions/contacts';
 import NewContact from './NewContact';
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 
 const ContactTable = ({ rows }) => {
   const [isOpen, setIsOpen] = useState(false);

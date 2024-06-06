@@ -1,16 +1,14 @@
 "use client";
 
-import { formatDatetime, hideMainLoader102, showMainLoader102 } from "@/app/api/util/utility";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import React, {useState} from "react";
 import PropTypes from 'prop-types';
-import { deleteAccountTypeRecordAction, getAccountTypeRecordByIDAction } from "../../../api/accounts/action/accountType";
-import AccountTypeInfoModal from "./AccountTypeInfoModal";
+import { formatDatetime, hideMainLoader102, showMainLoader102 } from "../../../api/util/utility";
+import PersonaInfoModal from "./PersonaInfoModal";
+import {deletePersonaRecordAction, getPersonaRecordByIDAction} from '../../../api/admin-panel/actions/persona'
 
 
-
-
-export default function AccountTypeTableAdmin({ allRecords}) {
+export default function PersonaTable({ allRecords, apiBackendURL, tenantID, tokens}) {
   hideMainLoader102();
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -60,21 +58,20 @@ export default function AccountTypeTableAdmin({ allRecords}) {
   const deleteItemsButton = async itemIDs => {
     const confirmDelete = window.confirm("Are you sure? You want to delete selected records.");
     if(confirmDelete){
-      showMainLoader102();
-    if(itemIDs) {
-      for (const itemID of itemIDs) {
-        const r1 = await deleteAccountTypeRecordAction(itemID);
-      }
-      window.location.reload();                  
+      if(itemIDs) {
+        showMainLoader102();
+        for (const itemID of itemIDs) {
+          const r1 = await deletePersonaRecordAction(itemID, apiBackendURL, tokens, tenantID);
+        }
+        window.location.reload();                  
+      }  
     }
-      
-    }   
   };
 
   const updateItemButton = async() => {
 
     if(selectedRows && selectedRows.length == 1) {
-      const r1 = await getAccountTypeRecordByIDAction(selectedRows[0]);
+      const r1 = await getPersonaRecordByIDAction(selectedRows[0], apiBackendURL, tokens, tenantID);
       setModalData(r1.returnData);  
     }
     setIsOpen(true);
@@ -84,9 +81,14 @@ export default function AccountTypeTableAdmin({ allRecords}) {
   return (
     <div className="h-full w-full "> 
     { isOpen && 
-    <AccountTypeInfoModal 
+    <PersonaInfoModal 
         modalData={modalData}
-        setOpenAccountTypeModal={setIsOpen}
+        setOpenFunctionalGroupModal={setIsOpen}
+        modalType="update"
+        id={modalData.persona_id ? modalData.persona_id : ''}        
+        tenantID={tenantID}
+        tokens={tokens}
+        apiBackendURL={apiBackendURL}
     />
     }
     <div className='flex gap-3 w-full h-4 text-gray-500 cursor-pointer ml-3'>
@@ -119,7 +121,8 @@ export default function AccountTypeTableAdmin({ allRecords}) {
             className=""
             onChange={(e)=>handleCheckboxSelectAll(e)}
           /></th>
-          <th className="px-2 py-2 font-normal text-left align-middle ">TYPE NAME</th>
+          <th className="px-2 py-2 font-normal text-left align-middle ">TITLE</th>
+          <th className="px-2 py-2 font-normal text-left align-middle ">STATUS</th>
           <th className="px-2 py-2 font-normal text-left align-middle ">CREATED ON</th>
 
         </tr>
@@ -128,14 +131,15 @@ export default function AccountTypeTableAdmin({ allRecords}) {
             <td className="px-3 py-2">             
               <input 
                 type="checkbox"
-                value={row.account_type_id}
-                onChange={(e)=>handleCheckboxChange(e, row.account_type_id)}
-                checked={(selectedRows.includes(row.account_type_id) ? true : false)}
+                value={row.persona_id}
+                onChange={(e)=>handleCheckboxChange(e, row.persona_id)}
+                checked={(selectedRows.includes(row.persona_id) ? true : false)}
               />
             </td>
                           
-            <td className="px-2 py-2 text-small" >{row.type_name}</td>
-            <td className="px-2 py-2 text-small">{formatDatetime(row.created_at)}</td>
+            <td className="px-2 py-2 text-small" >{row.persona_role}</td>
+            <td className="px-2 py-2 text-small" >{row.is_active ? "Active" : "Inactive"}</td>
+            <td className="px-2 py-2 text-small">{formatDatetime(row.created_on)}</td>
 
           </tr>
         ))}
@@ -145,6 +149,6 @@ export default function AccountTypeTableAdmin({ allRecords}) {
 );
 };
 
-AccountTypeTableAdmin.propTypes = {
+PersonaTable.propTypes = {
   rows: PropTypes.array.isRequired,
 };

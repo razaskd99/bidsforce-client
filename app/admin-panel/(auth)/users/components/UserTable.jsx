@@ -55,7 +55,7 @@ const UserTable = ({ rows, tenantDetails }) => {
         for (const itemID of itemIDs) {
           const r1 = await deleteUserRecordAction(itemID);
         }
-        hideMainLoader102();
+        window.location.reload()
       }
     }   
   };

@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
               <div className="dot"></div>
             </section>'
           zIndex={1600}
-          showAtBottom={true}
+          showAtBottom={false}
           
           />
         {children}

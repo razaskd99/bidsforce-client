@@ -1,17 +1,13 @@
 'use client'
 
 import React,{useState, useEffect} from "react";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import { hideMainLoader102, showMainLoader102 } from "@/app/api/util/utility";
-import Image from "next/image";
 import { AccordionDetails, Button } from '@mui/material';
-import { IoMdAddCircle } from 'react-icons/io';
-import { ArrowBigDown, ChevronDown, Edit, Edit2Icon } from "lucide-react";
-import NewContact from "@/components/contacts/NewContact";
-import { deleteContactsTeamRecordAction, getAllContactsTeamAction, getAllContactsTeamByTitleAction } from "@/app/api/contacts/actions/team";
+import { ArrowBigDown, ChevronDown } from "lucide-react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import SelectTeam from "./SelectTeam";
 import CustomPagination from "../CustomPagination";
+import { deleteContactsTeamRecordAction, getAllContactsTeamByTitleAction } from "../../app/api/users/action/team";
 
 
 export default function OpenDetailTeam ( props ) {
@@ -120,8 +116,7 @@ export default function OpenDetailTeam ( props ) {
                 image: item.profile_image ? item.profile_image : '/avatar.png',                
             }));
             setUsersList(mappedData);
-            setOpenTeam(true);  
-            console.log(records,'dddddddddddddd')          
+            setOpenTeam(true);         
         }
     };
   

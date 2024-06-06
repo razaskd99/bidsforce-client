@@ -1,20 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  createPersonaRequest,
-  createRfxPrereqRequest,
-  updatePersonaRequest,
-  updateRfxPrereqRequest,
-} from "@/app/api/admin-panel/scripts";
-import { createFunctionalGroupRequest, updateFunctionalGroupRequest } from "@/app/api/contacts/scripts";
+import { createFunctionalGroupRequest, updateFunctionalGroupRequest } from "../../../api/users/script";
+
+
 
 export default function FunctionalGroupInfoModal(props) {
   const [openModal, setOpenModal] = useState(true);
   const [formData, setFormDate] = useState({
     m8_title: props.modalData && props.modalData.title ? props.modalData.title : "",
-    m8_active: props.modalData && props.modalData.active ? props.modalData && props.modalData.active : true    
+    m8_active: props.modalData && props.modalData.active ? true : false    
   });
   
 
@@ -67,7 +61,7 @@ export default function FunctionalGroupInfoModal(props) {
                         onChange={handleChangeValues}
                         id="m8_title"
                         name="m8_title"
-                        value={formData.m8_title}
+                        defaultValue={formData.m8_title ? formData.m8_title : ''}
                         className="form-control"
                         placeholder="Enter Title"
                       />

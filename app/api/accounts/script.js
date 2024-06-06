@@ -223,8 +223,8 @@ export const createAccountTypeRequest = async (
       formData
     );
     if (res.statusCode === 200) {
-      document.getElementById("modalform1").reset();
-      showModalSuccess("New details added successfully.");
+      //document.getElementById("modalform1").reset();
+      //showModalSuccess("New details added successfully.");
       window.location.reload();
     } else {
       valid = false;
@@ -262,8 +262,8 @@ export const updateAccountTypeRequest = async (
       id
     );
     if (res.statusCode === 200) {
-      document.getElementById("modalform1").reset();
-      showModalSuccess("Details updated successfully.");
+      //document.getElementById("modalform1").reset();
+      //showModalSuccess("Details updated successfully.");
       window.location.reload();
     } else {
       valid = false;

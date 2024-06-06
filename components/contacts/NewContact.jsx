@@ -6,9 +6,10 @@ import { BsCloudUpload } from "react-icons/bs";
 import { countriesListJSON } from "../data/country";
 import { Edit } from 'lucide-react';
 import moment from 'moment-timezone';
-import { getAllFunctionalGroupAction } from '@/app/api/contacts/actions/functionalGroup';
 import { updateUserDetailLimited } from '@/app/api/users/script';
 import { citiesListJSON } from '../data/city';
+import {getAllFunctionalGroupAction} from '@/app/api/users/action/functionalGroup'
+
 
 const NewContact = ({ isOpen, handleClose, modalType, contactsData}) => {
 

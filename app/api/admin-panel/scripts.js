@@ -1231,6 +1231,7 @@ export const createPersonaRequest = async (
   }
   let success = true;
   if (valid) {
+    showMainLoader102();
     let res = await createPersonaAction(
       formData,
       apiBackendURL,
@@ -1238,8 +1239,8 @@ export const createPersonaRequest = async (
       tenantID
     );
     if (res.statusCode === 200) {
-      document.getElementById("modalform4").reset();
-      showModalSuccess("New details added successfully.");
+      //document.getElementById("modalform4").reset();
+      //showModalSuccess("New details added successfully.");
       window.location.reload();
     } else {
       valid = false;
@@ -1249,6 +1250,7 @@ export const createPersonaRequest = async (
 
   if (!valid || !success) {
     showModalError(message);
+    hideMainLoader102();
   }
 };
 
@@ -1294,6 +1296,7 @@ export const updatePersonaRequest = async (
 
   let success = true;
   if (valid) {
+    showMainLoader102();
     let res = await updatePersonaRecordAction(
       formData,
       id,
@@ -1302,8 +1305,8 @@ export const updatePersonaRequest = async (
       tenantID
     );
     if (res.statusCode === 200) {
-      document.getElementById("modalform4").reset();
-      showModalSuccess("Details updated successfully.");
+      //document.getElementById("modalform4").reset();
+      //showModalSuccess("Details updated successfully.");
       window.location.reload();
     } else {
       valid = false;
@@ -1313,6 +1316,7 @@ export const updatePersonaRequest = async (
 
   if (!valid || !success) {
     showModalError(message);
+    hideMainLoader102();
   }
 };
 

@@ -7,7 +7,7 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import OpenContacts from "@/components/contacts/OpenDetailContact";
-import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
+// import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
 import { getAllDesignationRecordsAction, getAllPersonaRecordsAction, getAllTeamRecordsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 // end login init
@@ -32,8 +32,8 @@ const AddAccount = async ({ params }) => {
     let tokens = response?.tokenData?.access_token;
       
     // get primary contact by id
-    response = await getPrimaryContactsByIDAction(id);
-    let contacts = response.returnData;
+    // response = await getPrimaryContactsByIDAction(id);
+    let contacts = []//response.returnData;
 
     // get accounts
     response = await getAllAccountRecordsAction(id);

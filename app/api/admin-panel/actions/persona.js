@@ -144,9 +144,9 @@ export const deletePersonaRecordAction = async (id, apiBackendURL, tokens, tenan
 };
 
 // get all Persona records from db
-export const getAllPersonaRecordsAction = async (apiBackendURL, tokens, tenantID) => {
+export const getAllPersonaRecordsAction = async (searchTermValue, offset, limit, apiBackendURL, tokens, tenantID) => {
   try {
-    const url = `${apiBackendURL}persona/persona/tenant/${tenantID}`;
+    const url = `${apiBackendURL}persona/persona/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     
     const response = await fetch(url, {
       cache: "no-store",

@@ -1,16 +1,17 @@
 "use client";
 
-import { formatDatetime, hideMainLoader102, showMainLoader102 } from "@/app/api/util/utility";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import React, {useState} from "react";
 import PropTypes from 'prop-types';
-import { deleteAccountTypeRecordAction, getAccountTypeRecordByIDAction } from "../../../api/accounts/action/accountType";
-import AccountTypeInfoModal from "./AccountTypeInfoModal";
+import { formatDatetime, hideMainLoader102, showMainLoader102 } from "../../../api/util/utility";
+import { deleteFunctionalGroupRequest } from "../../../api/users/script";
+import FunctionalGroupInfoModal from "./FunctionalGroupInfoModal";
+import { getFunctionalGroupByIDAction } from "../../../api/users/action/functionalGroup";
 
 
 
 
-export default function AccountTypeTableAdmin({ allRecords}) {
+export default function FunctionalGroupTable({ allRecords}) {
   hideMainLoader102();
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -58,23 +59,18 @@ export default function AccountTypeTableAdmin({ allRecords}) {
   };
 
   const deleteItemsButton = async itemIDs => {
-    const confirmDelete = window.confirm("Are you sure? You want to delete selected records.");
-    if(confirmDelete){
-      showMainLoader102();
     if(itemIDs) {
       for (const itemID of itemIDs) {
-        const r1 = await deleteAccountTypeRecordAction(itemID);
+        const r1 = await deleteFunctionalGroupRequest(itemID);
       }
       window.location.reload();                  
-    }
-      
-    }   
+    }  
   };
 
   const updateItemButton = async() => {
 
     if(selectedRows && selectedRows.length == 1) {
-      const r1 = await getAccountTypeRecordByIDAction(selectedRows[0]);
+      const r1 = await getFunctionalGroupByIDAction(selectedRows[0]);
       setModalData(r1.returnData);  
     }
     setIsOpen(true);
@@ -84,9 +80,10 @@ export default function AccountTypeTableAdmin({ allRecords}) {
   return (
     <div className="h-full w-full "> 
     { isOpen && 
-    <AccountTypeInfoModal 
+    <FunctionalGroupInfoModal 
         modalData={modalData}
-        setOpenAccountTypeModal={setIsOpen}
+        setOpenFunctionalGroupModal={setIsOpen}
+        modalType="update" 
     />
     }
     <div className='flex gap-3 w-full h-4 text-gray-500 cursor-pointer ml-3'>
@@ -119,7 +116,8 @@ export default function AccountTypeTableAdmin({ allRecords}) {
             className=""
             onChange={(e)=>handleCheckboxSelectAll(e)}
           /></th>
-          <th className="px-2 py-2 font-normal text-left align-middle ">TYPE NAME</th>
+          <th className="px-2 py-2 font-normal text-left align-middle ">TITLE</th>
+          <th className="px-2 py-2 font-normal text-left align-middle ">STATUS</th>
           <th className="px-2 py-2 font-normal text-left align-middle ">CREATED ON</th>
 
         </tr>
@@ -128,13 +126,14 @@ export default function AccountTypeTableAdmin({ allRecords}) {
             <td className="px-3 py-2">             
               <input 
                 type="checkbox"
-                value={row.account_type_id}
-                onChange={(e)=>handleCheckboxChange(e, row.account_type_id)}
-                checked={(selectedRows.includes(row.account_type_id) ? true : false)}
+                value={row.id}
+                onChange={(e)=>handleCheckboxChange(e, row.id)}
+                checked={(selectedRows.includes(row.id) ? true : false)}
               />
             </td>
                           
-            <td className="px-2 py-2 text-small" >{row.type_name}</td>
+            <td className="px-2 py-2 text-small" >{row.title}</td>
+            <td className="px-2 py-2 text-small" >{row.active ? "Active" : "Inactive"}</td>
             <td className="px-2 py-2 text-small">{formatDatetime(row.created_at)}</td>
 
           </tr>
@@ -145,6 +144,6 @@ export default function AccountTypeTableAdmin({ allRecords}) {
 );
 };
 
-AccountTypeTableAdmin.propTypes = {
+FunctionalGroupTable.propTypes = {
   rows: PropTypes.array.isRequired,
 };

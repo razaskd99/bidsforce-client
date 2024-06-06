@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField, But
 import { FaRegTrashCan, FaCirclePlus } from "react-icons/fa6";
 import SearchingListInput from '../forms/SearchingListInput';
 import { showModalError, showModalSuccess } from '@/app/api/rfx/utility';
-import { createContactsTeamAction, deleteContactsTeamRecordAction, getAllContactsTeamByTitleAction } from '@/app/api/contacts/actions/team';
+import { createContactsTeamAction, deleteContactsTeamRecordAction, getAllContactsTeamByTitleAction } from '@/app/api/users/action/team';
 import { Close } from '@mui/icons-material';
 import { hideMainLoader102, showMainLoader102 } from '@/app/api/util/utility';
 

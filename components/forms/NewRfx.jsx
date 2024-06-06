@@ -28,7 +28,6 @@ import ContactDialog from "../ContactPopup";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import Link from "next/link";
 import RFxList from "../RfxList";
-import { getAllPrimaryContactsAction } from "@/app/api/contacts/actions/contacts";
 
 
 
@@ -133,21 +132,21 @@ export default function NewRFx(props) {
       .catch((err) => {});
   }, []);
 
-  useEffect(() => {
-    getAllPrimaryContactsAction()
-      .then((resp) => {
-        setPrimaryContactList(
-          resp.returnData.map((item, index) => ({
-            user_id: item.primary_contacts_id,
-            first_name: item.first_name,
-            last_name: item.last_name,
-            designation_title: item.designation_title,
-            profile_image: item.profile_image
-          }))
-        );
-      })
-      .catch((err) => {});
-  }, []);
+  // useEffect(() => {
+  //   getAllPrimaryContactsAction()
+  //     .then((resp) => {
+  //       setPrimaryContactList(
+  //         resp.returnData.map((item, index) => ({
+  //           user_id: item.primary_contacts_id,
+  //           first_name: item.first_name,
+  //           last_name: item.last_name,
+  //           designation_title: item.designation_title,
+  //           profile_image: item.profile_image
+  //         }))
+  //       );
+  //     })
+  //     .catch((err) => {});
+  // }, []);
 
   
   const handleTechContactSelect = (contact)=>{
@@ -451,7 +450,7 @@ export default function NewRFx(props) {
               isOpen={isTechContactDialogOpen}
               handleClose={() => setTechContactDialogOpen(false)}
               handleContactSelect={handleTechContactSelect}
-              users={primaryContactList}
+              //users={primaryContactList}
             />
             <Grid item xs={12} md={6}></Grid>            
             <Grid item xs={12} md={6}>
@@ -474,7 +473,7 @@ export default function NewRFx(props) {
               isOpen={isCommContactDialogOpen}
               handleClose={() => setCommContactDialogOpen(false)}
               handleContactSelect={handleCommContactSelect}
-              users={primaryContactList}
+              // users={primaryContactList}
             />            
             <Grid item xs={12} md={12}>
               <TextField
