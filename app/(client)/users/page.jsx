@@ -9,10 +9,10 @@ import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
-import {  getAllPersonaRecordsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllUsersAction } from "@/app/api/users/action/user";
 // end login init 
 import {getAllContactsTeamAction} from '@/app/api/users/action/team'
+import { getAllPersonaRecordsAction } from "../../api/admin-panel/actions/persona";
 
 
 
@@ -57,8 +57,8 @@ export default async function Contacts({searchParams}) {
   let response = {}
 
   // get persona
-  response = await getAllPersonaRecordsAction()
-  let personaRecords = response.returnData 
+  response = await getAllPersonaRecordsAction('', 0, 1000, apiBackendURL, tokens, tenantID)
+  let personaRecords = response?.returnData?.data || []; 
 
   // get users
   response = await getAllUsersAction(!modeTermValue || modeTermValue == 'users' ? searchTermValue : '')

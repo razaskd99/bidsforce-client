@@ -16,19 +16,21 @@ import AccountTypeTableAdmin from "../components/AccountTypeTableAdmin";
 // end login init 
 
 export default async function AccountType({searchParams}) {
+  // search term
+  let searchTermValue=searchParams?.searchterm
+  if(!searchTermValue)searchTermValue=""
+
+  // pagination
+  let numberOfRecords=5
+  const currentPage = Number(searchParams?.page) || 1
+  const limit = Number(searchParams?.limit) || numberOfRecords
+  const offset = (currentPage - 1) * limit
+
   let userEncrptedData = await getCookieValue('userPrivateData')
   let tenant_ID = await getCookieValue('TENANT_ID')
   let userLoginData = await getCookieValue('userLoginData')
 
-   let numberOfRecords=5
-  // for pagination
-  const searchTermValue = searchParams?.query || ""
-  const currentPage = Number(searchParams?.page) || 1
-
-
-  const limit = Number(searchParams?.limit) || numberOfRecords
-  const offset = (currentPage - 1) * limit
-
+  
   // check user is login
   let isLogin = await getCookieValue('loginStatus')    
   if (!isLogin) { 

@@ -8,7 +8,7 @@ import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import UserInfoModal from './UserInfoModal';
 import { deleteUserRecordAction, getUserRecordByIDAction } from '@/app/api/users/action/user';
 
-const UserTable = ({ rows, tenantDetails }) => {
+const UserTable = ({ rows, tenantDetails, functionaGroupRecs, usersRecords }) => {
   hideMainLoader102();
   const [isOpen, setIsOpen] = useState(false);
   const [usersData, setUsersData] = useState(null);
@@ -34,7 +34,6 @@ const UserTable = ({ rows, tenantDetails }) => {
   const handleCloseUser = () => {
     setIsOpen(false);
   };
-
 
   const updateItemButton = async() => {
 
@@ -138,8 +137,10 @@ const UserTable = ({ rows, tenantDetails }) => {
         handleClose={handleCloseUser} 
         modalType='edit'
         modalData={usersData}
-        usersRecords = {rows}    
+        //usersRecords = {rows}    
         tenantDetails={tenantDetails}     
+        functionaGroupRecs={functionaGroupRecs}
+        usersRecords ={usersRecords}
       />
       
       <table id='itemsListing' className="table-auto w-full border-separate border-spacing-y-3 bg-[#f2f4f6] mt-4">

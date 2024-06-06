@@ -16,6 +16,7 @@ import Pagination from "@/components/pageniation-util/pagination";
 // end login init 
 
 export default async function AdminPanelDesignation({searchParams}) {
+  // search term
   let searchTermValue=searchParams?.searchterm
   if(!searchTermValue)searchTermValue=""
 

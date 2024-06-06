@@ -158,8 +158,9 @@ const SelectTeam = (props) => {
                 }
                 let r3 = await createContactsTeamAction(data)                
                 if(r3.statusCode == 200) {
-                    hideMainLoader102();
-                    handleClose();                                     
+                    // hideMainLoader102();
+                    // handleClose();   
+                    window.location.reload();                                  
                 } else {
                     hideMainLoader102();
                     showModalError('Error: ' + r3.error);

@@ -9,7 +9,6 @@ import { Edit } from "lucide-react";
 import { BsCloudUpload } from "react-icons/bs";
 import SearchingListInput from "@/components/forms/SearchingListInput";
 import { getAllUsersAction } from "@/app/api/users/action/user";
-import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
 import moment from 'moment-timezone';
 import { citiesListJSON } from "@/components/data/city";
 import { trim } from "jquery";
@@ -58,39 +57,7 @@ export default function UserInfoModal(props) {
     password: props?.modalData?.password ? props?.modalData?.password : passwd,
     cpassword: props?.modalData?.password ? props?.modalData?.password : '',
   });
-  const [usersList, setUsersList] = useState([]);
-  const [functionalList, setFunctionalList] = useState([]);
-
-
-  useEffect(() => {
-    getAllUsersAction("")
-      .then((resp) => {
-        const list = resp.data;
-        setUsersList(
-          list.map((rec, index) => ({
-            id: rec.user_id,
-            name: rec.first_name + ' ' + rec.last_name
-          }))
-        );
-      })
-      .catch((err) => { });
-  }, []);
-
-
-
-  useEffect(() => {
-    getAllFunctionalGroupAction()
-      .then((resp) => {
-        const list = resp.returnData;
-        setFunctionalList(
-          list.map((rec) => ({
-            id: rec.id,
-            name: rec.title
-          }))
-        );
-      })
-      .catch((err) => { });
-  }, []);
+  
 
 
   const handleUsersSelect = (user) => {
@@ -399,7 +366,7 @@ export default function UserInfoModal(props) {
 
           <Grid item xs={6}>
             <SearchingListInput
-              allSearchList={usersList}
+              allSearchList={props?.usersRecords}
               onListSelect={handleUsersSelect}
               placeHolder={"Search manager... "}
               selectedValue={props?.modalData?.manager ? props?.modalData?.manager : formData.manager}
@@ -417,7 +384,7 @@ export default function UserInfoModal(props) {
               className='bg-white'
             >
               <MenuItem value="">Select Functional Group *</MenuItem>
-              {functionalList.map(option => (
+              {props?.functionaGroupRecs?.map(option => (
                 <MenuItem
                   key={option.name}
                   value={option.name}

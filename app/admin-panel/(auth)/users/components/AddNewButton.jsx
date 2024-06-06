@@ -32,7 +32,9 @@ export default function AddNewButton(props) {
           isOpen={openUserModal}
           handleClose={handleClose}
           buttonType={props.buttonType}
-          tenantDetails={props.tenantDetails} 
+          tenantDetails={props.tenantDetails}
+          functionaGroupRecs={props.functionaGroupRecs} 
+          usersRecords={props.usersRecords}
         />
       )}
     </>

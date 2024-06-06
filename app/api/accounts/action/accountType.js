@@ -7,7 +7,7 @@ export const getAllAccountTypeRecordsAction = async (searchTermValue, offset, li
     try {
       const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
       const url = `${apiBackendURL}account_type/account_type/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
-      
+      console.log(url)
       const response = await fetch(url, {
         cache: "no-store",
         method: "GET",

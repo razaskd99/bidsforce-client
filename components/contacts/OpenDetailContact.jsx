@@ -137,6 +137,10 @@ export default function OpenDetailContact( props ) {
                     <p>{contactsDetail.contact_number}</p>
                     <p className="text-sm text-[#778CA2] mt-3">Work Location</p> 
                     <p>{contactsDetail.work_location}</p>
+                    {contactsDetail.state && <p className="text-sm text-[#778CA2] mt-3">State</p> }
+                    {contactsDetail.state && <p>{contactsDetail.state}</p>}
+                    {contactsDetail.city && <p className="text-sm text-[#778CA2] mt-3">City</p> }
+                    {contactsDetail.city && <p>{contactsDetail.city}</p>}                
                     <p className="text-sm text-[#778CA2] mt-3">Time Zone</p> 
                     <p>{contactsDetail.time_zone}</p>
                     <p className="text-sm text-[#778CA2] mt-3">Email Address</p> 

@@ -12,6 +12,7 @@ import UserTable from "./components/UserTable";
 import { getAllUsersAction } from "@/app/api/users/action/user";
 import { getTenantRecordByIDAction } from "@/app/api/controlpanel/actions/controlpanel";
 import SearchSection from "@/components/SearchSection";
+import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
 // end login init 
 
 export default async function AdminPanelUsers({searchParams}) {
@@ -49,6 +50,22 @@ export default async function AdminPanelUsers({searchParams}) {
   // get tenant record
   records = await getTenantRecordByIDAction(tenantID, apiBackendURL, tokens);
   let tenantDetails = {domainName: records.tenantData.domain_url, fullDomainURL: records.tenantData.full_domain};
+
+  // get all functional group
+  records = await getAllFunctionalGroupAction("", 0, 1000);
+  let functionaGroupRecs = records?.returnData?.data?.map((rec) => ({
+    id: rec.id,
+    name: rec.title
+  }));
+ 
+
+ // get all users record
+ records = await getAllUsersAction('');
+ let usersRecords = records?.data?.map((rec) => ({
+    id: rec.user_id,
+    name: rec.first_name + ' ' + rec.last_name
+  }))
+
  
 
   const breadcrumbItems = [
@@ -71,13 +88,15 @@ export default async function AdminPanelUsers({searchParams}) {
         <SearchSection />
         <AddNewButton  
           modalType={"new"}
-          tenantDetails={tenantDetails} 
+          tenantDetails={tenantDetails}
+          functionaGroupRecs={functionaGroupRecs}
+          usersRecords={usersRecords} 
         />
       </div>
 
       <div className="card">        
         <div className="table-responsive text-nowrap">
-          <UserTable rows={usersData} tenantDetails={tenantDetails} />        
+          <UserTable rows={usersData} tenantDetails={tenantDetails} functionaGroupRecs={functionaGroupRecs} usersRecords={usersRecords}/>        
         </div>
       </div>
     </div>
