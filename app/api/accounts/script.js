@@ -7,7 +7,6 @@ import { createAccountTypeEntriesAction, deleteAccountTypeEntriesAction } from "
 
 
 
-
   
   // Client request to create Account
   export const createAccountRequest = async (
@@ -88,8 +87,9 @@ import { createAccountTypeEntriesAction, deleteAccountTypeEntriesAction } from "
   
     if (!valid || !success) {
       showModalError(message);
+      hideMainLoader102()
+
     }
-    //hideMainLoader102()
   };
   
   // Client request to update Account
@@ -103,6 +103,7 @@ import { createAccountTypeEntriesAction, deleteAccountTypeEntriesAction } from "
     selectedAccountTypeList
   ) => {
     e.preventDefault();
+    console.log(formData,"aaaaa")
 
     let valid = true;
     let message = "";
@@ -160,9 +161,10 @@ import { createAccountTypeEntriesAction, deleteAccountTypeEntriesAction } from "
     }
     
     if (!valid || !success) {
-      showModalError(message)
+      showModalError(message);
+      hideMainLoader102();
     }
-    //hideMainLoader102();
+    
   };
   
   // Client request to delete Account
@@ -203,19 +205,18 @@ import { createAccountTypeEntriesAction, deleteAccountTypeEntriesAction } from "
 // Client request to create new Account Type
 export const createAccountTypeRequest = async (
   e,
-  typeName
+  formData
 ) => {
   e.preventDefault();
 
   let valid = true;
   let message = "";
     
-  if (!typeName) {
+  if (!formData.type_name) {
     valid = false;
     message = "Please input Type Name.";
   }
   
-  let formData = {type_name: typeName}
 
   let success = true;
   if (valid) {
@@ -223,6 +224,7 @@ export const createAccountTypeRequest = async (
       formData
     );
     if (res.statusCode === 200) {
+      showMainLoader102();
       //document.getElementById("modalform1").reset();
       //showModalSuccess("New details added successfully.");
       window.location.reload();
@@ -241,19 +243,18 @@ export const createAccountTypeRequest = async (
 export const updateAccountTypeRequest = async (
   e,
   id,
-  typeName
+  formData
 ) => {
   e.preventDefault();
   
   let valid = true;
   let message = "";
   
-  if (!typeName) {
+  if (!formData.type_name) {
     valid = false;
     message = "Please provide the type.";
   }
 
-  let formData = {type_name: typeName}
 
   let success = true;
   if (valid) {
@@ -262,6 +263,7 @@ export const updateAccountTypeRequest = async (
       id
     );
     if (res.statusCode === 200) {
+      showMainLoader102();
       //document.getElementById("modalform1").reset();
       //showModalSuccess("Details updated successfully.");
       window.location.reload();

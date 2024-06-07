@@ -132,6 +132,10 @@ const ContactTable = ({ rows }) => {
             </div>)}
             </>*/
       }
+        <p className="text-md text-slate-400 flex items-center gap-1 cursor-pointer" >
+              New User
+              {/* <Image src="add-blue.svg" width={18} height={21} alt="add"/> */}
+          </p>
       </div>
       
       <table id='itemsListing' className="table-auto w-full border-separate border-spacing-y-3 bg-[#f2f4f6] mt-4">

@@ -10,7 +10,7 @@ import { Comment, List } from "@mui/icons-material";
 import { updateUserBioAction } from "@/app/api/users/action/user";
 
 export default function AdminUserDetail( props ) {
-    const {contactsRec, tenantDetails} = props;
+    const {contactsRec, tenantDetails, functionalGroupRec} = props;
     const [contactsDetail, setContactsDetail] = useState(contactsRec)
     const [openContact, setOpenContact] = useState(false);
     const [bio, setBio] = useState(contactsRec?.bio ? contactsRec?.bio : '');
@@ -82,6 +82,7 @@ export default function AdminUserDetail( props ) {
                     modalData={contactsRec}
                     tenantDetails ={tenantDetails} 
                     modalType={'edit'}
+                    functionaGroupRecs={functionalGroupRec}
                 />
 
                 <img src={contactsDetail.profile_image ? contactsDetail.profile_image : '/avatar.png'} alt="man" width={120} height={120} className="rounded-full" />
@@ -114,8 +115,8 @@ export default function AdminUserDetail( props ) {
                         <div className="rounded-full h-12 w-12 flex items-center justify-center bg-orange-400 px-2 py-2 text-white text-sm">580</div>
                         </div>
                         <div className="ml-2 mr-1">
-                            <p className="text-gray-500">Hours Logged</p>
-                            <p>580 in Last Month</p>        
+                            <p className="text-gray-500 text-sm">Hours Logged</p>
+                            <p className="text-sm">580 in Last Month</p>        
                         </div>
                     </div>
 
@@ -124,8 +125,8 @@ export default function AdminUserDetail( props ) {
                         <div className="rounded-full h-12 w-12 flex items-center justify-center bg-blue-400 px-2 py-2 text-white text-sm">85%</div>
                         </div>
                         <div className="ml-2 mr-1">
-                            <p className="text-gray-500">Tasks Completed</p>
-                            <p>255 of 298 Last Month</p>        
+                            <p className="text-gray-500 text-sm">Tasks Completed</p>
+                            <p className="text-sm">255 of 298 Last Month</p>        
                         </div>
                     </div>          
                 </div>

@@ -58,14 +58,14 @@ const OpenContact = ({userRecords, personaRecords, userTeamRecords}) => {
     <div>
         <Breadcrumbs items={breadcrumbItems} />
         <div className='flex gap-3'>          
-          <p className="text-md text-slate-400 flex items-center gap-1 cursor-pointer" >
+          {/*<p className="text-md text-slate-400 flex items-center gap-1 cursor-pointer" >
               New User
-              {/* <Image src="add-blue.svg" width={18} height={21} alt="add"/> */}
+              {//<Image src="add-blue.svg" width={18} height={21} alt="add"/>}
           </p>
           <p className="text-md text-[#26BADA] flex items-center gap-1 cursor-pointer" onClick={handleClickOpenTeam} >
               New Team
               <Image src="add-blue.svg" width={18} height={21} alt="add" />
-          </p>
+          </p>*/}
           <SearchSection />
         </div> 
         <SelectTeam isOpen={openTeam} handleClose={handleCloseTeam} personaRecords={personaRecords} userRecords={userRecords} />

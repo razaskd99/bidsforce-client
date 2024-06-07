@@ -6,8 +6,16 @@ import { createAccountTypeRequest, updateAccountTypeRequest } from "@/app/api/ac
 
 export default function AccountTypeInfoModal(props) {
   const [openModal, setOpenModal] = useState(true);
-  const [typeName, setTypeName] = useState("");
+  //const [typeName, setTypeName] = useState("");
 
+  const [formData, setFormData] = useState({
+   type_name : props.modalData?.type_name ? props.modalData?.type_name : ''
+  });
+
+  const handleChangeValues = (e) => {
+    let data = { ...formData, [e.target.name]: e.target.value };
+    setFormData({ ...data });
+  };
   
   useEffect(() => {
     const fetchData = async () => {
@@ -65,8 +73,10 @@ export default function AccountTypeInfoModal(props) {
                     <div className="form-floating form-floating-outline">
                       <input
                         type="text"
-                        onChange={(e)=>setTypeName(e.target.value)}
-                        defaultValue={props.modalData?.type_name ? props.modalData?.type_name : typeName}
+                        name="type_name"
+                        // onChange={(e)=>setTypeName(e.target.value)}
+                        onChange={handleChangeValues}
+                        defaultValue={props.modalData?.type_name ? props.modalData?.type_name : formData.type_name}
                         className="form-control"
                         placeholder="Enter Type"
                       />
@@ -112,7 +122,7 @@ export default function AccountTypeInfoModal(props) {
                   onClick={(e) =>
                     createAccountTypeRequest(
                       e,
-                      typeName
+                      formData
                     )
                   }
                   type="button"
@@ -126,7 +136,7 @@ export default function AccountTypeInfoModal(props) {
                     updateAccountTypeRequest(
                       e,
                       props.modalData.account_type_id,
-                      typeName
+                      formData
                     )
                   }
                   type="button"

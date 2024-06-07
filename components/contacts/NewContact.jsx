@@ -11,14 +11,13 @@ import { citiesListJSON } from '../data/city';
 import {getAllFunctionalGroupAction} from '@/app/api/users/action/functionalGroup'
 
 
-const NewContact = ({ isOpen, handleClose, modalType, contactsData}) => {
+const NewContact = ({ isOpen, handleClose, modalType, contactsData, functionalGroupRec}) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [fileData, setFileData] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [isEdit, setIsEdit] = useState(modalType && modalType == 'edit' ? true : false)
   const [isFormDataChanged, setIsFormDataChanged] = useState(false)
-  const [functionalList, setFunctionalList] = useState([]);
   const [cityList, setCityList] = useState([]);
  
   const [formData, setFormData] = useState({
@@ -39,21 +38,7 @@ const NewContact = ({ isOpen, handleClose, modalType, contactsData}) => {
       cpassword: '',
   });
 
-  useEffect(() => {
-    getAllFunctionalGroupAction()
-      .then((resp) => {
-        const list = resp.returnData;
-        setFunctionalList(
-          list.map((rec) => ({
-            id: rec.id,
-            name: rec.title   
-          }))
-        );
-      })
-      .catch((err) => {});    
-  }, []);
- 
-
+  
    
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -237,7 +222,7 @@ const NewContact = ({ isOpen, handleClose, modalType, contactsData}) => {
               disabled={true}
             >
               <MenuItem value="">Select Functional Group *</MenuItem>
-              {functionalList.map(option => (
+              {functionalGroupRec?.map(option => (
                 <MenuItem 
                   key={option.name} 
                   value={option.name}

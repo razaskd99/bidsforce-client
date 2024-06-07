@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import { deleteOppPrereqRecordAction, getOppPrereqByIDAction } from "@/app/api/opportunities/action/OpportunityPrereq";
 import OppPrereqInfoModal from "../components/OppPrereqInfoModal"
+import { showMainLoader102 } from "@/app/api/util/utility";
 
 
 export default function OppPrereqTable({ allRecords, tableName}) {
@@ -52,7 +53,7 @@ export default function OppPrereqTable({ allRecords, tableName}) {
   const deleteItemsButton = async itemIDs => {
     const confirmDelete = window.confirm("Are you sure? You want to delete selected records.");
     if(confirmDelete){
-      //showMainLoader102();
+      showMainLoader102();
     if(itemIDs) {
       for (const itemID of itemIDs) {
         const r1 = await deleteOppPrereqRecordAction(tableName, itemID);

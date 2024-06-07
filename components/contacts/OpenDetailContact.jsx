@@ -11,7 +11,7 @@ import { TextField } from "@mui/material";
 
 
 export default function OpenDetailContact( props ) {
-    const {contactsRec} = props;
+    const {contactsRec, functionalGroupRec} = props;
     const [contactsDetail, setContactsDetail] = useState(contactsRec)
     const [openContact, setOpenContact] = useState(false);
     const [bio, setBio] = useState(contactsRec?.bio ? contactsRec?.bio : '');
@@ -125,6 +125,7 @@ export default function OpenDetailContact( props ) {
                         handleClose={handleClose} 
                         contactsData={contactsRec} 
                         modalType={'edit'}
+                        functionalGroupRec={functionalGroupRec}
                     />
                     <img src={contactsDetail.profile_image ? contactsDetail.profile_image : '/avatar.png'} alt="man" width={120} height={120} className="rounded-full" />
                     <p className="text-xl">{contactsDetail.first_name + ' ' + contactsDetail.last_name}</p>
@@ -155,8 +156,8 @@ export default function OpenDetailContact( props ) {
                         <div class="rounded-full h-12 w-12 flex items-center justify-center bg-orange-400 px-2 py-2 text-white text-sm">580</div>
                         </div>
                         <div className="">
-                            <p className="text-gray-500">Hours Logged</p>
-                            <p>580 in Last Month</p>        
+                            <p className="text-gray-500 text-sm">Hours Logged</p>
+                            <p className="text-sm">580 in Last Month</p>        
                         </div>
                     </div>
 
@@ -165,8 +166,8 @@ export default function OpenDetailContact( props ) {
                         <div class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-400 px-2 py-2 text-white text-sm">85%</div>
                         </div>
                         <div className="">
-                            <p className="text-gray-500">Tasks Completed</p>
-                            <p>255 of 298 Last Month</p>        
+                            <p className="text-gray-500 text-sm">Tasks Completed</p>
+                            <p className="text-sm">255 of 298 Last Month</p>        
                         </div>
                     </div>          
                 </div>

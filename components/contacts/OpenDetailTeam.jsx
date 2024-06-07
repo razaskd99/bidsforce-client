@@ -5,6 +5,7 @@ import { hideMainLoader102, showMainLoader102 } from "@/app/api/util/utility";
 import { AccordionDetails, Button } from '@mui/material';
 import { ArrowBigDown, ChevronDown } from "lucide-react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import Image from 'next/image';
 import SelectTeam from "./SelectTeam";
 import CustomPagination from "../CustomPagination";
 import { deleteContactsTeamRecordAction, getAllContactsTeamByTitleAction } from "../../app/api/users/action/team";
@@ -21,6 +22,8 @@ export default function OpenDetailTeam ( props ) {
     const [contactsTeamList, setcontactsTeamList] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const [checkAll, setCheckAll] = useState(false)
+    const [openTeamCreate, setOpenTeamCreate] = useState(false);
+
 
     // pagination vars
     const [currentPage, setCurrentPage] = useState(1);
@@ -42,6 +45,7 @@ export default function OpenDetailTeam ( props ) {
     
     const handleCloseTeam =()=> {
         setOpenTeam(false);
+        setOpenTeamCreate(false);
         setUsersList([]);
     }
 
@@ -98,9 +102,13 @@ export default function OpenDetailTeam ( props ) {
                 }
                 window.location.reload();                  
             }        
-            hideMainLoader102();
+            //hideMainLoader102();
         }
     };
+
+    const handleClickOpenTeam = () => {
+        setOpenTeamCreate(true);
+      };
 
 
     const handleCheckboxUpdate = async() => {
@@ -192,6 +200,18 @@ export default function OpenDetailTeam ( props ) {
                 </div>      
 
                 <div className='flex gap-3 w-full mt-2 h-12 text-gray-500 cursor-pointer flex-start ' > 
+                    <p className="text-md text-[#26BADA] flex items-center gap-1 cursor-pointer" onClick={handleClickOpenTeam} >
+                        New Team
+                        <Image src="add-blue.svg" width={18} height={21} alt="add" />
+                    </p>
+
+                    <SelectTeam
+                        isOpen={openTeamCreate} 
+                        handleClose={handleCloseTeam} 
+                        personaRecords={personaRecords} 
+                        userRecords={userRecords}
+                    />
+
                     <div className='flex gap-3 ml-4 items-center text-lg '>
                         <input 
                         type="checkbox"

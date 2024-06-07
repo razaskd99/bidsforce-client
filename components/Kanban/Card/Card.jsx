@@ -15,21 +15,22 @@ const Card = (props) => {
 	console.log("props", props)
 	const [dropdown, setDropdown] = useState(false);
 	const [modalShow, setModalShow] = useState(false);
+	const progressPercentage = props.bid * 33 - 31;
 
 	return (
 		<Draggable key={props.id.toString()} draggableId={props.id.toString()} index={props.index} >
 			{(provided) => (
-				<div className="custom__card p-3"
+				<div className="custom__card pt-2"
 					onClick={() => {
 						props.openCardDetail(props.id);
 					}}
 					//  onClick={() => { setModalShow(true); }}
 					// onClick={() => { console.log("INSIDE") }}
 					{...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
-					<div className="card__text"><p>{props.title}</p>
+					<div className="card__text p-3"><p>{props.title}</p>
 						{/* <MoreHorizontal className="car__more" onClick={() => {setDropdown(true);}} />  */}
 					</div>
-					<div className="card__text flex flex-col gap-1 text-[#98A9BC] items-start">
+					<div className="card__text p-3 flex flex-col gap-1 text-[#98A9BC] items-start">
 						{/* <p className="text-black text-[13px]">{props.card.title}</p> */}
 						<p>{props.card.company || "DRP Refinery Automation "}</p>
 						<div className="flex justify-between w-full">
@@ -61,7 +62,6 @@ const Card = (props) => {
 					{props.card && props.card.task && (
 
 						<div className="card__footer">
-							{/* <div className="time"><Clock /><span>Sun 12:30</span></div> */}
 							{props.card.task.length !== 0 && (
 								<div className="task">
 									<CheckSquare />
@@ -75,9 +75,14 @@ const Card = (props) => {
 									</span>
 								</div>
 							)}
+
+
 						</div>)}
 
 					{provided.placeholder}
+					<div className="h-2 w-full bg-gray-300 rounded-full">
+						<div className="h-full bg-green-500 rounded-full" style={{ width: `${progressPercentage}%` }}></div>
+					</div>
 				</div>
 			)}
 		</Draggable>

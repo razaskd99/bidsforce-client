@@ -12,6 +12,8 @@ import { getAllDesignationRecordsAction, getAllPersonaRecordsAction, getAllTeamR
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 import { getAllUsers } from "@/app/api/rfx/actions/user";
 import { getAllUsersAction, getUserById } from "@/app/api/users/action/user";
+import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
+
 // end login init
 
 const AddAccount = async ({ params }) => {
@@ -59,6 +61,13 @@ const AddAccount = async ({ params }) => {
     // get users
     response = await getUserById(id)
     let usersRecord = response.data 
+
+    // get all functional group
+    response = await getAllFunctionalGroupAction('', 0, 1000)
+    let functionalGroupRec = response?.returnData?.data.map((rec) => ({
+        id: rec.id,
+        name: rec.title   
+      }))
    
     // check user is login
     let isLogin = await getCookieValue("loginStatus");
@@ -72,7 +81,7 @@ const AddAccount = async ({ params }) => {
    
   return (
     <>
-      <OpenDetailContact userLoginID={userLoginID} contactsRec={usersRecord} accountRecords={accountRecords} teamRecords={teamRecords} desigRecords={desigRecords}/>
+      <OpenDetailContact userLoginID={userLoginID} contactsRec={usersRecord} accountRecords={accountRecords} teamRecords={teamRecords} desigRecords={desigRecords} functionalGroupRec={functionalGroupRec}/>
     </>
   );
 };

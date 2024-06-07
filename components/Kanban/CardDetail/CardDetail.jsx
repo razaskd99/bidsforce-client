@@ -44,6 +44,7 @@ function CardDetail({ card, setData, onClose }) {
       ...board,
       card: board.card.map(c => (c.id === card.id ? { ...c, task: tasks } : c))
     })));
+    console.log(prevData)
   };
 
   const removeTask = (id) => {

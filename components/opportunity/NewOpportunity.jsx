@@ -122,7 +122,8 @@ const NewOpportunity = (props) => {
   const handleChangeValues = (e)=>{
     if(isEdit && !isFormDataChanged) {
         setFormData({...modalData, [e.target.name]: e.target.value, });   
-        setOppValue(modalData.opp_value);     
+        setOppValue(modalData.opp_value);   
+        setCurrency(modalData.opp_currency);  
     } else {
       setFormData({...formData, [e.target.name]: e.target.value, });
     }
@@ -140,6 +141,8 @@ const NewOpportunity = (props) => {
   const handleAccountOwnerSelect = (user) => {
     if(isEdit && !isFormDataChanged) {
       setFormData({...modalData, opp_owner_id: user.id, owner_name: user.name});
+      setOppValue(modalData.opp_value);
+      setCurrency(modalData.opp_currency);
     } else {
       setFormData({...formData, opp_owner_id: user.id, owner_name: user.name});
     }
@@ -151,6 +154,8 @@ const NewOpportunity = (props) => {
   const handleCustomerSelect = (account) => {
     if(isEdit && !isFormDataChanged) {
       setFormData({...modalData, customer_id: account.id});
+      setOppValue(modalData.opp_value);   
+      setCurrency(modalData.opp_currency);  
     } else {
       setFormData({...formData, customer_id: account.id});
     }
@@ -161,6 +166,8 @@ const NewOpportunity = (props) => {
   const handleEndUserSelect = (account) => {
     if(isEdit && !isFormDataChanged) {
       setFormData({...modalData,  enduser_id: account.id});
+      setOppValue(modalData.opp_value);   
+      setCurrency(modalData.opp_currency);  
     } else {
       setFormData({...formData,  enduser_id: account.id});
     }

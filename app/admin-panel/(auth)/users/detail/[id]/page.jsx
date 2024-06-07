@@ -6,6 +6,7 @@ import { getToken } from "@/app/api/util/script";
 import { getUserById } from "@/app/api/users/action/user";
 import AdminUserDetail from "../../components/AdminUserDetail";
 import { getTenantRecordByIDAction } from "@/app/api/controlpanel/actions/controlpanel";
+import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
 // end login init
 
 const AddAccount = async ({ params }) => {
@@ -38,6 +39,13 @@ const AddAccount = async ({ params }) => {
     // get tenant record
     response = await getTenantRecordByIDAction(tenantID, apiBackendURL, tokens);
     let tenantDetails = {domainName: response.tenantData.domain_url, fullDomainURL: response.tenantData.full_domain};
+
+    // get all functional group
+    response = await getAllFunctionalGroupAction('', 0, 1000)
+    let functionalGroupRec = response?.returnData?.data.map((rec) => ({
+        id: rec.id,
+        name: rec.title   
+      }))
     
     // check user is login
     let isLogin = await getCookieValue("loginStatus");
@@ -51,7 +59,7 @@ const AddAccount = async ({ params }) => {
    
   return (
     <>
-      <AdminUserDetail contactsRec={usersRecord} tenantDetails={tenantDetails} userLoginID={userLoginData.user_id}/>
+      <AdminUserDetail contactsRec={usersRecord} tenantDetails={tenantDetails} userLoginID={userLoginData.user_id} functionalGroupRec={functionalGroupRec}/>
     </>
   );
 };

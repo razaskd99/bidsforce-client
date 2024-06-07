@@ -83,7 +83,7 @@ export default function PersonaTable({ allRecords, apiBackendURL, tenantID, toke
     { isOpen && 
     <PersonaInfoModal 
         modalData={modalData}
-        setOpenFunctionalGroupModal={setIsOpen}
+        setOpenPersonaModal={setIsOpen}
         modalType="update"
         id={modalData.persona_id ? modalData.persona_id : ''}        
         tenantID={tenantID}

@@ -55,14 +55,14 @@ export default function NewAccounts({
         name: rec.type_name    
       }))
     );
-    const [contactList, setContactList] = useState(
-      contactsRecords?.map((rec, index) => ({
-        id: rec.user_id,
-        name: rec.first_name + ' ' + rec.last_name    
-      }))
-    );    
     
-   
+    //const [contactList, setContactList] = useState(
+    const contactList =  contactsRecords?.map((rec, index) => ({
+      id: rec.user_id,
+      name: rec.first_name + ' ' + rec.last_name    
+    }));
+      
+    
 
     const [formData, setFormData] = useState({
       account_name: modalData && modalData.account_name ? modalData.account_name : "",
@@ -105,7 +105,6 @@ export default function NewAccounts({
 
     // set state , city lists
     try{
-      if(e.target.name === 'city'){
         let country = ''
         if(isEdit && !isFormDataChanged) country = modalData.country
         else country = formData.country
@@ -121,7 +120,6 @@ export default function NewAccounts({
           setCityList(cities);
           setStateList(states)
         }  
-      }       
     } catch {}
     setIsFormDataChanged(true); 
   };
@@ -178,6 +176,26 @@ export default function NewAccounts({
     } else {
       setFormData({...formData, account_owner_id: account.id, owner_name: account.name});
     }
+
+    // set state , city lists
+    try{
+        let country = ''
+        if(isEdit && !isFormDataChanged) country = modalData.country
+        else country = formData.country
+        let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
+        if(states.length && countriesWithNoStatesJSON.includes(country)) {      
+          setStateList([]);
+          setCityList(states)
+        } else {
+          let state = ''
+          if(isEdit && !isFormDataChanged) state = modalData.state
+          else state = formData.state
+          let cities = states.filter((item) => item.name === state)[0].cities;        
+          setCityList(cities);
+          setStateList(states)
+        }  
+    } catch {}
+    
     setAccountOwnerID(account.id)
     setAccountOwnerName(account.name)
     setIsFormDataChanged(true);
@@ -189,14 +207,42 @@ export default function NewAccounts({
     setSelectedImage(file);
  
     // Create a new FormData object and append the single file
-    const formData = new FormData();
-    formData.append("file", file);
-    setFileData(formData)
+    const formData2 = new FormData();
+    formData2.append("file", file);
+    setFileData(formData2)
 
-    const extractedFile = formData.get("file");
+    // Update the selectedFiles array with the single file    
+    const extractedFile = formData2.get("file");
+    setSelectedFile(extractedFile);
+    
+    if(isEdit && !isFormDataChanged) {
+      setFormData({...modalData});
+      setSelectedAccountTypeList(accountTypeEntries);      
+    } else {
+      setFormData({...formData});
 
-    // Update the selectedFiles array with the single file
-    setSelectedFile(extractedFile); 
+    }
+    setIsFormDataChanged(true);
+    
+    // set state , city lists
+    try{
+      let country = ''
+      if(isEdit && !isFormDataChanged) country = modalData.country
+      else country = formData.country
+      let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
+      if(states.length && countriesWithNoStatesJSON.includes(country)) {      
+        setStateList([]);
+        setCityList(states)
+      } else {
+        let state = ''
+        if(isEdit && !isFormDataChanged) state = modalData.state
+        else state = formData.state
+        let cities = states.filter((item) => item.name === state)[0].cities;        
+        setCityList(cities);
+        setStateList(states)
+      }  
+    } catch {}
+    
   };
 
 
@@ -206,6 +252,26 @@ export default function NewAccounts({
     } else {
       setFormData({...formData});
     }
+
+     // set state , city lists
+     try{
+      let country = ''
+      if(isEdit && !isFormDataChanged) country = modalData.country
+      else country = formData.country
+      let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
+      if(states.length && countriesWithNoStatesJSON.includes(country)) {      
+        setStateList([]);
+        setCityList(states)
+      } else {
+        let state = ''
+        if(isEdit && !isFormDataChanged) state = modalData.state
+        else state = formData.state
+        let cities = states.filter((item) => item.name === state)[0].cities;        
+        setCityList(cities);
+        setStateList(states)
+      }  
+    } catch {}
+    
     setSelectedAccountTypeList(data);   
     setIsFormDataChanged(true);
   };

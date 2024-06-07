@@ -105,6 +105,7 @@ const SelectTeam = (props) => {
         member = {...member, role: persona}
         updateTeamMemberAtIndex(index, member);
         setIsFormDataChanged(true);
+
     };
 
     // create users team
@@ -141,7 +142,7 @@ const SelectTeam = (props) => {
                     return; 
                 }
             }           
-            console.log(isEdit) 
+            
             // first remove team
             if(isEdit && selectedUsers?.length) {
                 for(let i=0; i< selectedUsers?.length; i++) {                   
@@ -167,16 +168,18 @@ const SelectTeam = (props) => {
                     return;
                 }
             }
-            setTeamMembers([]);
-            setTeamName("");
-            hideMainLoader102(); 
+            //setTeamMembers([]);
+            //setTeamName("");
+            //hideMainLoader102(); 
         }        
     };
 
 
     hideMainLoader102();    
     return (
-        <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm" >
+        <Dialog open={isOpen} onClose={handleClose} fullWidth PaperProps={{
+            className: 'w-4/5 h-4/5'
+          }}>
             <DialogTitle className='text-center p-8 font-semibold text-xl'>
                 {isEdit ? 'Edit Team' : 'Create Team'}
             </DialogTitle> 
@@ -198,6 +201,7 @@ const SelectTeam = (props) => {
                             allSearchList={contacts}
                             onListSelect={handleAddContactToTeam}
                             placeHolder={'Select user... *'}
+                            onlySelect={true}
                         />
                     </Grid>
                     <Grid item xs={12}>                        

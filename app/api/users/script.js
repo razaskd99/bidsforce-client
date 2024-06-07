@@ -11,9 +11,6 @@ export const createUserRequest = async (
   e,
   handleClose,
   formData,
-  apiBackendURL,
-  accessToken,
-  tenantID,
   selectedFile,
   fileData
 ) => {

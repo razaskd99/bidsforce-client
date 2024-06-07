@@ -4,7 +4,7 @@ import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'react-feather';
 
-function SearchingListInput({ allSearchList, onListSelect, placeHolder, selectedValue }) {
+function SearchingListInput({ allSearchList, onListSelect, placeHolder, selectedValue, onlySelect }) {
   const [searchText, setSearchText] = useState(
     selectedValue ? selectedValue : ''
   );
@@ -66,7 +66,7 @@ function SearchingListInput({ allSearchList, onListSelect, placeHolder, selected
           className='bg-white'
           label={placeHolder ? placeHolder : "Search name..."}
           variant="outlined"
-          value={searchText}
+          value={onlySelect ? '' : searchText}
           placeholder={placeHolder ? placeHolder : "Search name..."}
           onChange={handleInputChange}
           onClick={(e) => setFilteredListItems(allSearchList)}
@@ -88,7 +88,7 @@ function SearchingListInput({ allSearchList, onListSelect, placeHolder, selected
           </svg>
         </button>
       )*/}
-      <ul className="flex absolute flex-col z-10 w-full max-h-[12rem] overflow-y-auto bg-slate-50 border border-gray-300 rounded-b-lg shadow-md overflow-hidden" style={{ display: filteredListItems?.length ? 'block' : 'none' }}>
+      <ul className="flex absolute flex-col z-10 w-full max-h-[12rem] overflow-y-auto bg-white border border-gray-300 rounded-b-lg shadow-md overflow-hidden" style={{ display: filteredListItems?.length ? 'block' : 'none' }}>
         {filteredListItems?.map(item => (
           <li
             key={item.name}

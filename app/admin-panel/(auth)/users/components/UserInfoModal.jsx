@@ -61,8 +61,9 @@ export default function UserInfoModal(props) {
 
 
   const handleUsersSelect = (user) => {
-    if (!isFormDataChanged) {
+    if (isEdit && !isFormDataChanged) {
       setFormData({ ...props.modalData, manager: user.name });
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({ ...formData, manager: user.name });
     }
@@ -72,11 +73,31 @@ export default function UserInfoModal(props) {
 
 
   const handleChange = (e) => {
-    if (!isFormDataChanged) {
+    if (isEdit && !isFormDataChanged) {
       setFormData({ ...props.modalData, [e.target.name]: e.target.value, company_name: props.tenantDetails.domainName, password: passwd, cpassword: passwd });
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value});
     }
+
+    // set state , city lists
+    try{
+        let country = ''
+        if(isEdit && !isFormDataChanged) country = props.modalData.work_location
+        else country = formData.work_location
+        let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
+        if(states.length && countriesWithNoStatesJSON.includes(country)) {      
+          setStateList([]);
+          setCityList(states)
+        } else {
+          let state = ''
+          if(isEdit && !isFormDataChanged) state = props.modalData.state
+          else state = formData.state
+          let cities = states.filter((item) => item.name === state)[0].cities;        
+          setCityList(cities);
+          setStateList(states)
+        }  
+    } catch {}
     setIsFormDataChanged(true);
   }
 
@@ -87,15 +108,32 @@ export default function UserInfoModal(props) {
     const new_email = `${username}@${props.tenantDetails.fullDomainURL}`; 
     setUserEmail(new_email);
 
-    if (!isFormDataChanged) {
+    if (isEdit && !isFormDataChanged) {
       setFormData({ ...props.modalData, email: email, user_name: new_email });
     } else {
       setFormData({ ...formData, email: email, user_name: new_email });
     }
+
+    // set state , city lists
+    try{
+        let country = ''
+        if(isEdit && !isFormDataChanged) country = props.modalData.work_location
+        else country = formData.work_location
+        let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
+        if(states.length && countriesWithNoStatesJSON.includes(country)) {      
+          setStateList([]);
+          setCityList(states)
+        } else {
+          let state = ''
+          if(isEdit && !isFormDataChanged) state = props.modalData.state
+          else state = formData.state
+          let cities = states.filter((item) => item.name === state)[0].cities;        
+          setCityList(cities);
+          setStateList(states)
+        }  
+    } catch {}
     setIsFormDataChanged(true);
   }
-
-  const email = `${userEmail}@${props.tenantDetails.fullDomainURL}`;
 
 
   const handleChangePhone = (e) => {
@@ -104,8 +142,9 @@ export default function UserInfoModal(props) {
       .replace(/(\d{3})(\d{0,3})(\d{0,4})/, '$1-$2-$3') // Format the input as 111-111-1111
       .substring(0, 12); // Limit to 12 characters (including hyphens)
 
-    if (!isFormDataChanged) {
+    if (isEdit && !isFormDataChanged) {
       setFormData({ ...props.modalData, contact_number: formattedInput });
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({ ...formData, contact_number: formattedInput });
     }
@@ -117,8 +156,9 @@ export default function UserInfoModal(props) {
     // Calculate working hours based on the selected time zone
     const { start, end } = getWorkingHoursInTimeZone(e.target.value);
 
-    if (!isFormDataChanged) {
+    if (isEdit && !isFormDataChanged) {
       setFormData({ ...props.modalData, time_zone: e.target.value, work_hours_start: start + ' - ' + end });
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({ ...formData, time_zone: e.target.value, work_hours_start: start + ' - ' + end });
     }
@@ -138,8 +178,9 @@ export default function UserInfoModal(props) {
 
   const handleHoursChange = (e) => {
 
-    if (!isFormDataChanged) {
+    if (isEdit && !isFormDataChanged) {
       setFormData({ ...props.modalData, work_hours_start: e.target.value, });
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({ ...formData, work_hours_start: e.target.value, });
     }
@@ -151,30 +192,44 @@ export default function UserInfoModal(props) {
     setSelectedImage(file);
 
     // Create a new FormData object and append the single file
-    const formData = new FormData();
-    formData.append("file", file);
-    setFileData(formData)
+    const formData2 = new FormData();
+    formData2.append("file", file);
+    setFileData(formData2)
 
-    const extractedFile = formData.get("file");
+    const extractedFile = formData2.get("file");
     // Update the selectedFiles array with the single file
     setSelectedFile(extractedFile);
 
-    setIsFormDataChanged(true);
+    if (isEdit && !isFormDataChanged) {
+      setFormData({ ...props.modalData });
+      setUserEmail(props.modalData.email);
+    } else {
+      setFormData({ ...formData });
+    }
+   
+    // set state , city lists
+    try{
+        let country = ''
+        if(isEdit && !isFormDataChanged) country = props.modalData.work_location
+        else country = formData.work_location
+        let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
+        if(states.length && countriesWithNoStatesJSON.includes(country)) {      
+          setStateList([]);
+          setCityList(states)
+        } else {
+          let state = ''
+          if(isEdit && !isFormDataChanged) state = props.modalData.state
+          else state = formData.state
+          let cities = states.filter((item) => item.name === state)[0].cities;        
+          setCityList(cities);
+          setStateList(states)
+        }  
+    } catch {}
+    setIsFormDataChanged(true); 
   };
 
 
-  /*const handleChangeCountry = (e) => {
-    if (!isFormDataChanged) {
-      setFormData({ ...props.modalData, work_location: e.target.value, });
-      setCityList(citiesListJSON[e.target.value]);
-    } else {
-      setFormData({ ...formData, work_location: e.target.value, });
-      setCityList(citiesListJSON[e.target.value]);
-    }    
-    setIsFormDataChanged(true);
-  };*/
-
-
+  // set state , city lists
   let states = []
   let cities = [] 
   try{
@@ -192,7 +247,8 @@ export default function UserInfoModal(props) {
 
   const handleChangeValues = (e)=>{
     if(isEdit && !isFormDataChanged) {
-      setFormData({...modalData, [e.target.name]: e.target.value});
+      setFormData({...props.modalData, [e.target.name]: e.target.value});
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({...formData, [e.target.name]: e.target.value});
     }
@@ -201,7 +257,7 @@ export default function UserInfoModal(props) {
     try{
       if(e.target.name === 'city'){
         let country = ''
-        if(isEdit && !isFormDataChanged) country = modalData.work_location
+        if(isEdit && !isFormDataChanged) country = props.modalData.work_location
         else country = formData.work_location
         let states = countriesStatesCitiesListJSON.filter((item) => item.name === country)[0].states;
         if(states.length && countriesWithNoStatesJSON.includes(country)) {      
@@ -209,7 +265,7 @@ export default function UserInfoModal(props) {
           setCityList(states)
         } else {
           let state = ''
-          if(isEdit && !isFormDataChanged) state = modalData.state
+          if(isEdit && !isFormDataChanged) state = props.modalData.state
           else state = formData.state
           let cities = states.filter((item) => item.name === state)[0].cities;        
           setCityList(cities);
@@ -223,6 +279,7 @@ export default function UserInfoModal(props) {
   const handleChangeCountry = (e) => {  
       if(isEdit && !isFormDataChanged){
         setFormData({...props.modalData, work_location: e.target.value, state: '', city: ''});
+        setUserEmail(props.modalData.email);
       } else {
         setFormData({...formData, work_location: e.target.value, state: '', city: ''});
       }  
@@ -241,6 +298,7 @@ export default function UserInfoModal(props) {
   const handleChangeState = (e) => {
     if(isEdit && !isFormDataChanged){
       setFormData({...props.modalData, state: e.target.value, city: ''});
+      setUserEmail(props.modalData.email);
     } else {
       setFormData({...formData, state: e.target.value, city: ''});
     }
@@ -400,7 +458,6 @@ export default function UserInfoModal(props) {
               fullWidth
               name="email"
               label="Email"
-              //disabled={isEdit ? true : false}
               value={!isFormDataChanged && props?.modalData?.email ? props?.modalData?.email : userEmail }
               onChange={handleChangeEmail}
               className='bg-white'
@@ -682,9 +739,6 @@ export default function UserInfoModal(props) {
                 e,
                 handleClose,
                 formData,
-                props.apiBackendURL,
-                props.accessToken,
-                props.tenantID,
                 selectedFile,
                 fileData
               )
