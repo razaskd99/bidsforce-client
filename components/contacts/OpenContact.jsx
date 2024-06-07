@@ -8,6 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 import OpenDetailTeam from './OpenDetailTeam';
 import Breadcrumbs from '../Breadcrumbs';
 import SearchSection from '../SearchSection';
+import { showMainLoader102 } from '@/app/api/util/utility';
 
 const OpenContact = ({userRecords, personaRecords, userTeamRecords}) => {
   const [openContact, setOpenContact] = useState(false);
@@ -42,6 +43,7 @@ const OpenContact = ({userRecords, personaRecords, userTeamRecords}) => {
 
   
   const handleTabClick = (tabId) => {
+      showMainLoader102(); 
       setActiveTab(tabId);
       window.location.href = '/users?mode=' + tabId;
       //router.push('/users?mode=' + tabId);      

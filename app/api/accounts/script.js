@@ -88,7 +88,6 @@ import { createAccountTypeEntriesAction, deleteAccountTypeEntriesAction } from "
     if (!valid || !success) {
       showModalError(message);
       hideMainLoader102()
-
     }
   };
   
