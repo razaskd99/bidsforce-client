@@ -2,6 +2,7 @@
 
 import getConfig from "next/config";
 import { getToken } from "../../util/script";
+import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
 
 
 // start - get env variables
@@ -22,25 +23,24 @@ if (serverRuntimeConfig) {
 
 
 // get all RFx Prerequisite records from db
-export const getAllRfxPrereqRecordsAction = async (table_name, apiBackendURL, tokens, tenantID) => {
+export const getAllRfxPrereqRecordsAction = async (table_name, searchTermValue, offset, limit) => {
+const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+
   try {
     let url = "";
     if (table_name === "rfx_type") {
-      url = `${apiBackendURL}rfx_type/rfx_type/tenant/${tenantID}`;
+      url = `${apiBackendURL}rfx_type/rfx_type/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     } else if (table_name === "rfx_content_submission") {
-      url = `${apiBackendURL}rfx_content_submission/rfx_content_submission/tenant/${tenantID}`;
+      url = `${apiBackendURL}rfx_content_submission/rfx_content_submission/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     } else if (table_name === "rfx_submission_mode") {
-      url = `${apiBackendURL}rfx_submission_mode/rfx_submission_mode/tenant/${tenantID}`;
+      url = `${apiBackendURL}rfx_submission_mode/rfx_submission_mode/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     } else if (table_name === "rfx_stage") {
-      url = `${apiBackendURL}rfx_stage/rfx_stage/tenant/${tenantID}`;
+      url = `${apiBackendURL}rfx_stage/rfx_stage/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     } else if (table_name === "bid_validity") {
-      url = `${apiBackendURL}bid_validity/bid_validity/tenant/${tenantID}`;
+      url = `${apiBackendURL}bid_validity/bid_validity/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     }
 
-    // get token
-    //let res = await getToken(apiBackendURL, username, password)
-    //let tokens = res?.tokenData?.access_token
-
+    
     const response = await fetch(url, {
       cache: "no-store",
       method: "GET",
@@ -76,7 +76,9 @@ export const getAllRfxPrereqRecordsAction = async (table_name, apiBackendURL, to
 };
 
 // Add new RFx Prerequisite record in db
-export const createRfxPrereqAction = async (formData, table_name, apiBackendURL, tokens, tenantID) => {
+export const createRfxPrereqAction = async (formData, table_name) => {
+    const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+
   let apiUrl = "";
   if (table_name === "rfx_type") {
     apiUrl = `${apiBackendURL}rfx_type/rfx_type`;
@@ -112,7 +114,7 @@ export const createRfxPrereqAction = async (formData, table_name, apiBackendURL,
       tenant_id: tenantID,
       title: formData.title,
       is_active: formData.is_active,
-      alias: formData.alias,
+      created_at: formattedTimestamp,
     }),
   };
 
@@ -143,7 +145,8 @@ export const createRfxPrereqAction = async (formData, table_name, apiBackendURL,
 };
 
 // Update RFx Prerequisite record in db
-export const updateRfxPrereqAction = async (formData, table_name, id, apiBackendURL, tokens, tenantID) => {
+export const updateRfxPrereqAction = async (formData, table_name, id) => {
+    const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   let apiUrl = "";
   if (table_name === "rfx_type") {
     apiUrl = `${apiBackendURL}rfx_type/rfx_type/id/${id}`;
@@ -179,7 +182,7 @@ export const updateRfxPrereqAction = async (formData, table_name, id, apiBackend
       tenant_id: tenantID,
       title: formData.title,
       is_active: formData.is_active,
-      alias: formData.alias,
+      created_at: formattedTimestamp,
     }),
   };
 
@@ -211,6 +214,8 @@ export const updateRfxPrereqAction = async (formData, table_name, id, apiBackend
 
 // delete a Rfx Prerequisite record from db
 export const deleteRfxPrereqRecordAction = async (table_name, id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+
   try {
     let apiUrl = "";
     if (table_name === "rfx_type") {
@@ -225,9 +230,7 @@ export const deleteRfxPrereqRecordAction = async (table_name, id) => {
       apiUrl = `${apiBackendURL}bid_validity/bid_validity/id/${id}`;
     }
 
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
+    
 
     const response = await fetch(apiUrl, {
       cache: "no-store",
@@ -257,6 +260,8 @@ export const deleteRfxPrereqRecordAction = async (table_name, id) => {
 
 // delete all Rfx Prerequisite record from db
 export const deleteAllRfxPrereqRecordAction = async (table_name) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+
   try {
     let apiUrl = "";
     if (table_name === "rfx_type") {
@@ -270,10 +275,6 @@ export const deleteAllRfxPrereqRecordAction = async (table_name) => {
     } else if (table_name === "bid_validity") {
       apiUrl = `${apiBackendURL}bid_validity/bid_validity/all-rfx/tenant_id/${tenantID}`;
     }
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password)
-    let tokens = res?.tokenData?.access_token
 
     const response = await fetch(apiUrl, {
       cache: "no-store",
@@ -300,3 +301,58 @@ export const deleteAllRfxPrereqRecordAction = async (table_name) => {
     };
   }
 };
+
+
+// get all RFx Prerequisite records from db
+export const getRfxPrereqRecordsByIDAction = async (table_name, id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  
+    try {
+      let url = "";
+      if (table_name === "rfx_type") {
+        url = `${apiBackendURL}rfx_type/rfx_type/id/${id}`;
+      } else if (table_name === "rfx_content_submission") {
+        url = `${apiBackendURL}rfx_content_submission/rfx_content_submission/id/${id}`;
+      } else if (table_name === "rfx_submission_mode") {
+        url = `${apiBackendURL}rfx_submission_mode/rfx_submission_mode/id/${id}`;
+      } else if (table_name === "rfx_stage") {
+        url = `${apiBackendURL}rfx_stage/rfx_stage/id/${id}`;
+      } else if (table_name === "bid_validity") {
+        url = `${apiBackendURL}bid_validity/bid_validity/id/${id}`;
+      }
+  
+      
+      const response = await fetch(url, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${tokens}`,
+        },
+        redirect: "follow",
+      });
+  
+      if (!response.ok) {
+        return {
+          statusCode: "400",
+          returnData: [],
+          error: response.statusText || "Request failed for Rfx Prerequisite",
+        };
+      }
+  
+      const result = await response.json();
+  
+      return {
+        statusCode: 200,
+        returnData: result,
+      };
+    } catch (error) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: error.message || "Request failed for Rfx Prerequisite",
+      };
+    }
+  };
+  

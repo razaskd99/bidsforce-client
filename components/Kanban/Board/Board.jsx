@@ -7,6 +7,7 @@ import Dropdown from "../Dropdown/Dropdown";
 import { Droppable } from "react-beautiful-dnd";
 
 export default function Board(props) {
+  console.log(props)
   const { card, openCardDetail } = props;
   const [show, setShow] = useState(false);
   const [dropdown, setDropdown] = useState(false);
@@ -19,13 +20,20 @@ export default function Board(props) {
       document.removeEventListener("keypress", handleKeyPress);
     };
   }, []);
+  const handleRemoveAllTasks = () => {
+    while (card.length > 0) {
+      const cardId = card[0].id; // Always get the first card's ID
+      console.log(`Removing card with ID: ${cardId}`); // Log the card ID being removed
+      props.removeCard(props.id, cardId);
+    }
+  };
 
   return (
     <div className="board bg-[#EFF3F5]">
       <div className="board__top bg-[#26BADA] text-white p-2">
         {show ? (
           <div>
-            <input className="title__input" type={"text"}    defaultValue={props.name}
+            <input className="title__input" type={"text"} defaultValue={props.name}
               onChange={(e) => { props.setName(e.target.value, props.id); }} />
           </div>
         ) : (
@@ -45,16 +53,20 @@ export default function Board(props) {
           />
           <MoreHorizontal onClick={() => { setDropdown(true); }} />
 
-          {/*{dropdown && (
+          {dropdown && (
             <Dropdown
-              class="board__dropdown"
+              className="board__dropdown"
               onClose={() => {
                 setDropdown(false);
               }}
             >
-               <p onClick={() => props.removeBoard(props.id)}>Delete Board</p> 
-            </Dropdown> 
-            )}*/}
+              <div className="dropdown-option  text-black p-2 bg-white border border-b-1" 
+              onClick={() => {
+                handleRemoveAllTasks();
+                setDropdown(false);
+              }} >Remove all tasks</div>
+            </Dropdown>
+          )}
         </div>
       </div>
       <Droppable droppableId={props.id.toString()}>
@@ -84,14 +96,6 @@ export default function Board(props) {
           </div>
         )}
       </Droppable>
-      <div className="board__footer">
-        {/* <Editable
-          name={"Add Card"}
-          btnName={"Add Card"}
-          placeholder={"Enter Card Title"}
-          onSubmit={(value) => props.addCard(value, props.id)}
-        /> */}
-      </div>
     </div>
   );
 }

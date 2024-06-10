@@ -18,10 +18,13 @@ import {
   hideMainLoader102,
   isValidEmail,
 } from "../util/utility";
+
 import { getToken } from "../util/script";
 import { createCustomerAction } from "./actions/customer";
 import { showModalError, showModalSuccess } from "./utility";
 import { uploadImagesOnBlob } from "../util/vercelFileHandler";
+
+import {createRfxPrereqAction, updateRfxPrereqAction, deleteRfxPrereqRecordAction } from "../rfx/actions/rfxPrereq"
 
 // get all rfx records from db
 export const getAllRfxRecords = async (apiBackendURL, tokens, tenantID) => {
@@ -174,21 +177,31 @@ export const createUpdateRfxRequest = async (
 
 
 
+///////////////////////// Rfx Prerequisite methods
 
-///////////////////////// Company methods
-
-
-
-// Client request to create company
-export const createCompanyRequest = async (
+// Client request to create new Rfx Prerequisite
+export const createRfxPrereqRequest = async (
   e,
-  formData
+  table_name,
+  apiBackendURL,
+  tokens,
+  tenantID
 ) => {
   e.preventDefault();
-    
+
+  const formData = {
+    title: document.getElementById("m4_title")
+      ? document.getElementById("m4_title").value
+      : "",
+    is_active: true,
+    alias: document.getElementById("m4_alias")
+      ? document.getElementById("m4_alias").value
+      : "",
+  };
+
   let valid = true;
   let message = "";
-  const validationFields = ["company_id", "customer_name", "email"];
+  const validationFields = ["title", "is_active"];
 
   validationFields.forEach((element) => {
     if (!formData[element]) {
@@ -197,16 +210,28 @@ export const createCompanyRequest = async (
     }
   });
 
-  if (valid && !isValidEmail(formData.email)) {
+  const isactive = document.getElementById("m4_is_active");
+  formData.is_active =
+    isactive.options[isactive.selectedIndex].value === "Active" ? true : false;
+
+  if (valid && formData.selectedIndex == 0) {
     valid = false;
-    message = "Invalid email address.";
+    message = "Please select the status.";
   }
 
   let success = true;
   if (valid) {
-    let res = await createCustomerAction(formData);
+    let res = await createRfxPrereqAction(
+      formData,
+      table_name,
+      apiBackendURL,
+      tokens,
+      tenantID
+    );
     if (res.statusCode === 200) {
-      showModalSuccess("New details added successfully.");
+      showMainLoader102();
+      document.getElementById("modalform4").reset();
+      // showModalSuccess("New details added successfully.");
       window.location.reload();
     } else {
       valid = false;
@@ -216,14 +241,15 @@ export const createCompanyRequest = async (
 
   if (!valid || !success) {
     showModalError(message);
+    hideMainLoader102();
   }
 };
 
-
-// Client request to update company
-export const updateCompanyRequest = async (
+// Client request to update Rfx Prerequisite
+export const updateRfxPrereqRequest = async (
   e,
-  company_id,
+  table_name,
+  id,
   apiBackendURL,
   tokens,
   tenantID
@@ -231,35 +257,18 @@ export const updateCompanyRequest = async (
   e.preventDefault();
 
   const formData = {
-    company_name: document.getElementById("m1_company_name")
-      ? document.getElementById("m1_company_name").value
+    title: document.getElementById("m4_title")
+      ? document.getElementById("m4_title").value
       : "",
-    phone: document.getElementById("m1_phone")
-      ? document.getElementById("m1_phone").value
-      : "",
-    email: document.getElementById("m1_email")
-      ? document.getElementById("m1_email").value
-      : "",
-    address: document.getElementById("m1_address")
-      ? document.getElementById("m1_address").value
-      : "",
-    industry: document.getElementById("m1_industry")
-      ? document.getElementById("m1_industry").value
-      : "",
-    website: document.getElementById("m1_website")
-      ? document.getElementById("m1_website").value
-      : "",
-    company_logo: document.getElementById("m1_company_logo")
-      ? document.getElementById("m1_company_logo").value
-      : "",
-    company_type: document.getElementById("m1_company_type")
-      ? document.getElementById("m1_company_type").value
+    is_active: true,
+    alias: document.getElementById("m4_alias")
+      ? document.getElementById("m4_alias").value
       : "",
   };
 
   let valid = true;
   let message = "";
-  const validationFields = ["company_name", "phone", "email", "industry", "company_type"];
+  const validationFields = ["title", "is_active"];
 
   validationFields.forEach((element) => {
     if (!formData[element]) {
@@ -268,24 +277,29 @@ export const updateCompanyRequest = async (
     }
   });
 
-  if (valid && !isValidEmail(formData.email)) {
+  const isactive = document.getElementById("m4_is_active");
+  formData.is_active =
+    isactive.options[isactive.selectedIndex].value == "Active" ? true : false;
+
+  if (valid && formData.selectedIndex == 0) {
     valid = false;
-    message = "Invalid email address.";
+    message = "Please select the status.";
   }
 
   let success = true;
   if (valid) {
-    let res = await updateCompanyAction(
+    let res = await updateRfxPrereqAction(
       formData,
-      company_id,
+      table_name,
+      id,
       apiBackendURL,
       tokens,
       tenantID
     );
-
     if (res.statusCode === 200) {
-      document.getElementById("modalform1").reset();
-      showModalSuccess("Details updated successfully.");
+      showMainLoader102();
+      document.getElementById("modalform4").reset();
+      // showModalSuccess("Updated details successfully.");
       window.location.reload();
     } else {
       valid = false;
@@ -294,12 +308,30 @@ export const updateCompanyRequest = async (
   }
 
   if (!valid || !success) {
-    showModalError(message)
+    showModalError(message);
+    hideMainLoader102();
   }
 };
 
+// Client request to delete
+export const deleteRfxPrereqRequest = async (e, table_name, id) => {
+  e.preventDefault();
 
+  const userConfirmed = window.confirm(
+    "Are you sure want to delete Rfx Prerequisite?"
+  );
 
-///////////////////// primary contacts
+  if (userConfirmed) {
+    let res = await deleteRfxPrereqRecordAction(table_name, id);
+
+    if (res) {
+      window.location.reload();
+    } else {
+      //showError("Server Error:", res.returnData.error)
+      window.location.reload();
+    }
+  }
+};
+
 
 

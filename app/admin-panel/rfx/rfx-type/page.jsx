@@ -1,9 +1,9 @@
-import { getAllRfxPrereqRecordsAction } from "@/app/api/admin-panel/actions/rfx";
+import { getAllRfxPrereqRecordsAction } from "@/app/api/rfx/actions/rfxPrereq";
 import Breadcrumbs from "@/app/controlpanel/components/Breadcrumbs";
-import Link from "next/link";
 import RfxPrereqAddNewButton from "../components/RfxPrereqAddNewButton";
-import RfxPrereqListingButtons from "../components/RfxPrereqListingButtons";
-import DeleteAllRFxTypeButton from "../components/DeleteAllRFxTypeButton";
+import RfxPrereqTable from "../components/RfxPrereqTable"
+import SearchSection from "@/components/SearchSection"
+import Pagination from "@/components/pageniation-util/pagination"
 
 // start login init
 import { redirect } from "next/navigation";
@@ -12,7 +12,19 @@ import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 // end login init 
 
-export default async function AdminPanelDesignation() {
+export default async function AdminPanelDesignation({searchParams}) {
+  
+  // search terms
+  let searchTermValue=searchParams?.searchterm
+  if(!searchTermValue)searchTermValue=""
+
+  // pagination
+  let numberOfRecords=5
+  const currentPage = Number(searchParams?.page) || 1
+  const limit = Number(searchParams?.limit) || numberOfRecords
+  const offset = (currentPage - 1) * limit
+
+
   let userEncrptedData = await getCookieValue('userPrivateData')
   let tenant_ID = await getCookieValue('TENANT_ID')
   let userLoginData = await getCookieValue('userLoginData')
@@ -34,8 +46,10 @@ export default async function AdminPanelDesignation() {
   let tokens = res?.tokenData?.access_token
 
   // call all tenant action
-  let records = await getAllRfxPrereqRecordsAction("rfx_type", apiBackendURL, tokens, tenantID);
-  let allRecords = records.returnData;
+  let records = await getAllRfxPrereqRecordsAction("rfx_type", searchTermValue, offset, limit);
+  const allRecords = records?.returnData?.data || [];
+  const total_count = records?.returnData?.total_count || 0;
+  const totalPages = Math.ceil(total_count / limit)
 
   const breadcrumbItems = [
     { label: "Home", href: "/admin-panel" },
@@ -44,74 +58,33 @@ export default async function AdminPanelDesignation() {
 
   return (
     <div className=" w-full">
-      <div className="flex w-full justify-between mb-2">
+      <div className="">
         <Breadcrumbs items={breadcrumbItems} />
-        <RfxPrereqAddNewButton 
-          buttonName={"rfx_type"} 
-          buttonType={"new"} 
-          apiBackendURL={apiBackendURL}
-          tenantID={tenantID}
-          tokens={tokens}
-        />
+
+        <div className="flex items-center gap-2">
+
+          <RfxPrereqAddNewButton 
+            buttonName={"rfx_type"} 
+            buttonType={"new"} 
+            apiBackendURL={apiBackendURL}
+            tenantID={tenantID}
+            tokens={tokens}
+          />
+          
+          <SearchSection/>
+
+
+        </div>
       </div>
 
-      <div className="card">
-        <div className="flex justify-between ">
-          <div className=" ">
-            <h5 className="card-header">Rfx Type List</h5>
-          </div>
-          <div className="mt-3 mr-2 ">{<DeleteAllRFxTypeButton />}</div>
-        </div>
-        <div className="table-responsive text-nowrap">
-          <table className="table">
-            <thead className="table-light">
-              <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Alias</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody className="table-border-bottom-0">
-              {allRecords &&
-                allRecords.map((item, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="flex items-center">
-                        <div className="form-check ">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="defaultCheck3"
-                            checked=""
-                          />
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <div className="font-normal text-secondary">
-                            {item.title}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{item.is_active ? "Active" : "Inactive"}</td>
-                    <td>{item.alias}</td>
-                    <td>
-                      <RfxPrereqListingButtons
-                        propsData={item}
-                        tablename={"rfx_type"}
-                        id={item.rfx_type_id}
-                        apiBackendURL={apiBackendURL}
-                        tenantID={tenantID}
-                        tokens={tokens}
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+      <div>
+        <RfxPrereqTable allRecords={allRecords} tableName={"rfx_type"}/>
       </div>
+
+      <div className=" flex justify-center mt-20">
+        <Pagination totalPages={totalPages} />
+      </div>
+      
     </div>
   );
 }

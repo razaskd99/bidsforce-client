@@ -83,10 +83,12 @@ export const createUserRequest = async (
     } 
     // create user
     let res = await createUserAction(formData);
+    
     if (res.statusCode === 200) {
       //showModalSuccess("New details added successfully.");
       window.location.reload();
       //handleClose();
+      //hideMainLoader102();
     } else {
       valid = false;
       message = res.error;

@@ -71,10 +71,12 @@ export const createUserAction = async (formData) => {
     }
 
     const result = await response.json();
+    const json = JSON.parse(result)
 
     return {
-      statusCode: 200,
-      returnData: result,
+      statusCode: json.code,
+      returnData: [],
+      error: json.msg
     };
   } catch (error) {
     return {

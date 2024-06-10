@@ -78,11 +78,7 @@ import {
   getAllRfxClarificationPostRecordsBy_ClarifId_Action,
   getRfxClarificationRecordByIDAction,
 } from "@/app/api/manager/actions/clarifications";
-import {
-  createDocUploadAction,
-  GetRfxDocumentsBy_RfxID_Key_Action,
-  GetRfxDocumentsAction,
-} from "@/app/api/rfx/actions/rfx";
+import { createDocUploadAction, GetRfxDocumentsBy_RfxID_Key_Action, GetRfxDocumentsAction} from "@/app/api/rfx/actions/rfx";
 import { getUserById } from "@/app/api/rfx/actions/user";
 import {
   createBidReviewPostAction,
@@ -95,7 +91,7 @@ import {
   getSubmissionByIdAction,
   createSubmissionAction,
 } from "@/app/api/manager/actions/bidsubmission";
-import { getAllRfxPrereqRecordsAction } from "@/app/api/admin-panel/actions/rfx";
+import { getAllRfxPrereqRecordsAction } from "@/app/api/rfx/actions/rfxPrereq";
 import { movetoNextBidStageAction } from "@/app/api/rfx/stages";
 import {
   getBidClarificationRecordsByIdAction,

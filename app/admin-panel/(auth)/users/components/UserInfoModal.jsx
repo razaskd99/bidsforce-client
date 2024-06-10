@@ -54,7 +54,7 @@ export default function UserInfoModal(props) {
     time_zone: props?.modalData?.time_zone ? props?.modalData?.time_zone : '',
     work_hours_start: props?.modalData?.work_hours_start ? props?.modalData?.work_hours_start : '',
     work_hours_end: props?.modalData?.work_hours_end ? props?.modalData?.work_hours_end : '',
-    password: props?.modalData?.password ? props?.modalData?.password : passwd,
+    password: props?.modalData?.password ? props?.modalData?.password : '',
     cpassword: props?.modalData?.password ? props?.modalData?.password : '',
   });
   
@@ -646,6 +646,7 @@ export default function UserInfoModal(props) {
               name="work_hours_start"
               label="Work Hours *"
               onChange={handleHoursChange}
+              value={props?.modalData?.work_hours_start ? props?.modalData?.work_hours_start : formData.work_hours_start}
               defaultValue={props?.modalData?.work_hours_start ? props?.modalData?.work_hours_start : formData.work_hours_start}
               className='bg-white w-full'
               type="text"

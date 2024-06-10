@@ -386,7 +386,7 @@ export default function NewAccounts({
               <SearchingListInput 
                   allSearchList = {contactList}
                   onListSelect={handleAccountOwnerSelect}
-                  placeHolder={"Search account owner... *"}
+                  placeHolder={"Account Owner *"}
                   selectedValue={modalData?.owner_name ? modalData?.owner_name :formData.owner_name}
                 /> 
             </Grid>

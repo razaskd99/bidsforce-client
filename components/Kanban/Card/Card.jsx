@@ -2,86 +2,122 @@ import React, { useState } from "react";
 import { VscChecklist } from "react-icons/vsc";
 import { LuMessagesSquare } from "react-icons/lu";
 import { IoCalendarOutline } from "react-icons/io5";
-// import { format } from 'date-fns';
 import { Draggable } from "react-beautiful-dnd";
-import { Calendar, CheckSquare, Clock, MoreHorizontal } from "react-feather";
+import { CheckSquare, MoreHorizontal } from "react-feather";
 import Dropdown from "../Dropdown/Dropdown";
-import Modal from "../Modal/Modal";
 import Tag from "../Tags/Tag";
 import "./Card.css";
-import CardDetail from "../CardDetail/CardDetail";
-import Link from "next/link";
+
 const Card = (props) => {
-	console.log("props", props)
+	const { id, title, card, bid, index, tags, openCardDetail, removeCard } = props;
 	const [dropdown, setDropdown] = useState(false);
-	const [modalShow, setModalShow] = useState(false);
-	const progressPercentage = props.bid * 33 - 31;
+	const progressPercentage = bid * 33 - 31;
+
+	const handleRemoveTask = () => {
+		removeCard(bid, id);
+	};
+	const totalTasks = card?.task?.length || 0;
+	const completedTasks = card?.task?.filter(item => item.completed).length || 0;
 
 	return (
-		<Draggable key={props.id.toString()} draggableId={props.id.toString()} index={props.index} >
+		<Draggable key={id.toString()} draggableId={id.toString()} index={index}>
 			{(provided) => (
-				<div className="custom__card pt-2"
-					onClick={() => {
-						props.openCardDetail(props.id);
-					}}
-					//  onClick={() => { setModalShow(true); }}
-					// onClick={() => { console.log("INSIDE") }}
-					{...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
-					<div className="card__text p-3"><p>{props.title}</p>
-						{/* <MoreHorizontal className="car__more" onClick={() => {setDropdown(true);}} />  */}
+				<div
+					className="custom__card pt-2 relative"
+					onClick={() => openCardDetail(id)}
+					{...provided.draggableProps}
+					{...provided.dragHandleProps}
+					ref={provided.innerRef}
+				>
+					<div className="card__text p-3">
+						<p>{title}</p>
+						<div className="">
+							<MoreHorizontal
+								className="ml-auto"
+								onClick={(e) => {
+									e.stopPropagation();
+									setDropdown(true);
+								}}
+							/>
+							{dropdown && (
+								<Dropdown
+									className="board__dropdown"
+									onClose={() => setDropdown(false)}
+								>
+									<div
+										className="dropdown-option text-black p-2 bg-white border border-b-1"
+										onClick={(e) => {
+											e.stopPropagation();
+											handleRemoveTask();
+											setDropdown(false);
+										}}
+									>
+										Remove task
+									</div>
+								</Dropdown>
+							)}
+						</div>
 					</div>
 					<div className="card__text p-3 flex flex-col gap-1 text-[#98A9BC] items-start">
-						{/* <p className="text-black text-[13px]">{props.card.title}</p> */}
-						<p>{props.card.company || "DRP Refinery Automation "}</p>
+						<p>{card.company || "DRP Refinery Automation"}</p>
 						<div className="flex justify-between w-full">
 							<div className="flex gap-1 items-center">
 								<img
-									src={props.card.image || "https://images.unsplash.com/photo-1587397845856-e6cf49176c70?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D "}
-									alt="user" width={30} height={30}
+									src={
+										card.image ||
+										"https://images.unsplash.com/photo-1587397845856-e6cf49176c70?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+									}
+									alt="user"
+									width={30}
+									height={30}
 									className="object-cover rounded-full w-8 h-8"
 								/>
 								<VscChecklist />
-								<span className=" text-[11px]">5/8</span>
-								<LuMessagesSquare className="ml-1" />
-								<span className="text-[11px]">5/8</span>
+								<span className="text-[11px]">{completedTasks}/{totalTasks}</span>
+								{/* <LuMessagesSquare className="ml-1" />
+                <span className="text-[11px]">5/8</span> */}
 							</div>
 							<div className="flex items-center gap-1">
 								<IoCalendarOutline />
 								<span className="text-[11px]">
-									{props.card.issueDate ? new Date(props.card.issueDate).toISOString().split('T')[0] : "20 Dec, 2023"}
+									{card.issueDate
+										? new Date(card.issueDate).toISOString().split("T")[0]
+										: "20 Dec, 2023"}
 								</span>
 							</div>
 						</div>
 					</div>
 					<div className="card__tags">
-						{props.tags?.map((item, index) => (
+						{tags?.map((item, index) => (
 							<Tag key={index} tagName={item.tagName} color={item.color} />
 						))}
 					</div>
 
-					{props.card && props.card.task && (
-
+					{/* {card && card.task && (
 						<div className="card__footer">
-							{props.card.task.length !== 0 && (
+							{card.task.length !== 0 && (
 								<div className="task">
 									<CheckSquare />
 									<span>
-										{props.card.task.length !== 0
-											? `${(props.card.task?.filter(
-												(item) => item.completed === true
-											)).length
-											} / ${props.card.task.length}`
-											: `${"0/0"}`}
+										{card.task.length !== 0
+											? `${card.task.filter((item) => item.completed).length} / ${card.task.length}`
+											: "0/0"}
 									</span>
 								</div>
 							)}
-
-
-						</div>)}
+						</div>
+					)} */}
 
 					{provided.placeholder}
 					<div className="h-2 w-full bg-gray-300 rounded-full">
-						<div className="h-full bg-green-500 rounded-full" style={{ width: `${progressPercentage}%` }}></div>
+						<div
+							className={`h-full rounded-full 
+                ${progressPercentage < 25 ? "bg-red-600" :
+									progressPercentage < 50 ? "bg-orange-500" :
+										progressPercentage < 75 ? "bg-green-300" :
+											"bg-green-500"} `}
+							style={{ width: `${progressPercentage}%` }}
+						></div>
 					</div>
 				</div>
 			)}

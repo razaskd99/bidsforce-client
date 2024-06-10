@@ -1,11 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  createRfxPrereqRequest,
-  updateRfxPrereqRequest,
-} from "@/app/api/admin-panel/scripts";
+import { createRfxPrereqRequest, updateRfxPrereqRequest } from "@/app/api/rfx/scripts";
+
 
 export default function RfxPrereqInfoModal(props) {
   const [openModal, setOpenModal] = useState(true);
@@ -13,8 +9,6 @@ export default function RfxPrereqInfoModal(props) {
     m4_title:
       props.modalData && props.modalData.title ? props.modalData.title : "",
     m4_is_active: props.modalData && props.modalData.is_active ? true : false,
-    m4_alias:
-      props.modalData && props.modalData.alias ? props.modalData.alias : "",
   });
 
   console.log(formData);
@@ -33,7 +27,6 @@ export default function RfxPrereqInfoModal(props) {
     };
   }, []);
 
-  console.log(props.modalData);
   const handleChangeValues = (e) => {
     let data = { ...formData, [e.target.name]: e.target.value };
     setFormDate({ ...data });
@@ -118,22 +111,6 @@ export default function RfxPrereqInfoModal(props) {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col mb-4 mt-2">
-                    <div className="form-floating form-floating-outline">
-                      <input
-                        type="text"
-                        onChange={handleChangeValues}
-                        id="m4_alias"
-                        name="m4_alias"
-                        value={formData.m4_alias}
-                        className="form-control"
-                        placeholder="Enter Title"
-                      />
-                      <label for="m4_alias">Alias</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
                   <div className="col-12">
                     <div
                       id="modalErrorMessageAlert"
@@ -179,7 +156,7 @@ export default function RfxPrereqInfoModal(props) {
                   type="button"
                   className="btn btn-primary waves-effect waves-light"
                 >
-                  Add Info
+                  ADD
                 </button>
               ) : (
                 <button
@@ -196,7 +173,7 @@ export default function RfxPrereqInfoModal(props) {
                   type="button"
                   className="btn btn-primary waves-effect waves-light"
                 >
-                  Update Info
+                  SAVE
                 </button>
               )}
             </div>

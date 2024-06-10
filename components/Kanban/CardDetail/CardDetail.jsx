@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { Trash, X } from 'react-feather';
 import { v4 as uuidv4 } from 'uuid';
 
-function CardDetail({ card, setData, onClose }) {
+function CardDetail({ card, setData, onClose, }) {
   const searchParams = useSearchParams();
   const [values, setValues] = useState({ task: [], title: '', tags: [] });
   const [text, setText] = useState(values.title);
@@ -44,7 +44,6 @@ function CardDetail({ card, setData, onClose }) {
       ...board,
       card: board.card.map(c => (c.id === card.id ? { ...c, task: tasks } : c))
     })));
-    console.log(prevData)
   };
 
   const removeTask = (id) => {

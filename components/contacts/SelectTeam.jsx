@@ -33,14 +33,17 @@ const SelectTeam = (props) => {
         }
     }, [selectedUsers]);
 
-
+    useEffect(() => {
+        setTeamMembers([]);  
+        setTeamName('');  
+    }, [isOpen]);
 
     const handleOpenDialog = () => {
-        setIsDialogOpen(true);a
+        setIsDialogOpen(true);
     };
     const handleCloseDialog = () => {        
         setIsDialogOpen(false); 
-        handleClose();            
+        handleClose();
     };
     
     // update team member at index

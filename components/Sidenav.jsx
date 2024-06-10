@@ -4,7 +4,6 @@ import { useSidebar } from "@/context/SidebarContext/SidebarProvider";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getDesignationRecordByIDAction } from "@/app/api/admin-panel/actions/user";
 import { getCookieValue } from "@/lib/scripts";
 
 
@@ -40,7 +39,6 @@ const data2 = [
   { icon: "/calendar.png", text: "Calendar", link: "/calendar", },
   { icon: "/contacts.png", text: "Users", link: "/users", },
   { icon: "/contacts.png", text: "resources", link: "/resources", },
-  { icon: "/contacts.png", text: "settings", link: "/admin-panel", },
 ];
 
 const Sidenav = (props) => {
@@ -53,26 +51,25 @@ const Sidenav = (props) => {
 
   let data = {}
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       let userRec = await getCookieValue('userLoginData');
-  //       const designationRecord = await getDesignationRecordByIDAction(userRec.designation_id);
-  //       setDesignation(designationRecord.returnData.title);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let userRec = await getCookieValue('userLoginData');
+        setDesignation(userRec.user_role);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
-
+    fetchData();
+  }, []);
 
 
-  if (designation == 'Bid Manager') {
-    data = data2
-  } else {
+
+  if (designation == 'Administrator') {
     data = data1
+  } else {
+    data = data2
   }
 
   return (

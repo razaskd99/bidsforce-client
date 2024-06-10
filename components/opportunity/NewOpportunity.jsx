@@ -439,7 +439,7 @@ const NewOpportunity = (props) => {
               <SearchingListInput 
                   allSearchList = {contactList}
                   onListSelect={handleAccountOwnerSelect}
-                  placeHolder={"Search account owner... *"}
+                  placeHolder={"Opportunity Owner *"}
                   selectedValue={isEdit && !isFormDataChanged ? modalData?.owner_name : formData.owner_name}
                 />
             </Grid>
