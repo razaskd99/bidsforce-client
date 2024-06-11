@@ -9,7 +9,7 @@ import { getCookieValue } from "@/lib/scripts";
 if (process.env.NODE_ENV == "production") {
     bakend = "https://server.bidsforce.com/";
 }*/
-let bakend = "http://127.0.0.1:8888/";
+let bakend = "https://bidsforce-server-1.vercel.app/";
 
 
 export let API_BACKEND_SERVER = bakend;
