@@ -219,11 +219,11 @@ export const createAccountTypeRequest = async (
 
   let success = true;
   if (valid) {
+    showMainLoader102();
     let res = await createAccountTypeAction(
       formData
     );
-    if (res.statusCode === 200) {
-      showMainLoader102();
+    if (res.statusCode === 201) {
       //document.getElementById("modalform1").reset();
       //showModalSuccess("New details added successfully.");
       window.location.reload();
@@ -235,6 +235,7 @@ export const createAccountTypeRequest = async (
 
   if (!valid || !success) {
     showModalError(message);
+    hideMainLoader102();
   }
 };
 

@@ -17,7 +17,7 @@ const UserTable = ({ rows, tenantDetails, functionaGroupRecs, usersRecords }) =>
   const router = useRouter();
   
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Number of items per page
+  const itemsPerPage = 15; // Number of items per page
 
   // Calculate the index of the first and last item to be displayed on the current page
   const startIndex = (currentPage - 1) * itemsPerPage;

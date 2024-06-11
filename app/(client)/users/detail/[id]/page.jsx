@@ -13,6 +13,8 @@ import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 import { getAllUsers } from "@/app/api/rfx/actions/user";
 import { getAllUsersAction, getUserById } from "@/app/api/users/action/user";
 import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
+import { logout, logoutUser } from "@/app/api/util/action/account";
+
 
 // end login init
 
@@ -39,7 +41,7 @@ const AddAccount = async ({ params }) => {
     // get token
     response = await getToken(apiBackendURL, username, password);
     let tokens = response?.tokenData?.access_token;
-      
+    
     // get accounts
     response = await getAllAccountRecordsAction(id);
     let accountRecords = response.returnData;
@@ -63,11 +65,12 @@ const AddAccount = async ({ params }) => {
     let usersRecord = response.data 
 
     // get all functional group
-    response = await getAllFunctionalGroupAction('', 0, 1000)
-    let functionalGroupRec = response?.returnData?.data.map((rec) => ({
-        id: rec.id,
-        name: rec.title   
-      }))
+    response = await getAllFunctionalGroupAction('', 0, 1000)   
+    const functionalGrop = response?.returnData?.data || []
+    let functionalGroupRec = functionalGrop?.map((rec) => ({
+      id: rec.id,
+      name: rec.title   
+    }))
    
     // check user is login
     let isLogin = await getCookieValue("loginStatus");

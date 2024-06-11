@@ -23,7 +23,8 @@ export default function OpportunityTable({
   oppCommForSalesBudget,
   biddingUnit,
   projectType,
-  opportunityType
+  opportunityType,
+  opportunityIndustry
 }) {
 
   hideMainLoader102();
@@ -132,6 +133,7 @@ export default function OpportunityTable({
       biddingUnitList={biddingUnit}
       projectTypeList={projectType}
       opportunityTypeList={opportunityType}
+      opportunityIndustryList={opportunityIndustry}
     />
     <div className='flex gap-3 w-full mt-2 h-4 text-gray-500 cursor-pointer mr-1'>
       <>

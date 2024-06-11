@@ -65,7 +65,7 @@ export default function OppPrereqTable({ allRecords, tableName}) {
   };
 
   const updateItemButton = async() => {
-
+console.log(tableName)
     if(selectedRows && selectedRows.length == 1) {
       const r1 = await getOppPrereqByIDAction(tableName, selectedRows[0]);
       setModalData(r1.returnData);  
@@ -83,7 +83,7 @@ export default function OppPrereqTable({ allRecords, tableName}) {
         setOpenOppPrereqModal={setIsOpen}
         id={modalData.bidding_unit_id || modalData.business_line_id || modalData.opp_committed_for_sales_budget_id ||
             modalData.opportunity_sales_stages_id || modalData.opportunity_type_id || 
-            modalData.project_type_id || modalData.sales_pursuit_progress_id}
+            modalData.project_type_id || modalData.sales_pursuit_progress_id || modalData.opportunity_industry_id}
     />
     }
     <div className='flex gap-3 w-full h-4 text-gray-500 cursor-pointer '>
@@ -127,13 +127,13 @@ export default function OppPrereqTable({ allRecords, tableName}) {
                 type="checkbox"
                 value={row.bidding_unit_id || row.business_line_id || row.opp_committed_for_sales_budget_id ||
                     row.opportunity_sales_stages_id || row.opportunity_type_id || 
-                    row.project_type_id || row.sales_pursuit_progress_id}
+                    row.project_type_id || row.sales_pursuit_progress_id || row.opportunity_industry_id}
                 onChange={(e)=>handleCheckboxChange(e, row.bidding_unit_id || row.business_line_id || row.opp_committed_for_sales_budget_id ||
                     row.opportunity_sales_stages_id || row.opportunity_type_id || 
-                    row.project_type_id || row.sales_pursuit_progress_id)}
+                    row.project_type_id || row.sales_pursuit_progress_id || row.opportunity_industry_id)}
                 checked={(selectedRows.includes(row.bidding_unit_id || row.business_line_id || row.opp_committed_for_sales_budget_id ||
                     row.opportunity_sales_stages_id || row.opportunity_type_id || 
-                    row.project_type_id || row.sales_pursuit_progress_id) ? true : false)}
+                    row.project_type_id || row.sales_pursuit_progress_id || row.opportunity_industry_id) ? true : false)}
               />
             </td>
                           

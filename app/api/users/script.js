@@ -4,6 +4,7 @@ import { hideMainLoader102, showMainLoader102 } from "../util/utility";
 import { uploadImagesOnBlob } from "../util/vercelFileHandler";
 import { createUserAction, deleteUserRecordAction, updateUserDetailLimitedAction, updateUserRecordAction } from "./action/user";
 import { createFunctionalGroupAction, deleteFunctionalGroupRecordAction, updateFunctionalGroupAction } from "./action/functionalGroup";
+import { logoutUser } from "../util/action/account";
 
 
 // Client request to create User
@@ -301,7 +302,13 @@ export const updateUserDetailLimited = async (
       if (res.statusCode === 200) {
         showMainLoader102();
         //showModalSuccess("User details updated successfully.");
-        window.location.reload();
+        if(!formData.password) {
+          window.location.reload();
+        } else {
+          const updatedLikes = await logoutUser();
+          window.location.href = '/login'
+        }
+        
         // handleClose();
       } else {
         valid = false;
@@ -355,7 +362,7 @@ export const createFunctionalGroupRequest = async (e) => {
   if (valid) {
     showMainLoader102();
     let res = await createFunctionalGroupAction(formData);
-    if (res.statusCode === 200) {
+    if (res.statusCode === 201) {
       //showModalSuccess("New record added successfully.");
       window.location.reload();
     } else {

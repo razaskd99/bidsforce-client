@@ -26,7 +26,9 @@ const OpportunityDetail = ({
   oppCommForSalesBudget,
   biddingUnit,
   projectType,
-  opportunityType }) => {
+  opportunityType ,
+  opportunityIndustry
+}) => {
   const [open, setOpen] = useState(false);
 
   const [rfxOption, setRfxOption] = useState(false);
@@ -122,6 +124,7 @@ const OpportunityDetail = ({
         biddingUnitList={biddingUnit}
         projectTypeList={projectType}
         opportunityTypeList={opportunityType}
+        opportunityIndustryList={opportunityIndustry}
       />
 
       {/*<Link href={"/opportunities/edit/" + data.opportunity_id} className="flex text-[#26BADA] font-bold py-2 px-4 w-20 "><LuFileEdit style={{width: '40px', height: '40px'}}/>   </Link>*/}
@@ -182,7 +185,7 @@ const OpportunityDetail = ({
               // /rfx/newfx
               className="text-white text-center bg-[#26BADA] py-3 mt-[10px] mb-[18px]] rounded-md"
             >
-              LOG FX
+              LOG RFx
             </Link>
             <SelectRFx open={rfxOption} handleCloseRFx={handleCloseRFx}  preRfxData={data}/>            
             

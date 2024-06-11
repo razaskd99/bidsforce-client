@@ -42,10 +42,11 @@ const AddAccount = async ({ params }) => {
 
     // get all functional group
     response = await getAllFunctionalGroupAction('', 0, 1000)
-    let functionalGroupRec = response?.returnData?.data.map((rec) => ({
-        id: rec.id,
-        name: rec.title   
-      }))
+    const functionalGrop = response?.returnData?.data || []
+    let functionalGroupRec = functionalGrop?.map((rec) => ({
+      id: rec.id,
+      name: rec.title   
+    }))
     
     // check user is login
     let isLogin = await getCookieValue("loginStatus");

@@ -30,6 +30,7 @@ const OpenOpportunity = (props) => {
         biddingUnitList={props.biddingUnit}
         projectTypeList={props.projectType}
         opportunityTypeList={props.opportunityType}
+        opportunityIndustryList={props.opportunityIndustry}
       />
     </div>
   );

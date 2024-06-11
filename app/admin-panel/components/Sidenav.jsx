@@ -310,6 +310,15 @@ export default async function SideNavAdminPanel(props) {
                   <ListItemText primary="Opportunity Type" />
                 </Link>
               </ListItem>
+              <ListItem  className="py-0 text-[#cecece]">
+                <Link
+                  className="no-underline text-[#cecece]"
+                  href="/admin-panel/opportunity/opportunity-industry"
+                  passHref
+                >
+                  <ListItemText primary="Opportunity Industry" />
+                </Link>
+              </ListItem>
             </List>
           </AccordionDetails>
         </Accordion>
@@ -326,7 +335,7 @@ export default async function SideNavAdminPanel(props) {
             <ListItemText
               primary={
                 <Typography variant="p" color="white" className="text-base">
-                  RFX PRE-REQUISITES
+                  RFX
                 </Typography>
               }
             />

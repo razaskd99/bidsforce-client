@@ -42,6 +42,8 @@ export const getAllOppPrereqRecordsAction = async (table_name, searchTermValue, 
         url = `${apiBackendURL}project_type/project_type/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     } else if (table_name === "opportunity_type") {
         url = `${apiBackendURL}opportunity_type/opportunity_type/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
+    } else if (table_name === "opportunity_industry") {
+      url = `${apiBackendURL}opportunity_industry/opportunity_industry/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
     }
 
     const response = await fetch(url, {
@@ -98,6 +100,8 @@ export const createOppPrereqAction = async (formData, table_name) => {
     apiUrl = `${apiBackendURL}project_type/project_type/`;
   } else if (table_name === "opportunity_type") {
     apiUrl = `${apiBackendURL}opportunity_type/opportunity_type/`;
+  } else if (table_name === "opportunity_industry") {
+    apiUrl = `${apiBackendURL}opportunity_industry/opportunity_industry/`;
   }
 
   const headers = new Headers({
@@ -134,10 +138,12 @@ export const createOppPrereqAction = async (formData, table_name) => {
     }
 
     const result = await response.json();
+    const json = JSON.parse(result)
 
     return {
-      statusCode: 200,
-      returnData: result,
+      statusCode: json.code,
+      returnData: json.data,
+      error: json.msg
     };
   } catch (error) {
     return {
@@ -168,6 +174,8 @@ export const updateOppPrereqAction = async (formData, table_name, id) => {
     apiUrl = `${apiBackendURL}project_type/project_type/id/${id}`;
   } else if (table_name === "opportunity_type") {
     apiUrl = `${apiBackendURL}opportunity_type/opportunity_type/id/${id}`;
+  } else if (table_name === "opportunity_industry") {
+    apiUrl = `${apiBackendURL}opportunity_industry/opportunity_industry/id/${id}`;
   }
 
   const headers = new Headers({
@@ -241,6 +249,8 @@ export const deleteOppPrereqRecordAction = async (table_name, id) => {
         apiUrl = `${apiBackendURL}project_type/project_type/id/${id}`;
       } else if (table_name === "opportunity_type") {
         apiUrl = `${apiBackendURL}opportunity_type/opportunity_type/id/${id}`;
+      } else if (table_name === "opportunity_industry") {
+        apiUrl = `${apiBackendURL}opportunity_industry/opportunity_industry/id/${id}`;
       }
 
     const response = await fetch(apiUrl, {
@@ -341,6 +351,8 @@ if (table_name === "opportunity_currency") {
   apiUrl = `${apiBackendURL}project_type/project_type/id/${id}`;
 } else if (table_name === "opportunity_type") {
   apiUrl = `${apiBackendURL}opportunity_type/opportunity_type/id/${id}`;
+} else if (table_name === "opportunity_industry") {
+  apiUrl = `${apiBackendURL}opportunity_industry/opportunity_industry/id/${id}`;
 }
 
 

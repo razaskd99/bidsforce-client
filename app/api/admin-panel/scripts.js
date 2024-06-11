@@ -1082,7 +1082,7 @@ export const createPersonaRequest = async (
       tokens,
       tenantID
     );
-    if (res.statusCode === 200) {
+    if (res.statusCode === 201) {
       //document.getElementById("modalform4").reset();
       //showModalSuccess("New details added successfully.");
       window.location.reload();

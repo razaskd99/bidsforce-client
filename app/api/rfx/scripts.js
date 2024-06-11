@@ -221,6 +221,7 @@ export const createRfxPrereqRequest = async (
 
   let success = true;
   if (valid) {
+    showMainLoader102();
     let res = await createRfxPrereqAction(
       formData,
       table_name,
@@ -228,9 +229,8 @@ export const createRfxPrereqRequest = async (
       tokens,
       tenantID
     );
-    if (res.statusCode === 200) {
-      showMainLoader102();
-      document.getElementById("modalform4").reset();
+    if (res.statusCode === 201) {
+      // document.getElementById("modalform4").reset();
       // showModalSuccess("New details added successfully.");
       window.location.reload();
     } else {

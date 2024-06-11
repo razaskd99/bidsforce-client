@@ -38,7 +38,8 @@ const NewOpportunity = (props) => {
     oppCommForSalesBudgetList,
     biddingUnitList,
     projectTypeList,
-    opportunityTypeList
+    opportunityTypeList,
+    opportunityIndustryList
   } = props;
   
   const [isEdit, setIsEdit] = useState(modalType && modalType == 'edit' ? true : false);
@@ -417,14 +418,25 @@ const NewOpportunity = (props) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
+                select
                 fullWidth
                 name="opp_industry"
-                label="Opportunity Industry"
+                label=" Opportunity Industry"
                 variant="outlined"
-                defaultValue={isEdit && !isFormDataChanged ? modalData?.opp_industry : formData.opp_industry}
+                defaultValue={modalData?.opp_industry ? modalData?.opp_industry : formData.opp_industry}
                 onChange={handleChangeValues}
-                inputProps={{ maxLength: 25 }}  
-              />
+                >
+                <MenuItem value="">Select Opportunity Industry *</MenuItem>
+                {opportunityIndustryList && opportunityIndustryList?.map(option => (
+                  <MenuItem 
+                    key={option.title} 
+                    value={option.title}
+                    selected={modalData?.opp_industry ? (modalData?.opp_industry === option.title ? true : false) : (formData.opp_industry === option.title ? true : false)}  
+                  >
+                    {option.title}
+                  </MenuItem>
+                ))} 
+              </TextField> 
             </Grid>
             <Grid item xs={12} md={6}>
               {/* <TextField

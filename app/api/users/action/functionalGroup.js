@@ -124,10 +124,12 @@ export const createFunctionalGroupAction = async (formData) => {
       }
   
       const result = await response.json();
+      const json = JSON.parse(result)
   
       return {
-        statusCode: 200,
-        returnData: result,
+        statusCode: json.code,
+        returnData: json.data,
+        error: json.msg
       };
     } catch (error) {
       return {

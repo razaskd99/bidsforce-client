@@ -49,6 +49,11 @@ export default function OppPrereqAddNewButton(props) {
             <span className="tf-icons mdi mdi-plus me-1"></span>Opportunity Type
         </button>}
 
+        {props.buttonName === "opportunity_industry" &&
+        <button onClick={()=>setOpenOppPrereqModal(true)} type="button" className="text-md text-[#26BADA] flex items-center gap-1 cursor-pointer">
+            <span className="tf-icons mdi mdi-plus me-1"></span>Opportunity Industry
+        </button>}
+        
         
         {openOppPrereqModal && <OppPrereqInfoModal 
                                 setOpenOppPrereqModal={setOpenOppPrereqModal} 

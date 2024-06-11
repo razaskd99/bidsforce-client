@@ -35,7 +35,7 @@ export const createPersonaAction = async (
 
   try {
     const response = await fetch(apiUrl, requestOptions);
-
+    
     if (!response.ok) {
       return {
         statusCode: "400",
@@ -45,10 +45,13 @@ export const createPersonaAction = async (
     }
 
     const result = await response.json();
+    console.log(result)
+    const json = JSON.parse(result)
 
     return {
-      statusCode: 200,
-      returnData: result,
+      statusCode: json.code,
+      returnData: json.data,
+      error: json.msg
     };
   } catch (error) {
     return {

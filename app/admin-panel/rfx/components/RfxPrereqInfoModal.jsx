@@ -11,7 +11,6 @@ export default function RfxPrereqInfoModal(props) {
     m4_is_active: props.modalData && props.modalData.is_active ? true : false,
   });
 
-  console.log(formData);
   useEffect(() => {
     const fetchData = async () => {
       try {

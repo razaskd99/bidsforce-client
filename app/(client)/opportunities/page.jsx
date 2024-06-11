@@ -83,6 +83,10 @@ const Opportunitues = async ({searchParams}) => {
   res = await getAllOppPrereqRecordsAction('opportunity_type', "", 0, 1000);
   let opportunityType = res?.returnData?.data || [];
 
+  // get all opp industry
+  res = await getAllOppPrereqRecordsAction('opportunity_industry', "", 0, 1000);
+  let opportunityIndustry = res?.returnData?.data || [];
+
   //**** Start getting opportunity accounts,users
   
   // get all accounts
@@ -122,6 +126,7 @@ const Opportunitues = async ({searchParams}) => {
           biddingUnit={biddingUnit}
           projectType={projectType}
           opportunityType={opportunityType}
+          opportunityIndustry={opportunityIndustry}
         />
        
         <SearchSection />
@@ -142,6 +147,7 @@ const Opportunitues = async ({searchParams}) => {
             biddingUnit={biddingUnit}
             projectType={projectType}
             opportunityType={opportunityType}
+            opportunityIndustry={opportunityIndustry}
           />
           :
           <div className="p-4 text-center text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">

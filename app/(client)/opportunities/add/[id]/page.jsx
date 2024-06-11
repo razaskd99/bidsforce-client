@@ -35,19 +35,20 @@ const AddRfx = async ({ params }) => {
 
   // call opp record
   let records = await getOpportunityByID(id);
-  let opportunityRec = records.returnData;
+  let opportunityRec = records?.returnData;
 
   // call all account
   records = await getAllAccountRecordsAction('', 0, 1000);
-  let accountRec = records.returnData.data;
+  let accountRec = records?.returnData?.data || [];
 
   // get all users
   records = await getAllUserRecordsAction('');
-  let contactsRecords = records.returnData;
+  let contactsRecords = records?.returnData || [];
 
   // get owner
   records = await getUserById(opportunityRec.opp_owner_id);
-  let ownerRec = records.data;
+  let ownerRec = records.data || [];
+
 
 
   //**** Start getting opportunity pre-requisite
@@ -81,6 +82,10 @@ const AddRfx = async ({ params }) => {
   res = await getAllOppPrereqRecordsAction('opportunity_type', "", 0, 1000);
   let opportunityType = res?.returnData?.data || [];
 
+  // get all opp industry
+  res = await getAllOppPrereqRecordsAction('opportunity_industry', "", 0, 1000);
+  let opportunityIndustry = res?.returnData?.data || [];
+
 
   // check user is login
   let isLogin = await getCookieValue("loginStatus");
@@ -105,6 +110,7 @@ const AddRfx = async ({ params }) => {
       biddingUnit={biddingUnit}
       projectType={projectType}
       opportunityType={opportunityType}
+      opportunityIndustry={opportunityIndustry}
      />
     </>
   );

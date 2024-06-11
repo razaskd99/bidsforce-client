@@ -130,10 +130,12 @@ export const createRfxPrereqAction = async (formData, table_name) => {
     }
 
     const result = await response.json();
+    const json = JSON.parse(result)
 
     return {
-      statusCode: 200,
-      returnData: result,
+      statusCode: json.code,
+      returnData: json.data,
+      error: json.msg
     };
   } catch (error) {
     return {
@@ -197,7 +199,7 @@ export const updateRfxPrereqAction = async (formData, table_name, id) => {
       };
     }
 
-    const result = await response.json();
+    const result = await response.json();  
 
     return {
       statusCode: 200,
