@@ -71,7 +71,7 @@ const LoginForm = (props) => {
 
                 <div className={`py-16  flex flex-col justify-center mx-auto items-center bg-white ${active}`}>
                     <div className='w-[154px]'>
-                        <img id="welcome-profile-pic" src='/images/users/profile.jpg' />
+                        <img id="welcome-profile-pic" src='/images/users/profile.jpg' className='rounded-full object-cover' />
                     </div>
                     <span id="welcome-msg" className='font-[400] text-[30px] text-center inline mb-12'>Welcome  Michael !</span>
                 </div>

@@ -7,10 +7,7 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import OpenDetailContact from "@/components/contacts/OpenDetailContact";
-// import { getPrimaryContactsByIDAction } from "@/app/api/contacts/actions/contacts";
-import { getAllDesignationRecordsAction, getAllPersonaRecordsAction, getAllTeamRecordsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
-import { getAllUsers } from "@/app/api/rfx/actions/user";
 import { getAllUsersAction, getUserById } from "@/app/api/users/action/user";
 import { getAllFunctionalGroupAction } from "@/app/api/users/action/functionalGroup";
 import { logout, logoutUser } from "@/app/api/util/action/account";
@@ -46,20 +43,6 @@ const AddAccount = async ({ params }) => {
     response = await getAllAccountRecordsAction(id);
     let accountRecords = response.returnData;
 
-    // get designations
-    response = await getAllDesignationRecordsAction(0,1000)
-    let desingPaging = response.returnData 
-    let { data, total_count } = desingPaging
-    let desigRecords = data
-
-     // get teams
-    response = await getAllTeamRecordsAction()
-    let teamRecords = response.returnData 
-
-    // get persona
-    response = await getAllPersonaRecordsAction()
-    let personaRecords = response.returnData 
-
     // get users
     response = await getUserById(id)
     let usersRecord = response.data 
@@ -84,7 +67,7 @@ const AddAccount = async ({ params }) => {
    
   return (
     <>
-      <OpenDetailContact userLoginID={userLoginID} contactsRec={usersRecord} accountRecords={accountRecords} teamRecords={teamRecords} desigRecords={desigRecords} functionalGroupRec={functionalGroupRec}/>
+      <OpenDetailContact userLoginID={userLoginID} contactsRec={usersRecord} accountRecords={accountRecords} functionalGroupRec={functionalGroupRec}/>
     </>
   );
 };

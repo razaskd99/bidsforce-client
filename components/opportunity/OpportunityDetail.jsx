@@ -12,13 +12,14 @@ import {
 import { Edit, Edit2Icon } from "lucide-react";
 import NewOpportunity from "./NewOpportunity";
 import { Edit2, Edit3, LucideEdit3 } from "lucide-react";
-import SelectRFx from "../SelectRFx";
+import SelectRFx from "@/components/rfx/SelectRFx";
+import RFxList from "../rfx/RfxList";
 
 
 const OpportunityDetail = ({ 
   data,
   accountRec,
-  contactsRecords,
+  usersRecords,
   ownerRec,
   oppSalesStages, 
   salesPursuitProgress, 
@@ -27,10 +28,17 @@ const OpportunityDetail = ({
   biddingUnit,
   projectType,
   opportunityType ,
-  opportunityIndustry
+  opportunityIndustry,
+  rfxBidValidity,
+  rfxType,
+  rfxContentSubmission,
+  rfxSubmissionMode,
+  rfxStage,
+  rfxList,
+  oppID,
 }) => {
   const [open, setOpen] = useState(false);
-
+  const [rFxList, setRFxList] = useState(false);
   const [rfxOption, setRfxOption] = useState(false);
 
   const handleClickOpen = () => {
@@ -41,7 +49,19 @@ const OpportunityDetail = ({
   };
 
   const handleClickRFx = () => {
-    setRfxOption(true);
+    let canCreateRfx = true;    
+    if(rfxList.length > 0){
+      const filteredRfx = rfxList.filter(rfx =>
+        rfx.rfx_status.toLowerCase().includes('closed') || rfx.rfx_status.toLowerCase().includes('cancelled')
+      );
+      if(filteredRfx.length !== rfxList.length) canCreateRfx = false
+    }
+
+    if(canCreateRfx){
+      setRfxOption(true);
+    } else {
+      alert("Cannot create a new RFx for this opportunity because there are already active RFx in progress!")
+    }    
   };
   const handleCloseRFx = () => {
     setRfxOption(false);
@@ -87,10 +107,14 @@ const OpportunityDetail = ({
     },
 
   ]);
-  const handleValueChange = (index, newValue) => {
-    const updatedData = [...opportunityData];
-    updatedData[index].value = newValue;
-    setOpportunityData(updatedData);
+  
+  const handleOpenRFxList = () => {
+    setRFxList(true);
+      
+  };
+  const handleCloseRFxList = () => {
+    setRFxList(false);
+      
   };
 
   const breadcrumbItems = [
@@ -114,7 +138,7 @@ const OpportunityDetail = ({
         </p> 
       <NewOpportunity isOpen={open} handleClose={handleClose} 
         accountRecords={accountRec}
-        contactsRecords={contactsRecords}
+        usersRecords={usersRecords}
         modalData={data}  
         modalType='edit'
         oppSalesStagesList={oppSalesStages} 
@@ -126,8 +150,6 @@ const OpportunityDetail = ({
         opportunityTypeList={opportunityType}
         opportunityIndustryList={opportunityIndustry}
       />
-
-      {/*<Link href={"/opportunities/edit/" + data.opportunity_id} className="flex text-[#26BADA] font-bold py-2 px-4 w-20 "><LuFileEdit style={{width: '40px', height: '40px'}}/>   </Link>*/}
 
         <div className="flex w-full">
           <form className="grid grid-cols-2 gap-4  p-4 flex-[2]">
@@ -171,14 +193,6 @@ const OpportunityDetail = ({
             ))}
           </form>
           <div className="flex-[1] flex flex-col">
-            {/*<div className="flex items-center gap-3 mt-[-16px]">
-              <span className="text-[#778CA2]">
-                Last Updated: {formatDatetime(data.last_updated_at)}
-              </span>
-              <span className="text-[#26BADA]">
-                <LuRefreshCcw />
-              </span>
-            </div>*/}
             <Link
               onClick={handleClickRFx}
               href="#"
@@ -187,7 +201,18 @@ const OpportunityDetail = ({
             >
               LOG RFx
             </Link>
-            <SelectRFx open={rfxOption} handleCloseRFx={handleCloseRFx}  preRfxData={data}/>            
+            <SelectRFx 
+              open={rfxOption}
+              handleCloseRFx={handleCloseRFx}
+              preRfxData={data}
+              rfxBidValidity={rfxBidValidity}
+              rfxType={rfxType}
+              rfxContentSubmission={rfxContentSubmission}
+              rfxSubmissionMode={rfxSubmissionMode}
+              rfxStage={rfxStage}
+              data={data}
+              usersRecords={usersRecords}
+            />            
             
             <div className="border mt-[18px] mb-3 rounded-md">
               <div className="bg-[#00000005] py-2 px-[14px] ">
@@ -195,13 +220,19 @@ const OpportunityDetail = ({
               </div>
               <div className="bg-[#F4FCFD] px-4 py-5 ">
                 <span className="text-[#778CA2] block">
-                  2 RFx records under this opportunity
+                  {rfxList.length} RFx records under this Opportunity.
                 </span>
                 <span
                   className="outline-1 outline-gray-300 w-full cursor-pointer text-[#26BADA]"
-                  //onClick={handleRowClick}
+                  onClick={handleOpenRFxList}
                 >Show Records</span>
               </div>
+              <RFxList 
+              open={rFxList} 
+              close={handleCloseRFxList}
+              oppID={oppID}
+              oppNum={data?.opp_number} 
+            />
               <div className="border-b border-[#E8ECEF] w-[90%] m-auto"></div>
               
             </div>

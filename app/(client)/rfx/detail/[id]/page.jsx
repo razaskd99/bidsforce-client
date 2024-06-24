@@ -1,9 +1,9 @@
-//import { getOpportunityByID } from "@/app/api/opportunities/scripts";
+import { getOpportunityByID } from "@/app/api/opportunities/action/opportunity";
 import { getAllRfxStagesByRfxIdAction, getRfxContacts } from "@/app/api/rfx/actions/rfx";
-import { getRfxById } from "@/app/api/rfx/actions/rfx";
-import { getUserById, getAllUsers } from "@/app/api/rfx/actions/user";
+import { getRfxByIdAction } from "@/app/api/rfx/actions/rfx";
+import { getUserById, getAllUsersAction } from "@/app/api/users/action/user";
 import { getAllRfxClarificationRecordsBy_RfxID_Action } from "@/app/api/manager/actions/clarifications";
-import RfxDetail from "@/components/RfxDetail"
+import RfxDetail from "../../../../../components/rfx/RfxDetail";
 import { getAllSubmissionAction } from "@/app/api/manager/actions/bidsubmission";
 import { getAllBidClarificationRecordsBy_RfxID_Action } from "@/app/api/manager/actions/bidclarifications";
 import { getAllBidOrderAction } from "@/app/api/manager/actions/bidorder";
@@ -34,19 +34,22 @@ const Detail = async ({ params }) => {
     let res = await getToken(apiBackendURL, username, password)
     let tokens = res?.tokenData?.access_token
  
-    // call all  opportunity
-    //let records = await getOpportunityByID(apiBackendURL, tokens, tenantID, id)
-    let opportunirtRec = []//records.rfxData;
-
+   
     // call current Rfx
-    records = await getRfxById(id)
+    let records = await getRfxByIdAction(id)
     let rfxRec = records.rfxData;
+
+
+    // call opportunity by ID
+    let oppRec = await getOpportunityByID(rfxRec.opportunity_id)
+    let opportunitytRec = oppRec.returnData;
+
     
-    records = await getAllRfxStagesByRfxIdAction(id, 'rfxstage')
-    let stagesRec = records.returnData;
+    //records = await getAllRfxStagesByRfxIdAction(id, 'rfxstage')
+    let stagesRec = records.returnData || [];
     
-    records = await getRfxContacts(id);
-    let  contactsRec = records.rfxData
+    // records = await getRfxContacts(id);
+    // let  contactsRec = records.rfxData || []
     
     let  keyContactsRec = []  
     // for (const item of contactsRec) {
@@ -72,19 +75,19 @@ const Detail = async ({ params }) => {
         initiatorRec = records.data;
     }
    
-    records = await getAllUsers();
+    records = await getAllUsersAction();
     let allUsersRec = records.data
 
-    records = await getAllRfxClarificationRecordsBy_RfxID_Action(rfxRec.rfx_id);
+    records = await getAllRfxClarificationRecordsBy_RfxID_Action(rfxRec.id);
     let clarificationRec = records.returnData 
 
-    records = await getAllSubmissionAction(rfxRec.rfx_id);
+    records = await getAllSubmissionAction(rfxRec.id);
     let submissionRec = records.returnData
 
-    records = await getAllBidClarificationRecordsBy_RfxID_Action(rfxRec.rfx_id)
+    records = await getAllBidClarificationRecordsBy_RfxID_Action(rfxRec.id)
     const bidClarifRec = records.returnData
 
-    records = await getAllBidOrderAction(rfxRec.rfx_id)
+    records = await getAllBidOrderAction(rfxRec.id)
     let bidOrderRec = records.returnData
 
     // check user is login
@@ -97,7 +100,7 @@ const Detail = async ({ params }) => {
     
     return (
         <div>
-            <RfxDetail login_user_id={userLoginData.user_id} data={opportunirtRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} clarificationRec={clarificationRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec}/>
+            <RfxDetail login_user_id={userLoginData.user_id} data={opportunitytRec} rfxRecord={rfxRec} stagesList={stagesRec} tenantID={tenantID} apiBackendURL={apiBackendURL} keyContactsRec={keyContactsRec} assigntoRec={assigntoRec} initiatorRec={initiatorRec} allUsersRec={allUsersRec} clarificationRec={clarificationRec} submissionRec={submissionRec} bidClarifRec={bidClarifRec} bidOrderRec={bidOrderRec}/>
         </div>
     )
 }

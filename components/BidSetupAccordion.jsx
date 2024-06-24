@@ -25,7 +25,6 @@ import { DatePicker, DateTimePicker, LocalizationProvider } from '@mui/x-date-pi
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import RfxDetail from './RfxDetail';
 import SearchTableNew from './SearchTableNew';
 import { createContactsAction, getRfxContactsByKey } from '@/app/api/rfx/actions/rfx';
 import { createDeliverablesAction, getAllDeliverablesAction, getDeliverablesByIDAction } from '@/app/api/manager/actions/deliverables';

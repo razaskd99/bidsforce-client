@@ -1,6 +1,5 @@
 "use client"
 
-import { getDesignationRecordByIDAction } from "../admin-panel/actions/user";
 import { getToken } from "../util/script";
 import { hideMainLoader102, showMainLoader102 } from "../util/utility";
 import { loginAction } from "./actions/auth";

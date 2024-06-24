@@ -11,8 +11,9 @@ import { getToken } from "@/app/api/util/script";
 import { hideMainLoader102 } from "@/app/api/util/utility";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 import { getAllOppPrereqRecordsAction } from "@/app/api/opportunities/action/OpportunityPrereq";
-import { getAllUserRecordsAction } from "@/app/api/admin-panel/actions/user";
-import { getUserById } from "@/app/api/users/action/user";
+import { getAllUsersAction, getUserById } from "@/app/api/users/action/user";
+import { getAllRfxPrereqRecordsAction } from "@/app/api/rfx/actions/rfxPrereq";
+import { getAllRfxRecordsActionByOppId } from "@/app/api/rfx/actions/rfx";
 
 // end login init
 
@@ -42,14 +43,16 @@ const AddRfx = async ({ params }) => {
   let accountRec = records?.returnData?.data || [];
 
   // get all users
-  records = await getAllUserRecordsAction('');
-  let contactsRecords = records?.returnData || [];
+  records = await getAllUsersAction('');
+  let usersRecords = records?.data || [];
 
   // get owner
   records = await getUserById(opportunityRec.opp_owner_id);
   let ownerRec = records.data || [];
 
-
+  // get all rfx by opp id
+  records = await getAllRfxRecordsActionByOppId(id);
+  let rfxList = records.returnData || [];
 
   //**** Start getting opportunity pre-requisite
 
@@ -86,6 +89,31 @@ const AddRfx = async ({ params }) => {
   res = await getAllOppPrereqRecordsAction('opportunity_industry', "", 0, 1000);
   let opportunityIndustry = res?.returnData?.data || [];
 
+  //**************** Rfx prereqsuites starts ***********
+
+  // get all bid validity
+  res = await getAllRfxPrereqRecordsAction('bid_validity', "", 0, 1000);
+  let rfxBidValidity = res?.returnData?.data || [];
+
+  // get all rfx type
+  res = await getAllRfxPrereqRecordsAction('rfx_type', "", 0, 1000);
+  let rfxType = res?.returnData?.data || [];
+
+  // get all rfx content submission
+  res = await getAllRfxPrereqRecordsAction('rfx_content_submission', "", 0, 1000);
+  let rfxContentSubmission = res?.returnData?.data || [];
+
+  // get all rfx submission mode
+  res = await getAllRfxPrereqRecordsAction('rfx_submission_mode', "", 0, 1000);
+  let rfxSubmissionMode = res?.returnData?.data || [];
+
+  // get all rfx stage
+  res = await getAllRfxPrereqRecordsAction('rfx_stage', "", 0, 1000);
+  let rfxStage = res?.returnData?.data || [];
+
+  // // get all rfx stage
+  // res = await getAllRfxPrereqRecordsAction('rfx_stage', "", 0, 1000);
+  // let rfxStage = res?.returnData?.data || [];
 
   // check user is login
   let isLogin = await getCookieValue("loginStatus");
@@ -101,7 +129,7 @@ const AddRfx = async ({ params }) => {
       <OpportunityDetail 
       data={opportunityRec}
       accountRec={accountRec}
-      contactsRecords={contactsRecords}
+      usersRecords={usersRecords}
       ownerRec={ownerRec}
       oppSalesStages={oppSalesStages}
       salesPursuitProgress={salesPursuitProgress}
@@ -111,6 +139,13 @@ const AddRfx = async ({ params }) => {
       projectType={projectType}
       opportunityType={opportunityType}
       opportunityIndustry={opportunityIndustry}
+      rfxBidValidity={rfxBidValidity}
+      rfxType={rfxType}
+      rfxContentSubmission={rfxContentSubmission}
+      rfxSubmissionMode={rfxSubmissionMode}
+      rfxStage={rfxStage}
+      rfxList={rfxList}
+      oppID={id}
      />
     </>
   );

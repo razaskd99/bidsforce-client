@@ -58,7 +58,7 @@ export const updateOpportunityRequest = async (
   opportunity_id
 ) => {
   e.preventDefault();
-  console.log(formData)
+  
   let valid = true;
   let message = "";
   const validationFields = ["opp_title", "customer_id", "enduser_id", "enduser_project", "opp_value", "opp_currency",

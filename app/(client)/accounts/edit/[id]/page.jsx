@@ -4,10 +4,10 @@ import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from "@/app/setup";
 import { getToken } from "@/app/api/util/script";
 import { getAccountRecordByIDAction } from "@/app/api/accounts/action/account";
-import { getAllUserRecordsAction } from "@/app/api/admin-panel/actions/user";
 import AccountsDetail from "@/components/account/AccountsDetail";
 import { getAllAccountTypeEntriesAction } from "@/app/api/accounts/action/accountTypeEntries";
 import { getAllAccountTypeRecordsAction } from "@/app/api/accounts/action/accountType";
+import { getAllUsersAction } from "@/app/api/users/action/user";
 
 // end login init
 
@@ -37,8 +37,8 @@ const AddAccount = async ({ params }) => {
    let allAccountsTypeRecord = records?.returnData?.data;
    
    // get all contacts
-   records = await getAllUserRecordsAction('');
-   let contactsRecord = records.returnData;
+   records = await getAllUsersAction('');
+   let contactsRecord = records.data;
 
    // get account type entries by account id
    records = await getAllAccountTypeEntriesAction(id);

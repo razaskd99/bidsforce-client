@@ -66,7 +66,7 @@ function SearchingListInput({ allSearchList, onListSelect, placeHolder, selected
           className='bg-white'
           label={placeHolder ? placeHolder : "Search name..."}
           variant="outlined"
-          value={onlySelect ? '' : searchText}
+          value={onlySelect ? '' : searchText || selectedValue}
           placeholder={placeHolder ? placeHolder : "Search name..."}
           onChange={handleInputChange}
           onClick={(e) => setFilteredListItems(allSearchList)}

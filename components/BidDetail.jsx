@@ -79,7 +79,7 @@ import {
   getRfxClarificationRecordByIDAction,
 } from "@/app/api/manager/actions/clarifications";
 import { createDocUploadAction, GetRfxDocumentsBy_RfxID_Key_Action, GetRfxDocumentsAction} from "@/app/api/rfx/actions/rfx";
-import { getUserById } from "@/app/api/rfx/actions/user";
+import { getUserById } from "@/app/api/users/action/user";
 import {
   createBidReviewPostAction,
   getAllBidReviewPostRecordsById,

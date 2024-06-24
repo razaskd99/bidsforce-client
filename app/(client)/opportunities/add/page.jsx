@@ -96,9 +96,9 @@ const DrpAutomation = () => {
               </span>
             </div>
             <Link
-              href="/rfx/newfx"
+              href="#"
               className="text-white text-center bg-[#26BADA] py-3 mt-[10px] mb-[18px]] rounded-md"
-              onClick={showMainLoader102}
+              // onClick={showMainLoader102}
             >
               LOG FX
             </Link>

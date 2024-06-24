@@ -3,14 +3,13 @@
 import { getAllRfxStagesByRfxIdAction, getRfxContacts, GetRfxDocumentsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllReviewsRecordsBy_Rfx_Key_Action } from "@/app/api/manager/actions/reviews";
 import { getRfxById } from "@/app/api/rfx/actions/rfx";
-import { getUserById, getAllUsers } from "@/app/api/rfx/actions/user";
+import { getUserById, getAllUsersAction } from "@/app/api/users/action/user";
 import BidDetail from "@/components/BidDetail";
 
 import getConfig from 'next/config'
 import { getAllRfxClarificationRecordsBy_RfxID_Action } from "@/app/api/manager/actions/clarifications";
 import { getAllKoffMeetingAction } from "@/app/api/manager/actions/kickoff";
 import { getAllDeliverablesAction } from "@/app/api/manager/actions/deliverables";
-import { getRfxContactsByKey } from "@/app/api/rfx/actions/rfx";
 import { getAllSubmissionAction } from "@/app/api/manager/actions/bidsubmission";
 import { getAllBidClarificationRecordsBy_RfxID_Action } from "@/app/api/manager/actions/bidclarifications";
 import { getAllBidOrderAction } from "@/app/api/manager/actions/bidorder";
@@ -81,7 +80,7 @@ const BDetail = async ({ params }) => {
         initiatorRec = records.data;
     }
    
-    records = await getAllUsers();
+    records = await getAllUsersAction();
     let allUsersRec = records.data
 
     // records = await getAllPrimaryContactsAction()
@@ -105,8 +104,8 @@ const BDetail = async ({ params }) => {
     records= await getAllDeliverablesAction(rfxID)
     let deliverablesRec = records.returnData
 
-    records = await getRfxContactsByKey(rfxID, 'bid-team-' + rfxID)
-    let bidteamRec = records.rfxData
+    //records = await getRfxContactsByKey(rfxID, 'bid-team-' + rfxID)
+    let bidteamRec = []//records.rfxData
 
     records = await getAllSubmissionAction(rfxID);
     let submissionRec = records.returnData

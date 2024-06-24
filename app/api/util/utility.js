@@ -123,8 +123,22 @@ if(!value){
     let num = parseInt(numStr, 10) + 1;
     let temp = num.toString().padStart(numStr.length, '0')
     const opp_num = `${prefix}-${lastTwoDigitsOfYear}-${temp}`
-    console.log(opp_num)
     return opp_num;
+  }
+};
+
+export const generateRFxID = (value) => { 
+  if(!value){
+  // const formattedNumber = value.toString().padStart(8, '0');
+    const rfx_id = `RFX-000001`
+    return rfx_id;
+  }
+  else{
+    const [prefix, numStr] = value.split('-');
+    let num = parseInt(numStr, 10) + 1;
+    let temp = num.toString().padStart(numStr.length, '0')
+    const rfx_id = `${prefix}-${temp}`
+    return rfx_id;
   }
 };
 

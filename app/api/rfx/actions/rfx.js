@@ -1,35 +1,185 @@
 "use server";
-import getConfig from "next/config";
-import { formatFileSize } from "../../util/utility";
-import { cookies } from "next/headers";
 
-// required to access cookies
 import { getApiPrereqVars } from "../../util/action/apiCallPrereq";
-import { getToken } from "../../util/script";
 
-// start cookie init
-import { getCookieValue } from "@/lib/scripts";
-import { API_BACKEND_SERVER } from "@/app/setup";
-// end cookie init
 
-export const loadPostData = async (id) => {
-  /*const { serverRuntimeConfig } = getConfig() || {};
-  if (serverRuntimeConfig) {
-    serverRuntimeConfig.TEMP_DATA = {}
-    serverRuntimeConfig.TEMP_DATA = postData    
-  }*/
-  try{
-    cookies.remove('temp_opp_id');
-  }catch{}
-  cookies().set("temp_opp_id", id);
+
+// Create new rfx record
+export const createRfxRecordAction = async (formData, opportunity_id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  const apiUrl = `${apiBackendURL}rfx/rfx/`;
+   
+  const headers = new Headers({
+    cache: "no-store",
+    Accept: "application/json",
+    Authorization: `Bearer ${tokens}`,
+    "Content-Type": "application/json",
+  });
+
+  const now = new Date();
+  const formattedTimestamp = now.toISOString();
+  const formatedDate = now.toISOString().split("T")[0];
+
+  const requestOptions = {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify({
+      "tenant_id": tenantID,
+      "opportunity_id": opportunity_id,
+      "rfx_number": formData.rfx_number,
+      "rfx_id": formData.rfx_id,
+      "rfx_title": formData.rfx_title,
+      "rfx_record_type": formData.rfx_record_type,
+      "prev_rfx_reference": formData.prev_rfx_reference,
+      "rfx_type": formData.rfx_type,
+      "bid_type": formData.bid_type,
+      "bid_validity": formData.bid_validity,
+      "bid_submission_mode": formData.bid_submission_mode,
+      "submission_contents": formData.submission_contents,
+      "work_agreement_ref_num": formData.work_agreement_ref_num ? formData.work_agreement_ref_num : '',
+      "rfx_tech_contact_id": formData.rfx_tech_contact_id ? formData.rfx_tech_contact_id : 0,
+      "rfx_comm_contact_id": formData.rfx_comm_contact_id ? formData.rfx_comm_contact_id : 0,
+      "submission_instructions": formData.submission_instructions,
+      "visit_worksite": formData.visit_worksite,
+      "visit_worksite_instructions": formData.visit_worksite_instructions ? formData.visit_worksite_instructions : '',
+      "issue_date": formData.issue_date,
+      "due_date": formData.due_date,
+      "tech_clarif_deadline": formData.tech_clarif_deadline ? formData.tech_clarif_deadline : formatedDate,
+      "comm_clarif_deadline": formData.comm_clarif_deadline ? formData.comm_clarif_deadline : formatedDate,
+      "expected_award_date": formData.expected_award_date,
+      "bid_number": formData.bid_number ? formData.bid_number : '',
+      "rfx_status": formData.rfx_status ? formData.rfx_status : '',
+      "bid_status": formData.bid_status ? formData.bid_status : '',
+      "data": formData.data ? formData.data : '',
+      "rfx_owner_id": formData.rfx_owner_id,
+      "bid_owner_id": formData.bid_owner_id,
+      "created_by": formData.created_by,
+      "is_active": true,
+      "created_at": formattedTimestamp,
+      "updated_at": formattedTimestamp
+    }),
+  };
+
+  try {
+    const response = await fetch(apiUrl, requestOptions);
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "RFx creation failed",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "RFx creation failed",
+    };
+  }
 };
 
 
-// get all rfx records by opportunity id
-export const getAllRfxRecordsActionByOppId = async (opportunity_id) => {
+
+// Update an rfx record
+export const updateRfxRecordAction = async (formData, id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+  const apiUrl = `${apiBackendURL}rfx/rfx/id/${id}`;
+   
+  const headers = new Headers({
+    cache: "no-store",
+    Accept: "application/json",
+    Authorization: `Bearer ${tokens}`,
+    "Content-Type": "application/json",
+  });
+
+  const now = new Date();
+  const formattedTimestamp = now.toISOString();
+  const formatedDate = now.toISOString().split("T")[0];
+
+  const requestOptions = {
+    method: "PUT",
+    headers: headers,
+    body: JSON.stringify({
+      "tenant_id": tenantID,
+      "opportunity_id": formData.opportunity_id,
+      "rfx_number": formData.rfx_number,
+      "rfx_id": formData.rfx_id,
+      "rfx_title": formData.rfx_title,
+      "rfx_record_type": formData.rfx_record_type,
+      "prev_rfx_reference": formData.prev_rfx_reference,
+      "rfx_type": formData.rfx_type,
+      "bid_type": formData.bid_type,
+      "bid_validity": formData.bid_validity,
+      "bid_submission_mode": formData.bid_submission_mode,
+      "submission_contents": formData.submission_contents,
+      "work_agreement_ref_num": formData.work_agreement_ref_num ? formData.work_agreement_ref_num : '',
+      "rfx_tech_contact_id": formData.rfx_tech_contact_id ? formData.rfx_tech_contact_id : 0,
+      "rfx_comm_contact_id": formData.rfx_comm_contact_id ? formData.rfx_comm_contact_id : 0,
+      "submission_instructions": formData.submission_instructions,
+      "visit_worksite": formData.visit_worksite,
+      "visit_worksite_instructions": formData.visit_worksite_instructions ? formData.visit_worksite_instructions : '',
+      "issue_date": formData.issue_date,
+      "due_date": formData.due_date,
+      "tech_clarif_deadline": formData.tech_clarif_deadline ? formData.tech_clarif_deadline : formatedDate,
+      "comm_clarif_deadline": formData.comm_clarif_deadline ? formData.comm_clarif_deadline : formatedDate,
+      "expected_award_date": formData.expected_award_date,
+      "bid_number": formData.bid_number ? formData.bid_number : '',
+      "rfx_status": formData.rfx_status ? formData.rfx_status : '',
+      "bid_status": formData.bid_status ? formData.bid_status : '',
+      "data": formData.data ? formData.data : '',
+      "rfx_owner_id": formData.rfx_owner_id,
+      "bid_owner_id": formData.bid_owner_id,
+      "created_by": formData.created_by,
+      "is_active": true,
+      "created_at": formattedTimestamp,
+      "updated_at": formattedTimestamp
+    }),
+  };
+
+  try {
+    const response = await fetch(apiUrl, requestOptions);
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "RFx updation failed",
+      };
+    }
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      returnData: result,
+    };
+    
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "RFx updation failed",
+    };
+  }
+};
+
+
+
+
+// get all rfx records 
+export const getAllRfxRecordsAction = async (searchTermValue, offset, limit) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
-    const url = `${apiBackendURL}rfx/rfx/opportunity-id/${opportunity_id}`;
+    const url = `${apiBackendURL}rfx/rfx/tenant/${tenantID}?searchTerm=${searchTermValue}&offset=${offset}&limit=${limit}`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -65,169 +215,10 @@ export const getAllRfxRecordsActionByOppId = async (opportunity_id) => {
   }
 };
 
-// get all Persona records
-export const getAllPersonaRecordsAction = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}persona/persona/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Persona",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Persona",
-    };
-  }
-};
 
 
-// get all Customer records from db
-export const getAllCustomerRecordsAction = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-
-  try {
-    const url = `${apiBackendURL}customer/customers/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Customer",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Customer",
-    };
-  }
-};
-
-// get all Rfx stages records by type from db
-export const getAllRfxStagesAction = async (typeName) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}phase_stage/phase_stages/tenant/${tenantID}/type/${typeName}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Rfx Stages",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Rfx Stages",
-    };
-  }
-};
-
-// get all Rfx stages records by type & Rfx ID from db
-export const getAllRfxStagesByRfxIdAction = async (rfx_id, typeName) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}phase_stages_detail/phase_stages_detail/rfx/${rfx_id}/type/${typeName}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Rfx Stages",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Rfx Stages",
-    };
-  }
-};
-
-export const getRfxById = async (id) => {
+// get rfx record by ID
+export const getRfxByIdAction = async (id) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
     const url = `${apiBackendURL}rfx/rfx/id/${id}`;
@@ -257,7 +248,6 @@ export const getRfxById = async (id) => {
       rfxData: result,
     };
   } catch (error) {
-    console.log("eeeeeeeeeeeeeee", error);
 
     return {
       statusCode: "400",
@@ -267,10 +257,13 @@ export const getRfxById = async (id) => {
   }
 };
 
-export const getRfxTypes = async () => {
+
+
+// get rfx record by ID
+export const getMaxRfxByIdAction = async () => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
-    const url = `${apiBackendURL}rfx_type/rfx_type/tenant/${tenantID}`;
+    const url = `${apiBackendURL}rfx/rfx/max_id`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -282,234 +275,7 @@ export const getRfxTypes = async () => {
       },
       redirect: "follow",
     });
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        data: [],
-        error: response.statusText || "Request failed for Rfxs",
-      };
-    }
 
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      data: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      data: [],
-      error: error.message || "Request failed for Rfxs",
-    };
-  }
-};
-
-export const getRfxStages = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}rfx_stage/rfx_stage/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        data: [],
-        error: response.statusText || "Request failed for Rfxs",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      data: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      data: [],
-      error: error.message || "Request failed for Rfxs",
-    };
-  }
-};
-
-export const getBidVality = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}bid_validity/bid_validity/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        data: [],
-        error: response.statusText || "Request failed for Rfxs",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      data: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      data: [],
-      error: error.message || "Request failed for Rfxs",
-    };
-  }
-};
-
-export const getSubmissionMode = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}rfx_submission_mode/rfx_submission_mode/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        data: [],
-        error: response.statusText || "Request failed for Rfxs",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      data: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      data: [],
-      error: error.message || "Request failed for Rfxs",
-    };
-  }
-};
-
-export const getContentSubmission = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}rfx_content_submission/rfx_content_submission/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        data: [],
-        error: response.statusText || "Request failed for Rfxs",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      data: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      data: [],
-      error: error.message || "Request failed for Rfxs",
-    };
-  }
-};
-
-export const getUsers = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}auth/auth/users/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        data: [],
-        error: response.statusText || "Request failed for Rfxs",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      data: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      data: [],
-      error: error.message || "Request failed for Rfxs",
-    };
-  }
-};
-
-export const getRfxContacts = async (id) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}contacts/contacts/tenant/${tenantID}/rfx_id/${id}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
     if (!response.ok) {
       return {
         statusCode: "400",
@@ -525,7 +291,6 @@ export const getRfxContacts = async (id) => {
       rfxData: result,
     };
   } catch (error) {
-    console.log("eeeeeeeeeeeeeee", error);
 
     return {
       statusCode: "400",
@@ -535,10 +300,11 @@ export const getRfxContacts = async (id) => {
   }
 };
 
-export const getRfxContactsByKey = async (rfxID, contact_key) => {
+// get all rfx records by opportunity id
+export const getAllRfxRecordsActionByOppId = async (opportunity_id) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
-    const url = `${apiBackendURL}contacts/contacts/tenant/${tenantID}/rfx_id/${rfxID}/key/${contact_key}`;
+    const url = `${apiBackendURL}rfx/rfx/opportunity/${opportunity_id}`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -550,11 +316,12 @@ export const getRfxContactsByKey = async (rfxID, contact_key) => {
       },
       redirect: "follow",
     });
+
     if (!response.ok) {
       return {
         statusCode: "400",
-        rfxData: [],
-        error: response.statusText || "Request failed for Contacts",
+        returnData: [],
+        error: response.statusText || "Request failed for RFx",
       };
     }
 
@@ -562,18 +329,51 @@ export const getRfxContactsByKey = async (rfxID, contact_key) => {
 
     return {
       statusCode: 200,
-      rfxData: result,
+      returnData: result,
     };
   } catch (error) {
     return {
       statusCode: "400",
-      rfxData: [],
-      error: error.message || "Request failed for Contacts",
+      returnData: [],
+      error: error.message || "Request failed for RFx",
     };
   }
 };
 
-export const createNewRfxAction = async (rfxData) => {
+// delete a Rfx record from db
+export const deleteRfxRecordAction = async (id) => {
+  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
+
+  try {
+    let apiUrl = `${apiBackendURL}rfx/rfx/id/${id}`;
+    
+    const response = await fetch(apiUrl, {
+      cache: "no-store",
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${tokens}`,
+      },
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      return {
+        statusCode: "400",
+        returnData: [],
+        error: response.statusText || "Request failed for Rfx deletion.",
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: "400",
+      returnData: [],
+      error: error.message || "Request failed for Rfx deletion",
+    };
+  }
+};
+
+/*export const createNewRfxAction = async (rfxData) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
   try {
     const apiUrl = `${apiBackendURL}rfx/rfx`;
@@ -709,46 +509,8 @@ export const createNewRfxAction = async (rfxData) => {
     };
   }
 };
+*/
 
-const fetchAndProcessStages = async (stageType, rfx_id) => {
-  try {
-    let userEncrptedData = await getCookieValue("userPrivateData");
-    let tenantID = await getCookieValue("TENANT_ID");
-
-    // get env variables
-    let apiBackendURL = API_BACKEND_SERVER;
-    let username = userEncrptedData.user;
-    let password = userEncrptedData.pass;
-
-    // get token
-    let res = await getToken(apiBackendURL, username, password);
-    let tokens = res?.tokenData?.access_token;
-
-    const response = await getAllRfxStagesAction(stageType);
-    const stagesList = response.returnData || [];
-    await Promise.all(
-      stagesList.map((item) => {
-        const status =
-          item.display_order == 1
-            ? "done"
-            : item.display_order == 2
-            ? "current"
-            : "pending";
-        return createStagesDetailAction(
-          item.bidding_phases_id,
-          rfx_id,
-          status,
-          item.score,
-          apiBackendURL,
-          tokens,
-          tenantID
-        );
-      })
-    );
-  } catch (error) {
-    console.error("Error fetching and processing stages:", error);
-  }
-};
 
 export const updateRfxAction = async (rfxData, rfx_id) => {
   const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
@@ -851,773 +613,5 @@ export const updateRfxAction = async (rfxData, rfx_id) => {
   }
 };
 
-export const updateRfxNumberAction = async (rfx_id, rfx_number) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}rfx/rfx/rfx-number/id/${rfx_id}`;
 
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
 
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      rfx_number: String(rfx_number),
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: { status: true },
-        error: response.statusText || "Request Failed for Rfx Number",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: { status: result },
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: { status: false },
-      error: error.message || "Request failed for Rfx",
-    };
-  }
-};
-
-export const updateBidNumberAction = async (rfx_id, bid_number) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}rfx/rfx/bid-number/id/${rfx_id}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      bid_number: String(bid_number),
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: { status: true },
-        error: response.statusText || "Request Failed for Bid Number",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: { status: result },
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: { status: false },
-      error: error.message || "Request failed for Bid Number",
-    };
-  }
-};
-
-export const updateBidAssignToAction = async (rfx_id, rfx_bid_assignto) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}rfx/rfx/rfx-bid-assignto/id/${rfx_id}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      rfx_bid_assignto: rfx_bid_assignto,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: { status: true },
-        error: response.statusText || "Request Failed for Bid Number",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: { status: result },
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: { status: false },
-      error: error.message || "Request failed for Bid Number",
-    };
-  }
-};
-
-
-export const updateRfxStatusAction = async (rfx_id, status) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}rfx/rfx/rfx-status/id/${rfx_id}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      status: status,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: { status: true },
-        error: response.statusText || "Request Failed for RFx Status",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: { status: result },
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: { status: false },
-      error: error.message || "Request failed for RFx Status",
-    };
-  }
-};
-
-
-export const GetRfxDocumentsAction = async (rfx_id) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}docvalt/docvalt/tenant/${tenantID}/rfx_id/${rfx_id}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "GET",
-    headers: headers,
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Docvalt",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Docvalt",
-    };
-  }
-};
-
-export const GetRfxDocumentsBy_RfxID_Key_Action = async (
-  rfx_id,
-  docvalt_key
-) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}docvalt/docvalt/rfx/${rfx_id}/key/${docvalt_key}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "GET",
-    headers: headers,
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Docvalt",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Docvalt",
-    };
-  }
-};
-
-export const GetDocumentByKeyAction = async (docvalt_key) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}docvalt/docvalt/tenant/${tenantID}/key/${docvalt_key}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "GET",
-    headers: headers,
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Docvalt",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Docvalt",
-    };
-  }
-};
-
-export const createDocUploadAction = async (
-  rfx_id,
-  user_id,
-  docData,
-  docvalt_key = "rfx"
-) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}docvalt/docvalt`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-  console.log({
-    tenant_id: tenantID,
-    rfx_id: rfx_id,
-    user_id: user_id,
-    docvalt_key: docvalt_key,
-    docvalt_dir: "",
-    docvalt_filename: docData.name,
-    docvalt_cloudpath: docData.path ? docData.path : "",
-    file_type: (docData.type || "").split("/")[1],
-    file_size: formatFileSize(parseInt(docData.size)),
-    file_moved: false,
-    created_date: formatedDate,
-    created_at: formattedTimestamp,
-    updated_at: formattedTimestamp,
-  });
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      rfx_id: rfx_id,
-      user_id: user_id,
-      docvalt_key: docvalt_key,
-      docvalt_dir: "",
-      docvalt_filename: docData.name,
-      docvalt_cloudpath: docData.path ? docData.path : "",
-      file_type: (docData.type || "").split("/")[1],
-      file_size: formatFileSize(parseInt(docData.size)),
-      file_moved: false,
-      created_date: formatedDate,
-      created_at: formattedTimestamp,
-      updated_at: formattedTimestamp,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Docvalt",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Docvalt",
-    };
-  }
-};
-
-export const createStagesDetailAction = async (
-  bidding_phases_id,
-  rfx_id,
-  stage_status,
-  stage_score,
-  apiBackendURL,
-  tokens,
-  tenantID
-) => {
-  const apiUrl = `${apiBackendURL}phase_stages_detail/phase_stages_detail`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      bidding_phases_id: bidding_phases_id,
-      rfx_id: rfx_id,
-      stage_status: stage_status,
-      stage_score: stage_score,
-      completed: false,
-      created_at: formattedTimestamp,
-      updated_at: formattedTimestamp,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Stages Detail",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Stages Detail",
-    };
-  }
-};
-
-export const createContactsAction = async (
-  rfx_id,
-  user_id,
-  contact_key,
-  persona_role = ""
-) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}contacts/contacts`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      rfx_id: rfx_id,
-      contact_user_id: user_id,
-      conatct_key: contact_key,
-      created_date: formatedDate,
-      created_at: formattedTimestamp,
-      persona_role: persona_role,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Contacts",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Contacts",
-    };
-  }
-};
-
-export const updateAcknowledgementAction = async (
-  rfxID,
-  acknowledgementNotes,
-  acknowledgementDate
-) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}rfx/rfx/acknowledgement/rfx-id/${rfxID}`;
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const requestOptions = {
-    method: "PUT",
-    headers: headers,
-    body: JSON.stringify({
-      rfx_acknowledgement: 0,
-      rfx_id: rfxID,
-      acknowledged_by: 1,
-      acknowledgement_date: acknowledgementDate,
-      acknowledgement_comment: acknowledgementNotes,
-      acknowledged: true,
-      acknowledgement_document: 0,
-      acknowledgement_submitted_on: formattedTimestamp,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request Failed for Contacts",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Contacts",
-    };
-  }
-};
-
-// Add new Opportunity record in db
-export const createOpportunityAction = async (formData) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  const apiUrl = `${apiBackendURL}opportunity/Opportunity/`;
-
-  const headers = new Headers({
-    cache: "no-store",
-    Accept: "application/json",
-    Authorization: `Bearer ${tokens}`,
-    "Content-Type": "application/json",
-  });
-
-  const now = new Date();
-  const formattedTimestamp = now.toISOString();
-  const formatedDate = now.toISOString().split("T")[0];
-
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      tenant_id: tenantID,
-      company_id: parseInt(formData.company_id),
-      customer_id: parseInt(formData.customer_id),
-      title: formData.title,
-      type: formData.type,
-      probability: "",
-      total_value: formData.total_value,
-      crm_id: formData.crm_id,
-      customer_name: formData.customer_name,
-      end_user_name: formData.end_user_name,
-      region: formData.region,
-      industry_code: formData.industry_code,
-      business_unit: formData.business_unit,
-      project_type: formData.project_type,
-      delivery_duration: "",
-      stage: formData.stage,
-      status: formData.status,
-      expected_award_date: formData.expected_award_date,
-      expected_rfx_date: formData.expected_rfx_date,
-      close_date: formData.close_date,
-      competition: "",
-      gross_profit_percent:  0,
-      gross_profit_value:  0,
-      description: formData.description,
-      last_updated_at: formattedTimestamp,
-      forcasted: formData.forcasted,
-      end_user_project: formData.end_user_project,
-      opportunity_currency: formData.opportunity_currency,
-      sales_persuit_progress: formData.sales_persuit_progress,
-      opportunity_owner: formData.opportunity_owner,
-      bidding_unit: formData.bidding_unit,
-    }),
-  };
-
-  try {
-    const response = await fetch(apiUrl, requestOptions);
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Opportunity creation failed",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Opportunity creation failed",
-    };
-  }
-};
-
-
-
-///////////////////////// Designation methods
-
-
-// get all Designation records
-export const getAllDesignationRecordsAction = async (offset,limit) => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}designation/designations/tenant/${tenantID}?offset=${offset}&limit=${limit}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Designation",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Designation",
-    };
-  }
-};
-
-
-
-///////////////////////// Team methods
-
-
-// get all Team records 
-export const getAllTeamRecordsAction = async () => {
-  const { apiBackendURL, tokens, tenantID } = await getApiPrereqVars();
-  try {
-    const url = `${apiBackendURL}team/teams/tenant/${tenantID}`;
-
-    const response = await fetch(url, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${tokens}`,
-      },
-      redirect: "follow",
-    });
-
-    if (!response.ok) {
-      return {
-        statusCode: "400",
-        returnData: [],
-        error: response.statusText || "Request failed for Team",
-      };
-    }
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      returnData: result,
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      returnData: [],
-      error: error.message || "Request failed for Team",
-    };
-  }
-};

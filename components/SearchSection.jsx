@@ -53,7 +53,7 @@ const SearchSection = () => {
         <>
 
 {showRemove && showRemove !=""? 
-            <div className="w-auto flex text-md items-center justify-between rounded-full bg-[#26BADA] py-[4px] px-5 my-4 ml-auto text-white">
+            <div className="w-[250px] flex text-md items-center justify-between rounded-full bg-[#26BADA] py-[4px] px-5 my-4 ml-auto text-white">
                 <button onClick={removeSearchTerm} className='flex items-center gap-2'>
                     Remove search <IoIosCloseCircleOutline className='text-xl font-bold' />
                 </button>

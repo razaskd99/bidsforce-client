@@ -18,48 +18,41 @@ const Card = (props) => {
 	};
 	const totalTasks = card?.task?.length || 0;
 	const completedTasks = card?.task?.filter(item => item.completed).length || 0;
+	// let card.type = 'activity'
+	console.log(card)
 
 	return (
 		<Draggable key={id.toString()} draggableId={id.toString()} index={index}>
 			{(provided) => (
 				<div
-					className="custom__card pt-2 relative"
+					className="custom__card  relative"
 					onClick={() => openCardDetail(id)}
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
 					ref={provided.innerRef}
 				>
-					<div className="card__text p-3">
+					<div className={`text-xs w-max px-5 py-0.5 ml-auto ${card.type === 'Activity' ? 'bg-orange-200 text-orange-500' : card.type === 'Technical Deliverable' ? 'bg-blue-200 text-blue-500' : card.type === 'Commercial Deliverable' ? 'bg-pink-200 text-pink-500' : ''}`}>
+						{card.type}</div>
+					<div className="card__text px-3">
 						<p>{title}</p>
-						<div className="">
-							<MoreHorizontal
-								className="ml-auto"
-								onClick={(e) => {
-									e.stopPropagation();
-									setDropdown(true);
-								}}
-							/>
-							{dropdown && (
-								<Dropdown
-									className="board__dropdown"
-									onClose={() => setDropdown(false)}
-								>
-									<div
-										className="dropdown-option text-black p-2 bg-white border border-b-1"
-										onClick={(e) => {
-											e.stopPropagation();
-											handleRemoveTask();
-											setDropdown(false);
-										}}
-									>
-										Remove task
-									</div>
-								</Dropdown>
-							)}
+						<div className="flex text-[#98A9BC] items-center justify-between">
+							<p>{card.company || "DRP Refinery Automation"}</p>
+							<div className="">
+								<MoreHorizontal className="ml-auto" onClick={(e) => { e.stopPropagation(); setDropdown(true); }} />
+								{dropdown && (
+									<Dropdown className="board__dropdown" onClose={() => setDropdown(false)} >
+										<div
+											className="dropdown-option text-black p-2 bg-white border border-b-1"
+											onClick={(e) => { e.stopPropagation(); handleRemoveTask(); setDropdown(false); }} >
+											Remove task
+										</div>
+									</Dropdown>
+								)}
+							</div>
 						</div>
+
 					</div>
 					<div className="card__text p-3 flex flex-col gap-1 text-[#98A9BC] items-start">
-						<p>{card.company || "DRP Refinery Automation"}</p>
 						<div className="flex justify-between w-full">
 							<div className="flex gap-1 items-center">
 								<img
@@ -68,8 +61,8 @@ const Card = (props) => {
 										"https://images.unsplash.com/photo-1587397845856-e6cf49176c70?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 									}
 									alt="user"
-									width={30}
-									height={30}
+									width={16}
+									height={16}
 									className="object-cover rounded-full w-8 h-8"
 								/>
 								<VscChecklist />

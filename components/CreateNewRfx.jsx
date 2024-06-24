@@ -49,7 +49,7 @@ import dayjs, { Dayjs } from "dayjs";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import { useRouter } from "next/navigation";
-import { getUserById } from "@/app/api/rfx/actions/user";
+import { getUserById } from "@/app/api/users/action/user";
 import { getCookieValue } from "@/lib/scripts";
 
 const CreateNewRfx = ({

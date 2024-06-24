@@ -31,7 +31,8 @@ const NewOpportunity = (props) => {
     handleClose,  
     modalType,
     modalData, 
-    contactsRecords,
+    usersRecords,
+    accountRecords,
     oppSalesStagesList,
     salesPursuitProgressList,
     businessLineList,
@@ -53,15 +54,15 @@ const NewOpportunity = (props) => {
   const [opportunityNumber, setOpportunityNumber] = useState(
     generateOpportunityNumber()
   );
-  const [contactList, setContactList] = useState(
-    contactsRecords?.map((rec, index) => ({
+  const [userList, setUserList] = useState(
+    usersRecords?.map((rec, index) => ({
       id: rec.user_id,
       name: rec.first_name + ' ' + rec.last_name    
     }))
   ); 
   
 
-  const accountList = props?.accountRecords?.map((item) => ({
+  const accountList = accountRecords?.map((item) => ({
     id: item.account_id,
     name: item.account_name,        
   }));  
@@ -449,7 +450,7 @@ const NewOpportunity = (props) => {
                 inputProps={{ maxLength: 100 }}  
               /> */}
               <SearchingListInput 
-                  allSearchList = {contactList}
+                  allSearchList = {userList}
                   onListSelect={handleAccountOwnerSelect}
                   placeHolder={"Opportunity Owner *"}
                   selectedValue={isEdit && !isFormDataChanged ? modalData?.owner_name : formData.owner_name}

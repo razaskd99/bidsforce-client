@@ -180,7 +180,7 @@ export default function PersonaInfoModal(props) {
                   type="button"
                   className="btn btn-primary waves-effect waves-light"
                 >
-                  Add Info
+                  Add
                 </button>
               ) : (
                 <button
@@ -196,7 +196,7 @@ export default function PersonaInfoModal(props) {
                   type="button"
                   className="btn btn-primary waves-effect waves-light"
                 >
-                  Update Info
+                  Save
                 </button>
               )}
             </div>

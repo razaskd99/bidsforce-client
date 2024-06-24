@@ -1,24 +1,17 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { IoIosSearch, IoMdAddCircleOutline } from "react-icons/io";
 import OpenOpportunity from "@/components/opportunity/OpenOpportunity";
 const axios = require('axios');
-import getConfig from "next/config";
-import Image from "next/image"
-import Link from "next/link";
-// import NewOpportunity from "@/components/forms/NewOpportunity";
-
 import { redirect } from "next/navigation";
 import { getCookieValue } from "@/lib/scripts";
 import { API_BACKEND_SERVER } from '../../setup';
 import { getToken } from "@/app/api/util/script";
-import { generateUniqueSixDigitNumber } from "@/app/api/util/utility";
 import { getAllOppotunitiesRecords, getMaxOpportunityByID } from "@/app/api/opportunities/action/opportunity";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
 import { getAllOppPrereqRecordsAction } from "@/app/api/opportunities/action/OpportunityPrereq";
-import { getAllUserRecordsAction } from "@/app/api/admin-panel/actions/user";
-import { CornerDownLeft } from "lucide-react";
 import OpportunityTable from "@/components/opportunity/OpportunityTable";
 import SearchSection from "@/components/SearchSection"
+import { getAllUsersAction } from "@/app/api/users/action/user";
+import { getAllRfxPrereqRecordsAction } from "@/app/api/rfx/actions/rfxPrereq";
 
 
 const Opportunitues = async ({searchParams}) => {
@@ -94,8 +87,30 @@ const Opportunitues = async ({searchParams}) => {
   let accountRecords = response.returnData.data
 
   // get all users
-  response = await getAllUserRecordsAction('')
-  let contactsRecords = response.returnData 
+  response = await getAllUsersAction('')
+  let usersRecords = response.data 
+
+  //**************** Rfx prereqsuites starts ***********
+
+  // get all bid validity
+  res = await getAllRfxPrereqRecordsAction('bid_validity', "", 0, 1000);
+  let rfxBidValidity = res?.returnData?.data || [];
+
+  // get all rfx type
+  res = await getAllRfxPrereqRecordsAction('rfx_type', "", 0, 1000);
+  let rfxType = res?.returnData?.data || [];
+
+  // get all rfx content submission
+  res = await getAllRfxPrereqRecordsAction('rfx_content_submission', "", 0, 1000);
+  let rfxContentSubmission = res?.returnData?.data || [];
+
+  // get all rfx submission mode
+  res = await getAllRfxPrereqRecordsAction('rfx_submission_mode', "", 0, 1000);
+  let rfxSubmissionMode = res?.returnData?.data || [];
+
+  // get all rfx stage
+  res = await getAllRfxPrereqRecordsAction('rfx_stage', "", 0, 1000);
+  let rfxStage = res?.returnData?.data || [];
 
   const breadcrumbItems = [
     { label: "Dashboard", href: "/dashboard" },      
@@ -118,7 +133,7 @@ const Opportunitues = async ({searchParams}) => {
       <div className="flex items-center">
         <OpenOpportunity 
           accountRecords={accountRecords} 
-          contactsRecords={contactsRecords}
+          usersRecords={usersRecords}
           oppSalesStages={oppSalesStages}
           salesPursuitProgress={salesPursuitProgress}
           businessLine={businessLine}
@@ -138,7 +153,7 @@ const Opportunitues = async ({searchParams}) => {
           <OpportunityTable 
             rows={opportunitiesRecords}  
             accountRecords={accountRecords} 
-            contactsRecords={contactsRecords} 
+            usersRecords={usersRecords} 
             totalPages={totalPages}       
             oppSalesStages={oppSalesStages}
             salesPursuitProgress={salesPursuitProgress}
@@ -148,6 +163,11 @@ const Opportunitues = async ({searchParams}) => {
             projectType={projectType}
             opportunityType={opportunityType}
             opportunityIndustry={opportunityIndustry}
+            rfxBidValidityList={rfxBidValidity}
+            rfxTypeList={rfxType}
+            rfxContentSubmissionList={rfxContentSubmission}
+            rfxSubmissionModeList={rfxSubmissionMode}
+            rfxStageList={rfxStage}
           />
           :
           <div className="p-4 text-center text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">

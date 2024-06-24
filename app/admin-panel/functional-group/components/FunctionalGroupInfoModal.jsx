@@ -148,7 +148,7 @@ export default function FunctionalGroupInfoModal(props) {
                   type="button"
                   className="btn btn-primary waves-effect waves-light"
                 >
-                  Edit
+                  Save
                 </button>
               )}
             </div>

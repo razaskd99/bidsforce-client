@@ -13,7 +13,8 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs, { Dayjs } from "dayjs";
-import { getAllPersonaRecordsAction } from '@/app/api/rfx/actions/rfx';
+import { getAllPersonaRecordsAction } from '@/app/api/admin-panel/actions/persona';
+
 
 const SelectReviewerDialog = ({ open, onClose, onDone, usersRec }, props) => {
     const [issuedDate, setIssuedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -33,9 +34,9 @@ const SelectReviewerDialog = ({ open, onClose, onDone, usersRec }, props) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
-        getAllPersonaRecordsAction()
+        getAllPersonaRecordsAction('', 0, 1000)
           .then((resp) => {
-            let list = resp.returnData
+            let list = resp.returnData.data
             setPersona(
                 list.map((item) => ({
                     id: item.id,

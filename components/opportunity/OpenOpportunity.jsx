@@ -22,7 +22,7 @@ const OpenOpportunity = (props) => {
         </p> 
       <NewOpportunity isOpen={open} handleClose={handleClose}
         accountRecords={props.accountRecords}
-        contactsRecords={props.contactsRecords}
+        usersRecords={props.usersRecords}
         oppSalesStagesList={props.oppSalesStages}
         salesPursuitProgressList={props.salesPursuitProgress}
         businessLineList={props.businessLine}

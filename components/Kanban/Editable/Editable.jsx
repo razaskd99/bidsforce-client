@@ -72,8 +72,9 @@ const Editable = (props) => {
                             <TextField className="mb-4 bg-white rounded-sm" label="Title of the Task" variant="outlined" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
                             <TextField className="mb-4 bg-white rounded-sm w-1/2 px-1" label="Proposal Reference" variant="outlined" fullWidth value={proposalReference} onChange={(e) => setProposalReference(e.target.value)} />
                             <TextField className="mb-4 bg-white rounded-sm w-1/2 px-1" select label="Type" variant="outlined" fullWidth value={type} onChange={(e) => setType(e.target.value)} >
-                                <MenuItem value="Type 1">Type 1</MenuItem>
-                                <MenuItem value="Type 2">Type 2</MenuItem>
+                                <MenuItem value="Activity">Activity</MenuItem>
+                                <MenuItem value="Technical Deliverable">Technical Deliverable</MenuItem>
+                                <MenuItem value="Commercial Deliverable">Commercial Deliverable</MenuItem>
                             </TextField>
                             <TextField className="mb-4 bg-white rounded-sm w-1/2 px-1" select label="Priority" variant="outlined" fullWidth value={priority} onChange={(e) => setPriority(e.target.value)} >
                                 <MenuItem value="Priority 1">Priority 1</MenuItem>

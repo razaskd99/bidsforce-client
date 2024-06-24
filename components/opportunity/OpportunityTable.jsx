@@ -5,17 +5,18 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import NewOpportunity from "./NewOpportunity";
-import CustomPagination from "../CustomPagination"
 import { deleteOpportunityRecordByIdAction, getOpportunityByID } from "@/app/api/opportunities/action/opportunity";
 import Pagination from "../pageniation-util/pagination";
-import Image from 'next/image';
 import { PlusIcon } from "lucide-react";
+import NewRFx from "../rfx/NewRfx"
+import Link from "next/link";
+import { getAllRfxRecordsActionByOppId } from "@/app/api/rfx/actions/rfx";
 
 
 export default function OpportunityTable({ 
   rows, 
   accountRecords,
-  contactsRecords,
+  usersRecords,
   totalPages,
   oppSalesStages, 
   salesPursuitProgress, 
@@ -24,7 +25,12 @@ export default function OpportunityTable({
   biddingUnit,
   projectType,
   opportunityType,
-  opportunityIndustry
+  opportunityIndustry,
+  rfxBidValidityList,
+  rfxTypeList,
+  rfxContentSubmissionList,
+  rfxSubmissionModeList,
+  rfxStageList,
 }) {
 
   hideMainLoader102();
@@ -32,6 +38,8 @@ export default function OpportunityTable({
   const [modalData, setModalData] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
   const [checkAll, setCheckAll] = useState(false);
+  const [newRfx, setNewRfx] = useState(false);
+
  
   // Claculate paging
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,6 +51,36 @@ export default function OpportunityTable({
   // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleOpenNewRFx = async() => {    
+    let canCreateRfx = true; 
+
+    // get all rfx by opp id
+    let records = await getAllRfxRecordsActionByOppId(selectedRows[0]);
+    let rfxList = records.returnData || []; 
+
+    if(rfxList.length > 0){
+      const filteredRfx = rfxList.filter(rfx =>
+        rfx.rfx_status.toLowerCase().includes('closed') || rfx.rfx_status.toLowerCase().includes('cancelled')
+      );
+      if(filteredRfx.length !== rfxList.length) canCreateRfx = false
+    }
+
+    if(canCreateRfx){
+      if(selectedRows && selectedRows.length == 1) {
+      const r2 = await getOpportunityByID(selectedRows[0]);
+      setModalData(r2.returnData);  
+    }
+    setNewRfx(true);
+    } else {
+      alert("Cannot create a new RFx for this opportunity because there are already active RFx in progress!")
+    } 
+      
+  };
+  const handleCloseNewRFx = () => {
+    setNewRfx(false);
+      
   };
   
   const handleCloseOpportunity = () => {
@@ -125,7 +163,7 @@ export default function OpportunityTable({
       modalType='edit'
       modalData={modalData}
       accountRecords={accountRecords}
-      contactsRecords={contactsRecords}
+      usersRecords={usersRecords}
       oppSalesStagesList={oppSalesStages} 
       salesPursuitProgressList={salesPursuitProgress}
       businessLineList={businessLine} 
@@ -157,14 +195,30 @@ export default function OpportunityTable({
 
         }
         {selectedRows.length === 1 && (
-          <div 
+          <div className='flex gap-1 items-center text-lg'>           
+            <Link
+            href="#"
+            onClick={handleOpenNewRFx} 
             className='flex gap-1 items-center text-lg'
-          >
-           <PlusIcon className='text-sm' />
-            Create New RFx
+            >
+              <PlusIcon className='text-sm' />
+              Create New RFx
+            </Link>
           </div>)
           
         }
+        <NewRFx 
+            open={newRfx}
+            close={handleCloseNewRFx}
+            rfxRecordType = "New"          
+            rfxBidValidityList={rfxBidValidityList}
+            rfxTypeList={rfxTypeList}
+            rfxContentSubmissionList={rfxContentSubmissionList}
+            rfxSubmissionModeList={rfxSubmissionModeList}
+            rfxStageList={rfxStageList} 
+            usersRecords={usersRecords}
+            oppData={modalData}
+          />
       </>
     </div>
     

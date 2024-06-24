@@ -11,9 +11,9 @@ import { getToken } from "@/app/api/util/script";
 import AccountTable from "@/components/account/AccountTable";
 import SearchSection from "@/components/SearchSection";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
-import { getAllUserRecordsAction } from "@/app/api/admin-panel/actions/user";
 import { getAllAccountTypeRecordsAction } from "@/app/api/accounts/action/accountType";
 import { getAccountTypeEntriesByIDAction, getAllAccountTypeEntriesAction } from "@/app/api/accounts/action/accountTypeEntries";
+import { getAllUsersAction } from "@/app/api/users/action/user";
 
 // end login init 
 
@@ -59,8 +59,8 @@ export default async function Accounts({searchParams}) {
     let allAccountsTypeRecord = records.returnData.data;
 
     // get all users
-    records = await getAllUserRecordsAction(searchTermValue);
-    let usersRecord = records.returnData;
+    records = await getAllUsersAction(searchTermValue);
+    let usersRecord = records.data;
 
 
     

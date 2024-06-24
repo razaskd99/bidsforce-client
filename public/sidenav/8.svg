@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <path d="M801.1,511.8c0,160.6-130.9,291.4-291.4,291.3-160.5,0-291.3-131.1-291.3-291.5,0-160.6,130.9-291.3,291.5-291.2,160.7,0,291.2,130.8,291.2,291.4Z" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="29"/>
+  <g>
+    <path d="M136.2,760.3c32.7,49.4,74.9,91.9,124,125.1" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="29"/>
+    <path d="M62.4,540c3.8,61.1,19.7,118.9,45.4,171" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="29"/>
+    <path d="M108.1,312.6c-25.8,52-41.8,109.7-45.6,170.8" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="29"/>
+    <path d="M261.2,138c-49.4,33.1-91.8,75.8-124.7,125.3" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="29"/>
+    <path d="M363.4,937c46.4,16.2,96.3,25,148.2,25,248.5,0,450-201.5,450-450S760.1,62,511.6,62s-90.3,6.9-132.1,19.7" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="29"/>
+  </g>
+  <polyline points="511.6 312.6 511.6 512 379.5 658.8" fill="none" stroke="#26bada" stroke-linecap="round" stroke-linejoin="round" stroke-width="33"/>
+</svg>

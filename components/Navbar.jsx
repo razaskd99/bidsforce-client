@@ -105,7 +105,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className=" flex items-center gap-6">
-        <Link href="/rfx/new">
+        <Link href="/opportunities">
           <Image
             src="/Add.svg"
             width={18}
