@@ -15,6 +15,20 @@ bakend = "https://bidsforce-server-1.vercel.app/";
 const nextConfig = {
 
 
+  modularizeImports: {
+    'react-icons': {
+      transform: 'react-icons/{{member}}',
+    },
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
+    },
+    'lucide-react': {
+      transform: 'lucide-react/lib/{{member}}',
+    }
+    
+  },
+
+
   // for server side
   serverRuntimeConfig: {
     API_BACKEND_SERVER: bakend,
