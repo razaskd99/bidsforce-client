@@ -263,7 +263,7 @@ const NewOpportunity = (props) => {
                   allSearchList = {accountList}
                   onListSelect={handleCustomerSelect}
                   placeHolder="Search customer..."
-                  selectedValue={isEdit ? modalData?.customer_name : formData.customer_name}
+                  selectedValue={isEdit ? modalData?.customer_name : ''}
                 /> 
               </FormControl>
             </Grid>

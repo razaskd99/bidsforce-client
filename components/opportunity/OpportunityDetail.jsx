@@ -109,9 +109,10 @@ const OpportunityDetail = ({
   ]);
   
   const handleOpenRFxList = () => {
+    showMainLoader102();
     setRFxList(true);
-      
   };
+  
   const handleCloseRFxList = () => {
     setRFxList(false);
       
@@ -212,6 +213,7 @@ const OpportunityDetail = ({
               rfxStage={rfxStage}
               data={data}
               usersRecords={usersRecords}
+              rfxRecordCount={rFxList.length}
             />            
             
             <div className="border mt-[18px] mb-3 rounded-md">

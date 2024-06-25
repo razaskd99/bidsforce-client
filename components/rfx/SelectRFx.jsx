@@ -23,6 +23,7 @@ const SelectRFx = ({
   rfxStage,
   data,
   usersRecords,
+  rfxRecordCount,
 }) => {
 
     const [newRfx, setNewRfx] = useState(false);
@@ -39,7 +40,13 @@ const SelectRFx = ({
     };
 
     const handleOpenRevision = () => {
-      setRevisionRfx(true);
+      if(rfxRecordCount == 0){
+        alert("There is no RFx for Revision.")
+      }
+      else{
+        setRevisionRfx(true);
+      }
+      
     };
     const handleCloseRevision = () => {
       handleCloseRFx();

@@ -8,36 +8,36 @@ import { getCookieValue } from "@/lib/scripts";
 
 
 const data1 = [
-  { icon: "/sidenav/1.svg", text: "Dashboard", link: "/dashboard", },
-  { icon: "/doc.png", text: "Accounts", link: "/accounts", },
-  { icon: "/sidenav/2.svg", text: "opportunities", link: "/opportunities", },
-  { icon: "/sidenav/3.svg", text: "rfx", link: "/rfx", },
-  { icon: "/sidenav/4.svg", text: "Bids", link: "/bids", },
-  { icon: "/bids.svg", text: "Orders", link: "/orders", },
-  { icon: "/sidenav/5.svg", text: "my desk", link: "/my-desk", },
-  { icon: "/sidenav/6.svg", text: "approvals", link: "/approvals", },
-  { icon: "/sidenav/7.svg", text: "doc vault", link: "/doc-vault", },
-  { icon: "/sidenav/8.svg", text: "time tracker", link: "/time-tracker", },
-  { icon: "/sidenav/9.svg", text: "Calendar", link: "/calendar", },
-  { icon: "/sidenav/10.svg", text: "Users", link: "/users", },
-  { icon: "/sidenav/11.svg", text: "resources", link: "/resources", },
-  { icon: "/sidenav/12.svg", text: "settings", link: "/admin-panel", },
+  { icon: "/sidenav/1.svg", text: "Dashboard", link: "/dashboard", title:"Dashboard" },
+  { icon: "/doc.png", text: "Accounts", link: "/accounts", title:"Accounts" },
+  { icon: "/sidenav/2.svg", text: "opportunities", link: "/opportunities", title:"Opportunities" },
+  { icon: "/sidenav/3.svg", text: "rfx", link: "/rfx", title:"RFX" },
+  { icon: "/sidenav/4.svg", text: "Bids", link: "/bids", title:"Bids" },
+  { icon: "/bids.svg", text: "Orders", link: "/orders", title:"Orders" },
+  { icon: "/sidenav/5.svg", text: "my desk", link: "/my-desk", title:"My Desk" },
+  { icon: "/sidenav/6.svg", text: "approvals", link: "/approvals", title:"Approvals" },
+  { icon: "/sidenav/7.svg", text: "doc vault", link: "/doc-vault", title:"Doc Vault" },
+  { icon: "/sidenav/8.svg", text: "time tracker", link: "/time-tracker", title:"Time Tracker" },
+  { icon: "/sidenav/9.svg", text: "Calendar", link: "/calendar", title:"Calendar" },
+  { icon: "/sidenav/10.svg", text: "Users", link: "/users", title:"Users" },
+  { icon: "/sidenav/11.svg", text: "resources", link: "/resources", title:"Resources" },
+  { icon: "/sidenav/12.svg", text: "settings", link: "/admin-panel", title:"Settings" },
 ];
 
 const data2 = [
-  { icon: "/sidenav/1.svg", text: "Dashboard", link: "/dashboard", },
-  { icon: "/doc.png", text: "Accounts", link: "/accounts", },
-  { icon: "/sidenav/2.svg", text: "opportunities", link: "/opportunities", },
-  { icon: "/sidenav/3.svg", text: "rfx", link: "/rfx", },
-  { icon: "/sidenav/4.svg", text: "bids", link: "/bids", },
-  { icon: "/bids.svg", text: "Orders", link: "/orders", },
-  { icon: "/sidenav/5.svg", text: "my desk", link: "/my-desk", },
-  { icon: "/sidenav/6.svg", text: "approvals", link: "/approvals", },
-  { icon: "/sidenav/7.svg", text: "doc vault", link: "/doc-vault", },
-  { icon: "/sidenav/8.svg", text: "time tracker", link: "/time-tracker", },
-  { icon: "/sidenav/9.svg", text: "Calendar", link: "/calendar", },
-  { icon: "/sidenav/10.svg", text: "Users", link: "/users", },
-  { icon: "/sidenav/11.svg", text: "resources", link: "/resources", },
+  { icon: "/sidenav/1.svg", text: "Dashboard", link: "/dashboard", title:"Dashboard" },
+  { icon: "/doc.png", text: "Accounts", link: "/accounts", title:"Accounts" },
+  { icon: "/sidenav/2.svg", text: "opportunities", link: "/opportunities", title:"Opportunities" },
+  { icon: "/sidenav/3.svg", text: "rfx", link: "/rfx", title:"RFX" },
+  { icon: "/sidenav/4.svg", text: "bids", link: "/bids", title:"Bids" },
+  { icon: "/bids.svg", text: "Orders", link: "/orders", title:"Orders" },
+  { icon: "/sidenav/5.svg", text: "my desk", link: "/my-desk", title:"My Desk" },
+  { icon: "/sidenav/6.svg", text: "approvals", link: "/approvals", title:"Approvals" },
+  { icon: "/sidenav/7.svg", text: "doc vault", link: "/doc-vault", title:"Doc Vault" },
+  { icon: "/sidenav/8.svg", text: "time tracker", link: "/time-tracker", title:"Time Tracker" },
+  { icon: "/sidenav/9.svg", text: "Calendar", link: "/calendar", title:"Calendar" },
+  { icon: "/sidenav/10.svg", text: "Users", link: "/users", title:"Users" },
+  { icon: "/sidenav/11.svg", text: "resources", link: "/resources", title:"Resources" },
 ];
 
 const Sidenav = (props) => {
@@ -87,6 +87,7 @@ const Sidenav = (props) => {
           {data.map((item) => (
             <Link
               href={item.link}
+              title={item.title}
               className={`flex gap-6 py-4 hover:bg-[#363741] pl-[20px]  hover:border-l-4 hover:border-[#26BADA] ${isLinkActive(item.link)
                 ? "bg-[#363741] border-l-4 border-[#26BADA]"
                 : "border-l-4 border-transparent"

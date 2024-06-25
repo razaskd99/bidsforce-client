@@ -13,9 +13,11 @@ import { getAllRfxRecordsAction } from "@/app/api/rfx/actions/rfx";
 import { getAllRfxPrereqRecordsAction } from "@/app/api/rfx/actions/rfxPrereq";
 import { getAllOppPrereqRecordsAction } from "@/app/api/opportunities/action/OpportunityPrereq";
 import { getAllAccountRecordsAction } from "@/app/api/accounts/action/account";
+import { hideMainLoader102 } from "@/app/api/util/utility";
 // end login init 
 
 const RfxPage = async ({searchParams}) => {
+  hideMainLoader102()
   // search terms
   let searchTermValue=searchParams?.searchterm
   if(!searchTermValue)searchTermValue=""

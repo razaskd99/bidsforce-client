@@ -12,15 +12,17 @@ import OpportunityTable from "@/components/opportunity/OpportunityTable";
 import SearchSection from "@/components/SearchSection"
 import { getAllUsersAction } from "@/app/api/users/action/user";
 import { getAllRfxPrereqRecordsAction } from "@/app/api/rfx/actions/rfxPrereq";
+import { hideMainLoader102 } from "@/app/api/util/utility";
 
 
 const Opportunitues = async ({searchParams}) => {
+  hideMainLoader102();
   // search terms
   let searchTermValue=searchParams?.searchterm
   if(!searchTermValue)searchTermValue=""
 
   // pagination
-  let numberOfRecords=5
+  let numberOfRecords=10
   const currentPage = Number(searchParams?.page) || 1
   const limit = Number(searchParams?.limit) || numberOfRecords
   const offset = (currentPage - 1) * limit

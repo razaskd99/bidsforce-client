@@ -1,4 +1,5 @@
 "use client"
+import { hideMainLoader102, showMainLoader102 } from '@/app/api/util/utility';
 import { Search } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { IoIosSearch } from "react-icons/io";
@@ -26,6 +27,7 @@ const SearchSection = () => {
 
 
     const handleSearch = () => {
+        showMainLoader102();
         if (searchTerm.trim() !== '') {
             const baseUrl = window.location.href.split('?')[0];
             const modeString = mode ? 'mode=' + mode + '&' : '';            
@@ -42,6 +44,7 @@ const SearchSection = () => {
       }
 
     const removeSearchTerm = () => {
+        showMainLoader102();
         // const baseUrl = window.location.href.split('?')[0];
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.delete('searchterm');

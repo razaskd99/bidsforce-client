@@ -12,6 +12,7 @@ import OpportunitySearch from "./OpportunitySearch"
 import { getOpportunityByOppNumber } from "../../app/api/opportunities/action/opportunity";
 import Link from "next/link";
 import NewOpportunity from "../opportunity/NewOpportunity"
+import { hideMainLoader102, showMainLoader102 } from "@/app/api/util/utility";
 
 
 const SelectOpportunity = (props) => {
@@ -50,6 +51,7 @@ const SelectOpportunity = (props) => {
     };
 
     const handleOpportunitySearch = async () => {
+        showMainLoader102();
         let rec = await getOpportunityByOppNumber(value);
         setOppRecords(rec.returnData);
         setOpenOppSearch(true);
