@@ -65,6 +65,7 @@ const SelectOpportunity = (props) => {
         } else {
             setShowAddNewOpportunityLink(false);
         }
+        hideMainLoader102();
     };
 
     const handleCloseOppSearch = () => {
